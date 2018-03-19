@@ -1,0 +1,16 @@
+{
+  "name": "lifescope-app",
+  "engines": {
+    "node": "9.8.0",
+    "yarn": "1.5.1"
+  },
+  "dependencies": {
+    "nuxt": "1.4.0",
+    "@nuxtjs/apollo": "3.0.5"
+  },
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt build && nuxt start"
+  }
+}
