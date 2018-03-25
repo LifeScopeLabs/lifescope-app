@@ -2,9 +2,11 @@
   <section class="container">
     <div>
       <app-logo/>
+      
       <h1 class="title">
         {{ name }}
       </h1>
+      
       <h2 class="subtitle">
         {{ description }}
       </h2>
@@ -19,17 +21,28 @@
           class="button--grey">GitHub</a>
       </div>
     </div>
+    
+<!--   <h1>Phrase matcher</h1>
+    <p>Press the button then say the phrase to test the recognition.</p>
+
+    <button>Start new test</button>
+
+    <div>
+        <p class="phrase">Phrase...</p>
+        <p class="result">Right or wrong?</p>
+        <p class="output">...diagnostic messages</p>
+  </div> -->
   </section>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
+  import AppLogo from '~/components/AppLogo.vue'
 
-export default {
-  components: {
-    AppLogo
+  export default {
+    components: {
+      AppLogo
+    }
   }
-}
 </script>
 
 <style>
