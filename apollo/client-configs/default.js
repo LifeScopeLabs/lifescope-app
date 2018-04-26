@@ -14,7 +14,7 @@ export default (ctx) => {
 			agent: new https.Agent({ rejectUnauthorized: false })
 		},
 		uri: 'https://api.lifescope.io/gql',
-		credentials: 'same-origin'
+		credentials: 'include'
 	});
 
 	const wsLink = process.client ? new WebSocketLink({
@@ -42,6 +42,7 @@ export default (ctx) => {
 			});
 		}
 
+		console.log(operation.getContext());
 		return forward(operation)
 	});
 

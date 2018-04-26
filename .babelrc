@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-flow-strip-types"
+  ],
+  "presets": [
+    [
+      "env", {
+      "targets": {
+        "node": 6
+      }
+    }
+    ]
+  ]
+}

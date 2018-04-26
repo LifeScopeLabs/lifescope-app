@@ -1,34 +1,66 @@
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-
+import BitScoop from 'bitscoop-sdk';
 import config from 'config';
-import mongoose from 'mongoose';
+import express from 'express';
+import mongodb from 'mongodb';
 import {Nuxt, Builder} from 'nuxt';
 
 import nuxtConfig from './nuxt.config.js';
 
+const BITSCOOP_API_KEY = config.bitscoop.api_key;
 const MONGODB_URI = config.mongodb.address;
 
+const server = express();
+
+const listenPort = 3002;
+
 const opts = {
-	autoReconnect: true,
-	reconnectTries: Number.MAX_VALUE,
-	reconnectInterval: 1000,
+  poolSize: 5
 };
-
-mongoose.connect(MONGODB_URI, opts);
-
-const mongooseConnect = mongoose.connection;
 
 const nuxt = new Nuxt(nuxtConfig);
 
-mongooseConnect.on('error', e => {
-	if (e.message.code === 'ETIMEDOUT') {
-		console.log(e);
-		mongoose.connect(MONGODB_URI, opts);
-	}
-	console.log(e);
+const builder = new Builder(nuxt);
+
+
+const bitscoop = new BitScoop(BITSCOOP_API_KEY, {
+  allowUnauthorized: true
 });
 
-mongooseConnect.once('open', () => {
-	console.log(`MongoDB successfully connected to ${MONGODB_URI}`);
+Promise.resolve()
+  .then(async function() {
+  let mongo = await new Promise(function(resolve, reject) {
+    mongodb.MongoClient.connect(MONGODB_URI, opts, function (err, db) {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve(db);
+      }
+    });
+  });
+
+  global.env = {
+    databases: {
+      mongo: mongo
+    },
+
+    bitscoop: bitscoop,
+  };
+
+  builder.build();
+
+  // server.use(
+  //   '/',
+  //   meta,
+  //   bodyParser.json(),
+  //   cookieParser(),
+  //   cookieAuthorization,
+  //   views
+  // );
+
+  server.use(nuxt.render);
+
+  server.listen(listenPort);
+
+  console.log('Lifescope App listening on: ' + listenPort);
 });
