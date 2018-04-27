@@ -76,8 +76,7 @@
         mounted() {
             let mixitup = require('mixitup');
 
-    		this.$store.mixer = mixitup('#provider-grid', {});
-
+    		    this.$store.mixer = mixitup('#provider-grid', {});
         },
         updated() {
     		this.$nextTick(function() {

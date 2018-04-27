@@ -1,0 +1,16 @@
+mutation searchUpsert($query: String, $filters: String, $favorited: Boolean, $icon: String, $icon_color: String, $name: String){
+    searchUpsert(filters: $filters, query: $query, favorited: $favorited, icon: $icon, icon_color: $icon_color, name: $name) {
+        id,
+        count,
+        filters {
+        	data,
+        	name,
+        	type
+        },
+        favorited,
+        icon,
+        icon_color,
+        query,
+        name
+    }
+}

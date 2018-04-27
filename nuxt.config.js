@@ -79,5 +79,6 @@ export default {
 		bodyParser.json(),
 		cookieParser(),
 		cookieAuthorization,
+    initialSearches,
 	]
 };

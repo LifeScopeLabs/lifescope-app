@@ -1,0 +1,16 @@
+mutation searchFind($query: String, $filters: String ){
+    searchFind(filters: $filters, query: $query) {
+        id,
+        count,
+        filters {
+        	data,
+        	name,
+        	type
+        },
+        favorited,
+        icon,
+        icon_color,
+        query,
+        name
+    }
+}

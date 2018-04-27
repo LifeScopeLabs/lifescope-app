@@ -81,7 +81,7 @@
 		},
 		props: [
 			'connection',
-			'content'
+			'contact'
 		]
 	}
 </script>

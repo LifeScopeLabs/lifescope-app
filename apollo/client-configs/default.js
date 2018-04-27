@@ -42,7 +42,6 @@ export default (ctx) => {
 			});
 		}
 
-		console.log(operation.getContext());
 		return forward(operation)
 	});
 
