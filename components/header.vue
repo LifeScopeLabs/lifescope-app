@@ -1,5 +1,5 @@
-<template slot="header" v-if="$store.state.mode === 'app' || $store.state.mode === 'home'">
-	<header>
+<template>
+	<header v-if="$store.state.mode === 'app' || $store.state.mode === 'home'">
 		<nav>
 			<a id="home" href="/"><img class="logo" src="~/assets/images/logo.png" /></a>
 			<search-bar></search-bar>
@@ -17,9 +17,9 @@
 
 		<div v-if="$store.state.mode === 'app'" class="controls">
 			<div class="views">
-				<a data-view="feed"><i class="fa fa-clone"></i> <span>Feed</span></a>
-				<a data-view="grid"><i class="fa fa-th"></i> <span>Grid</span></a>
-				<a data-view="list"><i class="fa fa-list"></i> <span>List</span></a>
+				<a data-view="feed" v-on:click="setView('feed')"><i class="fa fa-clone"></i> <span>Feed</span></a>
+				<a data-view="grid" v-on:click="setView('grid')"><i class="fa fa-th"></i> <span>Grid</span></a>
+				<a data-view="list" v-on:click="setView('grid')"><i class="fa fa-list"></i> <span>List</span></a>
 			</div>
 
 			<div class="sort">
@@ -39,12 +39,10 @@
 			</div>
 		</div>
 	</header>
-</template>
-<template v-else>
-	<header>
+
+	<header v-else>
 		<nav>
 			<a id="home" href="/"><img class="logo" src="~/assets/images/logo.png" /></a>
-
 
 			<span v-if="$store.state.user != undefined" class="flex-grow"></span>
 
@@ -87,7 +85,10 @@
 					height: 'auto',
 					scrollable: true
 				});
-			}
+			},
+      setView: function(view) {
+			  this.$store.state.view = view;
+      }
 		}
 	}
 </script>

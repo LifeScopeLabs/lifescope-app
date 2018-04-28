@@ -5,7 +5,7 @@
   export default {
     layout: 'explorer',
     asyncData({ store }) {
-      store.state.mode = 'explorer';
+      store.state.mode = 'app';
       store.state.pageName = 'explorer';
     },
     data: function() {

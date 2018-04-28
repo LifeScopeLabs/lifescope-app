@@ -12,7 +12,21 @@ const store = () => new Vuex.Store({
 		user: null,
 		menu: {
 			open: false
-		}
+		},
+    currentSearch: {
+      id: null,
+      count: null,
+      query: null,
+      filters: [],
+      favorited: null,
+      icon: null,
+      icon_color: null,
+      name: null
+    },
+    pageSize: null,
+    pageOffset: null,
+    searchEnded: false,
+    view: null
 	},
 
 	getters: {

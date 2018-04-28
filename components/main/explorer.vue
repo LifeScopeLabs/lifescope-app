@@ -1,10 +1,10 @@
 <template>
-  <main>
+  <main v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
       <div v-if="view === 'feed'" class="feed container">
         <div class="scroller">
           <div id="events">
-            <user-event v-for="event in eventSearch" v-bind:key="event.id" v-bind:event="event"></user-event>
+            <user-event v-for="event in eventSearch" v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view"></user-event>
           </div>
         </div>
       </div>
@@ -28,16 +28,6 @@
       return {
         view: 'feed',
         skipEventQuery: true,
-        currentSearch: {
-          id: null,
-          count: null,
-          query: null,
-          filters: [],
-          favorited: null,
-          icon: null,
-          icon_color: null,
-          name: null
-        },
         eventCount: null,
         eventMany: null,
         eventSearch: null,
@@ -51,18 +41,23 @@
       searchIcon: function(search) {
         return search.favorited && search.icon ? search.icon : 'fa fa-circle-o';
       },
+
       searchColor: function(search) {
         return search.favorited && search.icon && search.icon_color ? search.icon_color : '#b6bbbf';
       },
+
       favoriteIcon: function(search) {
         return search.favorited ? 'favorite-edit fa fa-star subdue' : 'favorite-create fa fa-star-o subdue'
       },
+
       favoriteButton: function(search) {
         return search.favorited ? 'favorite-edit' : 'favorite-create'
       },
+
       lastRunRelative: function(search) {
         return moment(new Date(search.last_run)).fromNow();
       },
+
       parseParams: function(string) {
         let returned = {};
         let params = string.split('&');
@@ -75,27 +70,71 @@
 
         return returned
       },
+
       loadSearch: async function() {
-        if (this.$data.currentSearch.id == null) {
+        if (this.$store.state.currentSearch.id == null) {
           let result = await this.$apollo.mutate({
             mutation: searchFind,
             variables: {
-              filters: JSON.stringify(this.$data.currentSearch.filters),
-              query: this.$data.currentSearch.query
+              filters: JSON.stringify(this.$store.state.currentSearch.filters),
+              query: this.$store.state.currentSearch.query
             }
           });
 
           if (result && result.id) {
-            this.$data.currentSearch = result;
+            this.$store.state.currentSearch = result;
           }
         }
         else {
-          this.$data.currentSearch = await this.$apollo.query({
+          this.$store.state.currentSearch = await this.$apollo.query({
             query: searchOne,
             variables: {
-              id: this.$data.currentSearch.id
+              id: this.$store.state.currentSearch.id
             }
           });
+        }
+      },
+
+      handleScroll: _.debounce(async function(e) {
+        let target = e.target;
+
+        let scrollBottom = target.scrollTop + target.clientHeight;
+
+        if (scrollBottom > 0.9 * target.scrollHeight) {
+          await this.searchData(false);
+        }
+      }, 500),
+
+      searchData: async function(init) {
+        if (init === true) {
+          this.$store.state.offset = 0;
+        }
+
+        if (this.$store.state.searchEnded !== true) {
+          let variables = {
+            offset: this.$store.state.offset,
+            limit: this.$store.state.pageSize,
+            filters: JSON.stringify(this.$store.state.currentSearch.filters)
+          };
+
+          if (this.$store.state.currentSearch.query != null) {
+            variables.q = this.$store.state.currentSearch.query;
+          }
+
+          let eventResult = await this.$apollo.mutate({
+            mutation: eventSearch,
+            variables: variables
+          });
+
+          this.$store.state.offset += this.$store.state.pageSize;
+
+          console.log(eventResult.data.eventSearch.length);
+          if (eventResult.data.eventSearch.length < this.$store.state.pageSize) {
+            this.$store.state.searchEnded = true;
+          }
+          else {
+            this.$data.eventSearch = init ? eventResult.data.eventSearch : this.$data.eventSearch.concat(eventResult.data.eventSearch);
+          }
         }
       }
     },
@@ -119,11 +158,37 @@
       let params = this.parseParams(window.location.search.slice(1));
 
       if (params.view) {
-        this.$data.view = params.view;
+        this.$store.state.view = params.view;
+      }
+      else {
+        this.$store.state.view = 'feed';
+      }
+
+      this.$store.state.offset = 0;
+      this.$store.state.searchEnded = false;
+
+      switch (this.$store.state.view) {
+        case 'feed':
+          this.$store.state.pageSize = 10;
+
+          break;
+
+        case 'grid':
+          this.$store.state.pageSize = 55;
+
+          break;
+
+        case 'map':
+          this.$store.state.pageSize = 100;
+
+          break;
+
+        default:
+          this.$store.state.pageSize = 20;
       }
 
       if (params.qid) {
-        this.$data.currentSearch.id = params.qid;
+        this.$store.state.currentSearch.id = params.qid;
       }
 
       await this.loadSearch();
@@ -131,24 +196,14 @@
       let upserted = await this.$apollo.mutate({
         mutation: searchUpsert,
         variables: {
-          filters: JSON.stringify(this.$data.currentSearch.filters),
-          query: this.$data.currentSearch.query,
+          filters: JSON.stringify(this.$store.state.currentSearch.filters),
+          query: this.$store.state.currentSearch.query,
         }
       });
 
-      this.$data.currentSearch = upserted.data.searchUpsert;
+      this.$store.state.currentSearch = upserted.data.searchUpsert;
 
-      let eventResult = await this.$apollo.mutate({
-        mutation: eventSearch,
-        variables: {
-          q: this.$data.currentSearch.query,
-          offset: 0,
-          limit: 10,
-          filters: JSON.stringify(this.$data.currentSearch.filters)
-        }
-      });
-
-      console.log(eventResult);
+      this.searchData(true);
     }
   }
 </script>

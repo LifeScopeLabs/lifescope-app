@@ -1,5 +1,5 @@
 <template>
-	<div class="object event" v-bind:id="event.id">
+	<div v-if="$store.state.view === 'feed'" class="object event" v-bind:id="event.id">
 		<aside class="details">
 			<div class="type">
 				<i v-bind:class="getEventTypeIcon(event.type)"></i>
@@ -18,7 +18,7 @@
 
 			<div class="provider">
 				<i v-bind:class="getProviderIcon(event.hydratedConnection.provider)"></i>
-				<span>{{ event.connection.name | truncate(30) }}</span>
+				<span>{{ event.hydratedConnection.name | truncate(30) }}</span>
 			</div>
 
 			<div v-if="event.date" class="date">
@@ -57,10 +57,43 @@
 			<div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>
 		</aside>
 	</div>
+
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id">
+    <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
+      <img v-bind:src="getGridThumbnail()" />
+    </div>
+    <div v-else>
+      <i v-bind:class="getEventTypeIcon(event.type)" class="type-icon large-grid-icon"></i>
+    </div>
+
+    <div class="title-bar">
+      <i v-bind:class="getEventTypeIcon(event.type)" class="bubble"></i>
+
+      <div v-if="hasTitle" class="title">
+        {{ getGridTitle() | safe }}
+      </div>
+      <div v-else-if="event.datetime">
+        <div class="title">
+          <div>
+            <i class="fa fa-calendar"></i> <span>{{ date | dateShort }}</span>
+          </div>
+
+          <div>
+            <i class="fa fa-clock-o"></i> <span>{{ date | dateTime }}</span>
+          </div>
+        </div>
+      </div>
+
+      <i v-bind:class="getProviderIcon(event.hydratedConnection.provider)" class="bubble"></i>
+    </div>
+  </div>
 </template>
 
 <script>
+  import moment from 'moment';
+
 	import icons from '../../lib/util/icons';
+	import safeFilter from '../filters/safe';
 	import UserContact from '../objects/contact';
 	import UserContent from '../objects/content';
 
@@ -104,15 +137,64 @@
 			'event'
 		],
 		filters: {
+      safe: safeFilter,
 
+      dateShort: function(date) {
+        return moment.utc(date).format('YYYY/MM/DD');
+      },
+
+      dateTime: function(date) {
+        return moment.utc(date).format('hh:mm A')
+      }
 		},
 		methods: {
 			getEventTypeIcon: function(type) {
 				return icons('event', type)
 			},
+
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
-			}
+			},
+
+      hasThumbnail: function() {
+			  let hasThumbnail = false;
+
+        _.each(this.$props.event.hydratedContent, function(item) {
+          if (item.thumbnail) {
+            hasThumbnail = true;
+          }
+        });
+
+        return hasThumbnail;
+      },
+
+      hasTitle: function() {
+        let hasTitle = false;
+
+        _.each(this.$props.event.hydratedContent, function(item) {
+          if (item.title) {
+            hasTitle = true;
+          }
+        });
+
+        return hasTitle;
+      },
+
+      getGridThumbnail: function() {
+			  let firstMatch = _.find(this.$props.event.hydratedContent, function(item) {
+			    return item.thumbnail != null;
+        });
+
+			  return firstMatch.thumbnail;
+      },
+
+      getGridTitle: function() {
+        let firstMatch = _.find(this.$props.event.hydratedContent, function(item) {
+          return item.title != null;
+        });
+
+        return firstMatch.title.length > 40 ? firstMatch.title.slice(0, 40) + '...' : firstMatch.title;
+      }
 		}
 	}
 </script>

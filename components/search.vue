@@ -180,9 +180,9 @@
 			<div id="filter-list" class="flex-grow"></div>
 		</div>
 
-		<form id="query-form" :action="action" method="POST" class="flex-grow">
+		<form id="query-form" method="POST" class="flex-grow">
 			<div id="search-box" class="text-box">
-				<input id="search-query" type="search" name="search" :placeholder="placeholder" />
+				<input id="search-query" type="search" name="search" placeholder="Enter query here" />
 			</div>
 
 			<input class="hidden" type="submit" />
@@ -201,3 +201,13 @@
 		</div>
 	</div>
 </template>
+
+<script>
+  export default {
+    props: [
+      'hide_advanced',
+      'hide_filters',
+      'hide_favorite_star'
+    ]
+  }
+</script>
