@@ -2,10 +2,10 @@
   "name": "lifescope-app",
   "version": "1.0.0",
   "description": "lifescope.io",
-  "author": "Liam Broza <liam.broza@gmail.com> (https://lifescope.io)",
+  "author": "(https://lifescope.io)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrhegemon/lifescope-api.git"
+    "url": "git+https://github.com/lifescopelabs/lifescope-app.git"
   },
   "main": "/server.js",
   "engines": {
@@ -78,8 +78,10 @@
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.3",
     "apollo-link-ws": "^1.0.8",
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "bitscoop-sdk": "^0.2.0",
     "bootstrap": "^3.3.7",
     "config": "^1.30.0",
