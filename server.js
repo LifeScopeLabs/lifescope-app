@@ -21,7 +21,6 @@ const nuxt = new Nuxt(nuxtConfig);
 
 const builder = new Builder(nuxt);
 
-
 const bitscoop = new BitScoop(BITSCOOP_API_KEY, {
   allowUnauthorized: true
 });
