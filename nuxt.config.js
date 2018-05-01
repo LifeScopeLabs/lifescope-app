@@ -13,7 +13,7 @@ export default {
   */
   head: {
     title: 'LIFESCOPE',
-    description: 'This is LIFESCOPE',
+    description: 'LIFESCOPE',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
