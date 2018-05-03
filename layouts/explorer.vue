@@ -1,5 +1,5 @@
 <template>
-  <div id="body" v-bind:class="[{ authenticated: $store.getters.authenticated }, $store.state.pageName]">
+  <div id="body" v-bind:class="[{ authenticated: $store.getters.authenticated }, $store.state.pageName, $store.state.view]">
     <vue-header></vue-header>
 
     <vue-menu></vue-menu>
@@ -63,6 +63,9 @@
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700|PT+Sans:400,400italic,700,700italic|Quicksand:400,300|Raleway:400|Roboto:300,400,700|Source+Sans+Pro:300,400,700' },
         { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' },
       ],
+      script: [
+        { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' }
+      ]
     }
   }
 </script>

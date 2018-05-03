@@ -31,7 +31,6 @@
                 source
             },
             text,
-            thumbnail,
             title,
             type,
             url

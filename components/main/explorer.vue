@@ -3,9 +3,11 @@
     <section v-if="$store.state.user != undefined" id="content">
       <div v-if="view === 'feed'" class="feed container">
         <div class="scroller">
-          <div id="events">
-            <user-event v-for="event in eventSearch" v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view"></user-event>
+          <div id="list" v-bind:class="$store.state.view" >
+            <user-event v-for="event in eventSearch"v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view" v-on:render-grid-details="renderGridDetailsModal"></user-event>
           </div>
+
+          <modals-container/>
         </div>
       </div>
     </section>
@@ -21,6 +23,7 @@
   import searchFind from '../../apollo/mutations/search-find.gql';
   import searchOne from '../../apollo/queries/search-one.gql';
   import searchUpsert from '../../apollo/mutations/search-upsert.gql';
+  import GridDetails from '../modals/grid-details.vue';
   import UserEvent from '../objects/event.vue';
 
   export default {
@@ -128,13 +131,22 @@
 
           this.$store.state.offset += this.$store.state.pageSize;
 
-          console.log(eventResult.data.eventSearch.length);
-          if (eventResult.data.eventSearch.length < this.$store.state.pageSize) {
-            this.$store.state.searchEnded = true;
-          }
-          else {
-            this.$data.eventSearch = init ? eventResult.data.eventSearch : this.$data.eventSearch.concat(eventResult.data.eventSearch);
-          }
+          this.$data.eventSearch = init ? eventResult.data.eventSearch : this.$data.eventSearch.concat(eventResult.data.eventSearch);
+
+          this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+        }
+      },
+
+      renderGridDetailsModal: function(event) {
+        if (this.$store.state.view === 'grid') {
+          this.$modal.show(GridDetails, {
+            event: event
+          }, {
+            height: 'auto',
+            scrollable: true,
+            width: 1080,
+            maxWidth: 1080
+          })
         }
       }
     },
@@ -166,26 +178,7 @@
 
       this.$store.state.offset = 0;
       this.$store.state.searchEnded = false;
-
-      switch (this.$store.state.view) {
-        case 'feed':
-          this.$store.state.pageSize = 10;
-
-          break;
-
-        case 'grid':
-          this.$store.state.pageSize = 55;
-
-          break;
-
-        case 'map':
-          this.$store.state.pageSize = 100;
-
-          break;
-
-        default:
-          this.$store.state.pageSize = 20;
-      }
+      this.$store.state.pageSize = 100;
 
       if (params.qid) {
         this.$store.state.currentSearch.id = params.qid;

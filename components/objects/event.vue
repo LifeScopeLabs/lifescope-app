@@ -58,7 +58,7 @@
 		</aside>
 	</div>
 
-  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id">
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id" v-on:click="$emit('render-grid-details', event)">
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
@@ -160,7 +160,7 @@
 			  let hasThumbnail = false;
 
         _.each(this.$props.event.hydratedContent, function(item) {
-          if (item.thumbnail) {
+          if (item.embed_thumbnail) {
             hasThumbnail = true;
           }
         });
@@ -182,10 +182,14 @@
 
       getGridThumbnail: function() {
 			  let firstMatch = _.find(this.$props.event.hydratedContent, function(item) {
-			    return item.thumbnail != null;
+			    console.log('Matching');
+			    console.log(item);
+			    return item.embed_thumbnail != null;
         });
 
-			  return firstMatch.thumbnail;
+			  console.log('pants');
+			  console.log(firstMatch.embed_thumbnail);
+			  return firstMatch.embed_thumbnail;
       },
 
       getGridTitle: function() {
