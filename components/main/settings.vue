@@ -159,11 +159,6 @@
         permissions: {}
       }
     },
-    filters: {
-      sortAlphabetically: function (values, field) {
-        return _.sortBy(values, [field]);
-      },
-    },
     methods: {
       getIcon: function (name) {
         return 'fa fa-' + name.toLowerCase() + ' fa-2x';
