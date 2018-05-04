@@ -17,14 +17,18 @@
 <script>
   import _ from 'lodash';
   import moment from 'moment';
+
   import eventCount from '../../apollo/queries/event-count.gql';
   import eventMany from '../../apollo/queries/event-many.gql';
   import eventSearch from '../../apollo/mutations/event-search.gql';
   import searchFind from '../../apollo/mutations/search-find.gql';
   import searchOne from '../../apollo/queries/search-one.gql';
   import searchUpsert from '../../apollo/mutations/search-upsert.gql';
+
   import GridDetails from '../modals/grid-details.vue';
   import UserEvent from '../objects/event.vue';
+
+  import assembleFilters from '../../lib/util/assemble-filters';
 
   export default {
     data: function() {
@@ -116,11 +120,11 @@
           let variables = {
             offset: this.$store.state.offset,
             limit: this.$store.state.pageSize,
-            filters: JSON.stringify(this.$store.state.currentSearch.filters)
+            filters: JSON.stringify(assembleFilters(this))
           };
 
           if (this.$store.state.currentSearch.query != null) {
-            variables.q = this.$store.state.currentSearch.query;
+            variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
           }
 
           let eventResult = await this.$apollo.mutate({
@@ -129,9 +133,7 @@
           });
 
           this.$store.state.offset += this.$store.state.pageSize;
-
           this.$store.state.eventSearch = init ? eventResult.data.eventSearch : this.$store.state.eventSearch.concat(eventResult.data.eventSearch);
-
           this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
         }
       },
