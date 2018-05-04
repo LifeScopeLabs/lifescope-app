@@ -1,5 +1,8 @@
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import jquery from 'jquery';
+import moment from 'moment';
+import webpack from 'webpack';
 
 import cookieAuthorization from "./lib/middleware/cookie-authorization";
 import initialSearches from "./lib/middleware/initial-searches";
@@ -63,16 +66,32 @@ export default {
       //   })
       // }
 		},
+
 		vendor: [
+		  'jquery',
 			'mixitup',
 			'vue-js-modal',
-			'vue2-filters'
-		]
+			'vue2-filters',
+      'vue-bootstrap-datetimepicker',
+		],
+
+    plugins: [
+      new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        $: 'jquery',
+        moment: 'moment',
+      }),
+    ]
 	},
 
 	plugins: [
 		'./plugins/vue-js-modal',
-		'./plugins/vue2-filters'
+		'./plugins/vue2-filters',
+    {
+      src: './plugins/vue-bootstrap-datetimepicker',
+      ssr: false
+    }
 	],
 
 	serverMiddleware: [

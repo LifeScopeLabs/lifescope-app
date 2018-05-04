@@ -68,8 +68,7 @@
             </div>
           </form>
 
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'what'" class="what"
-                v-on:submit.self.prevent="saveFilter">
+          <form v-if="$data.activeFilter && $data.activeFilter.type === 'what'" class="what" v-on:submit.self.prevent="saveFilter">
             <div class="input-container">
               <select name="type">
                 <option v-model="activeFilter.data.type" value=""></option>
@@ -93,36 +92,41 @@
             </div>
           </form>
 
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'when'" class="when"
-                v-on:submit.self.prevent="saveFilter">
+          <form v-if="$data.activeFilter && $data.activeFilter.type === 'when'" class="when" v-on:submit.self.prevent="saveFilter">
             <div class="input-container">
-              <label class="radio active" for="when-exact"><input id="when-exact" type="radio" name="interaction"
-                                                                  value="exact" checked/>Exact dates</label>
-              <label class="radio" for="when-relative"><input id="when-relative" type="radio" name="interaction"
-                                                              value="relative"/>Relative dates</label>
+              <label class="radio active" for="when-exact">
+                <input id="when-exact" type="radio" name="interaction" value="exact" v-model="activeFilter.data.interaction" />
+                Exact dates
+              </label>
+
+              <label class="radio" for="when-relative">
+                <input id="when-relative" type="radio" name="interaction" value="relative" v-model="activeFilter.data.interaction" />
+                Relative dates
+              </label>
             </div>
 
-            <div class="exact-controls">
+            <div v-if="$data.activeFilter.data.interaction === 'exact'" class="exact-controls">
               <div>
                 From:
               </div>
 
-              <div class="input-group datetimepicker shrink" id="from">
-                <input type="text" class="form-control" name="from"/>
-                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+
+              <div class="input-group" id="from">
+                <date-picker v-model="activeFilter.data.from" v-bind:config="fromConfig"></date-picker>
+                <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
               </div>
 
               <div>
                 To:
               </div>
 
-              <div class="input-group datetimepicker shrink" id="to">
-                <input type="text" class="form-control" name="to"/>
-                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+              <div class="input-group" id="to">
+                <date-picker v-model="activeFilter.data.to" v-bind:config="toConfig"></date-picker>
+                <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
               </div>
             </div>
 
-            <div class="relative-controls hidden">
+            <div v-if="$data.activeFilter.data.interaction === 'relative'" class="relative-controls">
               <div class="input-container">
                 <select name="since-exactly">
                   <option value="since">Since</option>
@@ -157,11 +161,9 @@
             </div>
           </form>
 
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'connector'" class="connector"
-                v-on:submit.self.prevent="saveFilter">
+          <form v-if="$data.activeFilter && $data.activeFilter.type === 'connector'" class="connector" v-on:submit.self.prevent="saveFilter">
             <div class="input-container">
-              <label class="radio active" for="provider"><input id="provider" type="radio" name="type" value="provider"
-                                                                checked/>Connection Type</label>
+              <label class="radio active" for="provider"><input id="provider" type="radio" name="type" value="provider" checked/>Connection Type</label>
               <label class="radio" for="connection"><input id="connection" type="radio" name="type" value="connection"/>Connection</label>
             </div>
 
@@ -203,8 +205,7 @@
 
             <div class="input-container">
               <label for="where-type-1"><input id="where-type-1" type="radio" name="geometry" value="inside" checked/>Inside</label>
-              <label for="where-type-2"><input id="where-type-2" type="radio" name="geometry"
-                                               value="outside"/>Outside</label>
+              <label for="where-type-2"><input id="where-type-2" type="radio" name="geometry" value="outside"/>Outside</label>
             </div>
 
             <div class="estimated">
@@ -240,7 +241,7 @@
     </form>
 
 
-    <div v-if="!hide_filters && !$data.editorOpen" id="filters">
+    <div v-if="!hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
       <div class="filter" v-for="filter in $data.filters">
         <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
         <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
@@ -278,7 +279,19 @@
         filters: [],
         query: '',
         editorOpen: false,
-        overflowCount: 0
+        overflowCount: 0,
+        fromConfig: {
+          format: 'MM/DD/YYYY hh:mm A',
+          useCurrent: false,
+          showClear: true,
+          showClose: true
+        },
+        toConfig: {
+          format: 'MM/DD/YYYY hh:mm A',
+          useCurrent: false,
+          showClear: true,
+          showClose: true
+        }
       }
     },
     methods: {
@@ -298,8 +311,27 @@
 
           case 'what':
             this.$data.activeFilter.data = {
-              type: ""
-            }
+              type: ''
+            };
+
+            break;
+
+          case 'when':
+            this.$data.activeFilter.data = {
+              interaction: 'exact',
+              from: '',
+              to: ''
+            };
+
+            break;
+
+          case 'connector':
+            this.$data.activeFilter.data = {
+              type: 'provider',
+              provider: ''
+            };
+
+            break;
         }
       },
 
@@ -398,43 +430,40 @@
       },
 
       compactOverflowFilters: function() {
-        var hideCount, hideIndex, maxWidth, width, $filters;
+        this.$nextTick(function() {
+          let hideIndex, maxWidth, width, $filters;
 
-        if (this.$data.editorOpen) {
-          return;
-        }
-
-        maxWidth = MAX_FILTER_WIDTH_FRACTION * $('#search-bar').width();
-        width = 0;
-        $filters = $('#filters > .filter');
-
-        console.log(maxWidth);
-        console.log($filters);
-
-        $filters.removeClass('hidden');
-
-        $filters.each(function(i, d) {
-          let elemWidth = $(d).removeClass('hidden').width();
-
-          console.log(elemWidth);
-          console.log(elemWidth + width)
-          if (elemWidth + width > maxWidth) {
-            hideIndex = i;
-
-            return false;
+          if (this.$data.editorOpen) {
+            return;
           }
 
-          width += elemWidth;
-        });
+          maxWidth = MAX_FILTER_WIDTH_FRACTION * $('#search-bar').width();
+          width = 0;
+          $filters = $('#filters > .filter');
 
-        if (typeof hideIndex !== 'undefined') {
-          this.$data.overflowCount = $filters.length - hideIndex;
+          $filters.removeClass('hidden');
 
-          $filters.slice(hideIndex).addClass('hidden');
-        }
-        else {
-          this.$data.overflowCount = 0;
-        }
+          $filters.each(function(i, d) {
+            let elemWidth = $(d).removeClass('hidden').width();
+
+            if (elemWidth + width > maxWidth) {
+              hideIndex = i;
+
+              return false;
+            }
+
+            width += elemWidth;
+          });
+
+          if (typeof hideIndex !== 'undefined') {
+            this.$data.overflowCount = $filters.length - hideIndex;
+
+            $filters.slice(hideIndex).addClass('hidden');
+          }
+          else {
+            this.$data.overflowCount = 0;
+          }
+        })
       },
 
       assembleFilters: function () {

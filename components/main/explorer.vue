@@ -4,7 +4,7 @@
       <div v-if="view === 'feed'" class="feed container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
-            <user-event v-for="event in eventSearch"v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view" v-on:render-grid-details="renderGridDetailsModal"></user-event>
+            <user-event v-for="event in $store.state.eventSearch"v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view" v-on:render-grid-details="renderGridDetailsModal"></user-event>
           </div>
 
           <modals-container/>
@@ -33,7 +33,6 @@
         skipEventQuery: true,
         eventCount: null,
         eventMany: null,
-        eventSearch: null,
         qid: null
       };
     },
@@ -131,7 +130,7 @@
 
           this.$store.state.offset += this.$store.state.pageSize;
 
-          this.$data.eventSearch = init ? eventResult.data.eventSearch : this.$data.eventSearch.concat(eventResult.data.eventSearch);
+          this.$store.state.eventSearch = init ? eventResult.data.eventSearch : this.$store.state.eventSearch.concat(eventResult.data.eventSearch);
 
           this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
         }
