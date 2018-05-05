@@ -1,13 +1,31 @@
 <template>
   <main v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
-      <div v-if="view === 'feed'" class="feed container">
+      <div v-if="$store.state.eventSearch.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
             <user-event v-for="event in $store.state.eventSearch"v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view" v-on:render-grid-details="renderGridDetailsModal"></user-event>
           </div>
 
+
           <modals-container/>
+        </div>
+      </div>
+
+      <div v-if="$store.state.eventSearch.length === 0 && $store.state.searching === true" id="waiting">
+        <div>
+          <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
+          <div class="text blue">Searching</div>
+        </div>
+      </div>
+
+      <div v-if="$store.state.eventSearch.length === 0 && $store.state.searching === false" id="no-results">
+        <div class="prompt">
+          <div class="prompt-text">
+            <h2>No results found.</h2>
+            <div>Try adjusting your search </div>
+            <div>or adding more <a href="/providers">Connections</a>.</div>
+          </div>
         </div>
       </div>
     </section>
@@ -114,6 +132,7 @@
       searchData: async function(init) {
         if (init === true) {
           this.$store.state.offset = 0;
+          this.$store.state.searching = true;
         }
 
         if (this.$store.state.searchEnded !== true) {
@@ -135,6 +154,7 @@
           this.$store.state.offset += this.$store.state.pageSize;
           this.$store.state.eventSearch = init ? eventResult.data.eventSearch : this.$store.state.eventSearch.concat(eventResult.data.eventSearch);
           this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+          this.$store.state.searching = false;
         }
       },
 

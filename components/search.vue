@@ -195,36 +195,36 @@
             </div>
           </form>
 
-          <form v-if="$data.activeFilter && activeFilter.type === 'where'" class="where" v-on:submit.self.prevent="saveFilter">
-            <div>
-              Distance:
-            </div>
+          <!--<form v-if="$data.activeFilter && activeFilter.type === 'where'" class="where" v-on:submit.self.prevent="saveFilter">-->
+            <!--<div>-->
+              <!--Distance:-->
+            <!--</div>-->
 
-            <div class="text-box">
-              <input type="text" name="distance"/>
-            </div>
+            <!--<div class="text-box">-->
+              <!--<input type="text" name="distance"/>-->
+            <!--</div>-->
 
-            <div>
-              Area:
-            </div>
+            <!--<div>-->
+              <!--Area:-->
+            <!--</div>-->
 
-            <div class="input-container">
-              <label for="where-type-1"><input id="where-type-1" type="radio" name="geometry" value="inside" checked/>Inside</label>
-              <label for="where-type-2"><input id="where-type-2" type="radio" name="geometry" value="outside"/>Outside</label>
-            </div>
+            <!--<div class="input-container">-->
+              <!--<label for="where-type-1"><input id="where-type-1" type="radio" name="geometry" value="inside" checked/>Inside</label>-->
+              <!--<label for="where-type-2"><input id="where-type-2" type="radio" name="geometry" value="outside"/>Outside</label>-->
+            <!--</div>-->
 
-            <div class="estimated">
-              <label>
-                <input type="checkbox" name="estimated"/>
-                <span>Return Estimated Results</span>
-              </label>
-            </div>
+            <!--<div class="estimated">-->
+              <!--<label>-->
+                <!--<input type="checkbox" name="estimated"/>-->
+                <!--<span>Return Estimated Results</span>-->
+              <!--</label>-->
+            <!--</div>-->
 
-            <div id="filter-done">
-              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
-              <button v-else class="primary">Add Filter</button>
-            </div>
-          </form>
+            <!--<div id="filter-done">-->
+              <!--<button v-if="$data.activeFilter.id" class="primary">Save Filter</button>-->
+              <!--<button v-else class="primary">Add Filter</button>-->
+            <!--</div>-->
+          <!--</form>-->
         </div>
       </div>
 
@@ -239,7 +239,7 @@
 
     <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch">
       <div id="search-box" class="text-box">
-        <input id="search-query" type="search" name="search" v-model="query" placeholder="Enter query here"/>
+        <input id="search-query" type="search" name="search" v-model="query" placeholder="Enter query here" v-on:change="$store.state.currentSearch.query = $data.query"/>
       </div>
 
       <input class="hidden" type="submit"/>
@@ -256,14 +256,16 @@
 
     <div v-if="!hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
 
-    <div v-if="!hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}">
+    <div v-if="!hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
       <i class="fa"></i>
     </div>
 
-    <div id="search-button">
-      <i class="fa fa-search" v-on:click="performSearch"></i>
+    <div id="search-button" v-on:click="performSearch">
+      <i class="fa fa-search"></i>
     </div>
   </div>
+
+  <modals-container/>
 </template>
 
 <script>
@@ -272,9 +274,11 @@
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
   import searchFind from '../apollo/mutations/search-find.gql';
   import searchUpsert from '../apollo/mutations/search-upsert.gql';
-  import uuid from '../lib/util/uuid';
+
+  import favoriteModal from './modals/favorite';
 
   import assembleFilters from '../lib/util/assemble-filters';
+  import uuid from '../lib/util/uuid';
 
   const MAX_FILTER_WIDTH_FRACTION = 0.3;
 
@@ -325,6 +329,15 @@
     },
 
     methods: {
+      showFavoriteModal: function() {
+        this.$modal.show(favoriteModal, {
+          search: this.$store.currentSearch
+        }, {
+          height: 'auto',
+          scrollable: true
+        });
+      },
+
       createBlankFilter: function (type) {
         this.$data.activeFilter.id = null;
         this.$data.activeFilter.name = null;
@@ -460,7 +473,11 @@
         if (data && data.id) {
           this.$store.state.currentSearch = data;
           this.$data.filters = data.filters;
-          this.$data.query = data.query
+          this.$data.query = data.query;
+
+          _.each(this.$data.filters, function(filter) {
+            filter.id = uuid();
+          });
         }
         else {
           this.$store.state.currentSearch = {
@@ -481,6 +498,7 @@
       performSearch: async function() {
         this.closeFilterEditor();
 
+        this.$store.state.searching = true;
         this.$store.state.offset = 0;
         this.$store.state.searchEnded = false;
         this.$store.state.pageSize = 100;
@@ -517,6 +535,7 @@
         this.$store.state.offset += this.$store.state.pageSize;
         this.$store.state.eventSearch = eventResult.data.eventSearch;
         this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+        this.$store.state.searching = false;
       },
 
       compactOverflowFilters: function() {

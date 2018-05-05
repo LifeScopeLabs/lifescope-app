@@ -28,6 +28,7 @@ const store = () => new Vuex.Store({
     searchEnded: false,
     view: null,
 
+    searching: false,
     eventSearch: []
 	},
 

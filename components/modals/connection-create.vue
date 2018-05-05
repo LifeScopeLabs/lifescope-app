@@ -51,8 +51,8 @@
   import initializeConnection from '../../apollo/mutations/initialize-connection.gql';
 
   export default {
-    data: function (context) {
-      let sources = _.map(context.provider.sources, function (source, name) {
+    data: function(context) {
+      let sources = _.map(context.provider.sources, function(source, name) {
         return source.enabled_by_default ? name : null;
       });
 
@@ -65,14 +65,14 @@
       }
     },
     filters: {
-      formatNames: function (value) {
+      formatNames: function(value) {
         if (!value) return '';
 
         value = value.toString();
 
         let pieces = value.split('_');
 
-        let capitalized = _.map(pieces, function (value) {
+        let capitalized = _.map(pieces, function(value) {
           return value.charAt(0).toUpperCase() + value.slice(1);
         });
 
@@ -81,18 +81,18 @@
     },
     props: ['provider'],
     methods: {
-      providerIcon: function (name) {
+      providerIcon: function(name) {
         return 'fa fa-' + name.toLowerCase();
       },
-      getPlaceholder: function (provider) {
+      getPlaceholder: function(provider) {
         return 'My ' + provider.name + ' Account';
       },
-      createConnection: async function () {
+      createConnection: async function() {
         let form = this.$data.connectionForm;
 
         let permissions = {};
 
-        _.each(form.sources, function (source) {
+        _.each(form.sources, function(source) {
           permissions[source] = true;
         });
 
