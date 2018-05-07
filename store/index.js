@@ -23,6 +23,16 @@ const store = () => new Vuex.Store({
       icon_color: null,
       name: null
     },
+    tempSearch: {
+      id: null,
+      count: null,
+      query: null,
+      filters: [],
+      favorited: null,
+      icon: null,
+      icon_color: null,
+      name: null
+    },
     pageSize: null,
     pageOffset: null,
     searchEnded: false,

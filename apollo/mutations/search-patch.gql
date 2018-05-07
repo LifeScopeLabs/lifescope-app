@@ -1,0 +1,16 @@
+mutation searchPatch($id: String, $favorited: Boolean, $icon: String, $icon_color: String, $name: String){
+    searchPatch(id: $id, favorited: $favorited, icon: $icon, icon_color: $icon_color, name: $name) {
+        id,
+        count,
+        filters {
+        	data,
+        	name,
+        	type
+        },
+        favorited,
+        icon,
+        icon_color,
+        query,
+        name
+    }
+}
