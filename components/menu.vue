@@ -65,6 +65,7 @@
 </template>
 
 <script>
+
 	import { mixin as clickaway } from 'vue-clickaway';
 
 	export default {

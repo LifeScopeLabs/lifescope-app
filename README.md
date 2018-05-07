@@ -35,7 +35,15 @@ This is a conversational interface of LifeScope data as Vue Plugins.
 
 ``` bash
 # install dependencies
-$ yarn install
+$ yarn install --ignore-engines
+
+# add dev.json to config/
+
+# launch lifescope-api
+# see lifescope-api/README.md
+
+# run with NODE_ENV set
+$ NODE_ENV=dev yarn start
 
 # serve with hot reload at localhost:3000
 $ yarn run dev

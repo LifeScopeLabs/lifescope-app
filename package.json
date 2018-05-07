@@ -23,7 +23,8 @@
     "nuxt-dev": "nuxt",
     "nuxt-build": "nuxt build",
     "nuxt-start": "nuxt start",
-    "nuxt-generate": "nuxt generate"
+    "nuxt-generate": "nuxt generate",
+    "dev": "NODE_ENV=dev yarn start"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
