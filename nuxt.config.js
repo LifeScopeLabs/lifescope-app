@@ -26,7 +26,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#2ac1de' },
 
 	modules: [
 	  '@nuxtjs/apollo',
