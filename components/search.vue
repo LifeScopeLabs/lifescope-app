@@ -263,9 +263,9 @@
     <div id="search-button" v-on:click="performSearch">
       <i class="fa fa-search"></i>
     </div>
-  </div>
 
-  <modals-container/>
+    <modals-container/>
+  </div>
 </template>
 
 <script>
@@ -330,9 +330,11 @@
 
     methods: {
       showFavoriteModal: function() {
-        this.$modal.show(favoriteModal, {
-          search: this.$store.currentSearch
-        }, {
+        console.log(this.$store.state.tempSearch);
+        console.log(this.$store.state.currentSearch);
+        this.$store.state.tempSearch = _.clone(this.$store.state.currentSearch);
+
+        this.$modal.show(favoriteModal, {}, {
           height: 'auto',
           scrollable: true
         });
