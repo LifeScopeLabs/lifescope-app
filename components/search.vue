@@ -1,10 +1,10 @@
 <template slot="search">
   <div id="search-bar" class="input-group">
-    <div v-if="!hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
+    <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
       <i v-bind:class="$data.editorOpen ? 'fa-caret-up' : 'fa-caret-down'" class="fa"></i>
     </div>
 
-    <div v-if="!hide_advanced && $data.editorOpen" id="filter-controls">
+    <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
       <div id="filter-editor">
         <div id="filter-buttons">
           <div class="control" data-type="who" v-on:click="createBlankFilter('who')">
@@ -246,7 +246,7 @@
     </form>
 
 
-    <div v-if="!hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
+    <div v-if="!$store.state.hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
       <div class="filter" v-for="filter in $data.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
         <span v-else v-on:click="openAndLoadFilter(filter)">{{ filter.type | capitalize }}</span>
@@ -254,9 +254,9 @@
       </div>
     </div>
 
-    <div v-if="!hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
+    <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
 
-    <div v-if="!hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
+    <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
       <i class="fa"></i>
     </div>
 
@@ -310,17 +310,14 @@
           minDate: false
         },
         connectionMany: [],
-        providerMany: []
+        providerHydratedMany: []
       }
     },
 
     apollo: {
       connectionMany: {
         query: connectionMany,
-        prefetch: true,
-        result({data}) {
-          console.log(data);
-        }
+        prefetch: true
       },
       providerHydratedMany: {
         query: providerHydratedMany,
@@ -330,8 +327,6 @@
 
     methods: {
       showFavoriteModal: function() {
-        console.log(this.$store.state.tempSearch);
-        console.log(this.$store.state.currentSearch);
         this.$store.state.tempSearch = _.clone(this.$store.state.currentSearch);
 
         this.$modal.show(favoriteModal, {}, {
@@ -521,18 +516,14 @@
           filters: JSON.stringify(assembleFilters(this))
         };
 
-        console.log(assembleFilters(this));
         if (this.$store.state.currentSearch.query != null) {
           variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
         }
 
-        console.log(variables);
         let eventResult = await this.$apollo.mutate({
           mutation: eventSearch,
           variables: variables
         });
-
-        console.log(eventResult);
 
         this.$store.state.offset += this.$store.state.pageSize;
         this.$store.state.eventSearch = eventResult.data.eventSearch;
@@ -576,11 +567,6 @@
           }
         })
       }
-    },
-    props: [
-      'hide_advanced',
-      'hide_filters',
-      'hide_favorite_star'
-    ]
+    }
   }
 </script>

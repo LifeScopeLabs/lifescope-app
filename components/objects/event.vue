@@ -58,7 +58,7 @@
 		</aside>
 	</div>
 
-  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id" v-on:click="$emit('render-grid-details', event)">
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id" v-on:click="$emit('render-details', event)">
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
@@ -85,6 +85,30 @@
       </div>
 
       <i v-bind:class="getProviderIcon(event.hydratedConnection.provider)" class="bubble"></i>
+    </div>
+  </div>
+
+  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event)">
+    <div>
+      <span v-if="event.hydratedContent && event.hydratedContent.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
+    </div>
+
+    <div class="icon-column">
+      <i v-bind:class="getEventTypeIcon(event.type)"></i>
+      <span class="mobile-hide">{{ contextOrType(event) | truncate(30) }}</span>
+    </div>
+
+    <div class="icon-column">
+      <i v-bind:class="getProviderIcon(event.hydratedConnection.provider)"></i>
+      <span class="mobile-hide">{{ event.hydratedConnection.provider.name }}</span>
+    </div>
+
+    <div class="mobile-hide">
+      <span v-if="event.hydratedContacts && event.hydratedContacts.length > 0">{{ getFirstContact(event) | truncate(30) }}</span>
+    </div>
+
+    <div>
+      <span v-if="event.date">{{ event.date | tinyDate }}</span>
     </div>
   </div>
 </template>
@@ -143,11 +167,47 @@
         return moment.utc(date).format('YYYY/MM/DD');
       },
 
+      dateTiny: function(date) {
+        return moment.utc(date).format('M/D/YY')
+      },
+
       dateTime: function(date) {
         return moment.utc(date).format('hh:mm A')
       }
 		},
 		methods: {
+		  getFirstTitle: function(event) {
+		    let returned = '';
+
+		    _.each(event.hydratedContent, function(item) {
+		      if (item.title) {
+		        returned = item.title;
+
+		        return false;
+          }
+        });
+
+		    return returned;
+      },
+
+      getFirstContact: function(event) {
+		    let returned = '';
+
+		    _.each(event.hydratedContacts, function(item) {
+		      if (item.handle || item.name) {
+		        returned = item.handle || item.name;
+          }
+
+          return false;
+        });
+
+		    return returned;
+      },
+
+      contextOrType: function(event) {
+        return event.context ? event.context : event.type[0].toUpperCase() + event.type.slice(1);
+      },
+
 			getEventTypeIcon: function(type) {
 				return icons('event', type)
 			},
@@ -182,13 +242,9 @@
 
       getGridThumbnail: function() {
 			  let firstMatch = _.find(this.$props.event.hydratedContent, function(item) {
-			    console.log('Matching');
-			    console.log(item);
 			    return item.embed_thumbnail != null;
         });
 
-			  console.log('pants');
-			  console.log(firstMatch.embed_thumbnail);
 			  return firstMatch.embed_thumbnail;
       },
 

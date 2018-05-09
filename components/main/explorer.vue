@@ -4,9 +4,8 @@
       <div v-if="$store.state.eventSearch.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
-            <user-event v-for="event in $store.state.eventSearch"v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view" v-on:render-grid-details="renderGridDetailsModal"></user-event>
+            <user-event v-for="event in $store.state.eventSearch"v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
           </div>
-
 
           <modals-container/>
         </div>
@@ -43,7 +42,7 @@
   import searchOne from '../../apollo/queries/search-one.gql';
   import searchUpsert from '../../apollo/mutations/search-upsert.gql';
 
-  import GridDetails from '../modals/grid-details.vue';
+  import Details from '../modals/details.vue';
   import UserEvent from '../objects/event.vue';
 
   import assembleFilters from '../../lib/util/assemble-filters';
@@ -51,7 +50,6 @@
   export default {
     data: function() {
       return {
-        view: 'feed',
         skipEventQuery: true,
         eventCount: null,
         eventMany: null,
@@ -96,6 +94,7 @@
       },
 
       loadSearch: async function() {
+        console.log(this.$store.state.currentSearch.id);
         if (this.$store.state.currentSearch.id == null) {
           let result = await this.$apollo.mutate({
             mutation: searchFind,
@@ -110,12 +109,16 @@
           }
         }
         else {
-          this.$store.state.currentSearch = await this.$apollo.query({
+          let result = await this.$apollo.query({
             query: searchOne,
             variables: {
               id: this.$store.state.currentSearch.id
             }
           });
+
+          let data = result.data.searchOne;
+
+          this.$store.state.currentSearch = data;
         }
       },
 
@@ -158,9 +161,9 @@
         }
       },
 
-      renderGridDetailsModal: function(event) {
-        if (this.$store.state.view === 'grid') {
-          this.$modal.show(GridDetails, {
+      renderDetailsModal: function(event) {
+        if (this.$store.state.view === 'grid' || this.$store.state.view === 'list') {
+          this.$modal.show(Details, {
             event: event
           }, {
             height: 'auto',
@@ -188,6 +191,7 @@
       }
     },
     mounted: async function() {
+      this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
       let params = this.parseParams(window.location.search.slice(1));
 
       if (params.view) {

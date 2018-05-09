@@ -21,11 +21,11 @@
 
     export default {
 	    components: {
-            // CookieConsent: CookieConsent,
-            VueAside: VueAside,
-            VueHeader: VueHeader,
-            VueMenu: VueMenu,
-            VueMain: VueMain
+        // CookieConsent: CookieConsent,
+        VueAside: VueAside,
+        VueHeader: VueHeader,
+        VueMenu: VueMenu,
+        VueMain: VueMain
 	    },
 	    head: {
 		    meta: [

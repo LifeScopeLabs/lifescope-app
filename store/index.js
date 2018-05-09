@@ -33,12 +33,19 @@ const store = () => new Vuex.Store({
       icon_color: null,
       name: null
     },
+
+    searchMany: null,
+    searchCount: null,
     pageSize: null,
     pageOffset: null,
     searchEnded: false,
     view: null,
 
-    searching: false,
+    hide_advanced: false,
+    hide_filters: false,
+    hide_favorite_star: false,
+
+    searching: true,
     eventSearch: []
 	},
 

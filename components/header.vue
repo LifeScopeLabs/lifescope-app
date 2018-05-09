@@ -19,7 +19,7 @@
 			<div class="views">
 				<a data-view="feed" v-on:click="setView('feed')"><i class="fa fa-clone"></i> <span>Feed</span></a>
 				<a data-view="grid" v-on:click="setView('grid')"><i class="fa fa-th"></i> <span>Grid</span></a>
-				<a data-view="list" v-on:click="setView('grid')"><i class="fa fa-list"></i> <span>List</span></a>
+				<a data-view="list" v-on:click="setView('list')"><i class="fa fa-list"></i> <span>List</span></a>
 			</div>
 
 			<div class="sort">
