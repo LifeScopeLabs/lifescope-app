@@ -229,7 +229,7 @@
       </div>
 
       <div id="filter-list" class="flex-grow">
-        <div class="filter" v-for="filter in $data.filters">
+        <div class="filter" v-for="filter in $store.state.searchBar.filters">
           <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
           <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
           <i class="fa fa-close" v-on:click="deleteFilter(filter)"></i>
@@ -239,7 +239,7 @@
 
     <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch">
       <div id="search-box" class="text-box">
-        <input id="search-query" type="search" name="search" v-model="query" placeholder="Enter query here" v-on:change="$store.state.currentSearch.query = $data.query"/>
+        <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter query here" v-on:change="updateQuery"/>
       </div>
 
       <input class="hidden" type="submit"/>
@@ -247,7 +247,7 @@
 
 
     <div v-if="!$store.state.hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
-      <div class="filter" v-for="filter in $data.filters">
+      <div class="filter" v-for="filter in $store.state.searchBar.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
         <span v-else v-on:click="openAndLoadFilter(filter)">{{ filter.type | capitalize }}</span>
         <i class="fa fa-close" v-on:click="deleteFilter(filter)"></i>
@@ -269,6 +269,10 @@
 </template>
 
 <script>
+  import History from 'history/createBrowserHistory';
+  import _ from 'lodash';
+  import qs from 'qs';
+
   import connectionMany from '../apollo/queries/connection-many.gql';
   import eventSearch from '../apollo/mutations/event-search.gql';
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
@@ -279,6 +283,12 @@
 
   import assembleFilters from '../lib/util/assemble-filters';
   import uuid from '../lib/util/uuid';
+
+  let history;
+
+  if (process.browser) {
+    history = History();
+  }
 
   const MAX_FILTER_WIDTH_FRACTION = 0.3;
 
@@ -291,8 +301,6 @@
           type: null,
           data: {}
         },
-        filters: [],
-        query: '',
         editorOpen: false,
         overflowCount: 0,
         fromConfig: {
@@ -333,6 +341,12 @@
           height: 'auto',
           scrollable: true
         });
+      },
+
+      updateQuery: function() {
+        this.$store.state.currentSearch.query = this.$store.state.searchBar.query;
+
+        this.checkNewSearch();
       },
 
       createBlankFilter: function (type) {
@@ -422,10 +436,10 @@
 
           savedFilter.id = uuid();
 
-          this.$data.filters.push(savedFilter);
+          this.$store.state.searchBar.filters.push(savedFilter);
         }
         else {
-          let existingFilter = _.find(this.$data.filters, function (item) {
+          let existingFilter = _.find(this.$store.state.searchBar.filters, function (item) {
             return filter.id === item.id;
           });
 
@@ -441,7 +455,7 @@
       },
 
       deleteFilter(filter) {
-        this.$data.filters = _.filter(this.$data.filters, function(item) {
+        this.$store.state.searchBar.filters = _.filter(this.$store.state.searchBar.filters, function(item) {
           return filter.id !== item.id;
         });
 
@@ -451,11 +465,11 @@
       },
 
       checkNewSearch: async function (){
-        let filters = _.map(this.$data.filters, function(filter) {
+        let filters = _.map(this.$store.state.searchBar.filters, function(filter) {
           return _.omit(filter, 'id');
         });
 
-        let query = this.$data.query;
+        let query = this.$store.state.searchBar.query;
 
         let result = await this.$apollo.mutate({
           mutation: searchFind,
@@ -469,17 +483,50 @@
 
         if (data && data.id) {
           this.$store.state.currentSearch = data;
-          this.$data.filters = data.filters;
-          this.$data.query = data.query;
+          this.$store.state.searchBar.filters = data.filters;
+          this.$store.state.searchBar.query = data.query;
 
-          _.each(this.$data.filters, function(filter) {
+          _.each(this.$store.state.searchBar.filters, function(filter) {
             filter.id = uuid();
           });
+
+          if (process.browser) {
+            let params = qs.parse(history.location.search, {
+              ignoreQueryPrefix: true
+            });
+
+            params.qid = data.id;
+
+            history.push({
+              pathname: history.location.pathname,
+              search: qs.stringify(params, {
+                addQueryPrefix: true
+              })
+            });
+          }
         }
         else {
           this.$store.state.currentSearch = {
             query: query,
             filters: filters
+          };
+
+          if (process.browser) {
+            let params = qs.parse(history.location.search, {
+              ignoreQueryPrefix: true
+            });
+
+            console.log('params:');
+            console.log(params);
+
+            delete params.qid;
+
+            history.push({
+              pathname: history.location.pathname,
+              search: qs.stringify(params, {
+                addQueryPrefix: true
+              })
+            });
           }
         }
       },

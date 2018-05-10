@@ -2,7 +2,7 @@
   <main>
     <aside v-if="$store.state.user != undefined" id="profile">
       <div class="avatar">
-        <a href="https://app.lifescope.io/settings/profile">
+        <a href="https://app.lifescope.io/settings/connections">
           <i class="fa fa-user"></i>
         </a>
       </div>

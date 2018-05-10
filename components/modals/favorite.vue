@@ -145,10 +145,6 @@
 
           _.assign(match, this.$store.state.currentSearch);
 
-          console.log(match);
-
-          console.log(this.$store.state.searchMany);
-
           this.$store.state.searchMany = copy;
         }
 

@@ -32,8 +32,10 @@
 </template>
 
 <script>
+  import History from 'history/createBrowserHistory';
   import _ from 'lodash';
   import moment from 'moment';
+  import qs from 'qs';
 
   import eventCount from '../../apollo/queries/event-count.gql';
   import eventMany from '../../apollo/queries/event-many.gql';
@@ -46,6 +48,12 @@
   import UserEvent from '../objects/event.vue';
 
   import assembleFilters from '../../lib/util/assemble-filters';
+
+  let history;
+
+  if (process.browser) {
+    history = History();
+  }
 
   export default {
     data: function() {
@@ -94,7 +102,6 @@
       },
 
       loadSearch: async function() {
-        console.log(this.$store.state.currentSearch.id);
         if (this.$store.state.currentSearch.id == null) {
           let result = await this.$apollo.mutate({
             mutation: searchFind,
@@ -136,6 +143,22 @@
         if (init === true) {
           this.$store.state.offset = 0;
           this.$store.state.searching = true;
+
+          if (process.browser) {
+            let params = qs.parse(history.location.search, {
+              ignoreQueryPrefix: true
+            });
+
+            params.view = this.$store.state.view;
+            params.qid = this.$store.state.currentSearch.id;
+
+            history.push({
+              pathname: history.location.pathname,
+              search: qs.stringify(params, {
+                addQueryPrefix: true
+              })
+            });
+          }
         }
 
         if (this.$store.state.searchEnded !== true) {
@@ -192,7 +215,9 @@
     },
     mounted: async function() {
       this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
-      let params = this.parseParams(window.location.search.slice(1));
+      let params = qs.parse(window.location.search, {
+        ignoreQueryPrefix: true
+      });
 
       if (params.view) {
         this.$store.state.view = params.view;
@@ -220,6 +245,8 @@
       });
 
       this.$store.state.currentSearch = upserted.data.searchUpsert;
+      this.$store.state.searchBar.filters = this.$store.state.currentSearch.filters;
+      this.$store.state.searchBar.query = this.$store.state.currentSearch.query;
 
       this.searchData(true);
     }

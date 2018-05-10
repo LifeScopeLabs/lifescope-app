@@ -13,6 +13,12 @@ const store = () => new Vuex.Store({
 		menu: {
 			open: false
 		},
+
+    searchBar: {
+		  filters: [],
+      query: null
+    },
+
     currentSearch: {
       id: null,
       count: null,
@@ -23,6 +29,7 @@ const store = () => new Vuex.Store({
       icon_color: null,
       name: null
     },
+
     tempSearch: {
       id: null,
       count: null,

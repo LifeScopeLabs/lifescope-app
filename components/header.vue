@@ -17,9 +17,9 @@
 
 		<div v-if="$store.state.mode === 'app'" class="controls">
 			<div class="views">
-				<a data-view="feed" v-on:click="setView('feed')"><i class="fa fa-clone"></i> <span>Feed</span></a>
-				<a data-view="grid" v-on:click="setView('grid')"><i class="fa fa-th"></i> <span>Grid</span></a>
-				<a data-view="list" v-on:click="setView('list')"><i class="fa fa-list"></i> <span>List</span></a>
+				<a data-view="feed" v-bind:class="{ active: $store.state.view === 'feed' }" v-on:click="setView('feed')"><i class="fa fa-clone"></i> <span>Feed</span></a>
+				<a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }" v-on:click="setView('grid')"><i class="fa fa-th"></i> <span>Grid</span></a>
+				<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }" v-on:click="setView('list')"><i class="fa fa-list"></i> <span>List</span></a>
 			</div>
 
 			<div class="sort">
@@ -69,8 +69,18 @@
 </template>
 
 <script>
+  import History from 'history/createBrowserHistory';
+  import qs from 'qs';
+
+
 	import SearchBar from './search.vue';
 	import loginHelpModal from '../components/modals/login-help';
+
+  let history;
+
+  if (process.browser) {
+    history = History();
+  }
 
 	export default {
 		components: {
@@ -86,8 +96,24 @@
 					scrollable: true
 				});
 			},
+
       setView: function(view) {
 			  this.$store.state.view = view;
+
+        if (process.browser) {
+          let params = qs.parse(history.location.search, {
+            ignoreQueryPrefix: true
+          });
+
+          params.view = this.$store.state.view;
+
+          history.push({
+            pathname: history.location.pathname,
+            search: qs.stringify(params, {
+              addQueryPrefix: true
+            })
+          });
+        }
       }
 		}
 	}
