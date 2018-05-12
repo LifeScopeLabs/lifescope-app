@@ -73,6 +73,7 @@ export default {
 			'vue-js-modal',
 			'vue2-filters',
       'vue-bootstrap-datetimepicker',
+      'lifescope-objects'
 		],
 
     plugins: [

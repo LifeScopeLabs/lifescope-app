@@ -48,12 +48,20 @@ const store = () => new Vuex.Store({
     searchEnded: false,
     view: null,
 
+    sortField: 'datetime',
+    sortOrder: 'desc',
+
     hide_advanced: false,
     hide_filters: false,
     hide_favorite_star: false,
 
     searching: true,
-    eventSearch: []
+
+    objects: {
+		  events: [],
+      contacts: [],
+      content: []
+    }
 	},
 
 	getters: {

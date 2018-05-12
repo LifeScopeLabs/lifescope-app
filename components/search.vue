@@ -237,7 +237,7 @@
       </div>
     </div>
 
-    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch">
+    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch(true)">
       <div id="search-box" class="text-box">
         <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter query here" v-on:change="updateQuery"/>
       </div>
@@ -260,7 +260,7 @@
       <i class="fa"></i>
     </div>
 
-    <div id="search-button" v-on:click="performSearch">
+    <div id="search-button" v-on:click="performSearch(true)">
       <i class="fa fa-search"></i>
     </div>
 
@@ -271,6 +271,7 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
+  import lifescopeObjects from '../lib/util/lifescope-objects';
   import qs from 'qs';
 
   import connectionMany from '../apollo/queries/connection-many.gql';
@@ -539,8 +540,15 @@
         this.$data.fromConfig.maxDate = e.date;
       },
 
-      performSearch: async function() {
+      performSearch: async function(init) {
+        let self = this;
         this.closeFilterEditor();
+
+        if (init) {
+          this.$store.state.objects.events = [];
+          this.$store.state.objects.contacts = [];
+          this.$store.state.objects.content = [];
+        }
 
         this.$store.state.searching = true;
         this.$store.state.offset = 0;
@@ -551,7 +559,7 @@
           mutation: searchUpsert,
           variables: {
             filters: JSON.stringify(this.$store.state.currentSearch.filters),
-            query: this.$store.state.currentSearch.query,
+            query: this.$store.state.currentSearch.query
           }
         });
 
@@ -560,22 +568,64 @@
         let variables = {
           offset: this.$store.state.offset,
           limit: this.$store.state.pageSize,
-          filters: JSON.stringify(assembleFilters(this))
+          filters: JSON.stringify(assembleFilters(this)),
+          sortField: this.$store.state.sortField,
+          sortOrder: this.$store.state.sortOrder
         };
 
         if (this.$store.state.currentSearch.query != null) {
           variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
         }
 
+        console.log('Sending event search');
+        console.log(new Date());
         let eventResult = await this.$apollo.mutate({
           mutation: eventSearch,
           variables: variables
         });
 
+        console.log('Parsing event search');
+        console.log(new Date());
+
+        _.each(eventResult.data.eventSearch, function(event) {
+          let obj = new lifescopeObjects.Event(event);
+
+          self.$store.state.objects.events.push(obj);
+
+          _.each(obj.content, function(content) {
+            let match = _.find(self.$store.state.objects.content, function(item) {
+              return content.id === item.id;
+            });
+
+            if (!match) {
+              self.$store.state.objects.content.push(content);
+            }
+          });
+
+          _.each(obj.contacts, function(contact) {
+            let match = _.find(self.$store.state.objects.contacts, function(item) {
+              return contact.id === item.id;
+            });
+
+            if (!match) {
+              self.$store.state.objects.contacts.push(contact);
+            }
+          });
+        });
+
         this.$store.state.offset += this.$store.state.pageSize;
-        this.$store.state.eventSearch = eventResult.data.eventSearch;
-        this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+        this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
         this.$store.state.searching = false;
+
+        if (process.browser && history.location.pathname !== '/explore') {
+          console.log('reloading page');
+          history.replace({
+            pathname: 'explore',
+            search: history.location.search
+          });
+
+          window.location.reload();
+        }
       },
 
       compactOverflowFilters: function() {
@@ -588,7 +638,7 @@
 
           maxWidth = MAX_FILTER_WIDTH_FRACTION * $('#search-bar').width();
           width = 0;
-          $filters = $('#filters > .filter');
+          $filters = $('#search-bar > #filters > .filter');
 
           $filters.removeClass('hidden');
 

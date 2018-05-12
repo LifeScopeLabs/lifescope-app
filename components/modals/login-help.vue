@@ -17,7 +17,7 @@
                 <p>Any permissions you may or may not grant on that discarded Connection are not carried over to the existing one.</p>
 
                 <h3>Why don't all my Connections appear in the same account?</h3>
-                <p>In order to associate multiple Connections with the same LifeScope account, you must be logged in and then Connect from the /providers page.</p>
+                <p>In order to associate multiple Connections with the same LifeScope account, you must be logged in to LifeScope and then must Connect those providers from the /providers page.</p>
                 <p>If you sign up using one service, log out, then sign up using a different service, we will have ended up creating two separate LifeScope accounts for you.</p>
             </div>
         </div>

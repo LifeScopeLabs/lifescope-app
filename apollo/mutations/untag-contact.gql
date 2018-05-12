@@ -1,0 +1,5 @@
+mutation untagContact($id: String, $tags: [String]) {
+    untagContact (id: $id, tags: $tags) {
+      id
+    }
+}

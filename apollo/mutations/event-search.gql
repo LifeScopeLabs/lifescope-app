@@ -19,6 +19,11 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
         type,
         content,
         contacts,
+        tagMasks {
+          added,
+          removed,
+          source
+        },
         hydratedContent {
             id,
             embed_content,

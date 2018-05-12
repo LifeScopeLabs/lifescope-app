@@ -1,0 +1,5 @@
+mutation tagEvent($id: String, $tags: [String]) {
+    tagEvent (id: $id, tags: $tags) {
+      id
+    }
+}

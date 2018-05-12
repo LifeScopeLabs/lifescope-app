@@ -2,19 +2,34 @@
     <aside v-if="$store.state.pageName === 'providers'" class="filters">
         <div class="scroller">
             <div id="filters">
-                <div class="filter" data-filter="all">All</div>
-                <div class="filter" data-filter=".collaboration">Collaboration</div>
-                <div class="filter" data-filter=".development">Development</div>
-                <div class="filter" data-filter=".finance">Finance</div>
-                <div class="filter" data-filter=".fitness">Fitness</div>
-                <div class="filter" data-filter=".gaming">Gaming</div>
-                <div class="filter" data-filter=".health">Health</div>
-                <div class="filter" data-filter=".media">Media</div>
-                <div class="filter" data-filter=".music">Music</div>
-                <div class="filter" data-filter=".productivity">Productivity</div>
-                <div class="filter" data-filter=".social">Social</div>
-                <div class="filter" data-filter=".video">Video</div>
+                <div v-bind:class="{ active: activeFilter === 'all' }" class="filter" data-filter="all" v-on:click="setActiveFilter('all')">All</div>
+                <div v-bind:class="{ active: activeFilter === 'collaboration' }" class="filter" data-filter=".collaboration" v-on:click="setActiveFilter('collaboration')">Collaboration</div>
+                <div v-bind:class="{ active: activeFilter === 'development' }" class="filter" data-filter=".development" v-on:click="setActiveFilter('development')">Development</div>
+                <div v-bind:class="{ active: activeFilter === 'finance' }" class="filter" data-filter=".finance" v-on:click="setActiveFilter('finance')">Finance</div>
+                <div v-bind:class="{ active: activeFilter === 'fitness' }" class="filter" data-filter=".fitness" v-on:click="setActiveFilter('fitness')">Fitness</div>
+                <div v-bind:class="{ active: activeFilter === 'gaming' }" class="filter" data-filter=".gaming" v-on:click="setActiveFilter('gaming')">Gaming</div>
+                <div v-bind:class="{ active: activeFilter === 'health' }" class="filter" data-filter=".health" v-on:click="setActiveFilter('health')">Health</div>
+                <div v-bind:class="{ active: activeFilter === 'media' }" class="filter" data-filter=".media" v-on:click="setActiveFilter('media')">Media</div>
+                <div v-bind:class="{ active: activeFilter === 'music' }" class="filter" data-filter=".music" v-on:click="setActiveFilter('music')">Music</div>
+                <div v-bind:class="{ active: activeFilter === 'productivity' }" class="filter" data-filter=".productivity" v-on:click="setActiveFilter('productivity')">Productivity</div>
+                <div v-bind:class="{ active: activeFilter === 'social' }" class="filter" data-filter=".social" v-on:click="setActiveFilter('social')">Social</div>
+                <div v-bind:class="{ active: activeFilter === 'video' }" class="filter" data-filter=".video" v-on:click="setActiveFilter('video')">Video</div>
             </div>
         </div>
     </aside>
 </template>
+
+<script>
+  export default {
+    data: function() {
+      return {
+        activeFilter: 'all'
+      }
+    },
+    methods: {
+      setActiveFilter: function(filter) {
+        this.$data.activeFilter = filter;
+      }
+    }
+  }
+</script>

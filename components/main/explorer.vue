@@ -1,24 +1,24 @@
 <template>
   <main v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
-      <div v-if="$store.state.eventSearch.length > 0" class="container">
+      <div v-if="$store.state.objects.events.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
-            <user-event v-for="event in $store.state.eventSearch"v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
+            <user-event v-for="event in $store.state.objects.events"v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
           </div>
 
           <modals-container/>
         </div>
       </div>
 
-      <div v-if="$store.state.eventSearch.length === 0 && $store.state.searching === true" id="waiting">
+      <div v-if="$store.state.objects.events.length === 0 && $store.state.searching === true" id="waiting">
         <div>
           <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
           <div class="text blue">Searching</div>
         </div>
       </div>
 
-      <div v-if="$store.state.eventSearch.length === 0 && $store.state.searching === false" id="no-results">
+      <div v-if="$store.state.objects.events.length === 0 && $store.state.searching === false" id="no-results">
         <div class="prompt">
           <div class="prompt-text">
             <h2>No results found.</h2>
@@ -34,6 +34,7 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
+  import lifescopeObjects from '../../lib/util/lifescope-objects';
   import moment from 'moment';
   import qs from 'qs';
 
@@ -140,6 +141,8 @@
       }, 500),
 
       searchData: async function(init) {
+        let self = this;
+
         if (init === true) {
           this.$store.state.offset = 0;
           this.$store.state.searching = true;
@@ -165,7 +168,9 @@
           let variables = {
             offset: this.$store.state.offset,
             limit: this.$store.state.pageSize,
-            filters: JSON.stringify(assembleFilters(this))
+            filters: JSON.stringify(assembleFilters(this)),
+            sortField: this.$store.state.sortField,
+            sortOrder: this.$store.state.sortOrder,
           };
 
           if (this.$store.state.currentSearch.query != null) {
@@ -177,9 +182,40 @@
             variables: variables
           });
 
+          if (init) {
+            this.$store.state.objects.events = [];
+            this.$store.state.objects.contacts = [];
+            this.$store.state.objects.content = [];
+          }
+
+          _.each(eventResult.data.eventSearch, function(event) {
+            let obj = new lifescopeObjects.Event(event);
+
+            self.$store.state.objects.events.push(obj);
+
+            _.each(obj.content, function(content) {
+              let match = _.find(self.$store.state.objects.content, function(item) {
+                return content.id === item.id;
+              });
+
+              if (!match) {
+                self.$store.state.objects.content.push(content);
+              }
+            });
+
+            _.each(obj.contacts, function(contact) {
+              let match = _.find(self.$store.state.objects.contacts, function(item) {
+                return contact.id === item.id;
+              });
+
+              if (!match) {
+                self.$store.state.objects.contacts.push(contact);
+              }
+            });
+          });
+
           this.$store.state.offset += this.$store.state.pageSize;
-          this.$store.state.eventSearch = init ? eventResult.data.eventSearch : this.$store.state.eventSearch.concat(eventResult.data.eventSearch);
-          this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+          this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
           this.$store.state.searching = false;
         }
       },

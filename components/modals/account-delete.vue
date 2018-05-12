@@ -25,13 +25,13 @@
 
 	export default {
 		methods: {
-            deleteAccount: async function() {
-                await this.$apollo.mutate({
-                    mutation: deleteAccount
-                });
+      deleteAccount: async function() {
+        await this.$apollo.mutate({
+            mutation: deleteAccount
+        });
 
-                window.location = '/';
-            }
+        window.location = '/';
+      }
 		}
 	}
 </script>
