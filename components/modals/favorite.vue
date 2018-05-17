@@ -42,10 +42,13 @@
 </template>
 
 <script>
+  import searchDelete from '../../apollo/mutations/search-delete.gql';
   import searchPatch from '../../apollo/mutations/search-patch.gql';
 
   import ColorPicker from '../color-picker';
   import IconPicker from '../icon-picker';
+
+  const HEX_COLOR_PATTERN = '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$';
 
   export default {
     data: function() {
@@ -57,8 +60,6 @@
     },
     methods: {
       unfavorite: async function() {
-        console.log('Unfavoriting search');
-
         this.$store.state.tempSearch.favorited = false;
 
         await this.$apollo.mutate({
@@ -71,12 +72,24 @@
 
         this.$store.state.currentSearch = this.$store.state.tempSearch;
 
+        if (this.$store.state.searchMany && this.$store.state.searchMany.length > 0) {
+          let self = this;
+
+          let copy = _.cloneDeep(this.$store.state.searchMany);
+
+          let match = _.find(copy, function(item) {
+            return item.id === self.$store.state.currentSearch.id;
+          });
+
+          match.favorited = false;
+
+          this.$store.state.searchMany = copy;
+        }
+
         this.$emit('close');
       },
 
       deleteSearch: async function() {
-        console.log('Deleting search');
-
         await this.$apollo.mutate({
           mutation: searchDelete,
           variables: {
@@ -84,25 +97,56 @@
           }
         });
 
+        if (this.$store.state.searchMany && this.$store.state.searchMany.length > 0) {
+          let self = this;
+
+          let copy = _.cloneDeep(this.$store.state.searchMany);
+
+          _.remove(copy, function(item) {
+            return item.id === self.$store.state.currentSearch.id
+          });
+
+          this.$store.state.searchMany = copy;
+        }
+
+        if (this.$store.state.searchCount && this.$store.state.searchCount > 0) {
+          this.$store.state.searchCount -= 1;
+        }
+
         this.$store.state.currentSearch = {};
 
         this.$emit('close');
       },
 
       saveSearch: async function() {
-        console.log('Saving search');
-
         await this.$apollo.mutate({
           mutation: searchPatch,
           variables: {
             id: this.$store.state.tempSearch.id,
-            icon_color: this.$store.state.tempSearch.icon_color,
+            favorited: true,
+            icon_color: this.$store.state.tempSearch.icon_color.match(HEX_COLOR_PATTERN) ? this.$store.state.tempSearch.icon_color : this.$store.state.currentSearch.icon_color,
             icon: this.$store.state.tempSearch.icon,
             name: this.$store.state.tempSearch.name
           }
         });
 
+        this.$store.state.tempSearch.favorited = true;
+
         this.$store.state.currentSearch = this.$store.state.tempSearch;
+
+        if (this.$store.state.searchMany && this.$store.state.searchMany.length > 0) {
+          let self = this;
+
+          let copy = _.cloneDeep(this.$store.state.searchMany);
+
+          let match = _.find(copy, function(item) {
+            return item.id === self.$store.state.currentSearch.id;
+          });
+
+          _.assign(match, this.$store.state.currentSearch);
+
+          this.$store.state.searchMany = copy;
+        }
 
         this.$emit('close');
       }

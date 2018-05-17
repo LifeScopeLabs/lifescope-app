@@ -1,0 +1,5 @@
+mutation searchDelete($id: String!) {
+    searchDelete(id: $id) {
+        id
+    }
+}

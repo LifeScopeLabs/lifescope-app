@@ -27,7 +27,7 @@ export default {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#2ac1de' },
 
 	modules: ['@nuxtjs/apollo'],
 
@@ -73,6 +73,7 @@ export default {
 			'vue-js-modal',
 			'vue2-filters',
       'vue-bootstrap-datetimepicker',
+      'lifescope-objects'
 		],
 
     plugins: [

@@ -1,0 +1,17 @@
+query searchMany($filter: FilterFindManySearchesInput, $sort: SortFindManySearchesInput, $skip: Int, $limit: Int) {
+    searchMany(filter: $filter, sort: $sort, skip: $skip, limit: $limit) {
+        id,
+        favorited,
+        icon,
+        icon_color,
+        filters {
+            data,
+            name,
+            type
+        },
+        count,
+        last_run,
+        query,
+        name
+    }
+}

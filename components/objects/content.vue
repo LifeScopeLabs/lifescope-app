@@ -10,7 +10,7 @@
 				<i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }}
 			</div>
 
-			<aside class="action-bar">
+			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
 				<span>Tag</span><i class="fa fa-hashtag"></i>
 				<span>Share</span><i class="fa fa-share"></i>
 			</aside>
@@ -44,15 +44,16 @@
 			<!--<div class="expand">More</div>-->
 		</div>
 
-		<div class="tagging">
-			<div class="tags">
-				<span v-for="tag in tags">#{{ tag }}</span>
-			</div>
-		</div>
+		<!--<div class="tagging">-->
+			<!--<div class="tags">-->
+				<!--<span v-for="tag in tags">#{{ tag }}</span>-->
+			<!--</div>-->
+		<!--</div>-->
 	</div>
 </template>
 
 <script>
+  import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
 
 	export default {
@@ -96,9 +97,22 @@
 			getContentTypeIcon: function(type) {
 				return icons('content', type)
 			},
+
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
-			}
+			},
+
+      openActionModal: function(item, type) {
+        this.$modal.show(actionModal, {
+          shareable: false,
+          item: item,
+          taggable: true,
+          type: type
+        }, {
+          height: 'auto',
+          scrollable: true
+        });
+      }
 		},
 		props: [
 			'connection',

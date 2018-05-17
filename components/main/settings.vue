@@ -241,6 +241,8 @@
               return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
             });
           });
+
+          this.$data.connectionMany = connections;
         },
         subscribeToMore: [
           {

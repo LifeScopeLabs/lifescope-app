@@ -1,25 +1,24 @@
 <template>
   <main v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
-      <div v-if="$store.state.eventSearch.length > 0" class="container">
+      <div v-if="$store.state.objects.events.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
-            <user-event v-for="event in $store.state.eventSearch"v-bind:key="event.id" v-bind:event="event" v-bind:view="$data.view" v-on:render-grid-details="renderGridDetailsModal"></user-event>
+            <user-event v-for="event in $store.state.objects.events"v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
           </div>
-
 
           <modals-container/>
         </div>
       </div>
 
-      <div v-if="$store.state.eventSearch.length === 0 && $store.state.searching === true" id="waiting">
+      <div v-if="$store.state.objects.events.length === 0 && $store.state.searching === true" id="waiting">
         <div>
           <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
           <div class="text blue">Searching</div>
         </div>
       </div>
 
-      <div v-if="$store.state.eventSearch.length === 0 && $store.state.searching === false" id="no-results">
+      <div v-if="$store.state.objects.events.length === 0 && $store.state.searching === false" id="no-results">
         <div class="prompt">
           <div class="prompt-text">
             <h2>No results found.</h2>
@@ -33,8 +32,11 @@
 </template>
 
 <script>
+  import History from 'history/createBrowserHistory';
   import _ from 'lodash';
+  import lifescopeObjects from '../../lib/util/lifescope-objects';
   import moment from 'moment';
+  import qs from 'qs';
 
   import eventCount from '../../apollo/queries/event-count.gql';
   import eventMany from '../../apollo/queries/event-many.gql';
@@ -43,15 +45,20 @@
   import searchOne from '../../apollo/queries/search-one.gql';
   import searchUpsert from '../../apollo/mutations/search-upsert.gql';
 
-  import GridDetails from '../modals/grid-details.vue';
+  import Details from '../modals/details.vue';
   import UserEvent from '../objects/event.vue';
 
   import assembleFilters from '../../lib/util/assemble-filters';
 
+  let history;
+
+  if (process.browser) {
+    history = History();
+  }
+
   export default {
     data: function() {
       return {
-        view: 'feed',
         skipEventQuery: true,
         eventCount: null,
         eventMany: null,
@@ -110,12 +117,16 @@
           }
         }
         else {
-          this.$store.state.currentSearch = await this.$apollo.query({
+          let result = await this.$apollo.query({
             query: searchOne,
             variables: {
               id: this.$store.state.currentSearch.id
             }
           });
+
+          let data = result.data.searchOne;
+
+          this.$store.state.currentSearch = data;
         }
       },
 
@@ -130,16 +141,36 @@
       }, 500),
 
       searchData: async function(init) {
+        let self = this;
+
         if (init === true) {
           this.$store.state.offset = 0;
           this.$store.state.searching = true;
+
+          if (process.browser) {
+            let params = qs.parse(history.location.search, {
+              ignoreQueryPrefix: true
+            });
+
+            params.view = this.$store.state.view;
+            params.qid = this.$store.state.currentSearch.id;
+
+            history.push({
+              pathname: history.location.pathname,
+              search: qs.stringify(params, {
+                addQueryPrefix: true
+              })
+            });
+          }
         }
 
         if (this.$store.state.searchEnded !== true) {
           let variables = {
             offset: this.$store.state.offset,
             limit: this.$store.state.pageSize,
-            filters: JSON.stringify(assembleFilters(this))
+            filters: JSON.stringify(assembleFilters(this)),
+            sortField: this.$store.state.sortField,
+            sortOrder: this.$store.state.sortOrder,
           };
 
           if (this.$store.state.currentSearch.query != null) {
@@ -151,16 +182,47 @@
             variables: variables
           });
 
+          if (init) {
+            this.$store.state.objects.events = [];
+            this.$store.state.objects.contacts = [];
+            this.$store.state.objects.content = [];
+          }
+
+          _.each(eventResult.data.eventSearch, function(event) {
+            let obj = new lifescopeObjects.Event(event);
+
+            self.$store.state.objects.events.push(obj);
+
+            _.each(obj.content, function(content) {
+              let match = _.find(self.$store.state.objects.content, function(item) {
+                return content.id === item.id;
+              });
+
+              if (!match) {
+                self.$store.state.objects.content.push(content);
+              }
+            });
+
+            _.each(obj.contacts, function(contact) {
+              let match = _.find(self.$store.state.objects.contacts, function(item) {
+                return contact.id === item.id;
+              });
+
+              if (!match) {
+                self.$store.state.objects.contacts.push(contact);
+              }
+            });
+          });
+
           this.$store.state.offset += this.$store.state.pageSize;
-          this.$store.state.eventSearch = init ? eventResult.data.eventSearch : this.$store.state.eventSearch.concat(eventResult.data.eventSearch);
-          this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+          this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
           this.$store.state.searching = false;
         }
       },
 
-      renderGridDetailsModal: function(event) {
-        if (this.$store.state.view === 'grid') {
-          this.$modal.show(GridDetails, {
+      renderDetailsModal: function(event) {
+        if (this.$store.state.view === 'grid' || this.$store.state.view === 'list') {
+          this.$modal.show(Details, {
             event: event
           }, {
             height: 'auto',
@@ -188,7 +250,10 @@
       }
     },
     mounted: async function() {
-      let params = this.parseParams(window.location.search.slice(1));
+      this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
+      let params = qs.parse(window.location.search, {
+        ignoreQueryPrefix: true
+      });
 
       if (params.view) {
         this.$store.state.view = params.view;
@@ -216,6 +281,8 @@
       });
 
       this.$store.state.currentSearch = upserted.data.searchUpsert;
+      this.$store.state.searchBar.filters = this.$store.state.currentSearch.filters;
+      this.$store.state.searchBar.query = this.$store.state.currentSearch.query;
 
       this.searchData(true);
     }

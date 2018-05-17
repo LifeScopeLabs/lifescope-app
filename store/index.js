@@ -13,6 +13,12 @@ const store = () => new Vuex.Store({
 		menu: {
 			open: false
 		},
+
+    searchBar: {
+		  filters: [],
+      query: null
+    },
+
     currentSearch: {
       id: null,
       count: null,
@@ -23,6 +29,7 @@ const store = () => new Vuex.Store({
       icon_color: null,
       name: null
     },
+
     tempSearch: {
       id: null,
       count: null,
@@ -33,13 +40,28 @@ const store = () => new Vuex.Store({
       icon_color: null,
       name: null
     },
+
+    searchMany: null,
+    searchCount: null,
     pageSize: null,
     pageOffset: null,
     searchEnded: false,
     view: null,
 
-    searching: false,
-    eventSearch: []
+    sortField: 'datetime',
+    sortOrder: 'desc',
+
+    hide_advanced: false,
+    hide_filters: false,
+    hide_favorite_star: false,
+
+    searching: true,
+
+    objects: {
+		  events: [],
+      contacts: [],
+      content: []
+    }
 	},
 
 	getters: {

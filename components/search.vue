@@ -1,10 +1,10 @@
 <template slot="search">
   <div id="search-bar" class="input-group">
-    <div v-if="!hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
+    <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
       <i v-bind:class="$data.editorOpen ? 'fa-caret-up' : 'fa-caret-down'" class="fa"></i>
     </div>
 
-    <div v-if="!hide_advanced && $data.editorOpen" id="filter-controls">
+    <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
       <div id="filter-editor">
         <div id="filter-buttons">
           <div class="control" data-type="who" v-on:click="createBlankFilter('who')">
@@ -229,7 +229,7 @@
       </div>
 
       <div id="filter-list" class="flex-grow">
-        <div class="filter" v-for="filter in $data.filters">
+        <div class="filter" v-for="filter in $store.state.searchBar.filters">
           <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
           <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
           <i class="fa fa-close" v-on:click="deleteFilter(filter)"></i>
@@ -237,30 +237,30 @@
       </div>
     </div>
 
-    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch">
+    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch(true)">
       <div id="search-box" class="text-box">
-        <input id="search-query" type="search" name="search" v-model="query" placeholder="Enter query here" v-on:change="$store.state.currentSearch.query = $data.query"/>
+        <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter query here" v-on:change="updateQuery"/>
       </div>
 
       <input class="hidden" type="submit"/>
     </form>
 
 
-    <div v-if="!hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
-      <div class="filter" v-for="filter in $data.filters">
+    <div v-if="!$store.state.hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
+      <div class="filter" v-for="filter in $store.state.searchBar.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
         <span v-else v-on:click="openAndLoadFilter(filter)">{{ filter.type | capitalize }}</span>
         <i class="fa fa-close" v-on:click="deleteFilter(filter)"></i>
       </div>
     </div>
 
-    <div v-if="!hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
+    <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
 
-    <div v-if="!hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
+    <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
       <i class="fa"></i>
     </div>
 
-    <div id="search-button" v-on:click="performSearch">
+    <div id="search-button" v-on:click="performSearch(true)">
       <i class="fa fa-search"></i>
     </div>
 
@@ -269,6 +269,11 @@
 </template>
 
 <script>
+  import History from 'history/createBrowserHistory';
+  import _ from 'lodash';
+  import lifescopeObjects from '../lib/util/lifescope-objects';
+  import qs from 'qs';
+
   import connectionMany from '../apollo/queries/connection-many.gql';
   import eventSearch from '../apollo/mutations/event-search.gql';
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
@@ -279,6 +284,12 @@
 
   import assembleFilters from '../lib/util/assemble-filters';
   import uuid from '../lib/util/uuid';
+
+  let history;
+
+  if (process.browser) {
+    history = History();
+  }
 
   const MAX_FILTER_WIDTH_FRACTION = 0.3;
 
@@ -291,8 +302,6 @@
           type: null,
           data: {}
         },
-        filters: [],
-        query: '',
         editorOpen: false,
         overflowCount: 0,
         fromConfig: {
@@ -310,17 +319,14 @@
           minDate: false
         },
         connectionMany: [],
-        providerMany: []
+        providerHydratedMany: []
       }
     },
 
     apollo: {
       connectionMany: {
         query: connectionMany,
-        prefetch: true,
-        result({data}) {
-          console.log(data);
-        }
+        prefetch: true
       },
       providerHydratedMany: {
         query: providerHydratedMany,
@@ -330,14 +336,18 @@
 
     methods: {
       showFavoriteModal: function() {
-        console.log(this.$store.state.tempSearch);
-        console.log(this.$store.state.currentSearch);
         this.$store.state.tempSearch = _.clone(this.$store.state.currentSearch);
 
         this.$modal.show(favoriteModal, {}, {
           height: 'auto',
           scrollable: true
         });
+      },
+
+      updateQuery: function() {
+        this.$store.state.currentSearch.query = this.$store.state.searchBar.query;
+
+        this.checkNewSearch();
       },
 
       createBlankFilter: function (type) {
@@ -427,10 +437,10 @@
 
           savedFilter.id = uuid();
 
-          this.$data.filters.push(savedFilter);
+          this.$store.state.searchBar.filters.push(savedFilter);
         }
         else {
-          let existingFilter = _.find(this.$data.filters, function (item) {
+          let existingFilter = _.find(this.$store.state.searchBar.filters, function (item) {
             return filter.id === item.id;
           });
 
@@ -446,7 +456,7 @@
       },
 
       deleteFilter(filter) {
-        this.$data.filters = _.filter(this.$data.filters, function(item) {
+        this.$store.state.searchBar.filters = _.filter(this.$store.state.searchBar.filters, function(item) {
           return filter.id !== item.id;
         });
 
@@ -456,11 +466,11 @@
       },
 
       checkNewSearch: async function (){
-        let filters = _.map(this.$data.filters, function(filter) {
+        let filters = _.map(this.$store.state.searchBar.filters, function(filter) {
           return _.omit(filter, 'id');
         });
 
-        let query = this.$data.query;
+        let query = this.$store.state.searchBar.query;
 
         let result = await this.$apollo.mutate({
           mutation: searchFind,
@@ -474,17 +484,50 @@
 
         if (data && data.id) {
           this.$store.state.currentSearch = data;
-          this.$data.filters = data.filters;
-          this.$data.query = data.query;
+          this.$store.state.searchBar.filters = data.filters;
+          this.$store.state.searchBar.query = data.query;
 
-          _.each(this.$data.filters, function(filter) {
+          _.each(this.$store.state.searchBar.filters, function(filter) {
             filter.id = uuid();
           });
+
+          if (process.browser) {
+            let params = qs.parse(history.location.search, {
+              ignoreQueryPrefix: true
+            });
+
+            params.qid = data.id;
+
+            history.push({
+              pathname: history.location.pathname,
+              search: qs.stringify(params, {
+                addQueryPrefix: true
+              })
+            });
+          }
         }
         else {
           this.$store.state.currentSearch = {
             query: query,
             filters: filters
+          };
+
+          if (process.browser) {
+            let params = qs.parse(history.location.search, {
+              ignoreQueryPrefix: true
+            });
+
+            console.log('params:');
+            console.log(params);
+
+            delete params.qid;
+
+            history.push({
+              pathname: history.location.pathname,
+              search: qs.stringify(params, {
+                addQueryPrefix: true
+              })
+            });
           }
         }
       },
@@ -497,8 +540,15 @@
         this.$data.fromConfig.maxDate = e.date;
       },
 
-      performSearch: async function() {
+      performSearch: async function(init) {
+        let self = this;
         this.closeFilterEditor();
+
+        if (init) {
+          this.$store.state.objects.events = [];
+          this.$store.state.objects.contacts = [];
+          this.$store.state.objects.content = [];
+        }
 
         this.$store.state.searching = true;
         this.$store.state.offset = 0;
@@ -509,7 +559,7 @@
           mutation: searchUpsert,
           variables: {
             filters: JSON.stringify(this.$store.state.currentSearch.filters),
-            query: this.$store.state.currentSearch.query,
+            query: this.$store.state.currentSearch.query
           }
         });
 
@@ -518,26 +568,64 @@
         let variables = {
           offset: this.$store.state.offset,
           limit: this.$store.state.pageSize,
-          filters: JSON.stringify(assembleFilters(this))
+          filters: JSON.stringify(assembleFilters(this)),
+          sortField: this.$store.state.sortField,
+          sortOrder: this.$store.state.sortOrder
         };
 
-        console.log(assembleFilters(this));
         if (this.$store.state.currentSearch.query != null) {
           variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
         }
 
-        console.log(variables);
+        console.log('Sending event search');
+        console.log(new Date());
         let eventResult = await this.$apollo.mutate({
           mutation: eventSearch,
           variables: variables
         });
 
-        console.log(eventResult);
+        console.log('Parsing event search');
+        console.log(new Date());
+
+        _.each(eventResult.data.eventSearch, function(event) {
+          let obj = new lifescopeObjects.Event(event);
+
+          self.$store.state.objects.events.push(obj);
+
+          _.each(obj.content, function(content) {
+            let match = _.find(self.$store.state.objects.content, function(item) {
+              return content.id === item.id;
+            });
+
+            if (!match) {
+              self.$store.state.objects.content.push(content);
+            }
+          });
+
+          _.each(obj.contacts, function(contact) {
+            let match = _.find(self.$store.state.objects.contacts, function(item) {
+              return contact.id === item.id;
+            });
+
+            if (!match) {
+              self.$store.state.objects.contacts.push(contact);
+            }
+          });
+        });
 
         this.$store.state.offset += this.$store.state.pageSize;
-        this.$store.state.eventSearch = eventResult.data.eventSearch;
-        this.$store.state.searchEnded = eventResult.data.eventSearch.length < this.$store.state.pageSize;
+        this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
         this.$store.state.searching = false;
+
+        if (process.browser && history.location.pathname !== '/explore') {
+          console.log('reloading page');
+          history.replace({
+            pathname: 'explore',
+            search: history.location.search
+          });
+
+          window.location.reload();
+        }
       },
 
       compactOverflowFilters: function() {
@@ -550,7 +638,7 @@
 
           maxWidth = MAX_FILTER_WIDTH_FRACTION * $('#search-bar').width();
           width = 0;
-          $filters = $('#filters > .filter');
+          $filters = $('#search-bar > #filters > .filter');
 
           $filters.removeClass('hidden');
 
@@ -576,11 +664,6 @@
           }
         })
       }
-    },
-    props: [
-      'hide_advanced',
-      'hide_filters',
-      'hide_favorite_star'
-    ]
+    }
   }
 </script>
