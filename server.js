@@ -5,6 +5,7 @@ import mongodb from 'mongodb';
 import {Nuxt, Builder} from 'nuxt';
 
 import nuxtConfig from './nuxt.config.js';
+// TODO : import socket.io and easyrtc
 
 const BITSCOOP_API_KEY = config.bitscoop.api_key;
 const MONGODB_URI = config.mongodb.address;
@@ -24,6 +25,9 @@ const builder = new Builder(nuxt);
 const bitscoop = new BitScoop(BITSCOOP_API_KEY, {
   allowUnauthorized: true
 });
+
+// TODO :  start socket.io and easyrtc
+// TODO : get ICE, STUN, and TURN config from config file
 
 Promise.resolve()
   .then(async function() {

@@ -1,10 +1,14 @@
 <template>
-  <main v-on:scroll="handleScroll">
+  <main v-if="$store.state.view === 'xr'">
+    <!-- <TestAFRAME/> -->
+    <xrApp/>
+    </main> 
+  <main v-else v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
       <div v-if="$store.state.objects.events.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
-            <user-event v-for="event in $store.state.objects.events"v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
+            <user-event v-for="event in $store.state.objects.events" v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
           </div>
 
           <modals-container/>
@@ -34,7 +38,6 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
-  import lifescopeObjects from '../../lib/util/lifescope-objects';
   import moment from 'moment';
   import qs from 'qs';
 
@@ -49,6 +52,9 @@
   import UserEvent from '../objects/event.vue';
 
   import assembleFilters from '../../lib/util/assemble-filters';
+
+  import TestAFRAME from '../xr/test-aframe.vue';
+  import xrApp from '../xr/src/App.vue'
 
   let history;
 
@@ -66,7 +72,9 @@
       };
     },
     components: {
-      UserEvent
+      UserEvent,
+      TestAFRAME,
+      xrApp
     },
     methods: {
       searchIcon: function(search) {

@@ -18,6 +18,7 @@
 							<a data-view="feed"><i class="fa fa-clone"></i><span>Feed</span></a>
 							<a data-view="grid"><i class="fa fa-th"></i><span>Grid</span></a>
 							<a data-view="list"><i class="fa fa-list"></i><span>List</span></a>
+							<a data-view="xr"><i class="fa fa-cubes"></i><span>XR</span></a>
 						</div>
 					</div>
 

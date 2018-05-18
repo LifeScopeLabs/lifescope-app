@@ -271,7 +271,6 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
-  import lifescopeObjects from '../lib/util/lifescope-objects';
   import qs from 'qs';
 
   import connectionMany from '../apollo/queries/connection-many.gql';

@@ -37,6 +37,9 @@ This is a conversational interface of LifeScope data as Vue Plugins.
 # install dependencies
 $ yarn install
 
+# start nginx
+sudo nginx -c ./nginx.conf
+
 # serve with hot reload at localhost:3000
 $ yarn run dev
 
