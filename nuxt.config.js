@@ -88,7 +88,8 @@ module.exports = {
 			'vue2-filters',
       'vue-bootstrap-datetimepicker',
       'aframe',
-      'aframe-layout-component'
+      'aframe-layout-component',
+      'lifescope-objects'
 		],
 
     plugins: [
