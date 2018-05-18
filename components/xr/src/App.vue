@@ -35,7 +35,7 @@
         </a-entity> -->
 
     <!-- gallery -->
-    <gallery :LSObjs='LSObjs'/>
+    <gallery/>
 
     <!-- Sky   change id to class?-->
     <a-sky id="Sky" src="#sky" rotation="90 0 90">
@@ -72,7 +72,7 @@ export default {
     created () {
       console.log("created");
       //debugger;
-      console.log(this.$store.state.objects);
+      //console.log(this.$store.state.objects);
     },
 
     beforeMount () {
@@ -105,7 +105,7 @@ export default {
         return axios.get("/test/content.json")
         .then((res) => {
           var result = [];
-          console.log(res.data);
+          //console.log(res.data);
           var someData = res.data.forEach(element => {
           //var item = new context.store.state.LSObjs.Content(element);
           result.push(element);
