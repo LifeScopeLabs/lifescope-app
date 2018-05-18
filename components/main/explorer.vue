@@ -37,6 +37,7 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
+  import lifescopeObjects from '../../lib/util/lifescope-objects';
   import moment from 'moment';
   import qs from 'qs';
 
@@ -55,7 +56,6 @@
   import xrApp from '../xr/src/App.vue';
 
   // import lifescopeObjects from 'lifescope-objects';
-  import lifescopeObjects from '../../lib/util/lifescope-objects';
 
   let history;
 

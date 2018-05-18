@@ -34,7 +34,7 @@
       </a-entity>
 
       <!-- Carousel -->
-      <gallery-carousel v-bind:LSObjs='LSObjs'/>
+      <gallery-carousel v-if="$store.state.objects.content.length > 0"/>
       
       <!-- Earth -->
       <a-sphere id="Earth" position="0 1.2 -4" radius=".99" 
@@ -69,9 +69,6 @@ export default {
         galleryCarousel
     },
 
-    props: ['LSObjs'],
-    
-    
     // Lifecycle hooks
     // https://vuejs.org/v2/api/#Options-Lifecycle-Hooks
     beforeCreate () {
@@ -88,7 +85,6 @@ export default {
     mounted () {
         // el is replaced by the newly created vm.$el
         console.log("mounted");
-        console.log("gallery.vue :" + this.LSObjs);
 
         this.$nextTick(function () {
             // Code that will run only after the
