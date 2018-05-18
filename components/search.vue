@@ -284,6 +284,10 @@
   import assembleFilters from '../lib/util/assemble-filters';
   import uuid from '../lib/util/uuid';
 
+  // import lifescopeObjects from 'lifescope-objects';
+  import lifescopeObjects from '../lib/util/lifescope-objects';
+
+
   let history;
 
   if (process.browser) {

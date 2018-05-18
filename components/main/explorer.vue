@@ -1,8 +1,7 @@
 <template>
   <main v-if="$store.state.view === 'xr'">
-    <!-- <TestAFRAME/> -->
     <xrApp/>
-    </main> 
+  </main> 
   <main v-else v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
       <div v-if="$store.state.objects.events.length > 0" class="container">
@@ -53,8 +52,10 @@
 
   import assembleFilters from '../../lib/util/assemble-filters';
 
-  import TestAFRAME from '../xr/test-aframe.vue';
-  import xrApp from '../xr/src/App.vue'
+  import xrApp from '../xr/src/App.vue';
+
+  // import lifescopeObjects from 'lifescope-objects';
+  import lifescopeObjects from '../../lib/util/lifescope-objects';
 
   let history;
 
@@ -73,7 +74,6 @@
     },
     components: {
       UserEvent,
-      TestAFRAME,
       xrApp
     },
     methods: {

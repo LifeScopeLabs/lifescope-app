@@ -59,7 +59,8 @@ export default {
     },
     data() {
       return {
-        LSObjs: []
+        LSObjs: [],
+        searchData: []
       }
     },
 
@@ -71,6 +72,7 @@ export default {
     created () {
       console.log("created");
       //debugger;
+      console.log(this.$store.state.objects);
     },
 
     beforeMount () {

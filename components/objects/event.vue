@@ -88,7 +88,7 @@
     </div>
   </div>
 
-  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event)">
+  <div v-else-if="$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event)">
     <div>
       <span v-if="event.content && event.content.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
     </div>
