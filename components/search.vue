@@ -269,7 +269,6 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
-  import lifescopeObjects from '../lib/util/lifescope-objects';
   import qs from 'qs';
 
   import contactSearch from '../apollo/mutations/contact-search.gql';

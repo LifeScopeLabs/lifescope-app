@@ -74,10 +74,13 @@
   "dependencies": {
     "@nuxtjs/apollo": "^3.0.5",
     "@nuxtjs/google-analytics": "^2.0.2",
+    "aframe": "^0.8.2",
+    "aframe-layout-component": "^4.3.1",
     "apollo-cache-inmemory": "^1.1.11",
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.3",
     "apollo-link-ws": "^1.0.8",
+    "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

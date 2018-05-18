@@ -1,5 +1,9 @@
 <template>
-  <main v-on:scroll="handleScroll">
+  <main v-if="$store.state.view === 'xr'">
+    <!-- <TestAFRAME/> -->
+    <xrApp/>
+    </main>
+  <main v-else v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
       <div v-if="$store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0" class="container">
         <div class="scroller">
@@ -46,6 +50,9 @@
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
 
+  import TestAFRAME from '../xr/test-aframe.vue';
+  import xrApp from '../xr/src/App.vue'
+
   export default {
     data: function() {
       return {
@@ -56,7 +63,9 @@
     components: {
       UserContact,
       UserContent,
-      UserEvent
+      UserEvent,
+      TestAFRAME,
+      xrApp
     },
     methods: {
       searchIcon: function(search) {

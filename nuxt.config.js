@@ -86,7 +86,9 @@ module.exports = {
 			'mixitup',
 			'vue-js-modal',
 			'vue2-filters',
-      'vue-bootstrap-datetimepicker'
+      'vue-bootstrap-datetimepicker',
+      'aframe',
+      'aframe-layout-component'
 		],
 
     plugins: [
