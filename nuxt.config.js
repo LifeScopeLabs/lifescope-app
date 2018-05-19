@@ -60,6 +60,10 @@ module.exports = {
 				tls: 'empty'
       };
 
+      // config.module.rules.push({
+      //       exclude: /(node_modules)/
+      // });
+
       // /*
       // ** Run ESLint on save
       // */
@@ -88,7 +92,8 @@ module.exports = {
 			'vue2-filters',
       'vue-bootstrap-datetimepicker',
       'aframe',
-      'aframe-layout-component'
+      'aframe-layout-component',
+      'networked-aframe'
 		],
 
     plugins: [
@@ -96,7 +101,10 @@ module.exports = {
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         $: 'jquery',
-        moment: 'moment',
+        moment: 'moment'//,
+        // 'socket.io': 'socket.io',
+        // easyrtc: 'easyrtc',
+        // 'window.easyrtc': 'easyrtc'
       }),
     ]
 	},

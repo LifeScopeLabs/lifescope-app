@@ -1,5 +1,9 @@
 <template>
-  <a-scene embedded>
+  <a-scene embedded networked-scene="
+      app: myApp;
+      room: room1;
+      debug: true;
+    ">
 
     <!-- Load assets -->
     <a-assets class="assets-sky">
@@ -50,7 +54,9 @@ import axios from 'axios';
 import gallery from "./components/gallery.vue";
 import imageLoader from "./components/util/image-loader.vue";
 
-   
+// import easyrtc from 'easyrtc';
+// import socketIO from 'socket.io';
+
 console.log("from App.vue <script>")
 export default {
     components: {
