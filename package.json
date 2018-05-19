@@ -69,6 +69,7 @@
     "mongodb": "^3.0.7",
     "mongoose": "^5.0.11",
     "mongoose-uuid2": "^2.1.0",
+    "networked-aframe": "https://github.com/LifeScopeLabs/networked-aframe#master",
     "node-uuid": "^1.4.8",
     "nuxt": "^1.4.0",
     "qs": "^6.5.2",

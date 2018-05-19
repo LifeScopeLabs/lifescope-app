@@ -42,8 +42,7 @@ export default {
         carouselItem
     },
     mounted () {
-        console.log(this.$store.state.objects.content);
-        debugger;
+        //debugger;
     }
   }
 </script>

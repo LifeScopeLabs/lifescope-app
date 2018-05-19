@@ -54,6 +54,10 @@ export default {
 				tls: 'empty'
       };
 
+      // config.module.rules.push({
+      //       exclude: /(node_modules)/
+      // });
+
       // /*
       // ** Run ESLint on save
       // */
@@ -74,7 +78,8 @@ export default {
 			'vue2-filters',
       'vue-bootstrap-datetimepicker',
       'aframe',
-      'aframe-layout-component'
+      'aframe-layout-component',
+      'networked-aframe'
 		],
 
     plugins: [
@@ -82,7 +87,10 @@ export default {
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         $: 'jquery',
-        moment: 'moment',
+        moment: 'moment'//,
+        // 'socket.io': 'socket.io',
+        // easyrtc: 'easyrtc',
+        // 'window.easyrtc': 'easyrtc'
       }),
     ]
 	},
