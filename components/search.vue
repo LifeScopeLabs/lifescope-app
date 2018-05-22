@@ -517,9 +517,6 @@
               ignoreQueryPrefix: true
             });
 
-            console.log('params:');
-            console.log(params);
-
             delete params.qid;
 
             history.push({
@@ -577,15 +574,10 @@
           variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
         }
 
-        console.log('Sending event search');
-        console.log(new Date());
         let eventResult = await this.$apollo.mutate({
           mutation: eventSearch,
           variables: variables
         });
-
-        console.log('Parsing event search');
-        console.log(new Date());
 
         _.each(eventResult.data.eventSearch, function(event) {
           let obj = new lifescopeObjects.Event(event);
@@ -618,7 +610,6 @@
         this.$store.state.searching = false;
 
         if (process.browser && history.location.pathname !== '/explore') {
-          console.log('reloading page');
           history.replace({
             pathname: 'explore',
             search: history.location.search

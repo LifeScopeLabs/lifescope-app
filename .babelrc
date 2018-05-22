@@ -1,15 +1,19 @@
 {
   "plugins": [
+    "transform-runtime",
     "transform-object-rest-spread",
     "transform-flow-strip-types"
   ],
   "presets": [
     [
-      "env", {
-      "targets": {
-        "node": 6
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions"
+          ]
+        }
       }
-    }
     ]
   ]
 }
