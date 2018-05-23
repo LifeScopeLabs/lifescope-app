@@ -16,6 +16,7 @@
     "build": "nuxt build && backpack build",
     "seed": "./node_modules/.bin/babel-node ./scripts/seed.js",
     "start": "cross-env NODE_ENV=production node build/main.js",
+    "start-dev": "cross-env NODE_ENV=local node build/main.js",
     "start-seed": "npm run seed && babel-node server.js",
     "debug": "babel-node server.js --inspect-brk=localhost:3333",
     "start:watch": "nodemon server.js -e js --exec babel-node",

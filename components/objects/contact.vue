@@ -2,7 +2,7 @@
 	<div class="object contact" v-model="contact" v-bind:id="contact.id">
 		<div>
 			<div class="user-avatar">
-				<img v-if="contact.avatar_url" class="avatar" v-bind:src="avatar_url" />
+				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url" />
 
 				<i v-else class="fa fa-user"></i>
 			</div>

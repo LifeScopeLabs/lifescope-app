@@ -16,9 +16,15 @@
 			</aside>
 		</div>
 
-		<div class="content-embed" data-type="content" v-bind:data-id="content.id"></div>
+		<div class="content-embed" data-type="content" v-bind:data-id="content.id">
+      <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
+      <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
+      <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
+      <iframe v-if="isEmail(content)" src="" frameBorder="0" width="getWidth" height="getHeight"></iframe>
+      <div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div>
+    </div>
 
-		<div v-if="content.embed_thumbnail" class="thumbnail">
+		<div v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail">
 			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
 
 			<a v-else v-bind:href="content.url" target="_blank">
@@ -53,8 +59,27 @@
 </template>
 
 <script>
+  import $ from 'jquery';
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
+
+  const DEFAULT_EMBED_WIDTH = '100%';
+  const DEFAULT_DESKTOP_EMBED_WIDTH = 600; //px
+  const DEFAULT_EMBED_HEIGHT = 500;  //px
+
+  const audioTypes = ['mp3', 'ogga', 'wav'];
+  const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
+  const videoTypes = ['mp4', 'oggv', 'webm'];
+  // const iframeTypes = ['email', 'iframe', 'link'];
+
+  function isMobile() {
+    if (window.matchMedia) {
+      return window.matchMedia('(max-device-width: 1080px) and (min-device-pixel-ratio: 1.5)').matches;
+    }
+    else {
+      return false;
+    }
+  }
 
 	export default {
 		data: function() {
@@ -112,6 +137,92 @@
           height: 'auto',
           scrollable: true
         });
+      },
+
+      isAudio: function(item) {
+			  return audioTypes.indexOf(item.embed_format.toLowerCase()) > -1;
+      },
+
+      isEmail: function(item) {
+			  return item.embed_format.toLowerCase() === 'email';
+      },
+
+      isIframe: function(item) {
+			  return item.embed_format.toLowerCase() === 'iframe';
+      },
+
+      isImage: function(item) {
+			  return imageTypes.indexOf(item.embed_format.toLowerCase()) > -1;
+      },
+
+      isVideo: function(item) {
+			  return videoTypes.indexOf(item.embed_format.toLowerCase()) > -1;
+      },
+
+      getHeight: function() {
+			  return DEFAULT_EMBED_WIDTH;
+      },
+
+      getWidth: function() {
+        return isMobile() ? DEFAULT_EMBED_WIDTH : DEFAULT_DESKTOP_EMBED_WIDTH;
+      },
+
+      getAudioType: function(format) {
+			  switch(format) {
+          case 'mp3':
+            return 'audio/mp3';
+
+            break;
+
+          case 'ogga':
+            return 'audio/audio';
+
+            break;
+
+          case 'wav':
+            return 'audio/wav';
+
+            break;
+
+          default:
+            return 'audio/audio';
+        }
+      },
+
+      getVideoType: function(format) {
+        switch(format) {
+          case 'mp4':
+            return 'video/mp4';
+
+            break;
+
+          case 'oggv':
+            return 'video/ogg';
+
+            break;
+
+          case 'webm':
+            return 'video/webm';
+
+            break;
+
+          default:
+            return 'video/video';
+        }
+      },
+
+      renderIframe(content) {
+        let $iframe = $(content);
+
+        if (!isMobile() && $iframe.width() > DEFAULT_DESKTOP_EMBED_WIDTH) {
+          let scaleRatio = $iframe.height() / $iframe.width();
+          $iframe.attr('width', width);
+          $iframe.attr('height', $iframe.width() * scaleRatio);
+        }
+
+        console.log($iframe);
+        console.log($iframe.text());
+        return $iframe.html();
       }
 		},
 		props: [
