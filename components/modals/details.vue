@@ -11,29 +11,29 @@
 					{{ event.type }}
 				</span>
 
-        <aside class="action-bar">
+        <aside class="action-bar" v-on:click="openActionModal(event, 'event')">
           <span>Tag</span><i class="fa fa-hashtag"></i>
         </aside>
       </div>
 
       <div class="provider">
-        <i v-bind:class="getProviderIcon(event.hydratedConnection.provider)"></i>
-        <span>{{ event.hydratedConnection.name | truncate(30) }}</span>
+        <i v-bind:class="getProviderIcon(event.connection.provider)"></i>
+        <span>{{ event.connection.name | truncate(30) }}</span>
       </div>
 
-      <div v-if="event.date" class="date">
+      <div v-if="event.datetime" class="date">
         <div>
           <div>
-            <i class="fa fa-calendar"></i> <span>{{ event.date | dateFilter }}</span>
+            <i class="fa fa-calendar"></i> <span>{{ event.datetime | dateFilter }}</span>
           </div>
 
 
-          <div v-if="!event.date" class="estimation">
+          <div v-if="!event.datetime" class="estimation">
             <i class="fa fa-flask"></i> <span>Estimated</span>
           </div>
 
           <div v-else>
-            <i class="fa fa-clock-o"></i> <span>{{ event.date | timeFilter }}</span>
+            <i class="fa fa-clock-o"></i> <span>{{ event.datetime | timeFilter }}</span>
           </div>
         </div>
       </div>
@@ -46,13 +46,13 @@
     </aside>
 
     <section v-if="event.content && event.content.length > 0" class="content">
-      <user-content v-for="content in event.hydratedContent" v-bind:key="content.id" v-bind:content="content" v-bind:connection="event.hydratedConnection"></user-content>
+      <user-content v-for="content in event.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="event.connection"></user-content>
     </section>
 
     <aside v-if="(event.contacts && event.contacts.length > 0) || (event.people && event.people.length > 0) || (event.organizations && event.organizations.length > 0)" class="interactions">
       <div v-if="event.contact_interaction_type">{{ event.content_interaction_type }}</div>
       <div class="objects">
-        <user-contact v-for="contact in event.hydratedContacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="event.hydratedConnection"></user-contact>
+        <user-contact v-for="contact in event.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="event.connection"></user-contact>
       </div>
       <div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>
     </aside>
@@ -62,6 +62,7 @@
 <script>
   import moment from 'moment';
 
+  import actionModal from '../modals/action-modal';
   import icons from '../../lib/util/icons';
   import safeFilter from '../filters/safe';
   import UserContact from '../objects/contact';
@@ -124,6 +125,18 @@
 
       getProviderIcon: function(provider) {
         return icons('provider', provider.name);
+      },
+
+      openActionModal: function(item, type) {
+        this.$modal.show(actionModal, {
+          shareable: false,
+          item: item,
+          taggable: true,
+          type: type
+        }, {
+          height: 'auto',
+          scrollable: true
+        });
       }
     }
   }

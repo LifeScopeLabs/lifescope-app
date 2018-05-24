@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import 'idempotent-babel-polyfill';
 import BitScoop from 'bitscoop-sdk';
 import config from 'config';
 import express from 'express';

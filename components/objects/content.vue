@@ -20,7 +20,7 @@
       <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
       <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
       <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
-      <iframe v-if="isEmail(content)" src="" frameBorder="0" width="getWidth" height="getHeight"></iframe>
+      <iframe v-if="isEmail(content)" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
       <div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div>
     </div>
 
@@ -60,6 +60,7 @@
 
 <script>
   import $ from 'jquery';
+  import _ from 'lodash';
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
 
@@ -160,7 +161,7 @@
       },
 
       getHeight: function() {
-			  return DEFAULT_EMBED_WIDTH;
+			  return DEFAULT_EMBED_HEIGHT;
       },
 
       getWidth: function() {
@@ -220,9 +221,16 @@
           $iframe.attr('height', $iframe.width() * scaleRatio);
         }
 
-        console.log($iframe);
-        console.log($iframe.text());
         return $iframe.html();
+      },
+
+      renderEmailIframe(content) {
+			  let $iframe = $('iframe[name="' + content.id + '"]');
+
+			  let iframe = $iframe.get(0);
+			  if (iframe.contentDocument) {
+			    iframe.contentDocument.body.innerHTML = content.embed_content;
+        }
       }
 		},
 		props: [

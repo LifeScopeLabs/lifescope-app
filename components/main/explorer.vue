@@ -135,7 +135,7 @@
 
         let scrollBottom = target.scrollTop + target.clientHeight;
 
-        if (scrollBottom > 0.9 * target.scrollHeight) {
+        if (scrollBottom > 0.9 * target.scrollHeight && this.$store.state.searching !== true) {
           await this.searchData(false);
         }
       }, 500),
@@ -143,9 +143,10 @@
       searchData: async function(init) {
         let self = this;
 
+        this.$store.state.searching = true;
+
         if (init === true) {
           this.$store.state.offset = 0;
-          this.$store.state.searching = true;
 
           if (process.browser) {
             let params = qs.parse(history.location.search, {

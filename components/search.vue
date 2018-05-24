@@ -28,7 +28,7 @@
           </div>
         </div>
 
-        <div id="filter-values">
+        <div id="filter-values" v-bind:class="$data.activeFilter.type">
           <div id="filter-name" v-if="$data.activeFilter.type != null">
             <div class="text-box">
               <input type="text" name="name" v-model="activeFilter.name" placeholder="Name this filter"/>
@@ -237,7 +237,7 @@
       </div>
     </div>
 
-    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="performSearch(true)">
+    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="checkNewSearch">
       <div id="search-box" class="text-box">
         <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter query here" v-on:change="updateQuery"/>
       </div>
@@ -527,6 +527,15 @@
             });
           }
         }
+
+        if (process.browser && history.location.pathname !== '/explore') {
+          history.replace({
+            pathname: 'explore',
+            search: history.location.search
+          });
+
+          window.location.reload();
+        }
       },
 
       updateFrom: function(e) {
@@ -608,15 +617,6 @@
         this.$store.state.offset += this.$store.state.pageSize;
         this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
         this.$store.state.searching = false;
-
-        if (process.browser && history.location.pathname !== '/explore') {
-          history.replace({
-            pathname: 'explore',
-            search: history.location.search
-          });
-
-          window.location.reload();
-        }
       },
 
       compactOverflowFilters: function() {

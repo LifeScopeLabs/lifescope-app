@@ -62,9 +62,7 @@
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
-    <div v-else>
-      <i v-bind:class="getEventTypeIcon(event.type)" class="type-icon large-grid-icon"></i>
-    </div>
+    <i v-else v-bind:class="getEventTypeIcon(event.type)" class="type-icon large-grid-icon"></i>
 
     <div class="title-bar">
       <i v-bind:class="getEventTypeIcon(event.type)" class="bubble"></i>
@@ -103,12 +101,12 @@
       <span class="mobile-hide">{{ event.connection.provider.name }}</span>
     </div>
 
-    <div class="mobile-hide">
-      <span v-if="event.contacts && event.contacts.length > 0">{{ getFirstContact(event) | truncate(30) }}</span>
+    <div v-if="event.contacts && event.contacts.length > 0" class="mobile-hide">
+      <span>{{ getFirstContact(event) | truncate(30) }}</span>
     </div>
 
-    <div>
-      <span v-if="event.date">{{ event.date | tinyDate }}</span>
+    <div v-if="event.datetime">
+      <span>{{ event.datetime | dateTiny }}</span>
     </div>
   </div>
 </template>
@@ -193,7 +191,7 @@
 			  let hasThumbnail = false;
 
         _.each(this.$props.event.content, function(item) {
-          if (item.embed_thumbnail) {
+          if (item.embed_thumbnail && item.embed_thumbnail.length > 0) {
             hasThumbnail = true;
           }
         });
@@ -226,7 +224,7 @@
           return item.title != null;
         });
 
-        return firstMatch.title.length > 40 ? firstMatch.title.slice(0, 40) + '...' : firstMatch.title;
+        return firstMatch.title.length > 30 ? firstMatch.title.slice(0, 30) + '...' : firstMatch.title;
       },
 
       openActionModal: function(item, type) {
