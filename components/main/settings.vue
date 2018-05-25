@@ -18,6 +18,26 @@
       <section class="flexbox flex-column flex-grow">
         <section id="account" v-if="$store.state.mode === 'account'">
           <div class="boxed-group">
+            <div class="title">API Key</div>
+
+            <div class="padded paragraphed">
+              <p>
+                If you want to get hands-on with the LifeScope GraphQL API, you can use your API key to sign requests to the API.
+                The LifeScope GraphQL API can be found at https://api.lifescope.io/gql, and API key signing is performed by sending the header 'Authorization' with the value 'Bearer: &lt;your_api_key&gt;'.
+              </p>
+
+              <div class="flexbox">
+                <p style="margin-right:0.5em;">Your API key is:</p>
+                <span>{{ $data.userOne.api_key_string }}</span>
+              </div>
+
+              <div>
+                <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New API Key</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="boxed-group">
             <div class="title">Delete Account</div>
 
             <div class="padded paragraphed">
@@ -134,7 +154,9 @@
   import deleteAccountModal from '../modals/account-delete';
   import deleteConnectionModal from '../modals/connection-delete';
   import disableConnectionModal from '../modals/connection-disable';
-  import patchConnection from '../../apollo/mutations/patch-connection.gql'
+  import patchConnection from '../../apollo/mutations/patch-connection.gql';
+  import userApiKey from '../../apollo/queries/user-api-key.gql';
+  import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
 
   function isBefore(value) {
     let now = moment();
@@ -156,6 +178,7 @@
       return {
         activeConnection: null,
         connectionMany: null,
+        userOne: {},
         permissions: {}
       }
     },
@@ -163,12 +186,15 @@
       getIcon: function (name) {
         return 'fa fa-' + name.toLowerCase() + ' fa-2x';
       },
+
       getUpdated: function (lastRun) {
         return (isBefore(lastRun) ? 'Updated ' : 'Updating ') + relativeTime(lastRun);
       },
+
       toggleActive: function (id) {
         this.$data.activeConnection = (this.$data.activeConnection === id) ? null : id;
       },
+
       showDisableModal: function (connection) {
         this.$modal.show(disableConnectionModal, {
           connection: connection
@@ -178,12 +204,14 @@
           scrollable: true
         });
       },
+
       showAccountDeleteModal: function () {
         this.$modal.show(deleteAccountModal, {}, {
           height: 'auto',
           scrollable: true
         })
       },
+
       showConnectionDeleteModal: function (connection) {
         this.$modal.show(deleteConnectionModal, {
           connection: connection
@@ -192,6 +220,7 @@
           scrollable: true
         });
       },
+
       enableConnection: async function (connection) {
         await this.$apollo.mutate({
           mutation: patchConnection,
@@ -201,9 +230,11 @@
           }
         });
       },
+
       getConnectionReauthorization: async function (connection) {
         window.location.href = connection.auth.redirectUrl;
       },
+
       updatePermissions: _.debounce(async function (connection) {
         let sources = connection.provider.sources;
 
@@ -226,9 +257,25 @@
             permissions: permissions
           }
         });
-      }, 1000)
+      }, 1000),
+
+      generateApiKey: async function() {
+        let response = await this.$apollo.mutate({
+          mutation: userApiKeyUpdate
+        });
+
+        this.$data.userOne = response.data.userApiKeyUpdate;
+      }
     },
     apollo: {
+      userOne: {
+        query: userApiKey,
+        prefetch: true,
+        result({ data }) {
+          this.$data.userOne = data.userOne;
+        }
+      },
+
       connectionMany: {
         query: connectionMany,
         prefetch: true,
