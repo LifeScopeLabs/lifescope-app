@@ -317,20 +317,24 @@
           showClear: true,
           showClose: true,
           minDate: false
-        },
-        connectionMany: [],
-        providerHydratedMany: []
+        }
       }
     },
 
     apollo: {
       connectionMany: {
         query: connectionMany,
-        prefetch: true
+        prefetch: true,
+        result({ data }) {
+          this.$store.state.connectionMany = data.connectionMany;
+        }
       },
       providerHydratedMany: {
         query: providerHydratedMany,
-        prefetch: true
+        prefetch: true,
+        result({ data }) {
+          this.$store.state.providerHydratedMany = data.providerHydratedMany;
+        }
       }
     },
 
@@ -588,7 +592,13 @@
           variables: variables
         });
 
+        console.log(eventResult.data.eventSearch);
+
         _.each(eventResult.data.eventSearch, function(event) {
+          event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+            return connection.id === event.connection_id_string;
+          });
+
           let obj = new lifescopeObjects.Event(event);
 
           self.$store.state.objects.events.push(obj);

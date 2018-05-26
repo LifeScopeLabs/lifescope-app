@@ -61,7 +61,10 @@ const store = () => new Vuex.Store({
 		  events: [],
       contacts: [],
       content: []
-    }
+    },
+
+    connectionMany: [],
+    providerHydratedMany: []
 	},
 
 	getters: {

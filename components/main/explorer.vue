@@ -190,6 +190,10 @@
           }
 
           _.each(eventResult.data.eventSearch, function(event) {
+            event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+              return connection.id === event.connection_id_string;
+            });
+
             let obj = new lifescopeObjects.Event(event);
 
             self.$store.state.objects.events.push(obj);
