@@ -23,9 +23,9 @@
             <i class="fa fa-plug"></i>
           </div>
 
-          <div class="control" data-type="where" v-on:click="createBlankFilter('where')">
-            <i class="fa fa-globe"></i>
-          </div>
+          <!--<div class="control" data-type="where" v-on:click="createBlankFilter('where')">-->
+            <!--<i class="fa fa-globe"></i>-->
+          <!--</div>-->
         </div>
 
         <div id="filter-values" v-bind:class="$data.activeFilter.type">

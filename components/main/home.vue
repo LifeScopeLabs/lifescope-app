@@ -264,7 +264,7 @@
       this.$data.offset = 0;
       this.$data.tab = 'favorites';
       this.$data.type = 'searches';
-      this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = true;
+      this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
       await this.fetchData(true, this.$data.tab);
     }
