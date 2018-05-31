@@ -123,9 +123,7 @@
     },
     methods: {
       fetchData: async function(init, tab) {
-        console.log(this.$data.type);
         this.$data.type = tab === 'tags' ? 'tags' : 'searches';
-        console.log(this.$data.type);
         this.$data.tab = tab;
 
         if (init === true) {
@@ -158,13 +156,7 @@
 
           let storeName = tab === 'tags' ? 'tagMany' : 'searchMany';
 
-          console.log(data);
-          console.log(storeName);
-          console.log(init);
-
           this.$store.state[storeName] = init ? data : this.$store.state[storeName].concat(data);
-
-          console.log(this.$store.state[storeName]);
 
           this.$data.dataEnd = data.length < this.$data.pageSize;
           this.$data.offset += this.$data.pageSize;

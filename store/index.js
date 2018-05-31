@@ -56,7 +56,7 @@ const store = () => new Vuex.Store({
     hide_filters: false,
     hide_favorite_star: false,
 
-    searching: true,
+    searching: false,
 
     objects: {
 		  events: [],

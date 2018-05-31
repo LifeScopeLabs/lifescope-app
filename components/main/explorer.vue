@@ -103,8 +103,6 @@
       },
 
       loadSearch: async function() {
-        console.log(this.$store.state.currentSearch.id);
-
         if (this.$store.state.currentSearch.id == null) {
           let result = await this.$apollo.mutate({
             mutation: searchFind,
@@ -128,8 +126,6 @@
 
           this.$store.state.currentSearch = this.$store.state.searchBar = _.clone(result.data.searchOne);
         }
-
-        console.log(this.$store.state.searchBar);
       },
 
       handleScroll: _.debounce(async function(e) {
