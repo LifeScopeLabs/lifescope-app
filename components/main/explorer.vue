@@ -103,6 +103,8 @@
       },
 
       loadSearch: async function() {
+        console.log(this.$store.state.currentSearch.id);
+
         if (this.$store.state.currentSearch.id == null) {
           let result = await this.$apollo.mutate({
             mutation: searchFind,
@@ -113,7 +115,7 @@
           });
 
           if (result && result.id) {
-            this.$store.state.currentSearch = result;
+            this.$store.state.currentSearch = this.$store.state.searchBar = _.clone(result);
           }
         }
         else {
@@ -124,10 +126,10 @@
             }
           });
 
-          let data = result.data.searchOne;
-
-          this.$store.state.currentSearch = data;
+          this.$store.state.currentSearch = this.$store.state.searchBar = _.clone(result.data.searchOne);
         }
+
+        console.log(this.$store.state.searchBar);
       },
 
       handleScroll: _.debounce(async function(e) {
@@ -136,94 +138,9 @@
         let scrollBottom = target.scrollTop + target.clientHeight;
 
         if (scrollBottom > 0.9 * target.scrollHeight && this.$store.state.searching !== true) {
-          await this.searchData(false);
+          this.$root.$emit('perform-search', false);
         }
       }, 500),
-
-      searchData: async function(init) {
-        let self = this;
-
-        this.$store.state.searching = true;
-
-        if (init === true) {
-          this.$store.state.offset = 0;
-
-          if (process.browser) {
-            let params = qs.parse(history.location.search, {
-              ignoreQueryPrefix: true
-            });
-
-            params.view = this.$store.state.view;
-            params.qid = this.$store.state.currentSearch.id;
-
-            history.push({
-              pathname: history.location.pathname,
-              search: qs.stringify(params, {
-                addQueryPrefix: true
-              })
-            });
-          }
-        }
-
-        if (this.$store.state.searchEnded !== true) {
-          let variables = {
-            offset: this.$store.state.offset,
-            limit: this.$store.state.pageSize,
-            filters: JSON.stringify(assembleFilters(this)),
-            sortField: this.$store.state.sortField,
-            sortOrder: this.$store.state.sortOrder,
-          };
-
-          if (this.$store.state.currentSearch.query != null) {
-            variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
-          }
-
-          let eventResult = await this.$apollo.mutate({
-            mutation: eventSearch,
-            variables: variables
-          });
-
-          if (init) {
-            this.$store.state.objects.events = [];
-            this.$store.state.objects.contacts = [];
-            this.$store.state.objects.content = [];
-          }
-
-          _.each(eventResult.data.eventSearch, function(event) {
-            event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
-              return connection.id === event.connection_id_string;
-            });
-
-            let obj = new lifescopeObjects.Event(event);
-
-            self.$store.state.objects.events.push(obj);
-
-            _.each(obj.content, function(content) {
-              let match = _.find(self.$store.state.objects.content, function(item) {
-                return content.id === item.id;
-              });
-
-              if (!match) {
-                self.$store.state.objects.content.push(content);
-              }
-            });
-
-            _.each(obj.contacts, function(contact) {
-              let match = _.find(self.$store.state.objects.contacts, function(item) {
-                return contact.id === item.id;
-              });
-
-              if (!match) {
-                self.$store.state.objects.contacts.push(contact);
-              }
-            });
-          });
-
-          this.$store.state.offset += this.$store.state.pageSize;
-          this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
-          this.$store.state.searching = false;
-        }
-      },
 
       renderDetailsModal: function(event) {
         if (this.$store.state.view === 'grid' || this.$store.state.view === 'list') {
@@ -238,6 +155,7 @@
         }
       }
     },
+
     apollo: {
       eventCount: {
         prefetch: true,
@@ -254,8 +172,10 @@
         }
       }
     },
+
     mounted: async function() {
       this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
+
       let params = qs.parse(window.location.search, {
         ignoreQueryPrefix: true
       });
@@ -277,19 +197,7 @@
 
       await this.loadSearch();
 
-      let upserted = await this.$apollo.mutate({
-        mutation: searchUpsert,
-        variables: {
-          filters: JSON.stringify(this.$store.state.currentSearch.filters),
-          query: this.$store.state.currentSearch.query,
-        }
-      });
-
-      this.$store.state.currentSearch = upserted.data.searchUpsert;
-      this.$store.state.searchBar.filters = this.$store.state.currentSearch.filters;
-      this.$store.state.searchBar.query = this.$store.state.currentSearch.query;
-
-      this.searchData(true);
+      this.$root.$emit('check-and-search');
     }
   }
 </script>

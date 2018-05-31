@@ -111,7 +111,7 @@
               </div>
 
 
-              <div class="input-group" id="from">
+              <div class="input-group text-box" id="from">
                 <date-picker v-model="activeFilter.data.from" v-bind:config="fromConfig" @dp-change="updateFrom"></date-picker>
               </div>
 
@@ -119,7 +119,7 @@
                 To:
               </div>
 
-              <div class="input-group" id="to">
+              <div class="input-group text-box" id="to">
                 <date-picker v-model="activeFilter.data.to" v-bind:config="toConfig" @dp-change="updateTo"></date-picker>
               </div>
             </div>
@@ -163,7 +163,7 @@
             <div class="input-container">
               <label v-bind:class="{ active: $data.activeFilter.data.type === 'provider' }" class="radio" for="provider" v-on:click="$data.activeFilter.data.connection = null">
                 <input id="provider" type="radio" name="type" value="provider" v-model="activeFilter.data.type"/>
-                Connection Type
+                Provider
               </label>
               <label v-bind:class="{ active: $data.activeFilter.data.type === 'connection' }" class="radio" for="connection" v-on:click="$data.activeFilter.data.provider = null">
                 <input id="connection" type="radio" name="type" value="connection" v-model="activeFilter.data.type"/>
@@ -175,7 +175,7 @@
               <div class="input-container">
                 <select v-model="activeFilter.data.provider" name="provider">
                   <option value=""></option>
-                  <option v-for="provider in orderBy(providerHydratedMany, 'name')" v-bind:value="provider.name | lowercase">{{ provider.name }}</option>
+                  <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.name | lowercase">{{ provider.name }}</option>
                 </select>
               </div>
             </div>
@@ -184,7 +184,7 @@
               <div class="input-container">
                 <select v-model="activeFilter.data.connection" name="connection">
                   <option value=""></option>
-                  <option v-for="connection in connectionMany" v-bind:value="connection.id">{{ connection.name }}</option>
+                  <option v-for="connection in $store.state.connectionMany" v-bind:value="connection.id">{{ connection.name }}</option>
                 </select>
               </div>
             </div>
@@ -237,12 +237,10 @@
       </div>
     </div>
 
-    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="checkNewSearch">
+    <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="checkAndSearch">
       <div id="search-box" class="text-box">
         <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter query here" v-on:change="updateQuery"/>
       </div>
-
-      <input class="hidden" type="submit"/>
     </form>
 
 
@@ -321,23 +319,6 @@
       }
     },
 
-    apollo: {
-      connectionMany: {
-        query: connectionMany,
-        prefetch: true,
-        result({ data }) {
-          this.$store.state.connectionMany = data.connectionMany;
-        }
-      },
-      providerHydratedMany: {
-        query: providerHydratedMany,
-        prefetch: true,
-        result({ data }) {
-          this.$store.state.providerHydratedMany = data.providerHydratedMany;
-        }
-      }
-    },
-
     methods: {
       showFavoriteModal: function() {
         this.$store.state.tempSearch = _.clone(this.$store.state.currentSearch);
@@ -409,8 +390,8 @@
       loadFilter(filter) {
         this.$data.activeFilter.id = filter.id;
         this.$data.activeFilter.name = filter.name;
-        this.$data.activeFilter.data = _.clone(filter.data);
         this.$data.activeFilter.type = filter.type;
+        this.$data.activeFilter.data = _.clone(filter.data);
       },
 
       openAndLoadFilter(filter) {
@@ -471,7 +452,7 @@
 
       checkNewSearch: async function (){
         let filters = _.map(this.$store.state.searchBar.filters, function(filter) {
-          return _.omit(filter, 'id');
+          return _.omit(filter, ['__typename', 'id', '_id']);
         });
 
         let query = this.$store.state.searchBar.query;
@@ -531,15 +512,6 @@
             });
           }
         }
-
-        if (process.browser && history.location.pathname !== '/explore') {
-          history.replace({
-            pathname: 'explore',
-            search: history.location.search
-          });
-
-          window.location.reload();
-        }
       },
 
       updateFrom: function(e) {
@@ -554,26 +526,58 @@
         let self = this;
         this.closeFilterEditor();
 
+        if (this.$store.state.searching === true) {
+          return;
+        }
+
         if (init) {
           this.$store.state.objects.events = [];
           this.$store.state.objects.contacts = [];
           this.$store.state.objects.content = [];
+          this.$store.state.offset = 0;
         }
 
         this.$store.state.searching = true;
-        this.$store.state.offset = 0;
         this.$store.state.searchEnded = false;
         this.$store.state.pageSize = 100;
+
+        let filters = _.map(this.$store.state.currentSearch.filters, function(filter) {
+          return _.omit(filter, ['__typename', 'id']);
+        });
 
         let upserted = await this.$apollo.mutate({
           mutation: searchUpsert,
           variables: {
-            filters: JSON.stringify(this.$store.state.currentSearch.filters),
+            filters: JSON.stringify(filters),
             query: this.$store.state.currentSearch.query
           }
         });
 
         this.$store.state.currentSearch = upserted.data.searchUpsert;
+
+        if (process.browser) {
+          let params = qs.parse(history.location.search, {
+            ignoreQueryPrefix: true
+          });
+
+          params.qid = this.$store.state.currentSearch.id;
+
+          history.push({
+            pathname: history.location.pathname,
+            search: qs.stringify(params, {
+              addQueryPrefix: true
+            })
+          });
+
+          if (process.browser && history.location.pathname !== '/explore') {
+            history.replace({
+              pathname: 'explore',
+              search: history.location.search
+            });
+
+            window.location.reload();
+          }
+        }
 
         let variables = {
           offset: this.$store.state.offset,
@@ -591,8 +595,6 @@
           mutation: eventSearch,
           variables: variables
         });
-
-        console.log(eventResult.data.eventSearch);
 
         _.each(eventResult.data.eventSearch, function(event) {
           event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
@@ -664,7 +666,63 @@
             this.$data.overflowCount = 0;
           }
         })
+      },
+
+      checkAndSearch: async function() {
+        await Promise.all([
+          this.$store.state.connectionsLoaded,
+          this.$store.state.providersLoaded
+        ]);
+
+        await this.checkNewSearch();
+
+        await this.performSearch(true);
       }
+    },
+
+    created: async function() {
+      let self = this;
+
+      this.$store.state.connectionsLoaded = this.$apollo.query({
+        query: connectionMany
+      })
+        .then(function(result) {
+          self.$store.state.connectionMany = result.data.connectionMany;
+
+          return Promise.resolve();
+        });
+
+      this.$store.state.providersLoaded = this.$apollo.query({
+        query: providerHydratedMany
+      })
+        .then(function(result) {
+          self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
+
+          return Promise.resolve();
+        });
+    },
+
+    mounted: async function() {
+      let self = this;
+
+      this.$root.$on('check-and-search', async function() {
+        await Promise.all([
+          self.$store.state.connectionsLoaded,
+          self.$store.state.providersLoaded
+        ]);
+
+        await self.checkAndSearch();
+      });
+
+      this.$root.$on('perform-search', async function(init) {
+        await Promise.all([
+          self.$store.state.connectionsLoaded,
+          self.$store.state.providersLoaded
+        ]);
+
+        await self.performSearch(init);
+      })
     }
   }
 </script>
+

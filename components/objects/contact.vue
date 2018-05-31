@@ -7,24 +7,23 @@
 				<i v-else class="fa fa-user"></i>
 			</div>
 
-			<div class="details flex-grow">
-				<div v-if="contact.name">{{ contact.name }}</div>
+			<div class="details flexbox flex-grow">
+        <div class="flexbox flex-column">
+          <div v-if="contact.name">{{ contact.name }}</div>
 
-				<div v-if="contact.handle">{{ contact.handle }}</div>
+          <div v-if="contact.handle">{{ contact.handle }}</div>
+        </div>
 
+        <aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
+          <span>Tag</span><i class="fa fa-hashtag"></i>
+          <span>Share</span><i class="fa fa-share"></i>
+        </aside>
 			</div>
-
-			<div class="provider">
-				<i v-bind=class="getProviderIcon(provider)"></i>
-				<span>{{ connection.name | truncate(30) }}</span>
-			</div>
-
-			<aside class="action-bar"></aside>
 		</div>
 		<div>
 			<div class="tagging">
 				<div class="tags">
-					<span v-for="tag in tags">#{{ tag }}</span>
+					<span v-for="tag in contact.tags">#{{ tag }}</span>
 				</div>
 			</div>
 		</div>
@@ -32,6 +31,7 @@
 </template>
 
 <script>
+  import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
 
 	export default {
@@ -75,9 +75,22 @@
 			getContentTypeIcon: function(type) {
 				return icons('content', type)
 			},
+
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
-			}
+			},
+
+      openActionModal: function(item, type) {
+        this.$modal.show(actionModal, {
+          shareable: false,
+          item: item,
+          taggable: true,
+          type: type
+        }, {
+          height: 'auto',
+          scrollable: true
+        });
+      },
 		},
 		props: [
 			'connection',

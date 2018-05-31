@@ -50,11 +50,11 @@
 			<!--<div class="expand">More</div>-->
 		</div>
 
-		<!--<div class="tagging">-->
-			<!--<div class="tags">-->
-				<!--<span v-for="tag in tags">#{{ tag }}</span>-->
-			<!--</div>-->
-		<!--</div>-->
+		<div class="tagging">
+			<div class="tags">
+				<span v-for="tag in content.tags">#{{ tag }}</span>
+			</div>
+		</div>
 	</div>
 </template>
 

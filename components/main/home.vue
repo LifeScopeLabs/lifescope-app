@@ -80,7 +80,7 @@
               <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
             </a>
 
-            <div v-if="type === 'tags'" v-for="tag in $store.state.tagMany" class="tag">#{{ tag.tag }}</div>
+            <div v-if="type === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">#{{ tag.tag }}</div>
           </div>
         </div>
       </div>
@@ -123,7 +123,9 @@
     },
     methods: {
       fetchData: async function(init, tab) {
+        console.log(this.$data.type);
         this.$data.type = tab === 'tags' ? 'tags' : 'searches';
+        console.log(this.$data.type);
         this.$data.tab = tab;
 
         if (init === true) {
@@ -156,7 +158,13 @@
 
           let storeName = tab === 'tags' ? 'tagMany' : 'searchMany';
 
+          console.log(data);
+          console.log(storeName);
+          console.log(init);
+
           this.$store.state[storeName] = init ? data : this.$store.state[storeName].concat(data);
+
+          console.log(this.$store.state[storeName]);
 
           this.$data.dataEnd = data.length < this.$data.pageSize;
           this.$data.offset += this.$data.pageSize;
@@ -240,7 +248,13 @@
           await this.fetchData(false, this.$data.tab);
         }
       }, 500),
+
+      searchForTag: function(tag) {
+        this.$store.state.searchBar.query = '#' + tag;
+        this.$root.$emit('check-and-search', true);
+      }
     },
+
     apollo: {
       connectionCount: {
         prefetch: true,
@@ -260,6 +274,7 @@
         }
       }
     },
+
     mounted: async function() {
       this.$data.offset = 0;
       this.$data.tab = 'favorites';

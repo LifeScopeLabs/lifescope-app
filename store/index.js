@@ -41,8 +41,9 @@ const store = () => new Vuex.Store({
       name: null
     },
 
-    searchMany: null,
+    searchMany: [],
     searchCount: null,
+    tagMany: [],
     pageSize: null,
     pageOffset: null,
     searchEnded: false,
@@ -64,7 +65,10 @@ const store = () => new Vuex.Store({
     },
 
     connectionMany: [],
-    providerHydratedMany: []
+    providerHydratedMany: [],
+
+    connectionsLoaded: false,
+    providersLoaded: false
 	},
 
 	getters: {

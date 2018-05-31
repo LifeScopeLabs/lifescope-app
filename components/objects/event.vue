@@ -40,7 +40,7 @@
 
 			<div class="tagging">
 				<div class="tags">
-					<span v-for="tag in event.displayedTags">#{{ tag }}</span>
+					<span v-for="tag in event.tags">#{{ tag }}</span>
 				</div>
 			</div>
 		</aside>
