@@ -36,27 +36,27 @@
           </div>
 
           <form v-if="$data.activeFilter && $data.activeFilter.type === 'who'" class="who" v-on:submit.self.prevent="saveFilter">
-            <!--<div class="input-container">-->
-              <!--<label v-bind:class="{active: ['to', 'from', 'with'].includes($data.activeFilter.data.interaction) === false}" class="radio" for="who-type-1">-->
-                <!--<input id="who-type-1" type="radio" name="interaction" value="" v-model="activeFilter.data.interaction"/>-->
-                <!--<span>Any</span>-->
-              <!--</label>-->
+            <div class="input-container">
+              <label v-bind:class="{active: ['to', 'from', 'with'].includes($data.activeFilter.data.interaction) === false}" class="radio" for="who-type-1">
+                <input id="who-type-1" type="radio" name="interaction" value="" v-model="activeFilter.data.interaction"/>
+                <span>Any</span>
+              </label>
 
-              <!--<label v-bind:class="{active: $data.activeFilter.data.interaction === 'to' }" class="radio" for="who-type-2">-->
-                <!--<input id="who-type-2" type="radio" name="interaction" value="to" v-model="activeFilter.data.interaction"/>-->
-                <!--<span>To</span>-->
-              <!--</label>-->
+              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'to' }" class="radio" for="who-type-2">
+                <input id="who-type-2" type="radio" name="interaction" value="to" v-model="activeFilter.data.interaction"/>
+                <span>To</span>
+              </label>
 
-              <!--<label v-bind:class="{active: $data.activeFilter.data.interaction === 'from' }" class="radio" for="who-type-3">-->
-                <!--<input id="who-type-3" type="radio" name="interaction" value="from" v-model="activeFilter.data.interaction"/>-->
-                <!--<span>From</span>-->
-              <!--</label>-->
+              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'from' }" class="radio" for="who-type-3">
+                <input id="who-type-3" type="radio" name="interaction" value="from" v-model="activeFilter.data.interaction"/>
+                <span>From</span>
+              </label>
 
-              <!--<label v-bind:class="{active: $data.activeFilter.data.interaction === 'with' }" class="radio" for="who-type-4">-->
-                <!--<input id="who-type-4" type="radio" name="interaction" value="with" v-model="activeFilter.data.interaction"/>-->
-                <!--<span>With</span>-->
-              <!--</label>-->
-            <!--</div>-->
+              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'with' }" class="radio" for="who-type-4">
+                <input id="who-type-4" type="radio" name="interaction" value="with" v-model="activeFilter.data.interaction"/>
+                <span>With</span>
+              </label>
+            </div>
 
             <div class="text-box">
               <input type="text" name="contact" placeholder="Contact Name" v-model="activeFilter.data.contact"/>
@@ -146,12 +146,12 @@
               </div>
             </div>
 
-            <div class="estimated">
-              <label>
-                <input type="checkbox" name="estimated"/>
-                <span>Return Estimated Results</span>
-              </label>
-            </div>
+            <!--<div class="estimated">-->
+              <!--<label>-->
+                <!--<input type="checkbox" name="estimated"/>-->
+                <!--<span>Return Estimated Results</span>-->
+              <!--</label>-->
+            <!--</div>-->
 
             <div id="filter-done">
               <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
@@ -706,20 +706,10 @@
       let self = this;
 
       this.$root.$on('check-and-search', async function() {
-        await Promise.all([
-          self.$store.state.connectionsLoaded,
-          self.$store.state.providersLoaded
-        ]);
-
         await self.checkAndSearch();
       });
 
       this.$root.$on('perform-search', async function(init) {
-        await Promise.all([
-          self.$store.state.connectionsLoaded,
-          self.$store.state.providersLoaded
-        ]);
-
         await self.performSearch(init);
       })
     }
