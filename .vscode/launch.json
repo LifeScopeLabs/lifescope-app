@@ -17,7 +17,7 @@
                 "NODE_ENV": "dev"
             },
             "port": 3333,
-            "protocol": "auto"
+            "useWSL": true
         }
     ]
 }
