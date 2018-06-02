@@ -1,14 +1,14 @@
 <template>
-  <div class="object event modaled" v-bind:id="event.id">
+  <div v-if="type === 'event'" class="object event modaled" v-bind:id="item.id">
     <aside class="details">
       <div class="type">
-        <i v-bind:class="getEventTypeIcon(event.type)"></i>
+        <i v-bind:class="getEventTypeIcon(item.type)"></i>
 
-        <span v-if="event.context">
-					{{ event.context }}
+        <span v-if="item.context">
+					{{ item.context }}
 				</span>
         <span v-else>
-					{{ event.type }}
+					{{ item.type }}
 				</span>
 
         <aside class="action-bar" v-on:click="openActionModal(event, 'event')">
@@ -17,23 +17,23 @@
       </div>
 
       <div class="provider">
-        <i v-bind:class="getProviderIcon(event.connection.provider)"></i>
-        <span>{{ event.connection.name | truncate(30) }}</span>
+        <i v-bind:class="getProviderIcon(item.connection.provider)"></i>
+        <span>{{ item.connection.name | truncate(30) }}</span>
       </div>
 
-      <div v-if="event.datetime" class="date">
+      <div v-if="item.datetime" class="date">
         <div>
           <div>
-            <i class="fa fa-calendar"></i> <span>{{ event.datetime | dateFilter }}</span>
+            <i class="fa fa-calendar"></i> <span>{{ item.datetime | dateShort }}</span>
           </div>
 
 
-          <div v-if="!event.datetime" class="estimation">
+          <div v-if="!item.datetime" class="estimation">
             <i class="fa fa-flask"></i> <span>Estimated</span>
           </div>
 
           <div v-else>
-            <i class="fa fa-clock-o"></i> <span>{{ event.datetime | timeFilter }}</span>
+            <i class="fa fa-clock-o"></i> <span>{{ item.datetime | dateTime }}</span>
           </div>
         </div>
       </div>
@@ -45,17 +45,27 @@
       </div>
     </aside>
 
-    <section v-if="event.content && event.content.length > 0" class="content">
-      <user-content v-for="content in event.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="event.connection"></user-content>
+    <section v-if="item.content && item.content.length > 0" class="content">
+      <user-content v-for="content in item.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="item.connection"></user-content>
     </section>
 
-    <aside v-if="(event.contacts && event.contacts.length > 0) || (event.people && event.people.length > 0) || (event.organizations && event.organizations.length > 0)" class="interactions">
-      <div v-if="event.contact_interaction_type">{{ event.content_interaction_type }}</div>
+    <aside v-if="(item.contacts && item.contacts.length > 0) || (item.people && item.people.length > 0) || (item.organizations && item.organizations.length > 0)" class="interactions">
+      <div v-if="item.contact_interaction_type">{{ item.content_interaction_type }}</div>
       <div class="objects">
-        <user-contact v-for="contact in event.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="event.connection"></user-contact>
+        <user-contact v-for="contact in item.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="item.connection"></user-contact>
       </div>
-      <div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>
+      <div v-if="item.contacts > 3 || item.people > 3 || item.organizations > 3" class="expand">More</div>
     </aside>
+  </div>
+  <div v-else-if="type === 'content'" class="object content modaled" v-bind:id="item.id">
+    <section class="content">
+      <user-content v-bind:key="item.id" v-bind:content="item" v-bind:connection="item.connection"></user-content>
+    </section>
+  </div>
+  <div v-else-if="type === 'contact'" class="object contact modaled" v-bind:id="item.id">
+    <div class="objects">
+      <user-contact v-bind:key="item.id" v-bind:contact="item" v-bind:connection="item.connection"></user-contact>
+    </div>
   </div>
 </template>
 
@@ -71,14 +81,14 @@
   export default {
     components: {
       UserContact,
-      UserContent
+      UserContent,
     },
     data: function() {
       return {
         tags: function() {
           let tags = [];
 
-          if (this.event.tagMasks) {
+          if (this.item.tagMasks) {
             _.forEach(this.tagMasks.source, function(tag) {
               if (tags.indexOf(tag) === -1) {
                 tags.push(tag);
@@ -105,7 +115,8 @@
       }
     },
     props: [
-      'event'
+      'item',
+      'type'
     ],
     filters: {
       safe: safeFilter,

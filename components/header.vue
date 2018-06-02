@@ -23,47 +23,47 @@
 			</div>
 
 			<div v-if="$store.state.facet === 'events'" class="sort">
-          <a data-sort="connection_id_string" v-bind:class="{ active: $store.state.sortField === 'connection' }" v-on:click="changeSort('connection')">
+          <a data-sort="connection_id_string" v-bind:class="{ active: $store.state.sortField === 'connection' }" v-on:click="setSort('connection')">
             <i v-if="$store.state.sortField === 'connection'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
             <span>Connection</span>
           </a>
-          <a data-sort="type" v-bind:class="{ active: $store.state.sortField === 'type' }" v-on:click="changeSort('type')">
+          <a data-sort="type" v-bind:class="{ active: $store.state.sortField === 'type' }" v-on:click="setSort('type')">
             <i v-if="$store.state.sortField === 'type'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
             <span>Type</span>
           </a>
-          <a data-sort="datetime" v-bind:class="{ active: $store.state.sortField === 'datetime' }" v-on:click="changeSort('datetime')">
+          <a data-sort="datetime" v-bind:class="{ active: $store.state.sortField === 'datetime' }" v-on:click="setSort('datetime')">
             <i v-if="$store.state.sortField === 'datetime'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
             <span>Time</span>
           </a>
 			</div>
 
       <div v-if="$store.state.facet === 'contacts'" class="sort">
-        <a data-sort="connection_id_string" v-bind:class="{ active: $store.state.sortField === 'connection' }" v-on:click="changeSort('connection')">
-          <i v-if="$store.state.sortField === 'connection'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
-          <span>Connection</span>
-        </a>
-        <a data-sort="name" v-bind:class="{ active: $store.state.sortField === 'name' }" v-on:click="changeSort('name')">
+        <a data-sort="name" v-bind:class="{ active: $store.state.sortField === 'name' }" v-on:click="setSort('name')">
           <i v-if="$store.state.sortField === 'name'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
           <span>Name</span>
         </a>
-        <a data-sort="handle" v-bind:class="{ active: $store.state.sortField === 'handle' }" v-on:click="changeSort('handle')">
+        <a data-sort="connection_id_string" v-bind:class="{ active: $store.state.sortField === 'connection' }" v-on:click="setSort('connection')">
+          <i v-if="$store.state.sortField === 'connection'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
+          <span>Connection</span>
+        </a>
+        <a data-sort="handle" v-bind:class="{ active: $store.state.sortField === 'handle' }" v-on:click="setSort('handle')">
           <i v-if="$store.state.sortField === 'handle'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
           <span>Handle</span>
         </a>
       </div>
 
       <div v-if="$store.state.facet === 'content'" class="sort">
-        <a data-sort="connection_id_string" v-bind:class="{ active: $store.state.sortField === 'connection' }" v-on:click="changeSort('connection')">
+        <a data-sort="title" v-bind:class="{ active: $store.state.sortField === 'title' }" v-on:click="setSort('title')">
+          <i v-if="$store.state.sortField === 'title'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
+          <span>Title</span>
+        </a>
+        <a data-sort="connection_id_string" v-bind:class="{ active: $store.state.sortField === 'connection' }" v-on:click="setSort('connection')">
           <i v-if="$store.state.sortField === 'connection'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
           <span>Connection</span>
         </a>
-        <a data-sort="type" v-bind:class="{ active: $store.state.sortField === 'type' }" v-on:click="changeSort('type')">
+        <a data-sort="type" v-bind:class="{ active: $store.state.sortField === 'type' }" v-on:click="setSort('type')">
           <i v-if="$store.state.sortField === 'type'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
           <span>Type</span>
-        </a>
-        <a data-sort="title" v-bind:class="{ active: $store.state.sortField === 'title' }" v-on:click="changeSort('title')">
-          <i v-if="$store.state.sortField === 'title'" class="sort-arrow fa" v-bind:class="{ 'fa-chevron-up' : $store.state.sortOrder === 'asc', 'fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
-          <span>Title</span>
         </a>
       </div>
 
@@ -74,7 +74,9 @@
             <span v-if="$store.state.facet != null" class="name">{{ $store.state.facet[0].toUpperCase() + $store.state.facet.slice(1)}}</span>
           </div>
 					<div class="flex-grow"></div>
-					<span class="count">{{ $store.state.objects.events.length }}</span>
+					<span v-if="$store.state.facet === 'events'" class="count">{{ $store.state.objects.events.length }}</span>
+          <span v-if="$store.state.facet === 'contacts'" class="count">{{ $store.state.objects.contacts.length }}</span>
+          <span v-if="$store.state.facet === 'content'" class="count">{{ $store.state.objects.content.length }}</span>
 				</div>
 				<div class="container" v-bind:class="{ hidden: $store.state.facetSelectOpen === false }">
 					<div class="drawer">
@@ -148,11 +150,13 @@
 			  this.$store.state.view = view;
 
         if (process.browser) {
+          console.log('Setting view');
           let params = qs.parse(history.location.search, {
             ignoreQueryPrefix: true
           });
 
           params.view = this.$store.state.view;
+          params.facet = this.$store.state.facet;
 
           history.push({
             pathname: history.location.pathname,
@@ -163,7 +167,7 @@
         }
       },
 
-      changeSort: function(sort) {
+      setSort: function(sort) {
 			  if (this.$store.state.sortField === sort) {
 			    this.$store.state.sortOrder = this.$store.state.sortOrder === 'asc' ? 'desc' : 'asc';
         }
@@ -209,6 +213,7 @@
             ignoreQueryPrefix: true
           });
 
+          params.view = this.$store.state.view;
           params.facet = this.$store.state.facet;
 
           history.push({
@@ -221,6 +226,22 @@
 
 			  this.$root.$emit('perform-search', true);
       }
-		}
+		},
+
+    mounted: async function() {
+      let self = this;
+
+      this.$root.$on('set-view', function(view) {
+        self.setView(view);
+      });
+
+      this.$root.$on('set-sort', function(sort) {
+        self.setSort(sort);
+      });
+
+      this.$root.$on('set-facet', function(facet) {
+        self.setFacet(facet);
+      });
+    }
 	}
 </script>

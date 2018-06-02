@@ -5,7 +5,7 @@
     </section>
 	</div>
 
-  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="content.id" v-on:click="$emit('render-details', content)">
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="content.id" v-on:click="$emit('render-details', content, 'content')">
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
@@ -17,32 +17,31 @@
       <div v-if="hasTitle" class="title">
         {{ getGridTitle() | safe }}
       </div>
+      <div v-else>
+        {{ content.type }}
+      </div>
 
       <i v-bind:class="getProviderIcon(content.connection.provider)" class="bubble"></i>
     </div>
   </div>
 
-  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="content.id" v-on:click="$emit('render-details', content)">
+  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="content.id" v-on:click="$emit('render-details', content, 'content')">
     <div>
       <span>{{ content.title | truncate(30) }}</span>
     </div>
 
     <div class="icon-column">
-      <i v-bind:class="getContentTypeIcon(content.type)"></i>
-      <span class="mobile-hide">{{ contextOrType(event) | truncate(30) }}</span>
+      <i v-bind:class="getProviderIcon(content.connection.provider)"></i>
+      <span class="mobile-hide">{{ content.connection.provider.name }}</span>
     </div>
 
     <div class="icon-column">
-      <i v-bind:class="getProviderIcon(event.connection.provider)"></i>
-      <span class="mobile-hide">{{ event.connection.provider.name }}</span>
+      <i v-bind:class="getContentTypeIcon(content.type)"></i>
+      <span class="mobile-hide">{{ prettifyType(content.type) }}</span>
     </div>
 
-    <div v-if="event.contacts && event.contacts.length > 0" class="mobile-hide">
-      <span>{{ getFirstContact(event) | truncate(30) }}</span>
-    </div>
-
-    <div v-if="event.datetime">
-      <span>{{ event.datetime | dateTiny }}</span>
+    <div>
+      <span>{{ content.mimetype }}</span>
     </div>
   </div>
 </template>
@@ -69,24 +68,6 @@
       safe: safeFilter
 		},
 		methods: {
-		  getFirstTitle: function(event) {
-		    let returned = '';
-
-		    _.each(event.content, function(item) {
-		      if (item.title) {
-		        returned = item.title;
-
-		        return false;
-          }
-        });
-
-		    return returned;
-      },
-
-      contextOrType: function(event) {
-        return event.context ? event.context : event.type[0].toUpperCase() + event.type.slice(1);
-      },
-
 			getContentTypeIcon: function(type) {
 				return icons('content', type)
 			},
@@ -96,15 +77,7 @@
 			},
 
       hasThumbnail: function() {
-			  let hasThumbnail = false;
-
-        _.each(this.$props.event.content, function(item) {
-          if (item.embed_thumbnail && item.embed_thumbnail.length > 0) {
-            hasThumbnail = true;
-          }
-        });
-
-        return hasThumbnail;
+			  return this.$props.content.embed_thumbnail && this.$props.content.embed_thumbnail.length > 0;
       },
 
       hasTitle: function() {
@@ -112,19 +85,11 @@
       },
 
       getGridThumbnail: function() {
-			  let firstMatch = _.find(this.$props.event.content, function(item) {
-			    return item.embed_thumbnail != null;
-        });
-
-			  return firstMatch.embed_thumbnail;
+			  return this.$props.content.embed_thumbnail;
       },
 
       getGridTitle: function() {
-        let firstMatch = _.find(this.$props.event.content, function(item) {
-          return item.title != null;
-        });
-
-        return firstMatch.title.length > 30 ? firstMatch.title.slice(0, 30) + '...' : firstMatch.title;
+        return this.$props.content.title.length > 30 ? this.$props.content.title.slice(0, 30) + '...' : this.$props.content.title;
       },
 
       openActionModal: function(item, type) {
@@ -137,6 +102,10 @@
           height: 'auto',
           scrollable: true
         });
+      },
+
+      prettifyType(type) {
+		    return type[0].toUpperCase() + type.slice(1, 30);
       }
 		}
 	}

@@ -72,7 +72,11 @@ const store = () => new Vuex.Store({
     connectionsLoaded: false,
     providersLoaded: false,
 
-    facet: null
+    facet: null,
+
+    mobileViewSelectorOpen: false,
+    mobileSortSelectorOpen: false,
+    mobileFacetSelectorOpen: false
 	},
 
 	getters: {

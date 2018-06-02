@@ -34,7 +34,6 @@
 </template>
 
 <script>
-  import History from 'history/createBrowserHistory';
   import _ from 'lodash';
   import moment from 'moment';
   import qs from 'qs';
@@ -46,12 +45,6 @@
   import UserContact from '../objects/contact.vue';
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
-
-  let history;
-
-  if (process.browser) {
-    history = History();
-  }
 
   export default {
     data: function() {
@@ -135,10 +128,13 @@
         }
       }, 500),
 
-      renderDetailsModal: function(event) {
+      renderDetailsModal: function(item, type) {
+        console.log(item);
+        console.log(type);
         if (this.$store.state.view === 'grid' || this.$store.state.view === 'list') {
           this.$modal.show(Details, {
-            event: event
+            type: type,
+            item: item
           }, {
             height: 'auto',
             scrollable: true,
@@ -160,21 +156,30 @@
       this.$store.state.facet = params.facet ? params.facet : 'events';
       this.$store.state.currentSearch.id = params.qid ? params.qid : null;
 
+      switch(this.$store.state.facet) {
+        case 'events':
+          this.$store.state.sortField = 'datetime';
+          this.$store.state.sortOrder = 'desc';
+
+          break;
+
+        case 'content':
+          this.$store.state.sortField = 'title';
+          this.$store.state.sortOrder = 'asc';
+
+          break;
+
+        case 'contacts':
+          this.$store.state.sortField = 'name';
+          this.$store.state.sortOrder = 'asc';
+      }
+
       this.$store.state.offset = 0;
       this.$store.state.searchEnded = false;
       this.$store.state.pageSize = 100;
 
       params.facet = this.$store.state.facet;
       params.view = this.$store.state.view;
-
-      history.push({
-        pathname: history.location.pathname,
-        search: qs.stringify(params, {
-          addQueryPrefix: true
-        })
-      });
-
-      console.log('Explorer pushed to history');
 
       await this.loadSearch();
 

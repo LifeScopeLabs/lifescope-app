@@ -489,6 +489,8 @@
               ignoreQueryPrefix: true
             });
 
+            params.view = this.$store.state.view;
+            params.facet = this.$store.state.facet;
             params.qid = data.id;
 
             history.push({
@@ -497,8 +499,6 @@
                 addQueryPrefix: true
               })
             });
-
-            console.log('checknewsearch pushed to history')
           }
         }
         else {
@@ -512,6 +512,8 @@
               ignoreQueryPrefix: true
             });
 
+            params.view = this.$store.state.view;
+            params.facet = this.$store.state.facet;
             delete params.qid;
 
             history.push({
@@ -535,6 +537,7 @@
       performSearch: async function(init) {
         let self = this;
         this.closeFilterEditor();
+        this.$store.state.facetSelectOpen = false;
 
         if (this.$store.state.searching === true) {
           return;
@@ -571,6 +574,8 @@
             ignoreQueryPrefix: true
           });
 
+          params.view = this.$store.state.view;
+          params.facet = this.$store.state.facet;
           params.qid = this.$store.state.currentSearch.id;
 
           history.push({
@@ -650,6 +655,17 @@
             let obj = new lifescopeObjects.Content(content);
 
             self.$store.state.objects.content.push(obj);
+          });
+        }
+        else if (facet === 'contacts') {
+          _.each(result.data.contactSearch, function(contact) {
+            contact.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
+              return connection.id === contact.connection_id_string;
+            });
+
+            let obj = new lifescopeObjects.Contact(contact);
+
+            self.$store.state.objects.contacts.push(obj);
           });
         }
 
