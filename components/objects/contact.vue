@@ -1,77 +1,90 @@
 <template>
-	<div class="object contact" v-model="contact" v-bind:id="contact.id">
-		<div>
-			<div class="user-avatar">
-				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url" />
-
-				<i v-else class="fa fa-user"></i>
-			</div>
-
-			<div class="details flexbox flex-grow">
-        <div class="flexbox flex-column">
-          <div v-if="contact.name">{{ contact.name }}</div>
-
-          <div v-if="contact.handle">{{ contact.handle }}</div>
-        </div>
-
-        <aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
-          <span>Tag</span><i class="fa fa-hashtag"></i>
-          <span>Share</span><i class="fa fa-share"></i>
-        </aside>
-			</div>
-		</div>
-		<div>
-			<div class="tagging">
-				<div class="tags">
-					<span v-for="tag in contact.tags">#{{ tag }}</span>
-				</div>
-			</div>
-		</div>
+	<div v-if="$store.state.view === 'feed'" class="object event" v-bind:id="content.id">
+    <user-content v-bind:key="content.id" v-bind:content="content" v-bind:connection="content.connection"></user-content>
 	</div>
+
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="content.id" v-on:click="$emit('render-details', content)">
+    <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
+      <img v-bind:src="getGridThumbnail()" />
+    </div>
+    <i v-else v-bind:class="getContentTypeIcon(content.type)" class="type-icon large-grid-icon"></i>
+
+    <div class="title-bar">
+      <i v-bind:class="getContentTypeIcon(content.type)" class="bubble"></i>
+
+      <div v-if="hasTitle" class="title">
+        {{ getGridTitle() | safe }}
+      </div>
+
+      <i v-bind:class="getProviderIcon(content.connection.provider)" class="bubble"></i>
+    </div>
+  </div>
+
+  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="content.id" v-on:click="$emit('render-details', content)">
+    <div>
+      <span>{{ content.title | truncate(30) }}</span>
+    </div>
+
+    <div class="icon-column">
+      <i v-bind:class="getContentTypeIcon(content.type)"></i>
+      <span class="mobile-hide">{{ contextOrType(event) | truncate(30) }}</span>
+    </div>
+
+    <div class="icon-column">
+      <i v-bind:class="getProviderIcon(event.connection.provider)"></i>
+      <span class="mobile-hide">{{ event.connection.provider.name }}</span>
+    </div>
+
+    <div v-if="event.contacts && event.contacts.length > 0" class="mobile-hide">
+      <span>{{ getFirstContact(event) | truncate(30) }}</span>
+    </div>
+
+    <div v-if="event.datetime">
+      <span>{{ event.datetime | dateTiny }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
+  import moment from 'moment';
+
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
+	import safeFilter from '../filters/safe';
+	import UserContent from './content-child';
 
 	export default {
-		data: function() {
-			return {
-				tags: function() {
-					let tags = [];
-
-					if (this.content.tagMasks) {
-						_.forEach(this.tagMasks.source, function(tag) {
-							if (tags.indexOf(tag) === -1) {
-								tags.push(tag);
-							}
-						});
-
-						_.forEach(this.tagMasks.added, function(tag) {
-							if (tags.indexOf(tag) === -1) {
-								tags.push(tag);
-							}
-						});
-
-						_.forEach(this.tagMasks.removed, function(tag) {
-							let index = tags.indexOf(tag);
-
-							if (index > -1) {
-								tags.splice(index, 1);
-							}
-						});
-					}
-
-					return tags;
-				}
-			}
+		components: {
+			UserContent
 		},
+		data: function() {
+			return {}
+		},
+		props: [
+			'content'
+		],
 		filters: {
-			safe: function(input) {
-				return typeof input === 'string' ? input : input == null ? '' : input.toString()
-			}
+      safe: safeFilter
 		},
 		methods: {
+		  getFirstTitle: function(event) {
+		    let returned = '';
+
+		    _.each(event.content, function(item) {
+		      if (item.title) {
+		        returned = item.title;
+
+		        return false;
+          }
+        });
+
+		    return returned;
+      },
+
+      contextOrType: function(event) {
+        return event.context ? event.context : event.type[0].toUpperCase() + event.type.slice(1);
+      },
+
 			getContentTypeIcon: function(type) {
 				return icons('content', type)
 			},
@@ -79,6 +92,38 @@
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
 			},
+
+      hasThumbnail: function() {
+			  let hasThumbnail = false;
+
+        _.each(this.$props.event.content, function(item) {
+          if (item.embed_thumbnail && item.embed_thumbnail.length > 0) {
+            hasThumbnail = true;
+          }
+        });
+
+        return hasThumbnail;
+      },
+
+      hasTitle: function() {
+        return this.$props.content.title != null;
+      },
+
+      getGridThumbnail: function() {
+			  let firstMatch = _.find(this.$props.event.content, function(item) {
+			    return item.embed_thumbnail != null;
+        });
+
+			  return firstMatch.embed_thumbnail;
+      },
+
+      getGridTitle: function() {
+        let firstMatch = _.find(this.$props.event.content, function(item) {
+          return item.title != null;
+        });
+
+        return firstMatch.title.length > 30 ? firstMatch.title.slice(0, 30) + '...' : firstMatch.title;
+      },
 
       openActionModal: function(item, type) {
         this.$modal.show(actionModal, {
@@ -90,11 +135,7 @@
           height: 'auto',
           scrollable: true
         });
-      },
-		},
-		props: [
-			'connection',
-			'contact'
-		]
+      }
+		}
 	}
 </script>

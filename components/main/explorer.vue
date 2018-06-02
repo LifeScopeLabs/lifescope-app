@@ -1,24 +1,26 @@
 <template>
   <main v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
-      <div v-if="$store.state.objects.events.length > 0" class="container">
+      <div v-if="$store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
-            <user-event v-for="event in $store.state.objects.events"v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
+            <user-contact v-if="$store.state.facet === 'contacts'" v-for="contact in $store.state.objects.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="contact.connection" v-on:render-details="renderDetailsModal"></user-contact>
+            <user-content v-if="$store.state.facet === 'content'" v-for="content in $store.state.objects.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="content.connection" v-on:render-details="renderDetailsModal"></user-content>
+            <user-event v-if="$store.state.facet === 'events'" v-for="event in $store.state.objects.events" v-bind:key="event.id" v-bind:event="event" v-on:render-details="renderDetailsModal"></user-event>
           </div>
 
           <modals-container/>
         </div>
       </div>
 
-      <div v-if="$store.state.objects.events.length === 0 && $store.state.searching === true" id="waiting">
+      <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 || $store.state.facet === 'content' && $store.state.objects.content.length === 0 || $store.state.facet === 'events' && $store.state.objects.events.length === 0) && $store.state.spinner === true" id="waiting">
         <div>
           <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
           <div class="text blue">Searching</div>
         </div>
       </div>
 
-      <div v-if="$store.state.objects.events.length === 0 && $store.state.searching === false" id="no-results">
+      <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 || $store.state.facet === 'content' && $store.state.objects.content.length === 0 || $store.state.facet === 'events' && $store.state.objects.events.length === 0) && $store.state.spinner === false && $store.state.searching === false" id="no-results">
         <div class="prompt">
           <div class="prompt-text">
             <h2>No results found.</h2>
@@ -34,21 +36,16 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
-  import lifescopeObjects from '../../lib/util/lifescope-objects';
   import moment from 'moment';
   import qs from 'qs';
 
-  import eventCount from '../../apollo/queries/event-count.gql';
-  import eventMany from '../../apollo/queries/event-many.gql';
-  import eventSearch from '../../apollo/mutations/event-search.gql';
   import searchFind from '../../apollo/mutations/search-find.gql';
   import searchOne from '../../apollo/queries/search-one.gql';
-  import searchUpsert from '../../apollo/mutations/search-upsert.gql';
 
   import Details from '../modals/details.vue';
+  import UserContact from '../objects/contact.vue';
+  import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
-
-  import assembleFilters from '../../lib/util/assemble-filters';
 
   let history;
 
@@ -60,12 +57,12 @@
     data: function() {
       return {
         skipEventQuery: true,
-        eventCount: null,
-        eventMany: null,
         qid: null
       };
     },
     components: {
+      UserContact,
+      UserContent,
       UserEvent
     },
     methods: {
@@ -152,23 +149,6 @@
       }
     },
 
-    apollo: {
-      eventCount: {
-        prefetch: true,
-        query: eventCount,
-        skip: function() {
-          return this.skipEventQuery;
-        }
-      },
-      eventMany: {
-        prefetch: true,
-        query: eventMany,
-        skip: function() {
-          return this.skipEventQuery;
-        }
-      }
-    },
-
     mounted: async function() {
       this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
@@ -176,20 +156,25 @@
         ignoreQueryPrefix: true
       });
 
-      if (params.view) {
-        this.$store.state.view = params.view;
-      }
-      else {
-        this.$store.state.view = 'feed';
-      }
+      this.$store.state.view = params.view ? params.view : 'feed';
+      this.$store.state.facet = params.facet ? params.facet : 'events';
+      this.$store.state.currentSearch.id = params.qid ? params.qid : null;
 
       this.$store.state.offset = 0;
       this.$store.state.searchEnded = false;
       this.$store.state.pageSize = 100;
 
-      if (params.qid) {
-        this.$store.state.currentSearch.id = params.qid;
-      }
+      params.facet = this.$store.state.facet;
+      params.view = this.$store.state.view;
+
+      history.push({
+        pathname: history.location.pathname,
+        search: qs.stringify(params, {
+          addQueryPrefix: true
+        })
+      });
+
+      console.log('Explorer pushed to history');
 
       await this.loadSearch();
 

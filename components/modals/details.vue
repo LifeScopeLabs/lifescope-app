@@ -65,8 +65,8 @@
   import actionModal from '../modals/action-modal';
   import icons from '../../lib/util/icons';
   import safeFilter from '../filters/safe';
-  import UserContact from '../objects/contact';
-  import UserContent from '../objects/content';
+  import UserContact from '../objects/contact-child';
+  import UserContent from '../objects/content-child';
 
   export default {
     components: {

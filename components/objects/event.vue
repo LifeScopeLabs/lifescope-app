@@ -1,5 +1,5 @@
 <template>
-	<div v-if="$store.state.view === 'feed'" class="object event" v-bind:id="event.id">
+	<div v-if="$store.state.view === 'feed'" class="object event feed" v-bind:id="event.id">
 		<aside class="details">
 			<div class="type">
 				<i v-bind:class="getEventTypeIcon(event.type)"></i>
@@ -117,8 +117,8 @@
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
 	import safeFilter from '../filters/safe';
-	import UserContact from '../objects/contact';
-	import UserContent from '../objects/content';
+	import UserContact from './contact-child';
+	import UserContent from './content-child';
 
 	export default {
 		components: {

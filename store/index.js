@@ -57,6 +57,8 @@ const store = () => new Vuex.Store({
     hide_favorite_star: false,
 
     searching: false,
+    spinner: true,
+    facetSelectOpen: false,
 
     objects: {
 		  events: [],
@@ -68,7 +70,9 @@ const store = () => new Vuex.Store({
     providerHydratedMany: [],
 
     connectionsLoaded: false,
-    providersLoaded: false
+    providersLoaded: false,
+
+    facet: null
 	},
 
 	getters: {

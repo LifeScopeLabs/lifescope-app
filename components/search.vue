@@ -272,7 +272,9 @@
   import lifescopeObjects from '../lib/util/lifescope-objects';
   import qs from 'qs';
 
+  import contactSearch from '../apollo/mutations/contact-search.gql';
   import connectionMany from '../apollo/queries/connection-many.gql';
+  import contentSearch from '../apollo/mutations/content-search.gql';
   import eventSearch from '../apollo/mutations/event-search.gql';
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
   import searchFind from '../apollo/mutations/search-find.gql';
@@ -290,6 +292,12 @@
   }
 
   const MAX_FILTER_WIDTH_FRACTION = 0.3;
+
+  const gqlMappings = {
+    contacts: contactSearch,
+    content: contentSearch,
+    events: eventSearch,
+  };
 
   export default {
     data: function () {
@@ -489,6 +497,8 @@
                 addQueryPrefix: true
               })
             });
+
+            console.log('checknewsearch pushed to history')
           }
         }
         else {
@@ -537,6 +547,7 @@
           this.$store.state.offset = 0;
         }
 
+        this.$store.state.spinner = true;
         this.$store.state.searching = true;
         this.$store.state.searchEnded = false;
         this.$store.state.pageSize = 100;
@@ -591,44 +602,61 @@
           variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
         }
 
-        let eventResult = await this.$apollo.mutate({
-          mutation: eventSearch,
+        let facet = this.$store.state.facet;
+        let mapping = Object.keys(gqlMappings).indexOf(facet) > -1 ? gqlMappings[facet] : eventSearch;
+
+        let result = await this.$apollo.mutate({
+          mutation: mapping,
           variables: variables
         });
 
-        _.each(eventResult.data.eventSearch, function(event) {
-          event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
-            return connection.id === event.connection_id_string;
-          });
-
-          let obj = new lifescopeObjects.Event(event);
-
-          self.$store.state.objects.events.push(obj);
-
-          _.each(obj.content, function(content) {
-            let match = _.find(self.$store.state.objects.content, function(item) {
-              return content.id === item.id;
+        if (facet === 'events') {
+          _.each(result.data.eventSearch, function(event) {
+            event.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
+              return connection.id === event.connection_id_string;
             });
 
-            if (!match) {
-              self.$store.state.objects.content.push(content);
-            }
-          });
+            let obj = new lifescopeObjects.Event(event);
 
-          _.each(obj.contacts, function(contact) {
-            let match = _.find(self.$store.state.objects.contacts, function(item) {
-              return contact.id === item.id;
+            self.$store.state.objects.events.push(obj);
+
+            _.each(obj.content, function (content) {
+              let match = _.find(self.$store.state.objects.content, function (item) {
+                return content.id === item.id;
+              });
+
+              if (!match) {
+                self.$store.state.objects.content.push(content);
+              }
             });
 
-            if (!match) {
-              self.$store.state.objects.contacts.push(contact);
-            }
+            _.each(obj.contacts, function (contact) {
+              let match = _.find(self.$store.state.objects.contacts, function (item) {
+                return contact.id === item.id;
+              });
+
+              if (!match) {
+                self.$store.state.objects.contacts.push(contact);
+              }
+            });
           });
-        });
+        }
+        else if (facet === 'content') {
+          _.each(result.data.contentSearch, function(content) {
+            content.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
+              return connection.id === content.connection_id_string;
+            });
+
+            let obj = new lifescopeObjects.Content(content);
+
+            self.$store.state.objects.content.push(obj);
+          });
+        }
 
         this.$store.state.offset += this.$store.state.pageSize;
         this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
         this.$store.state.searching = false;
+        this.$store.state.spinner = false;
       },
 
       compactOverflowFilters: function() {

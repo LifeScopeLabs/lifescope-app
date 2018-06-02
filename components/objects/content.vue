@@ -1,125 +1,92 @@
 <template>
-	<div class="object content" v-bind:id="content.id">
-		<div class="header">
-			<div class="type">
-				<i v-bind:class="getContentTypeIcon(content.type)"></i>
-				{{ content.type }}
-			</div>
+	<div v-if="$store.state.view === 'feed'" class="object feed" v-bind:id="content.id">
+    <section class="content">
+      <user-content v-bind:key="content.id" v-bind:content="content" v-bind:connection="content.connection"></user-content>
+    </section>
+	</div>
 
-			<div class="provider">
-				<i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }}
-			</div>
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="content.id" v-on:click="$emit('render-details', content)">
+    <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
+      <img v-bind:src="getGridThumbnail()" />
+    </div>
+    <i v-else v-bind:class="getContentTypeIcon(content.type)" class="type-icon large-grid-icon"></i>
 
-			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
-				<span>Tag</span><i class="fa fa-hashtag"></i>
-				<span>Share</span><i class="fa fa-share"></i>
-			</aside>
-		</div>
+    <div class="title-bar">
+      <i v-bind:class="getContentTypeIcon(content.type)" class="bubble"></i>
 
-		<div class="content-embed" data-type="content" v-bind:data-id="content.id">
-      <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
-      <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
-      <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
-      <iframe v-if="isEmail(content)" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
-      <div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div>
+      <div v-if="hasTitle" class="title">
+        {{ getGridTitle() | safe }}
+      </div>
+
+      <i v-bind:class="getProviderIcon(content.connection.provider)" class="bubble"></i>
+    </div>
+  </div>
+
+  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="content.id" v-on:click="$emit('render-details', content)">
+    <div>
+      <span>{{ content.title | truncate(30) }}</span>
     </div>
 
-		<div v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail">
-			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
+    <div class="icon-column">
+      <i v-bind:class="getContentTypeIcon(content.type)"></i>
+      <span class="mobile-hide">{{ contextOrType(event) | truncate(30) }}</span>
+    </div>
 
-			<a v-else v-bind:href="content.url" target="_blank">
-				<img v-bind:src="content.embed_thumbnail"/>
-			</a>
-		</div>
+    <div class="icon-column">
+      <i v-bind:class="getProviderIcon(event.connection.provider)"></i>
+      <span class="mobile-hide">{{ event.connection.provider.name }}</span>
+    </div>
 
-		<div class="title">
-			<a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
-			<span v-else>{{ content.title | safe }}</span>
-		</div>
+    <div v-if="event.contacts && event.contacts.length > 0" class="mobile-hide">
+      <span>{{ getFirstContact(event) | truncate(30) }}</span>
+    </div>
 
-		<div v-if="content.text != null" class="text">
-		<!--{% if text_truncated %}-->
-			<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
-		<!--{% endif %}-->
-		<a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a>
-
-		<!--{% if text_truncated %}-->
-			<!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
-		<!--{% endif %}-->
-		<pre v-else class="full">{{ content.text | safe }}</pre>
-			<!--<div class="expand">More</div>-->
-		</div>
-
-		<div class="tagging">
-			<div class="tags">
-				<span v-for="tag in content.tags">#{{ tag }}</span>
-			</div>
-		</div>
-	</div>
+    <div v-if="event.datetime">
+      <span>{{ event.datetime | dateTiny }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
-  import $ from 'jquery';
-  import _ from 'lodash';
+  import moment from 'moment';
+
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
-
-  const DEFAULT_EMBED_WIDTH = '100%';
-  const DEFAULT_DESKTOP_EMBED_WIDTH = 600; //px
-  const DEFAULT_EMBED_HEIGHT = 500;  //px
-
-  const audioTypes = ['mp3', 'ogga', 'wav'];
-  const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
-  const videoTypes = ['mp4', 'oggv', 'webm'];
-  // const iframeTypes = ['email', 'iframe', 'link'];
-
-  function isMobile() {
-    if (window.matchMedia) {
-      return window.matchMedia('(max-device-width: 1080px) and (min-device-pixel-ratio: 1.5)').matches;
-    }
-    else {
-      return false;
-    }
-  }
+	import safeFilter from '../filters/safe';
+	import UserContent from './content-child';
 
 	export default {
-		data: function() {
-			return {
-				tags: function() {
-					let tags = [];
-
-					if (this.content.tagMasks) {
-						_.forEach(this.tagMasks.source, function(tag) {
-							if (tags.indexOf(tag) === -1) {
-								tags.push(tag);
-							}
-						});
-
-						_.forEach(this.tagMasks.added, function(tag) {
-							if (tags.indexOf(tag) === -1) {
-								tags.push(tag);
-							}
-						});
-
-						_.forEach(this.tagMasks.removed, function(tag) {
-							let index = tags.indexOf(tag);
-
-							if (index > -1) {
-								tags.splice(index, 1);
-							}
-						});
-					}
-
-					return tags;
-				}
-			}
+		components: {
+			UserContent
 		},
+		data: function() {
+			return {}
+		},
+		props: [
+			'content'
+		],
 		filters: {
-			safe: function(input) {
-				return typeof input === 'string' ? input : input == null ? '' : input.toString()
-			}
+      safe: safeFilter
 		},
 		methods: {
+		  getFirstTitle: function(event) {
+		    let returned = '';
+
+		    _.each(event.content, function(item) {
+		      if (item.title) {
+		        returned = item.title;
+
+		        return false;
+          }
+        });
+
+		    return returned;
+      },
+
+      contextOrType: function(event) {
+        return event.context ? event.context : event.type[0].toUpperCase() + event.type.slice(1);
+      },
+
 			getContentTypeIcon: function(type) {
 				return icons('content', type)
 			},
@@ -127,6 +94,38 @@
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
 			},
+
+      hasThumbnail: function() {
+			  let hasThumbnail = false;
+
+        _.each(this.$props.event.content, function(item) {
+          if (item.embed_thumbnail && item.embed_thumbnail.length > 0) {
+            hasThumbnail = true;
+          }
+        });
+
+        return hasThumbnail;
+      },
+
+      hasTitle: function() {
+        return this.$props.content.title != null;
+      },
+
+      getGridThumbnail: function() {
+			  let firstMatch = _.find(this.$props.event.content, function(item) {
+			    return item.embed_thumbnail != null;
+        });
+
+			  return firstMatch.embed_thumbnail;
+      },
+
+      getGridTitle: function() {
+        let firstMatch = _.find(this.$props.event.content, function(item) {
+          return item.title != null;
+        });
+
+        return firstMatch.title.length > 30 ? firstMatch.title.slice(0, 30) + '...' : firstMatch.title;
+      },
 
       openActionModal: function(item, type) {
         this.$modal.show(actionModal, {
@@ -138,104 +137,7 @@
           height: 'auto',
           scrollable: true
         });
-      },
-
-      isAudio: function(item) {
-			  return audioTypes.indexOf(item.embed_format.toLowerCase()) > -1;
-      },
-
-      isEmail: function(item) {
-			  return item.embed_format.toLowerCase() === 'email';
-      },
-
-      isIframe: function(item) {
-			  return item.embed_format.toLowerCase() === 'iframe';
-      },
-
-      isImage: function(item) {
-			  return imageTypes.indexOf(item.embed_format.toLowerCase()) > -1;
-      },
-
-      isVideo: function(item) {
-			  return videoTypes.indexOf(item.embed_format.toLowerCase()) > -1;
-      },
-
-      getHeight: function() {
-			  return DEFAULT_EMBED_HEIGHT;
-      },
-
-      getWidth: function() {
-        return isMobile() ? DEFAULT_EMBED_WIDTH : DEFAULT_DESKTOP_EMBED_WIDTH;
-      },
-
-      getAudioType: function(format) {
-			  switch(format) {
-          case 'mp3':
-            return 'audio/mp3';
-
-            break;
-
-          case 'ogga':
-            return 'audio/audio';
-
-            break;
-
-          case 'wav':
-            return 'audio/wav';
-
-            break;
-
-          default:
-            return 'audio/audio';
-        }
-      },
-
-      getVideoType: function(format) {
-        switch(format) {
-          case 'mp4':
-            return 'video/mp4';
-
-            break;
-
-          case 'oggv':
-            return 'video/ogg';
-
-            break;
-
-          case 'webm':
-            return 'video/webm';
-
-            break;
-
-          default:
-            return 'video/video';
-        }
-      },
-
-      renderIframe(content) {
-        let $iframe = $(content);
-
-        if (!isMobile() && $iframe.width() > DEFAULT_DESKTOP_EMBED_WIDTH) {
-          let scaleRatio = $iframe.height() / $iframe.width();
-          $iframe.attr('width', width);
-          $iframe.attr('height', $iframe.width() * scaleRatio);
-        }
-
-        return $iframe.html();
-      },
-
-      renderEmailIframe(content) {
-			  let $iframe = $('iframe[name="' + content.id + '"]');
-
-			  let iframe = $iframe.get(0);
-			  if (iframe.contentDocument) {
-			    iframe.contentDocument.body.innerHTML = content.embed_content;
-        }
       }
-		},
-		props: [
-			'connection',
-			'content'
-		]
+		}
 	}
 </script>
