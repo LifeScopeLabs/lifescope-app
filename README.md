@@ -39,8 +39,11 @@ $ yarn install --ignore-engines
 
 # add dev.json to config/
 
-# launch lifescope-api
+# launch lifescope-api and ngninx
 # see lifescope-api/README.md
+
+# build
+$ yarn build
 
 # run with NODE_ENV set
 $ NODE_ENV=dev yarn start

@@ -52,6 +52,10 @@ module.exports = {
 				tls: 'empty'
       };
 
+      // config.module.rules.push({
+      //       exclude: /(node_modules)/
+      // });
+
       // /*
       // ** Run ESLint on save
       // */
@@ -78,7 +82,10 @@ module.exports = {
 			'mixitup',
 			'vue-js-modal',
 			'vue2-filters',
-      'vue-bootstrap-datetimepicker'
+      'vue-bootstrap-datetimepicker',
+      'aframe',
+      'aframe-layout-component',
+      'networked-aframe'
 		],
 
     plugins: [
@@ -86,8 +93,11 @@ module.exports = {
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         $: 'jquery',
-        moment: 'moment',
-      }),
+        moment: 'moment'
+        // 'socket.io': 'socket.io-client',
+        // easyrtc: './node_modules/easyrtc/api/easyrtc.js',
+        // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js'
+        }),
     ]
 	},
 
@@ -98,6 +108,10 @@ module.exports = {
       src: './plugins/vue-bootstrap-datetimepicker',
       ssr: false
     }
+    // {
+    //   src: './node_modules/easyrtc/api/easyrtc.js',
+    //   ssr: false
+    // }
 	],
 
 	serverMiddleware: [

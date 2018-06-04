@@ -269,7 +269,6 @@
 <script>
   import History from 'history/createBrowserHistory';
   import _ from 'lodash';
-  import lifescopeObjects from '../lib/util/lifescope-objects';
   import qs from 'qs';
 
   import contactSearch from '../apollo/mutations/contact-search.gql';
@@ -284,6 +283,10 @@
 
   import assembleFilters from '../lib/util/assemble-filters';
   import uuid from '../lib/util/uuid';
+
+  // import lifescopeObjects from 'lifescope-objects';
+  import lifescopeObjects from '../lib/util/lifescope-objects';
+
 
   let history;
 

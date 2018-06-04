@@ -15,7 +15,8 @@ dist
 dev.json
 
 .DS_Store
-.vscode/settings.json
+.vscode
 yarn-error.log
 yarn.lock
+
 build/
