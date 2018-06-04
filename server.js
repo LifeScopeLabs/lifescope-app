@@ -1,3 +1,4 @@
+import 'idempotent-babel-polyfill';
 import BitScoop from 'bitscoop-sdk';
 import config from 'config';
 import express from 'express';
@@ -17,13 +18,13 @@ const opts = {
   poolSize: 5
 };
 
+
+const bitscoop = new BitScoop(BITSCOOP_API_KEY, config.bitscoop.arguments);
+
 const nuxt = new Nuxt(nuxtConfig);
 
 const builder = new Builder(nuxt);
 
-const bitscoop = new BitScoop(BITSCOOP_API_KEY, {
-  allowUnauthorized: true
-});
 
 Promise.resolve()
   .then(async function() {
@@ -46,7 +47,9 @@ Promise.resolve()
     bitscoop: bitscoop,
   };
 
-  builder.build();
+  if (process.env.NODE_ENV !== 'production') {
+    builder.build();
+  }
 
   // server.use(
   //   '/',
@@ -61,5 +64,5 @@ Promise.resolve()
 
   server.listen(listenPort);
 
-  console.log('Lifescope App listening on: ' + listenPort);
+  console.log('Lifescope App listening on: ' + listenPort + ' at ' + new Date());
 });

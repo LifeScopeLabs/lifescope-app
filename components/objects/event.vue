@@ -1,5 +1,5 @@
 <template>
-	<div v-if="$store.state.view === 'feed'" class="object event" v-bind:id="event.id">
+	<div v-if="$store.state.view === 'feed'" class="object event feed" v-bind:id="event.id">
 		<aside class="details">
 			<div class="type">
 				<i v-bind:class="getEventTypeIcon(event.type)"></i>
@@ -40,7 +40,7 @@
 
 			<div class="tagging">
 				<div class="tags">
-					<span v-for="tag in event.displayedTags">#{{ tag }}</span>
+					<span v-for="tag in event.tags">#{{ tag }}</span>
 				</div>
 			</div>
 		</aside>
@@ -58,37 +58,38 @@
 		</aside>
 	</div>
 
-  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id" v-on:click="$emit('render-details', event)">
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id" v-on:click="$emit('render-details', event, 'event')">
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
-    <div v-else>
-      <i v-bind:class="getEventTypeIcon(event.type)" class="type-icon large-grid-icon"></i>
-    </div>
+    <i v-else v-bind:class="getEventTypeIcon(event.type)" class="type-icon large-grid-icon"></i>
 
     <div class="title-bar">
       <i v-bind:class="getEventTypeIcon(event.type)" class="bubble"></i>
 
-      <div v-if="hasTitle" class="title">
+      <div v-if="hasTitle() === true" class="title">
         {{ getGridTitle() | safe }}
       </div>
-      <div v-else-if="event.datetime">
-        <div class="title">
-          <div>
-            <i class="fa fa-calendar"></i> <span>{{ event.datetime | dateShort }}</span>
-          </div>
-
-          <div>
-            <i class="fa fa-clock-o"></i> <span>{{ event.datetime | dateTime }}</span>
-          </div>
-        </div>
+      <div v-else>
+        {{ contextOrType(event) }}
       </div>
+      <!--<div v-else-if="event.datetime">-->
+        <!--<div class="title">-->
+          <!--<div>-->
+            <!--<i class="fa fa-calendar"></i> <span>{{ event.datetime | dateShort }}</span>-->
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<i class="fa fa-clock-o"></i> <span>{{ event.datetime | dateTime }}</span>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <i v-bind:class="getProviderIcon(event.connection.provider)" class="bubble"></i>
     </div>
   </div>
 
-  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event)">
+  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event, 'event')">
     <div>
       <span v-if="event.content && event.content.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
     </div>
@@ -103,12 +104,12 @@
       <span class="mobile-hide">{{ event.connection.provider.name }}</span>
     </div>
 
-    <div class="mobile-hide">
-      <span v-if="event.contacts && event.contacts.length > 0">{{ getFirstContact(event) | truncate(30) }}</span>
+    <div v-if="event.contacts && event.contacts.length > 0" class="mobile-hide">
+      <span>{{ getFirstContact(event) | truncate(30) }}</span>
     </div>
 
-    <div>
-      <span v-if="event.date">{{ event.date | tinyDate }}</span>
+    <div v-if="event.datetime">
+      <span>{{ event.datetime | dateTiny }}</span>
     </div>
   </div>
 </template>
@@ -119,8 +120,8 @@
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
 	import safeFilter from '../filters/safe';
-	import UserContact from '../objects/contact';
-	import UserContent from '../objects/content';
+	import UserContact from './contact-child';
+	import UserContent from './content-child';
 
 	export default {
 		components: {
@@ -178,7 +179,9 @@
       },
 
       contextOrType: function(event) {
-        return event.context ? event.context : event.type[0].toUpperCase() + event.type.slice(1);
+		    let typeUppercase = event.type[0].toUpperCase() + event.type.slice(1);
+
+        return event.context ? event.context + ' (' + typeUppercase + ')' : typeUppercase;
       },
 
 			getEventTypeIcon: function(type) {
@@ -193,7 +196,7 @@
 			  let hasThumbnail = false;
 
         _.each(this.$props.event.content, function(item) {
-          if (item.embed_thumbnail) {
+          if (item.embed_thumbnail && item.embed_thumbnail.length > 0) {
             hasThumbnail = true;
           }
         });
@@ -205,7 +208,7 @@
         let hasTitle = false;
 
         _.each(this.$props.event.content, function(item) {
-          if (item.title) {
+          if (item.title != null && item.title.length > 0) {
             hasTitle = true;
           }
         });
@@ -215,7 +218,7 @@
 
       getGridThumbnail: function() {
 			  let firstMatch = _.find(this.$props.event.content, function(item) {
-			    return item.embed_thumbnail != null;
+			    return item.embed_thumbnail != null && item.embed_thumbnail.length > 0;
         });
 
 			  return firstMatch.embed_thumbnail;
@@ -223,10 +226,10 @@
 
       getGridTitle: function() {
         let firstMatch = _.find(this.$props.event.content, function(item) {
-          return item.title != null;
+          return item.title != null && item.title.length > 0;
         });
 
-        return firstMatch.title.length > 40 ? firstMatch.title.slice(0, 40) + '...' : firstMatch.title;
+        return firstMatch.title.length > 30 ? firstMatch.title.slice(0, 30) + '...' : firstMatch.title;
       },
 
       openActionModal: function(item, type) {

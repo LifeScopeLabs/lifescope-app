@@ -1,17 +1,19 @@
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const webpack = require('webpack');
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import jquery from 'jquery';
+import moment from 'moment';
+import webpack from 'webpack';
 
-const cookieAuthorization = require('./lib/middleware/cookie-authorization');
-const initialSearches = require('./lib/middleware/initial-searches');
+import cookieAuthorization from "./lib/middleware/cookie-authorization";
+import initialSearches from "./lib/middleware/initial-searches";
 
-module.exports = {
+export default {
   /*
   ** Headers of the page
   */
   head: {
     title: 'LIFESCOPE',
-    description: 'LIFESCOPE',
+    description: 'This is LIFESCOPE',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -25,7 +27,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#2ac1de' },
+  loading: { color: '#3B8070' },
 
 	modules: ['@nuxtjs/apollo'],
 
@@ -66,10 +68,7 @@ module.exports = {
 		},
 
     babel: {
-		  presets: ['env', 'stage-2'],
-      plugins: [
-        'transform-runtime'
-      ],
+		  presets: ['es2015', 'stage-2'],
       babelrc: true
     },
 

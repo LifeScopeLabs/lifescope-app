@@ -41,8 +41,9 @@ const store = () => new Vuex.Store({
       name: null
     },
 
-    searchMany: null,
+    searchMany: [],
     searchCount: null,
+    tagMany: [],
     pageSize: null,
     pageOffset: null,
     searchEnded: false,
@@ -55,13 +56,27 @@ const store = () => new Vuex.Store({
     hide_filters: false,
     hide_favorite_star: false,
 
-    searching: true,
+    searching: false,
+    spinner: true,
+    facetSelectOpen: false,
 
     objects: {
 		  events: [],
       contacts: [],
       content: []
-    }
+    },
+
+    connectionMany: [],
+    providerHydratedMany: [],
+
+    connectionsLoaded: false,
+    providersLoaded: false,
+
+    facet: null,
+
+    mobileViewSelectorOpen: false,
+    mobileSortSelectorOpen: false,
+    mobileFacetSelectorOpen: false
 	},
 
 	getters: {

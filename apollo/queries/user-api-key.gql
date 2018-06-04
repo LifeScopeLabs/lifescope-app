@@ -1,0 +1,7 @@
+query userApiKey {
+    userOne {
+        id,
+        api_key,
+        api_key_string
+    }
+}

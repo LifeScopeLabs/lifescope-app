@@ -1,5 +1,8 @@
 # dependencies
 node_modules
+dist/
+config/local.json
+config/production.json
 
 # logs
 npm-debug.log
@@ -15,3 +18,4 @@ dev.json
 .vscode/settings.json
 yarn-error.log
 yarn.lock
+build/

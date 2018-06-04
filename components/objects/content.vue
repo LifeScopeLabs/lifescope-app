@@ -1,97 +1,71 @@
 <template>
-	<div class="object content" v-bind:id="content.id">
-		<div class="header">
-			<div class="type">
-				<i v-bind:class="getContentTypeIcon(content.type)"></i>
-				{{ content.type }}
-			</div>
-
-			<div class="provider">
-				<i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }}
-			</div>
-
-			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
-				<span>Tag</span><i class="fa fa-hashtag"></i>
-				<span>Share</span><i class="fa fa-share"></i>
-			</aside>
-		</div>
-
-		<div class="content-embed" data-type="content" v-bind:data-id="content.id"></div>
-
-		<div v-if="content.embed_thumbnail" class="thumbnail">
-			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
-
-			<a v-else v-bind:href="content.url" target="_blank">
-				<img v-bind:src="content.embed_thumbnail"/>
-			</a>
-		</div>
-
-		<div class="title">
-			<a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
-			<span v-else>{{ content.title | safe }}</span>
-		</div>
-
-		<div v-if="content.text != null" class="text">
-		<!--{% if text_truncated %}-->
-			<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
-		<!--{% endif %}-->
-		<a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a>
-
-		<!--{% if text_truncated %}-->
-			<!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
-		<!--{% endif %}-->
-		<pre v-else class="full">{{ content.text | safe }}</pre>
-			<!--<div class="expand">More</div>-->
-		</div>
-
-		<!--<div class="tagging">-->
-			<!--<div class="tags">-->
-				<!--<span v-for="tag in tags">#{{ tag }}</span>-->
-			<!--</div>-->
-		<!--</div>-->
+	<div v-if="$store.state.view === 'feed'" class="object feed" v-bind:id="content.id">
+    <section class="content">
+      <user-content v-bind:key="content.id" v-bind:content="content" v-bind:connection="content.connection"></user-content>
+    </section>
 	</div>
+
+  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="content.id" v-on:click="$emit('render-details', content, 'content')">
+    <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
+      <img v-bind:src="getGridThumbnail()" />
+    </div>
+    <i v-else v-bind:class="getContentTypeIcon(content.type)" class="type-icon large-grid-icon"></i>
+
+    <div class="title-bar">
+      <i v-bind:class="getContentTypeIcon(content.type)" class="bubble"></i>
+
+      <div v-if="hasTitle" class="title">
+        {{ getGridTitle() | safe }}
+      </div>
+      <div v-else>
+        {{ content.type }}
+      </div>
+
+      <i v-bind:class="getProviderIcon(content.connection.provider)" class="bubble"></i>
+    </div>
+  </div>
+
+  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="content.id" v-on:click="$emit('render-details', content, 'content')">
+    <div>
+      <span>{{ content.title | truncate(30) }}</span>
+    </div>
+
+    <div class="icon-column">
+      <i v-bind:class="getProviderIcon(content.connection.provider)"></i>
+      <span class="mobile-hide">{{ content.connection.provider.name }}</span>
+    </div>
+
+    <div class="icon-column">
+      <i v-bind:class="getContentTypeIcon(content.type)"></i>
+      <span class="mobile-hide">{{ prettifyType(content.type) }}</span>
+    </div>
+
+    <div>
+      <span>{{ content.mimetype }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
+  import moment from 'moment';
+
   import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
+	import safeFilter from '../filters/safe';
+	import UserContent from './content-child';
 
 	export default {
-		data: function() {
-			return {
-				tags: function() {
-					let tags = [];
-
-					if (this.content.tagMasks) {
-						_.forEach(this.tagMasks.source, function(tag) {
-							if (tags.indexOf(tag) === -1) {
-								tags.push(tag);
-							}
-						});
-
-						_.forEach(this.tagMasks.added, function(tag) {
-							if (tags.indexOf(tag) === -1) {
-								tags.push(tag);
-							}
-						});
-
-						_.forEach(this.tagMasks.removed, function(tag) {
-							let index = tags.indexOf(tag);
-
-							if (index > -1) {
-								tags.splice(index, 1);
-							}
-						});
-					}
-
-					return tags;
-				}
-			}
+		components: {
+			UserContent
 		},
+		data: function() {
+			return {}
+		},
+		props: [
+			'content'
+		],
 		filters: {
-			safe: function(input) {
-				return typeof input === 'string' ? input : input == null ? '' : input.toString()
-			}
+      safe: safeFilter
 		},
 		methods: {
 			getContentTypeIcon: function(type) {
@@ -101,6 +75,22 @@
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
 			},
+
+      hasThumbnail: function() {
+			  return this.$props.content.embed_thumbnail && this.$props.content.embed_thumbnail.length > 0;
+      },
+
+      hasTitle: function() {
+        return this.$props.content.title != null;
+      },
+
+      getGridThumbnail: function() {
+			  return this.$props.content.embed_thumbnail;
+      },
+
+      getGridTitle: function() {
+        return this.$props.content.title.length > 30 ? this.$props.content.title.slice(0, 30) + '...' : this.$props.content.title;
+      },
 
       openActionModal: function(item, type) {
         this.$modal.show(actionModal, {
@@ -112,11 +102,11 @@
           height: 'auto',
           scrollable: true
         });
+      },
+
+      prettifyType(type) {
+		    return type[0].toUpperCase() + type.slice(1, 30);
       }
-		},
-		props: [
-			'connection',
-			'content'
-		]
+		}
 	}
 </script>

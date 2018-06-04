@@ -80,7 +80,7 @@
               <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
             </a>
 
-            <div v-if="type === 'tags'" v-for="tag in $store.state.tagMany" class="tag">#{{ tag.tag }}</div>
+            <div v-if="type === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">#{{ tag.tag }}</div>
           </div>
         </div>
       </div>
@@ -240,7 +240,13 @@
           await this.fetchData(false, this.$data.tab);
         }
       }, 500),
+
+      searchForTag: function(tag) {
+        this.$store.state.searchBar.query = '#' + tag;
+        this.$root.$emit('check-and-search', true);
+      }
     },
+
     apollo: {
       connectionCount: {
         prefetch: true,
@@ -260,11 +266,12 @@
         }
       }
     },
+
     mounted: async function() {
       this.$data.offset = 0;
       this.$data.tab = 'favorites';
       this.$data.type = 'searches';
-      this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = true;
+      this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
       await this.fetchData(true, this.$data.tab);
     }

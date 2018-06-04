@@ -2,16 +2,7 @@
     eventMany {
         id,
         connection,
-        hydratedConnection {
-            id,
-            name,
-            provider_id,
-            provider {
-                id,
-                name
-            },
-            remote_connection_id
-        },
+        connection_id_string,
         contact_interaction_type,
         context,
         datetime,
