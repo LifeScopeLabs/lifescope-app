@@ -1,8 +1,11 @@
 <template>
   <a-scene embedded networked-scene="
+      serverURL: http://localhost:7070;
       app: myApp;
       room: room1;
       debug: true;
+      audio: true;
+      adapter: easyrtc;
     ">
 
     <!-- Load assets -->

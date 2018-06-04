@@ -87,11 +87,11 @@ export default {
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         $: 'jquery',
-        moment: 'moment'//,
-        // 'socket.io': 'socket.io',
-        // easyrtc: 'easyrtc',
-        // 'window.easyrtc': 'easyrtc'
-      }),
+        moment: 'moment'
+        // 'socket.io': 'socket.io-client',
+        // easyrtc: './node_modules/easyrtc/api/easyrtc.js',
+        // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js'
+        }),
     ]
 	},
 
@@ -102,6 +102,10 @@ export default {
       src: './plugins/vue-bootstrap-datetimepicker',
       ssr: false
     }
+    // {
+    //   src: './node_modules/easyrtc/api/easyrtc.js',
+    //   ssr: false
+    // }
 	],
 
 	serverMiddleware: [
