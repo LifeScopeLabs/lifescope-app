@@ -86,6 +86,7 @@
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.1.5",
     "express": "^4.16.3",
+    "glob": "^7.1.2",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.8.0",
     "history": "^4.7.2",

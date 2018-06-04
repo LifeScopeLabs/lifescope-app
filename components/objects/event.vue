@@ -104,8 +104,8 @@
       <span class="mobile-hide">{{ event.connection.provider.name }}</span>
     </div>
 
-    <div v-if="event.contacts && event.contacts.length > 0" class="mobile-hide">
-      <span>{{ getFirstContact(event) | truncate(30) }}</span>
+    <div class="mobile-hide">
+      <span v-if="event.contacts && event.contacts.length > 0">{{ getFirstContact(event) | truncate(30) }}</span>
     </div>
 
     <div v-if="event.datetime">
