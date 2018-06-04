@@ -20,6 +20,10 @@
     }
   },
 
+  "googleAnalytics": {
+    "trackingID": "UA-100413087-2"
+  },
+
   "mongo": {
     "address": "mongodb://127.0.0.1",
     "options": {
