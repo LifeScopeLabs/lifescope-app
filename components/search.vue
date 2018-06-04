@@ -542,7 +542,7 @@
         this.closeFilterEditor();
         this.$store.state.facetSelectOpen = false;
 
-        if (this.$store.state.searching === true) {
+        if (this.$store.state.searching === true || this.$store.state.searchEnded === true) {
           return;
         }
 
@@ -673,9 +673,13 @@
         }
 
         this.$store.state.offset += this.$store.state.pageSize;
-        this.$store.state.searchEnded = this.$store.state.objects.events.length < this.$store.state.pageSize;
+        this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
         this.$store.state.searching = false;
         this.$store.state.spinner = false;
+
+        console.log(this.$store.state.objects[facet].length);
+        console.log(this.$store.state.pageSize);
+        console.log(this.$store.state.searchEnded);
       },
 
       compactOverflowFilters: function() {

@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+const config = require('config');
 const cookieParser = require('cookie-parser');
 const webpack = require('webpack');
 
@@ -27,13 +28,20 @@ module.exports = {
   */
   loading: { color: '#2ac1de' },
 
-	modules: ['@nuxtjs/apollo'],
+	modules: [
+	  '@nuxtjs/apollo',
+    '@nuxtjs/google-analytics'
+  ],
 
 	apollo: {
 		clientConfigs: {
 			default: '../apollo/client-configs/default.js'
 		}
 	},
+
+  'google-analytics': {
+    id: config.googleAnalytics.trackingID
+  },
 
 	css: [
 		'./assets/css/site.min.css'

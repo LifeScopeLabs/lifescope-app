@@ -114,11 +114,22 @@
 				}
 			}
 		},
+
 		filters: {
 			safe: function(input) {
 				return typeof input === 'string' ? input : input == null ? '' : input.toString()
 			}
 		},
+
+    directives: {
+		  infocus: {
+		    isLiteral: true,
+        inserted: function(el) {
+
+        }
+      }
+    },
+
 		methods: {
 			getContentTypeIcon: function(type) {
 				return icons('content', type)
