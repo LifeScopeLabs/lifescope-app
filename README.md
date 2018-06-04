@@ -34,8 +34,18 @@ This is a conversational interface of LifeScope data as Vue Plugins.
 ## Developer Setup
 
 ``` bash
+# set default node version
+nvm alias default 8.10
+
 # install dependencies
 $ yarn install
+
+# install easyrtc dependencies
+$ yarn easyrtc-install
+
+# install engine.io dependencies
+$ yarn engine-install
+
 
 # start nginx
 sudo nginx -c ./nginx.conf

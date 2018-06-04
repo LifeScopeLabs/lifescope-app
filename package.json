@@ -29,7 +29,9 @@
     "nuxt-build": "nuxt build",
     "nuxt-start": "nuxt start",
     "nuxt-generate": "nuxt generate",
-    "serve": "node dist/app/server.js"
+    "serve": "node dist/app/server.js",
+    "easyrtc-install": "cd ./node_modules/easyrtc; yarn install --ignore-engines; cd ../../;",
+    "engine-install": "cd ./node_modules/engine.io; yarn install --ignore-engines; cd ../../;"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -80,6 +82,7 @@
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.3",
     "apollo-link-ws": "^1.0.8",
+    "async": "^2.6.0",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
@@ -105,10 +108,12 @@
     "mongodb": "^3.0.7",
     "mongoose": "^5.0.11",
     "mongoose-uuid2": "^2.1.0",
-    "networked-aframe": "https://github.com/LifeScopeLabs/networked-aframe#master",
+    "networked-aframe": "^0.6.1",
     "node-uuid": "^1.4.8",
     "nuxt": "^1.4.0",
     "qs": "^6.5.2",
+    "require": "^2.4.20",
+    "socket.io-client": "^2.1.1",
     "subscriptions-transport-ws": "^0.9.7",
     "type-detect": "^4.0.8",
     "useragent": "^2.3.0",
