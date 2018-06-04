@@ -1,8 +1,8 @@
 <template>
-  <!-- <main v-if="$store.state.view === 'xr'">
-    <xr-app/>
-  </main> v-else -->
-  <main v-on:scroll="handleScroll">
+  <main v-if="$store.state.view === 'xr'">
+    <xrApp/>
+  </main>
+  <main v-else v-on:scroll="handleScroll">
     <section v-if="$store.state.user != undefined" id="content">
       <div v-if="$store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0" class="container">
         <div class="scroller">
@@ -49,17 +49,7 @@
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
 
-  import assembleFilters from '../../lib/util/assemble-filters';
-
-  import XrApp from '../xr/src/App.vue';
-
-  // import lifescopeObjects from 'lifescope-objects';
-
-  let history;
-
-  if (process.browser) {
-    history = History();
-  }
+  import xrApp from '../xr/src/App.vue'
 
   export default {
     data: function() {
@@ -72,7 +62,7 @@
       UserContact,
       UserContent,
       UserEvent,
-      XrApp
+      xrApp
     },
     methods: {
       searchIcon: function(search) {

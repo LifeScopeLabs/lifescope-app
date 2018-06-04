@@ -21,9 +21,9 @@ const opts = {
 
 const bitscoop = new BitScoop(BITSCOOP_API_KEY, config.bitscoop.arguments);
 
-const nuxt = new Nuxt(nuxtConfig);
 const server = express();
 
+const nuxt = new Nuxt(nuxtConfig);
 const builder = new Builder(nuxt);
 
 
@@ -60,7 +60,7 @@ Promise.resolve()
 
   server.listen(LISTEN_PORT);
 
-  console.log('Lifescope App listening on: ' + LISTEN_PORT);
+    console.log('Lifescope App listening on: ' + listenPort + ' at ' + new Date());
 
   // start websockets for NAF
   // var socketServer = socketIO.listen(NAFServer, {"log level":1});

@@ -15,6 +15,7 @@
   "scripts": {
     "build": "nuxt build && backpack build",
     "seed": "./node_modules/.bin/babel-node ./scripts/seed.js",
+    "dev": "NODE_ENV=dev babel-node server.js",
     "start": "cross-env NODE_ENV=production node build/main.js",
     "start-dev": "cross-env NODE_ENV=local node build/main.js",
     "start-seed": "npm run seed && babel-node server.js",
@@ -75,23 +76,17 @@
   },
   "dependencies": {
     "@nuxtjs/apollo": "^3.0.5",
-<<<<<<< HEAD
     "aframe": "^0.8.2",
     "aframe-layout-component": "^4.3.1",
-=======
     "@nuxtjs/google-analytics": "^2.0.2",
->>>>>>> 59f71b89d8019271eb711f6a3c3120d6dbd78195
     "apollo-cache-inmemory": "^1.1.11",
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.3",
     "apollo-link-ws": "^1.0.8",
-<<<<<<< HEAD
     "aws-sdk": "^2.250.1",
     "async": "^2.6.0",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
-=======
->>>>>>> 59f71b89d8019271eb711f6a3c3120d6dbd78195
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "bitscoop-sdk": "^0.2.0",
