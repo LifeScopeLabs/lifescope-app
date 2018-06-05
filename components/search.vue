@@ -735,23 +735,25 @@
     created: async function() {
       let self = this;
 
-      this.$store.state.connectionsLoaded = this.$apollo.query({
-        query: connectionMany
-      })
-        .then(function(result) {
-          self.$store.state.connectionMany = result.data.connectionMany;
+      if (process.client) {
+        this.$store.state.connectionsLoaded = this.$apollo.query({
+          query: connectionMany
+        })
+          .then(function (result) {
+            self.$store.state.connectionMany = result.data.connectionMany;
 
-          return Promise.resolve();
-        });
+            return Promise.resolve();
+          });
 
-      this.$store.state.providersLoaded = this.$apollo.query({
-        query: providerHydratedMany
-      })
-        .then(function(result) {
-          self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
+        this.$store.state.providersLoaded = this.$apollo.query({
+          query: providerHydratedMany
+        })
+          .then(function (result) {
+            self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
 
-          return Promise.resolve();
-        });
+            return Promise.resolve();
+          });
+      }
     },
 
     mounted: async function() {

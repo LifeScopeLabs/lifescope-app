@@ -100,6 +100,12 @@
 				<button id="done" class="primary">Done</button>
 			</div>
 
+      <div v-if="$store.state.user != undefined" class="shortcuts">
+        <a href="/explore"><i class="fa fa-rocket"></i></a>
+        <a href="/providers"><i class="fa fa-plug"></i></a>
+        <a href="/settings"><i class="fa fa-cog"></i></a>
+      </div>
+
 			<div v-if="$store.state.user != undefined" id="menu-button" v-on:click.stop="openMenu">
 				<div class="fa fa-bars"></div>
 			</div>

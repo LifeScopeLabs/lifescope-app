@@ -28,7 +28,7 @@
 
               <div class="flexbox">
                 <p style="margin-right:0.5em;">Your API key is:</p>
-                <span>{{ $data.userOne.api_key_string }}</span>
+                <span>{{ $store.state.userOne.api_key_string }}</span>
               </div>
 
               <div>
@@ -55,7 +55,7 @@
           <modals-container/>
         </section>
         <section id="connections" v-if="$store.state.mode === 'connections'">
-          <div v-for="connection in orderBy(connectionMany, 'provider.name')"
+          <div v-for="connection in orderBy($store.state.connectionMany, 'provider.name')"
                v-bind:class="{active : $data.activeConnection === connection.id}" class="connection boxed-group"
                v-bind:data-id="connection.id" v-bind:data-provider-id="connection.provider.id">
             <div class="flexbox flex-x-center title" v-on:click="toggleActive(connection.id)">
@@ -97,7 +97,7 @@
                     <div v-for="permission, name in orderBy(connection.provider.sources, 'name')" class="paragraph ">
                       <div class="flexbox flex-x-center">
                         <label><input class="flag" type="checkbox" v-bind:value="permission.$key"
-                                      v-model="permissions[connection.id]" v-on:change="updatePermissions(connection)"/>{{
+                                      v-model="$store.state.permissions[connection.id]" v-on:change="updatePermissions(connection)"/>{{
                           permission.$value.name }}</label>
                         <i class="fa fa-check-circle flex-grow success-icon" v-bind:data-for="name"
                            v-bind:data-namespace="connection.id"></i>
@@ -176,10 +176,7 @@
   export default {
     data: function () {
       return {
-        activeConnection: null,
-        connectionMany: null,
-        userOne: {},
-        permissions: {}
+        activeConnection: null
       }
     },
     methods: {
@@ -244,7 +241,7 @@
           permissions[name] = false;
         });
 
-        _.each(this.$data.permissions[connection.id], function (source) {
+        _.each(this.$store.state.permissions[connection.id], function (source) {
           if (typeof source === 'string') {
             permissions[source] = true;
           }
@@ -264,72 +261,76 @@
           mutation: userApiKeyUpdate
         });
 
-        this.$data.userOne = response.data.userApiKeyUpdate;
+        this.$store.state.userOne = response.data.userApiKeyUpdate;
       }
     },
-    apollo: {
-      userOne: {
-        query: userApiKey,
-        prefetch: true,
-        result({ data }) {
-          this.$data.userOne = data.userOne;
-        }
-      },
 
-      connectionMany: {
-        query: connectionMany,
-        prefetch: true,
-        result({data}) {
-          let self = this;
-          let connections = data.connectionMany;
+    mounted: async function() {
+      let self = this;
 
-          _.each(connections, function (connection) {
-            self.$data.permissions[connection.id] = _.map(connection.provider.sources, function (source, name) {
-              return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
+      let apiKeyResult = await this.$apollo.query({
+        query: userApiKey
+      });
+
+      let connectionResult = await this.$apollo.query({
+        query: connectionMany
+      });
+
+      let connectionUpdatedObserver = this.$apollo.subscribe({
+        query: connectionUpdated,
+      });
+
+      let connectionDeletedObserver = this.$apollo.subscribe({
+        query: connectionDeleted,
+      });
+
+      connectionUpdatedObserver.subscribe({
+        next(data) {
+          let newData = data.data.connectionUpdated;
+
+          if (newData) {
+            let id = newData.id;
+
+            let clone = _.clone(self.$store.state.connectionMany);
+
+            let index = _.findIndex(clone, function(item) {
+              return item.id === id;
             });
-          });
 
-          this.$data.connectionMany = connections;
-        },
-        subscribeToMore: [
-          {
-            document: connectionUpdated,
-            updateQuery: function (previousResult, {subscriptionData}) {
-              let newData = subscriptionData.data.connectionUpdated;
+            clone.splice(index, 1, newData);
 
-              if (newData) {
-                let id = newData.id;
-
-                let replacing = _.find(previousResult.connectionMany, function (item) {
-                  return item.id === id;
-                });
-
-                replacing = newData;
-              }
-
-              return previousResult;
-            }
-          },
-          {
-            document: connectionDeleted,
-            updateQuery: function (previousResult, {subscriptionData}) {
-              let returned = previousResult;
-              let newData = subscriptionData.data.connectionDeleted;
-
-              if (newData) {
-                let id = newData.id;
-                let copy = _.clone(previousResult);
-
-                copy.connectionMany = copy.connectionMany.filter(item => item.id !== id);
-
-                returned = copy;
-              }
-
-              return returned;
-            }
+            self.$store.state.connectionMany = clone;
           }
-        ]
-      }
+        }
+      });
+
+      connectionDeletedObserver.subscribe({
+        next(data) {
+          let newData = data.data.connectionDeleted;
+
+          if (newData) {
+            let id = newData.id;
+
+            let clone = _.clone(self.$store.state.connectionMany);
+
+            clone = clone.filter(item => item.id !== id);
+
+            self.$store.state.connectionMany = clone;
+          }
+        }
+      });
+
+      this.$store.state.userOne = apiKeyResult.data.userOne;
+
+      let connections = connectionResult.data.connectionMany;
+
+      _.each(connections, function (connection) {
+        self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function (source, name) {
+          return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
+        });
+      });
+
+      this.$store.state.connectionMany = connections;
     },
   }
 </script>

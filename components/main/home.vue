@@ -247,27 +247,24 @@
       }
     },
 
-    apollo: {
-      connectionCount: {
-        prefetch: true,
-        query: connectionCount,
-      },
-
-      eventCount: {
-        prefetch: true,
-        query: eventCount
-      },
-
-      searchCount: {
-        prefetch: true,
-        query: searchCount,
-        result: function({ data }) {
-          this.$store.state.searchCount = data.searchCount;
-        }
-      }
-    },
-
     mounted: async function() {
+
+      let connectionCountResult = await this.$apollo.query({
+          query: connectionCount,
+      });
+
+      let eventCountResult = await this.$apollo.query({
+          query: eventCount
+      });
+
+      let searchCountResult = await this.$apollo.query({
+          query: searchCount
+      });
+
+      this.$data.connectionCount = connectionCountResult.data.connectionCount;
+      this.$data.eventCount = eventCountResult.data.eventCount;
+      this.$store.state.searchCount = searchCountResult.data.searchCount;
+
       this.$data.offset = 0;
       this.$data.tab = 'favorites';
       this.$data.type = 'searches';

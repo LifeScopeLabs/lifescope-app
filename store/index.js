@@ -21,7 +21,7 @@ const store = () => new Vuex.Store({
 
     currentSearch: {
       id: null,
-      count: null,
+      count: 0,
       query: null,
       filters: [],
       favorited: null,
@@ -32,7 +32,7 @@ const store = () => new Vuex.Store({
 
     tempSearch: {
       id: null,
-      count: null,
+      count: 0,
       query: null,
       filters: [],
       favorited: null,
@@ -44,8 +44,8 @@ const store = () => new Vuex.Store({
     searchMany: [],
     searchCount: null,
     tagMany: [],
-    pageSize: null,
-    pageOffset: null,
+    pageSize: 100,
+    pageOffset: 0,
     searchEnded: false,
     view: null,
 
@@ -68,6 +68,8 @@ const store = () => new Vuex.Store({
 
     connectionMany: [],
     providerHydratedMany: [],
+    permissions: {},
+    userOne: {},
 
     connectionsLoaded: false,
     providersLoaded: false,

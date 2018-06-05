@@ -62,23 +62,23 @@
         });
       }
     },
-    apollo: {
-      providerHydratedMany: {
-        query: providerHydratedMany,
-        prefetch: true,
-        skip: function () {
-          return this.$store.getters.authenticated !== true;
-        }
-      },
-      providerWithMapMany: {
-        query: providerWithMapMany,
-        prefetch: true,
-        skip: function () {
-          return this.$store.getters.authenticated === true;
-        }
+
+    beforeMount: async function() {
+      if (this.$store.getters.authenticated === true) {
+        let providerHydratedResult = await this.$apollo.query({
+          query: providerHydratedMany
+        });
+
+        let providerWithMapResult = await this.$apollo.query({
+          query: providerWithMapMany,
+        });
+
+        this.$data.providerHydratedMany = providerHydratedResult.data.providerHydratedMany;
+        this.$data.providerWithMapMany = providerWithMapResult.data.providerWithMapMany;
       }
     },
-    mounted() {
+
+    mounted: async function() {
       let mixitup = require('mixitup');
 
       this.$store.mixer = mixitup('#provider-grid', {});
