@@ -1,4 +1,5 @@
 import 'idempotent-babel-polyfill';
+// import 'intersection-observer';
 import BitScoop from 'bitscoop-sdk';
 import config from 'config';
 import express from 'express';

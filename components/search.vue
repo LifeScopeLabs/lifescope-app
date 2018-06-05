@@ -542,7 +542,7 @@
         this.closeFilterEditor();
         this.$store.state.facetSelectOpen = false;
 
-        if (this.$store.state.searching === true || this.$store.state.searchEnded === true) {
+        if (this.$store.state.searching === true) {
           return;
         }
 
@@ -550,7 +550,12 @@
           this.$store.state.objects.events = [];
           this.$store.state.objects.contacts = [];
           this.$store.state.objects.content = [];
+          this.$store.state.searchEnded = false;
           this.$store.state.offset = 0;
+        }
+
+        if (this.$store.state.searchEnded === true) {
+          return;
         }
 
         this.$store.state.spinner = true;
@@ -676,10 +681,6 @@
         this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
         this.$store.state.searching = false;
         this.$store.state.spinner = false;
-
-        console.log(this.$store.state.objects[facet].length);
-        console.log(this.$store.state.pageSize);
-        console.log(this.$store.state.searchEnded);
       },
 
       compactOverflowFilters: function() {

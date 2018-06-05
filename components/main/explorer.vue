@@ -135,8 +135,6 @@
       }, 500),
 
       renderDetailsModal: function(item, type) {
-        console.log(item);
-        console.log(type);
         if (this.$store.state.view === 'grid' || this.$store.state.view === 'list') {
           this.$modal.show(Details, {
             type: type,

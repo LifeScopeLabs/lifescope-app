@@ -151,7 +151,6 @@
 			  this.$store.state.view = view;
 
         if (process.browser) {
-          console.log('Setting view');
           let params = qs.parse(history.location.search, {
             ignoreQueryPrefix: true
           });

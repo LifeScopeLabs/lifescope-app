@@ -17,14 +17,14 @@
 		</div>
 
 		<div class="content-embed" data-type="content" v-bind:data-id="content.id">
-      <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
-      <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
-      <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
-      <iframe v-if="isEmail(content)" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
-      <div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div>
+      <audio v-if="isAudio(content)" controls v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
+      <img v-if="isImage(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
+      <video v-if="isVideo(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
+      <iframe v-if="isEmail(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
+      <div v-if="isIframe(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" ><span v-html="content.embed_content"></span></div>
     </div>
 
-		<div v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail">
+		<div v-if="content.embed_thumbnail" class="thumbnail">
 			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
 
 			<a v-else v-bind:href="content.url" target="_blank">
@@ -67,6 +67,7 @@
   const DEFAULT_EMBED_WIDTH = '100%';
   const DEFAULT_DESKTOP_EMBED_WIDTH = 600; //px
   const DEFAULT_EMBED_HEIGHT = 500;  //px
+  const SCROLL_EMBED_LEAD_AREA = 700; //px
 
   const audioTypes = ['mp3', 'ogga', 'wav'];
   const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
@@ -120,15 +121,6 @@
 				return typeof input === 'string' ? input : input == null ? '' : input.toString()
 			}
 		},
-
-    directives: {
-		  infocus: {
-		    isLiteral: true,
-        inserted: function(el) {
-
-        }
-      }
-    },
 
 		methods: {
 			getContentTypeIcon: function(type) {
@@ -241,6 +233,17 @@
 			  let iframe = $iframe.get(0);
 			  if (iframe.contentDocument) {
 			    iframe.contentDocument.body.innerHTML = content.embed_content;
+        }
+      },
+
+      visbilityChanged(isVisible, entry) {
+			  if (isVisible) {
+			    entry.target.classList.remove('embed-hidden');
+			    $(entry.target).parent().siblings('.thumbnail').addClass('hidden');
+        }
+        else {
+			    entry.target.classList.add('embed-hidden');
+          $(entry.target).parent().siblings('.thumbnail').removeClass('hidden');
         }
       }
 		},
