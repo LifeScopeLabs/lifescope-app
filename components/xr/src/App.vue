@@ -1,24 +1,28 @@
 <template>
-  <a-scene embedded networked-scene="
-      serverURL: http://localhost:7070;
-      app: myApp;
-      room: room1;
-      debug: true;
-      audio: true;
-      adapter: easyrtc;
-    ">
+  <a-scene :networked-scene="'app: myApp; room: ' + roomName + '; debug: true; audio: true; adapter: easyrtc; connectOnLoad: true;'">
 
     <!-- Load assets -->
     <a-assets class="assets-sky">
-      <img id="sky" src="../static/images/nightsky.jpg">
+      <img id="sky" src="https://s3.amazonaws.com/lifescope-static/xr/gallery/skybox/nightsky.jpg"
+      crossorigin="anonymous">
     </a-assets>
 
     <a-assets class="assets-floor">
-      <img id="floor" src="../static/images/floor.jpg">
+      <img id="floor" src="https://s3.amazonaws.com/lifescope-static/xr/gallery/floor/wood-panel.jpg"
+      crossorigin="anonymous">
     </a-assets>
 
     <a-assets class="assets-earth">
-      <img id="earth" src="../static/earth/Albedo.jpg">
+      <img id="earth" src="https://s3.amazonaws.com/lifescope-static/xr/components/globe/Albedo.jpg"
+      crossorigin="anonymous">
+    </a-assets>
+
+    <!-- gltf -->
+    <a-assets class="assets-gltf">
+      <!-- logo -->
+      <a-gltf-model id="logo" src="https://s3.amazonaws.com/lifescope-static/xr/logo/logo.gltf"
+                    crossorigin="anonymous">
+      </a-gltf-model>
     </a-assets>
 
     <!-- Geojson -->
@@ -27,22 +31,24 @@
 
     <!-- Load assets with imageLoader -->
     <!-- https://www.pexels.com/search/travel/ -->
-    <imageLoader :LSObjs='LSObjs' />
+    <imageLoader :LSObjs='LSObjs'/>
 
     <!-- Avatar Template -->
     <a-assets class="assets-avatar" v-pre>
-        <!-- avatar template -->
-          <!-- <avatarComponent/> -->
     </a-assets>
 
         
     
-        <!-- Player -->
-        <!-- <a-entity id="player" camera position="0 1.3 0" wasd-controls look-controls networked="template:#avatar-template;attachTemplateToLocal:true;">
-        </a-entity> -->
+     <!-- Player -->
+    <a-entity id="player-rig"
+          movement-controls="speed:0.05"
+          position="0 0 0">
+      <a-entity id="player" camera position="0 1.3 0" wasd-controls="reverseMouseDrag:true" look-controls touch-controls="reverseMouseDrag:true" networked="template:#avatar-template;attachTemplateToLocal:true;">
+      </a-entity>
+    </a-entity>
 
     <!-- gallery -->
-    <gallery/>
+    <gallery :LSObjs='LSObjs'/>
 
     <!-- Sky   change id to class?-->
     <a-sky id="Sky" src="#sky" rotation="90 0 90">
@@ -69,7 +75,8 @@ export default {
     data() {
       return {
         LSObjs: [],
-        searchData: []
+        searchData: [],
+        roomName: 'ls-room'
       }
     },
 
@@ -91,12 +98,23 @@ export default {
 
     mounted () {
       console.log("mounted");
-      //this.addAvatarTemplate();
       // debugger;
+
+      document.body.addEventListener('connected', function (evt) {
+        console.log('connected event. clientId =', evt.detail.clientId);
+        document.getElementById('player').setAttribute('visible', 'false');
+        console.log(this.roomName);
+      });
+      
+      this.createAvatarTemplate();
+      this.addAvatarTemplate();
+
+
       this.getObjs().then((res) => {
         this.LSObjs = res.LSObjs;
-      }
+        }
       );
+        
       //debugger;
       this.$nextTick(function () {
         // Code that will run only after the
@@ -107,6 +125,7 @@ export default {
 
 
     methods: {
+
       getObjs () {
         console.log("getObjs");
         //debugger; // eslint-disable-line
@@ -125,126 +144,49 @@ export default {
         })
       },
 
-      addAvatarTemplate() {
-        this.createAvatarTemplate();
-        this.addAvatarTemplate1();
-        this.createPlayer();
-        this.networkPlayer();
-      },
-
-      createPlayer() {
-        console.log('createPlayer');
-        var p = document.createElement('a-entity');
-        p.id = "player";
-        p.setAttribute('camera', '');
-        p.setAttribute('v-pre', '');
-        var pos = p.getAttribute('position');
-        pos.y = 1.3;
-        p.setAttribute('position', pos);
-        debugger;
-        p.setAttribute('wasd-controls', '');
-        p.setAttribute('look-controls', '');
-        document.getElementsByTagName('a-scene')[0].appendChild(p);
-      },
-
-      networkPlayer() {
-        console.log("networkPlayer");
-        var player = document.getElementById('player');
-        debugger;
-        player.setAttribute("networked", "template:#avatar-template;attachTemplateToLocal:true;");
-        debugger;
-      },
-
       createAvatarTemplate() {
-            console.log("createAvatarTemplate");
-            var assets = document.getElementsByClassName('assets-avatar')[0];
+        var frag = this.fragmentFromString(`
+        <template id="avatar-template" v-pre>
+          <a-entity class="avatar" networked-audio-source>
+            <a-sphere class="head"
+              color="#5985ff"
+              scale="0.45 0.5 0.4"
+            ></a-sphere>
+            <a-entity class="face"
+              position="0 0.05 0"
+            >
+              <a-sphere class="eye"
+                color="#efefef"
+                position="0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere class="eye"
+                color="#efefef"
+                position="-0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </template> 
+        `);
 
-            var at = document.createElement("template");
-            at.id = "avatar-template";
+        document.getElementsByClassName('assets-avatar')[0].appendChild(frag);
 
-            var avatar = document.createElement("a-entity");
-            avatar.classList.add('avatar');
-            
-            // head
-            var head = document.createElement("a-sphere");
-            head.classList.add("head");
-            head.setAttribute('color', '#5985ff');
-            var sc = head.getAttribute('scale');
-            sc.x = 0.45;
-            sc.y = 0.5;
-            sc.z = 0.4;
-            var newScale = {
-              x: '0.45',
-              y: '0.5',
-              z: '0.4'
-            };
-            var newScaleNum = {
-              x: 0.45,
-              y: 0.5,
-              z: 0.4
-            };
-            var vector = new THREE.Vector3( 0.45, 0.5, 0.4 );
-            debugger;
-            head.setAttribute('scale', vector);
-            
-            debugger;
-            // head.setAttribute('scale', 'x', '0.45');
-            // head.setAttribute('scale', 'x', '0.45');
-            // head.setAttribute('scale', 'y', '0.5');
-            // head.setAttribute('scale', 'y', '0.5');
-            // head.setAttribute('scale', 'z', '0.4');
-            // head.setAttribute('scale', 'z', '0.4');
+      },
 
-            // // face
-            // var face = document.createElement("a-entity");
-            // face.classList.add("face");
-            // face.setAttribute('position', "1 1 1");//"0 .05 0");
-
-            // // lEye
-            // var lEye = document.createElement("a-sphere");
-            // lEye.classList.add("eye");
-            // lEye.setAttribute('color', '#0000ff');//'#efefef');
-            // lEye.setAttribute('scale', '1 1 1');//"0.16 0.1 -0.35");
-            // lEye.setAttribute('position', "0 .05 0");
-
-            // // lPupil
-            // var lPupil = document.createElement("a-sphere");
-            // lPupil.classList.add("pupil");
-            // lPupil.setAttribute('color', '#5985ff');//'#000');
-            // lPupil.setAttribute('scale', "0.2 0.2 0.2");
-            // lPupil.setAttribute('position', "0 0 -1");
-
-            // // rEye
-            // var rEye = document.createElement("a-sphere");
-            // rEye.classList.add("eye");
-            // rEye.setAttribute('color', '#5985ff');//'#efefef');
-            // rEye.setAttribute('scale', "-0.16 0.1 -0.35");
-            // rEye.setAttribute('position', "0 .05 0");
-
-            // // rPupil
-            // var rPupil = document.createElement("a-sphere");
-            // rPupil.classList.add("pupil");
-            // rPupil.setAttribute('color', '#5985ff');//'#000');
-            // rPupil.setAttribute('scale', "0.2 0.2 0.2");
-            // rPupil.setAttribute('position', "0 0 -1");
-
-    
-            //lEye.appendChild(lPupil);
-            //rEye.appendChild(rPupil);
-            //face.appendChild(lEye);
-            //face.appendChild(rEye);
-            
-            avatar.appendChild(head);
-            //avatar.appendChild(face);
-
-            // https://stackoverflow.com/questions/25981255/defining-a-shadow-dom-template-in-javascript
-            at.content.appendChild(avatar);
-
-            debugger;
-            assets.appendChild(at);
-        },
-
-      addAvatarTemplate1() {
+      addAvatarTemplate() {
         console.log("addAvatarTemplate");
         NAF.schemas.add({
           template: '#avatar-template',
@@ -260,9 +202,9 @@ export default {
        });
       },
 
-    
-
-      
+      fragmentFromString(strHTML) {
+            return document.createRange().createContextualFragment(strHTML);
+      },
       
       myOnConnect() {
         console.log("Networked-scene connected");

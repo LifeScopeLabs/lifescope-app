@@ -4,14 +4,13 @@
         <img v-for="image in LSObjs"
             :key="'image-' + image.id"
             :id="'image-' + image.id"
-            :src="imageSrc(image)">
+            :src="imageSrc(image)"
+            crossorigin="anonymous">
     </a-assets>
     
 </template>
 
 <script>
-//import LSO from '../../plugins/lso-plugin';
-//debugger;
 
 export default {
     props:  ['LSObjs'],

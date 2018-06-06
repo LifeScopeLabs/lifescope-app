@@ -1,13 +1,5 @@
 <template>
   <a-entity class="gallery">
-
-
-
-      <!-- Camera -->
-      <!-- <a-camera>
-        <a-entity cursor="rayOrigin: mouse"></a-entity>
-      </a-camera> -->
-
       <!-- Create scene -->
       <!-- Floor -->
       <a-entity id="floor"
@@ -46,6 +38,18 @@
                  to="0 360 0"
                  repeat="indefinite"></a-animation>
       </a-sphere>
+
+      <a-entity id="Logo" position="0 2.5 -4"
+              rotation="0 0 0">
+        <a-gltf-model src="#logo" scale="0.05 0.05 0.05">
+            </a-gltf-model>
+        <a-animation attribute="rotation"
+                 easing="linear" 
+                 dur="2700"
+                 fill="forwards"
+                 to="0 360 0"
+                 repeat="indefinite"></a-animation>
+    </a-entity>>
   </a-entity>
 </template>
 
