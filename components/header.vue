@@ -219,13 +219,13 @@
             break;
 
           case 'content':
-            this.$store.state.sortField = 'title';
+            this.$store.state.sortField = 'type';
             this.$store.state.sortOrder = 'asc';
 
             break;
 
           case 'contacts':
-            this.$store.state.sortField = 'name';
+            this.$store.state.sortField = 'connection';
             this.$store.state.sortOrder = 'asc';
         }
 
