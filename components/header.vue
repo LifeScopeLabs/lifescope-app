@@ -122,12 +122,12 @@
 			</div>
 		</nav>
 
-    <div class="mobile-selector" v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
+    <div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account'" class="mobile-selector" v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
       <span class="placeholder-text">{{ $store.state.mode[0].toUpperCase() + $store.state.mode.slice(1) }}</span>
       <i class="fa" v-bind:class="{ 'fa-caret-down': $store.state.settingsSelectorOpen === false, 'fa-caret-up': $store.state.settingsSelectorOpen === true }"></i>
     </div>
 
-    <aside class="mobile-type-selector" v-bind:class="{ open: $store.state.settingsSelectorOpen === true }">
+    <aside v-if="$store.state.mode === 'connections' || $store.state.mode === 'account'" class="mobile-type-selector" v-bind:class="{ open: $store.state.settingsSelectorOpen === true }">
       <div class="scroller">
         <div id="pages">
           <a href="/settings/account">Account</a>

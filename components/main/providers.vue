@@ -69,13 +69,14 @@
           query: providerHydratedMany
         });
 
-        let providerWithMapResult = await this.$apollo.query({
-          query: providerWithMapMany,
-        });
-
         this.$data.providerHydratedMany = providerHydratedResult.data.providerHydratedMany;
-        this.$data.providerWithMapMany = providerWithMapResult.data.providerWithMapMany;
       }
+
+      let providerWithMapResult = await this.$apollo.query({
+        query: providerWithMapMany,
+      });
+
+      this.$data.providerWithMapMany = providerWithMapResult.data.providerWithMapMany;
     },
 
     mounted: async function() {
@@ -83,6 +84,7 @@
 
       this.$store.mixer = mixitup('#provider-grid', {});
     },
+
     updated() {
       this.$nextTick(function () {
         this.$store.mixer.forceRefresh();

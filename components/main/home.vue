@@ -118,9 +118,11 @@
         pageSize: 20
       };
     },
+
     components: {
       UserEvent
     },
+
     methods: {
       fetchData: async function(init, tab) {
         this.$data.type = tab === 'tags' ? 'tags' : 'searches';
@@ -248,7 +250,6 @@
     },
 
     mounted: async function() {
-
       let connectionCountResult = await this.$apollo.query({
           query: connectionCount,
       });
