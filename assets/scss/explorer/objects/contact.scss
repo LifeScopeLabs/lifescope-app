@@ -1,0 +1,65 @@
+.object.contact {
+  & > div {
+    @include flexbox;
+    @include flex-column;
+
+    &:first-child {
+      @include flexbox;
+      @include flex-row;
+      @include no-select;
+
+      cursor: pointer;
+
+      .user-avatar {
+        .avatar {
+          height: 3em;
+          max-width: 3em;
+          margin-right: 0.5em;
+        }
+
+        i {
+          color: $font-color-subdue;
+          margin-right: 0.25em;
+          font-size: 2.5em;
+        }
+      }
+
+      .details {
+        @include flexbox;
+        @include flex-x-center;
+
+        align-items: flex-start;
+
+        & > div {
+          text-align: start;
+        }
+
+        .action-bar {
+          text-align: right;
+          color: $blue;
+          margin: 0 auto;
+        }
+      }
+
+      .provider {
+        text-transform: uppercase;
+        font-size: 0.85em;
+        color: $font-color-subdue;
+
+        i {
+          margin-right: 0.25em;
+        }
+      }
+
+      & > .action-bar {
+        & > .share-menu {
+          bottom: -1.5em;
+        }
+      }
+
+      &.share-menu-margin-bottom {
+        margin-bottom: 2em;
+      }
+    }
+  }
+}

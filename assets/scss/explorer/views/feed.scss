@@ -1,0 +1,18 @@
+div#body.explorer.feed {
+  main {
+    background-color: $background-color;
+
+    #list {
+    @include flexbox;
+    @include flex-column;
+    @include flex-space-around;
+    @include flex-x-center;
+
+      padding: 1em;
+
+      @media #{$maxwidth768},#{$mobile} {
+      padding: 0.35em 0.45em;
+    }
+    }
+  }
+}

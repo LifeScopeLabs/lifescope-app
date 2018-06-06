@@ -1,0 +1,58 @@
+.actions {
+  @include flexbox;
+  @include flex-grow;
+  @include flex-column;
+  @include flex-center;
+  @include flex-x-center;
+
+  margin: 0.45em 0.35em;
+
+  .title {
+    text-align: center;
+    margin-bottom: 0.5em;
+    word-break: break-word;
+  }
+
+  .preview {
+    @include flexbox;
+    @include flex-center;
+
+    margin-bottom: 1em;
+  }
+
+  .share-action {
+    text-align: center;
+
+    .share-menu {
+      @include flexbox;
+      @include flex-row;
+      @include flex-center;
+      @include flex-x-center;
+
+      .sms {
+        display: none;
+
+        @media #{$maxwidth768},#{$mobile} {
+          display: inherit;
+        }
+      }
+
+      & > *:not(:last-child) {
+        margin-right: 0.35em;
+      }
+    }
+  }
+
+  .tagging {
+    .add-tag {
+      i {
+        cursor: pointer;
+        margin-left: 0.3em;
+
+        &:hover {
+          color: $blue;
+        }
+      }
+    }
+  }
+}

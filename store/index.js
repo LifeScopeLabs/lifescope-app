@@ -78,7 +78,10 @@ const store = () => new Vuex.Store({
 
     mobileViewSelectorOpen: false,
     mobileSortSelectorOpen: false,
-    mobileFacetSelectorOpen: false
+    mobileFacetSelectorOpen: false,
+
+    settingsType: null,
+    settingsSelectorOpen: false
 	},
 
 	getters: {

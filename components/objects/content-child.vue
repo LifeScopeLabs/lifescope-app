@@ -24,7 +24,7 @@
       <div v-if="isIframe(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" ><span v-html="content.embed_content"></span></div>
     </div>
 
-		<div v-if="content.embed_thumbnail" class="thumbnail">
+		<div v-if="content.embed_thumbnail" class="thumbnail" v-bind:class="{ hidden: isAudio(content) || isImage(content) || isVideo(content) || isEmail(content) || isIframe(content) }">
 			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
 
 			<a v-else v-bind:href="content.url" target="_blank">

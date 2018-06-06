@@ -1,0 +1,200 @@
+@mixin active($color) {
+  &:active,
+  &.active {
+    color: $color;
+  }
+}
+
+@mixin align-center {
+  text-align: center !important;
+}
+
+@mixin block {
+  display: block;
+}
+
+@mixin bold {
+  font-weight: bold !important;
+}
+
+@mixin capitalize {
+  text-transform: capitalize;
+}
+
+@mixin full-width {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin hidden {
+  display: none !important;
+}
+
+@mixin hide-empty {
+  &:empty {
+    display: none !important;
+  }
+}
+
+@mixin hover($color) {
+  &:hover {
+    color: $color;
+  }
+}
+
+@mixin interactive {
+  @include hover($blue);
+  @include active($orange);
+}
+
+@mixin lock-width($autocenter: true) {
+  max-width: 1080px !important;
+
+  @if ($autocenter = true) {
+    @include position-center;
+  }
+}
+
+@mixin no-select {
+  user-select: none;
+}
+
+@mixin no-wrap {
+  white-space: nowrap;
+}
+
+@mixin paragraph {
+  margin-bottom: 0.5em;
+}
+
+@mixin paragraphed {
+  & > * {
+    margin-bottom: 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@mixin padded {
+  @include padding;
+}
+
+@mixin padding($padding: 15px) {
+  padding: $padding;
+}
+
+@mixin pointer {
+  cursor: pointer !important;
+}
+
+@mixin position-center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@mixin table {
+  display: table;
+
+  & > * {
+    display: table-row;
+
+    & > * {
+      display: table-cell;
+    }
+  }
+}
+
+@mixin uppercase {
+  text-transform: uppercase;
+}
+
+.align-center {
+  text-align: center !important;
+}
+
+.block {
+  display: block;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.full-width {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.hide-empty {
+  &:empty {
+    display: none !important;
+  }
+}
+
+.interactive {
+  @include hover($blue);
+  @include active($orange);
+}
+
+.no-select {
+  user-select: none;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.paragraph {
+  margin-bottom: 0.5em;
+}
+
+.paragraphed {
+  & > * {
+    margin-bottom: 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.padded {
+  @include padding;
+}
+
+.pointer {
+  cursor: pointer !important;
+}
+
+.position-center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.table {
+  display: table;
+
+  & > * {
+    display: table-row;
+
+    & > * {
+      display: table-cell;
+    }
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

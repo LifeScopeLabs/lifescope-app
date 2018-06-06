@@ -1,0 +1,143 @@
+.object.event {
+  @include flexbox;
+
+  @media #{$maxwidth768},#{$mobile} {
+    @include flex-column;
+  }
+
+  & > *:not(:last-child) {
+    padding-right: 1em;
+    margin-right: 1em;
+    border-right: 1px solid $border-color;
+
+    @media #{$maxwidth768},#{$mobile} {
+      padding: 0 0 1em 0;
+      margin: 0 0 1em 0;
+      border-right: none;
+      border-bottom: 1px solid $border-color;
+    }
+  }
+
+  & > .details {
+    @include flexbox;
+    @include flex-column;
+
+    text-align: left;
+    word-break: initial;
+
+    i:first-child {
+      width: 1.2em;
+      text-align: center;
+      margin-right: 0.2em;
+      color: $font-color-subdue;
+    }
+
+    .type {
+      @include flexbox;
+      @include flex-x-center;
+
+      text-transform: uppercase;
+      margin-bottom: 1.5em;
+      color: $font-color-subdue;
+
+      @media #{$maxwidth768},#{$mobile} {
+        @include flex-center;
+
+        text-align: center;
+        margin-bottom: 0.75em;
+      }
+
+      span {
+        font-size: 0.85em;
+
+        @media #{$maxwidth768},#{$mobile} {
+          font-size: 1em;
+        }
+      }
+    }
+
+    .provider {
+      margin-bottom: 0.5em;
+      text-transform: capitalize;
+    }
+
+    .estimation {
+      margin-top: -0.35em;
+      color: $font-color-subdue;
+
+      i {
+        color: transparent;
+      }
+
+      span {
+        font-size: 0.85em;
+      }
+    }
+
+    & > .date {
+      @include flexbox;
+      @include flex-x-center;
+
+      & > :first-child {
+        & > :not(:last-child) {
+          margin-bottom: 0.5em;
+        }
+      }
+    }
+
+    .action-bar {
+      @include flex-grow;
+
+      margin-left: 1em;
+      color: $blue;
+
+      & > *:not(:last-child) {
+        margin-right: 0.2em;
+      }
+    }
+  }
+
+  & > .content {
+    .object.content {
+      .provider {
+        display: none;
+      }
+    }
+  }
+
+  & > .interactions {
+    word-break: break-all;
+    min-width: 150px;
+
+    .object.contact {
+      margin: 0.25em 0;
+
+      .tagging {
+        text-align: right;
+      }
+
+      .provider {
+        display: none;
+      }
+    }
+
+    .expand {
+      display: block;
+      cursor: pointer;
+      width: 50px;
+      margin: 0.5em auto 0 auto;
+      padding: 0.2em;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      background-color: $border-color-light;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+}
+
+.modal .object.event .interactions .expand {
+  display: none !important;
+}

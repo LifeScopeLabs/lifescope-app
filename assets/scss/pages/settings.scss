@@ -1,0 +1,388 @@
+div#body.settings {
+  overflow: auto;
+
+  @media #{$maxwidth768},#{$mobile} {
+    font-size: 1.5em;
+  }
+
+  header {
+    @media #{$maxwidth768},#{$mobile}  {
+      border-bottom-style: none;
+
+      .mobile-selector {
+        display: block !important;
+
+        & > i {
+          margin-left: 0.5em;
+        }
+      }
+    }
+
+    & > nav {
+      @include lock-width;
+    }
+
+    .mobile-selector {
+      @include no-select;
+
+      display: none;
+      cursor: pointer;
+      margin-top: 0.5em;
+      text-align: center;
+      font-size: 1.5em;
+    }
+  }
+
+  aside.mobile-type-selector {
+    display: none;
+
+    @media #{$maxwidth768},#{$mobile} {
+      &.open {
+        display: block;
+      }
+    }
+
+    #pages {
+      @include flexbox;
+      @include flex-column;
+      @include flex-center;
+      @include flex-x-center;
+
+      & > * {
+        @include interactive;
+        @include no-select;
+        @include pointer;
+
+        font-size: 1.35em;
+        padding: 0.5em 0.5em;
+
+        width: 50%;
+        max-width: 300px;
+        text-align: center;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $border-color;
+        }
+      }
+    }
+  }
+
+  .settings-menu {
+    width: 200px;
+    margin-right: 15px;
+
+    & > * {
+      font-size: 1.1em;
+    }
+
+    a {
+      @include interactive;
+
+      display: block;
+      padding: 0.4em 0.5em;
+      color: $font-color;
+    }
+  }
+
+  main {
+    display: block;
+    overflow: visible;
+    padding: 1em;
+
+    & > section {
+      @include flexbox;
+      @include lock-width;
+
+      @media #{$maxwidth768},#{$mobile}  {
+        @include flex-column;
+      }
+
+      & > #left {
+        @media #{$maxwidth768},#{$mobile}  {
+          display: none;
+        }
+      }
+
+      & > #settings {
+        @include flex-grow;
+      }
+    }
+  }
+
+  .modal {
+    text-align: center;
+  }
+
+  .table {
+    & > * > * {
+      padding: 0.3em;
+    }
+  }
+
+  .text-box {
+    margin: 0;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 0.3em;
+
+    @media #{$maxwidth768},#{$mobile} {
+      font-size: 1.2em;
+    }
+
+    &:not(:first-child) {
+      margin-top: 1.5em;
+    }
+  }
+
+  .success-icon {
+    margin-left: 5px;
+    font-size: 1em;
+    position: relative;
+    top: 1px;
+  }
+
+  #settings-menu {
+    width: 200px;
+    margin-right: 15px;
+
+    & > * {
+      font-size: 1.1em;
+    }
+
+    a {
+      @include interactive;
+
+      display: block;
+      padding: 0.4em 0.5em;
+      color: $font-color;
+    }
+  }
+
+  #main-menu {
+    display: none;
+
+    @media #{$mobile-portrait} {
+      @include flexbox;
+      width: 1.5em;
+      height: 1.5em;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+    }
+  }
+
+  #settings {
+    @include flex-grow;
+    @include no-select;
+  }
+
+  .shrink {
+    width: 250px;
+
+    @media #{$mobile-portrait} {
+      width: 100%;
+    }
+  }
+
+  .tooltip {
+    margin-left: 3em;
+    color: lighten($font-color, 30%);
+  }
+
+  &.profile {
+    #other-gender {
+      margin-top: 0.5em;
+    }
+
+    #birthday {
+      input {
+        margin: 0;
+      }
+    }
+  }
+
+  &.account {
+    #deactivate-modal,
+    #delete-modal {
+      h3 {
+        margin-bottom: 0.75em;
+      }
+
+      p {
+        margin-bottom: 0.5em;
+
+        &:last-of-type {
+          margin-bottom: 1.1em;
+        }
+      }
+
+      button {
+        &:first-of-type {
+          margin-right: 0.75em;
+        }
+      }
+    }
+
+    #update-password {
+      margin-top: 1em;
+    }
+
+    #update-email {
+      margin-top: 1em;
+    }
+  }
+
+  &.connections {
+    $transition-time: 150ms;
+
+    .connection {
+      .title {
+        position: relative;
+        cursor: pointer;
+
+        & > :not(:first-child) {
+          padding-left: 5px;
+        }
+
+        .icon-name {
+          @include flexbox;
+          @include flex-x-center;
+
+          @media #{$maxwidth768},#{$mobile} {
+            & > .name {
+              word-break: break-word;
+            }
+          }
+        }
+
+        .last-run {
+          @include flex-grow;
+
+          @media #{$maxwidth768},#{$mobile} {
+            margin: 0.5em;
+
+            width: 4em;
+          }
+        }
+
+        .updates {
+          @include flexbox;
+          @include flex-end;
+
+          font-weight: normal;
+          font-size: 0.8em;
+          opacity: 0.7;
+
+          & > * {
+            padding-left: 5px;
+          }
+        }
+
+        .expand-indicator {
+          padding: 0 !important;
+          margin-left: 5px;
+          transition: transform $transition-time ease;
+
+          position: relative;
+          top: 1px;
+
+          @media #{$maxwidth768},#{$mobile} {
+            position: absolute;
+            right: 0;
+            top: 8px;
+          }
+        }
+
+        i.fa-adjust-hue {
+          margin: 0 !important;
+          padding: 5px !important;
+        }
+
+        i {
+          margin-right: 0.5em;
+
+        }
+      }
+
+      &.active {
+        & > :first-child {
+          background-color: $blue;
+          color: #FFF;
+        }
+
+        .updates {
+          opacity: 1;
+        }
+
+        .expand-indicator {
+          transform: rotate(180deg);
+          top: -1px;
+
+          @media #{$maxwidth768},#{$mobile} {
+            top: 10px;
+          }
+        }
+      }
+
+      &:not(.active) {
+        overflow: hidden;
+
+        & > :not(:first-child) {
+          max-height: 0;
+          border: none;
+        }
+      }
+
+      &.disabled {
+        .title .updates {
+          display: none;
+        }
+
+        .title .disabled {
+          &:after {
+            content: 'Disabled';
+            font-size: 0.8em;
+            color: firebrick;
+            opacity: 0.7;
+          }
+        }
+      }
+
+      &.disabled.active {
+        .title .disabled {
+          display: none;
+        }
+      }
+
+      .delete-disable {
+        @include flexbox;
+        @include flex-x-center;
+
+        @media #{$maxwidth768},#{$mobile} {
+          margin-top: 1.5em;
+        }
+      }
+
+      .reauthorize > button {
+        margin-bottom: 0.5em;
+      }
+    }
+
+    #big-add {
+      font-size: 2em;
+
+      padding: 8px;
+      padding-bottom: 6px;
+      border: 1px dashed darken($border-color, 25%);
+      width: 70%;
+      @include position-center;
+
+      @media #{$maxwidth768},#{$mobile} {
+        margin-top: 1em;
+      }
+    }
+  }
+}

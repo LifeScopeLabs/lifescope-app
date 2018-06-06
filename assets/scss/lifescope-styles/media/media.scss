@@ -1,0 +1,20 @@
+$mobile: #{"(max-device-width: 1080px) and (min-device-pixel-ratio: 1.5)"},
+#{"(max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1.5)"},
+#{"(min-device-pixel-ratio: 3)"},
+#{"(-webkit-min-device-pixel-ratio: 3)"};
+
+$mobile-portrait: #{"(orientation: portrait) and (max-device-width: 1080px) and (min-device-pixel-ratio: 1.5)"},
+#{"(orientation: portrait) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1.5)"},
+#{"(orientation: portrait) and (min-device-pixel-ratio: 3)"},
+#{"(orientation: portrait) and (-webkit-min-device-pixel-ratio: 3)"};
+
+$mobile-landscape: #{"(orientation: landscape) and (max-device-width: 1080px) and (min-device-pixel-ratio: 1.5)"},
+#{"(orientation: landscape) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 1.5)"},
+#{"(orientation: landscape) and (min-device-pixel-ratio: 3)"},
+#{"(orientation: landscape) and (-webkit-min-device-pixel-ratio: 3)"};
+
+$maxwidth768: #{"(max-width: 768px)"};
+
+$maxwidth1080: #{"(max-width: 1080px)"};
+
+$maxwidth1440: #{"(max-width: 1440px)"};

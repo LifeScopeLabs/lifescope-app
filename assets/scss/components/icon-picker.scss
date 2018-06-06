@@ -1,0 +1,34 @@
+.icon-picker {
+  & > * {
+    &.options {
+      @include flexbox;
+      @include flex-wrap;
+
+      border: 1px solid $input-border-color;
+      border-radius: 1px;
+
+      & > i {
+        @include align-center;
+        @include pointer;
+
+        font-size: 2em;
+        padding: 0.2em;
+
+        text-align: center;
+        width: 1.2em;
+        box-sizing: content-box;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  #clear-icon {
+    @include pointer;
+
+    color: $red;
+    margin: 0.35em 0 0 0.35em;
+  }
+}

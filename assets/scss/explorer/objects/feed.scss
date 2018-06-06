@@ -1,0 +1,47 @@
+.object.feed {
+  @include flexbox;
+
+  width: 100%;
+  word-break: break-all;
+  padding: 1em;
+
+  &:not(.modaled) {
+    margin-bottom: 2em;
+    border: 1px solid $background-color-dark;
+    border-radius: 5px;
+  }
+
+  & > .content {
+    @include flexbox;
+    @include flex-column;
+    @include flex-grow;
+
+    & > *:not(:last-child) {
+      margin-bottom: 1em;
+      padding-bottom: 1em;
+      border-bottom: 1px solid $border-color;
+    }
+
+    .tagging {
+      text-align: center;
+    }
+  }
+
+  & > .contact {
+    @include flexbox;
+    @include flex-grow;
+    @include flex-column;
+
+    & > div:first-child {
+      @include flex-grow;
+
+      .action-bar {
+        margin: 0 0 0 auto;
+      }
+    }
+
+    .tagging {
+      text-align: right;
+    }
+  }
+}

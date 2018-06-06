@@ -1,0 +1,43 @@
+div#body.explorer.list {
+  main {
+    #list {
+      display: table !important;
+      //table-layout: fixed;
+      border-collapse: collapse;
+      border: 0;
+
+      width: 100%;
+      margin: 0;
+
+      .icon-column {
+        i {
+          margin-right: 0.2em;
+        }
+
+
+        @media #{$maxwidth768},#{$mobile} {
+        width: 1.7em;
+        padding: 0;
+
+        & i > {
+          margin: 0 auto;
+        }
+      }
+      }
+
+      .provider\.name,
+      .firstItem\.type\.name {
+        text-transform: capitalize;
+      }
+    }
+
+    #map {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 50%;
+      width: 100%;
+      border-top: 1px solid $border-color;
+    }
+  }
+}

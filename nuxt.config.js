@@ -70,7 +70,13 @@ module.exports = {
 
 	modules: [
 	  '@nuxtjs/apollo',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    ['nuxt-sass-resources-loader', [
+      './assets/scss/lifescope-styles/themes/default.scss',
+      './assets/scss/lifescope-styles/media/media.scss',
+      './assets/scss/lifescope-styles/mixins/flexbox.scss',
+      './assets/scss/lifescope-styles/mixins/generic.scss'
+    ]]
   ],
 
 	apollo: {
@@ -84,7 +90,7 @@ module.exports = {
   },
 
 	css: [
-		'./assets/css/site.min.css'
+		'./assets/scss/site.scss'
   ],
 
   /*
