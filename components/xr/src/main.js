@@ -12,8 +12,8 @@ import 'aframe-src-fit-component';
 import 'aframe-input-mapping-component';
 import 'aframe-extras';
 
-import 'easyrtc';
-import 'socket.io-client';
+// import 'easyrtc';
+// import 'socket.io-client';
 
 
 // router

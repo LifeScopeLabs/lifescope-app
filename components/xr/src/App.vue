@@ -1,5 +1,5 @@
 <template>
-  <a-scene :networked-scene="'app: myApp; room: ' + roomName + '; debug: true; audio: true; adapter: easyrtc; connectOnLoad: true;'">
+  <a-scene embedded :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-app; room: ' + roomName + '; debug: true; audio: true; adapter: easyrtc; connectOnLoad: true;'">
 
     <!-- Load assets -->
     <a-assets class="assets-sky">
@@ -50,7 +50,7 @@
     <!-- gallery -->
     <gallery :LSObjs='LSObjs'/>
 
-    <!-- Sky   change id to class?-->
+    <!-- Sky -->
     <a-sky id="Sky" src="#sky" rotation="90 0 90">
     </a-sky>
 

@@ -82,7 +82,7 @@
     "aframe-extras": "^4.1.2",
     "aframe-input-mapping-component": "^0.1.3",
     "aframe-layout-component": "^4.3.1",
-    "aframe-src-fit-component": "git+https://git@github.com/mohrtw/aframe-src-fit-component",
+    "aframe-src-fit-component": "git+https://git@github.com/LifeScopeLabs/aframe-src-fit-component",
     "apollo-cache-inmemory": "^1.1.11",
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.3",
