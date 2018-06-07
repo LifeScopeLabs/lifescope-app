@@ -42,11 +42,13 @@ $ npm install
 
 # add dev.json to config/
 
-# if running localy, update /etc/hosts:
+# if running locally, update /etc/hosts:
 127.0.0.1       app.lifescope.io
 127.0.0.1       api.lifescope.io
 127.0.0.1       xr.lifescope.io
 127.0.0.1       nxr.lifescope.io
+
+# also if running locally, accept certificates from xr.lifescope.io, nxr.lifescope.io, and api.lifescope.io
 
 # launch lifescope-api, ngninx, and lifescope-xr
 # see lifescope-api/README.md, lifescope-xr/README.md
