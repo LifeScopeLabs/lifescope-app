@@ -8,8 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "app",
-            "runtimeExecutable": "yarn",
+            "runtimeExecutable": "npm",
             "runtimeArgs": [
+                "run",
                 "debug"
             ],
             "env": {

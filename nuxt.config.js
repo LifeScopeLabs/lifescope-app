@@ -1,3 +1,5 @@
+var path = require('path');
+
 const bodyParser = require('body-parser');
 const config = require('config');
 const cookieParser = require('cookie-parser');
@@ -60,6 +62,15 @@ module.exports = {
 				tls: 'empty'
       };
 
+      // easyrtc support
+      // if (isClient) {
+      //   config.module.rules.push({
+      //     test: require.resolve('./static/easyrtc/easyrtc.js'),
+      //     use: { loader: 'expose-loader',
+      //     options: 'easyrtc' }
+      //   });
+      // }
+
       // config.module.rules.push({
       //       exclude: /(node_modules)/
       // });
@@ -101,11 +112,12 @@ module.exports = {
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         $: 'jquery',
-        moment: 'moment'
+        moment: 'moment',
         // 'socket.io': 'socket.io-client',
-        // easyrtc: './node_modules/easyrtc/api/easyrtc.js',
+        easyrtc: './static/easyrtc/easyrtc.js',
         // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js'
         }),
+        
     ]
 	},
 
