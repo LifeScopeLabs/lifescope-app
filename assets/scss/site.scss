@@ -221,6 +221,10 @@ div#body {
           &:not(:last-child) {
             margin-right: 0.5em;
           }
+
+          & > i {
+            margin-right: 0.2em;
+          }
         }
       }
 
