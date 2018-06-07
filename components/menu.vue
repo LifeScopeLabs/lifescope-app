@@ -95,6 +95,7 @@
 					<a class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search LifeScope</a>
 					<a class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
 					<a class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
+					<a class="support" href="http://bitscoop.com/support"><i class="fa fa-question-circle"></i> Support</a>
 				</section>
 
 				<footer>
