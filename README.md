@@ -38,38 +38,25 @@ This is a conversational interface of LifeScope data as Vue Plugins.
 nvm alias default 8.10
 
 # install dependencies
-$ yarn install --ignore-engines
+$ npm install
 
 # add dev.json to config/
 
-# launch lifescope-api and ngninx
-# see lifescope-api/README.md
+# if running localy, update /etc/hosts:
+127.0.0.1       app.lifescope.io
+127.0.0.1       api.lifescope.io
+127.0.0.1       xr.lifescope.io
+127.0.0.1       nxr.lifescope.io
+
+# launch lifescope-api, ngninx, and lifescope-xr
+# see lifescope-api/README.md, lifescope-xr/README.md
 
 # build
-$ yarn build
+$ npm run build
 
 # run with NODE_ENV set
-$ NODE_ENV=dev yarn start
+$ NODE_ENV=dev npm run start
 
-# install easyrtc dependencies
-$ yarn easyrtc-install
-
-# install engine.io dependencies
-$ yarn engine-install
-
-
-# start nginx
-sudo nginx -c ./nginx.conf
-
-# serve with hot reload at localhost:3000
-$ yarn run dev
-
-# build for production and launch server
-$ yarn run build
-$ yarn start
-
-# generate static project
-$ yarn run generate
 ```
 
 ## Login
