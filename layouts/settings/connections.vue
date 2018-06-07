@@ -6,7 +6,7 @@
 
         <vue-main></vue-main>
 
-        <cookie-consent></cookie-consent>
+        <!--<cookie-consent></cookie-consent>-->
     </div>
 </template>
 
@@ -18,7 +18,7 @@
 
 	export default {
 		components: {
-			CookieConsent: CookieConsent,
+			// CookieConsent: CookieConsent,
 			VueHeader: VueHeader,
 			VueMenu: VueMenu,
 			VueMain: VueMain

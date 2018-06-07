@@ -112,6 +112,10 @@ div#body.home {
               color: $blue;
             }
           }
+
+          @media #{$maxwidth768},#{$mobile} {
+            display: none;
+          }
         }
 
         .name {

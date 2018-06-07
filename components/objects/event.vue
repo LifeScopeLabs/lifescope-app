@@ -54,7 +54,7 @@
 			<div class="objects">
 				<user-contact v-for="contact in event.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="event.connection"></user-contact>
 			</div>
-			<div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>
+			<!--<div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>-->
 		</aside>
 	</div>
 

@@ -92,7 +92,7 @@
             </div>
 					</div>
 
-					<a class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search LifeScope</a>
+					<a class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search</a>
 					<a class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
 					<a class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
 				</section>
@@ -103,7 +103,7 @@
 					</div>
 
 					<div>
-						<a href="https://www.bitscooplabs.com">&copy; 2017 BitScoop Labs, Inc.</a>
+						<a href="https://www.bitscooplabs.com">&copy; 2018 BitScoop Labs, Inc.</a>
 						<span class="spacer">|</span>
 						<a href="https://www.bitscooplabs.com/privacy">Privacy</a>
 						<span class="spacer">|</span>

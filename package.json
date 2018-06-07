@@ -123,7 +123,6 @@
     "nuxt": "^1.4.0",
     "nuxt-sass-resources-loader": "^2.0.2",
     "qs": "^6.5.2",
-    "networked-aframe": "^0.6.1",
     "sass-loader": "^7.0.3",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
