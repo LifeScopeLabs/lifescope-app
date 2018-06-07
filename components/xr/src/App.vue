@@ -31,7 +31,8 @@
 
     <!-- Load assets with imageLoader -->
     <!-- https://www.pexels.com/search/travel/ -->
-    <imageLoader :LSObjs='LSObjs'/>
+    <!-- <imageLoader :LSObjs='LSObjs'/> -->
+    <imageLoader :LSObjs='$store.state.objects.content'/>
 
     <!-- Avatar Template -->
     <a-assets class="assets-avatar" v-pre>
