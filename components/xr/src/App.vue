@@ -60,11 +60,11 @@
 <script>
 import axios from 'axios';
 
+import socketIO from 'socket.io-client';
+import easyrtc from '../../../static/easyrtc/easyrtc.js';
+
 import gallery from "./components/gallery.vue";
 import imageLoader from "./components/util/image-loader.vue";
-
-// import easyrtc from 'easyrtc';
-// import socketIO from 'socket.io';
 
 console.log("from App.vue <script>")
 export default {

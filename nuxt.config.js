@@ -1,3 +1,5 @@
+var path = require('path');
+
 const bodyParser = require('body-parser');
 const config = require('config');
 const cookieParser = require('cookie-parser');
@@ -145,7 +147,11 @@ module.exports = {
         'window.jQuery': 'jquery',
         $: 'jquery',
         moment: 'moment',
-      }),
+        // 'socket.io': 'socket.io-client',
+        easyrtc: './static/easyrtc/easyrtc.js',
+        // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js'
+        }),
+
     ]
 	},
 
