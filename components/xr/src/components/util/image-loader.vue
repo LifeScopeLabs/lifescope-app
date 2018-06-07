@@ -18,7 +18,9 @@ export default {
     methods: {
 
         imageSrc: function (image) {
-            var x = '';
+            var x = 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/android-chrome-512x512.png';
+            const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
+
             //debugger; // eslint-disable-line
             
             // if (image instanceof LSO.Content) {
@@ -30,9 +32,10 @@ export default {
             //     x = '/iris.jpg';
             //     console.log("not a lifescopeObject");
             // }
-            
-            x = image.embed_thumbnail;
-            x = "/photos" + x;
+            if (imageTypes.indexOf(image.embed_format.toLowerCase()) > -1) {
+                x = image.embed_content;
+            }
+           // x = "/photos" + x;
 
             //x = x.replace(/\.[^/.]+$/, "")  // remove extension
             //x = x.replace(/^\//g, '') // remove leading slash

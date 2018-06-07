@@ -24,13 +24,19 @@
 		</a-entity>
 
 		<!-- audio/image/video/email/iframe/-->
-		<!--  <a-entity class="content-embed" data-type="content" v-bind:data-id="content.id">
-		 	<audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
-		 	<img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
-		 	<video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
+		 <a-entity class="content-embed" data-type="content" v-bind:data-id="content.id">
+		 	<!-- <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio> -->
+		 	<!-- <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/> -->
+			 <a-entity
+				geometry="primitive: plane; width: 3; height: 2"
+				:material="this.imageMaterial"
+				rotation="0 0 0"
+				position="0 1 0">
+			</a-entity>
+		 	<!-- <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
 		 	<iframe v-if="isEmail(content)" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
-		 	<div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div>
-		 </a-entity> -->
+		 	<div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div> -->
+		 </a-entity>
 
 		<!-- content.embed_thumbnail for non-Image/Video/Iframe-->
 		<!-- <div v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail">

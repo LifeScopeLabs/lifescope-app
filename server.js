@@ -47,6 +47,14 @@ Promise.resolve()
     iceServers: ICE_SERVERS
   };
 
+  // CORS
+  app.use(function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
+
   builder.build();
   app.use(nuxt.render);
   app.listen(LISTEN_PORT);
