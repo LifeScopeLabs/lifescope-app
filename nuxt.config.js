@@ -88,7 +88,10 @@ module.exports = {
 	},
 
   'google-analytics': {
-    id: config.googleAnalytics.trackingID
+    id: config.googleAnalytics.trackingID,
+    debug: {
+      sendHitTask: config.googleAnalytics.enabled
+    }
   },
 
 	css: [

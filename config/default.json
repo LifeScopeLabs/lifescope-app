@@ -1,7 +1,7 @@
 {
   "address": "http://localhost:8081",
   "objectMaxLimit": 100,
-  
+
 
   "domain": "app.lifescope.io",
   "listenPort": 3002,
@@ -23,7 +23,8 @@
   },
 
   "googleAnalytics": {
-    "trackingID": "UA-100413087-2"
+    "trackingID": "UA-100413087-2",
+    "enabled": false
   },
 
   "mongo": {
