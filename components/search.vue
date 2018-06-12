@@ -303,7 +303,7 @@
   };
 
   export default {
-    data: function () {
+    data: function() {
       return {
         activeFilter: {
           id: null,
@@ -346,7 +346,7 @@
         this.checkNewSearch();
       },
 
-      createBlankFilter: function (type) {
+      createBlankFilter: function(type) {
         this.$data.activeFilter.id = null;
         this.$data.activeFilter.name = null;
         this.$data.activeFilter.type = type;
@@ -389,7 +389,7 @@
         }
       },
 
-      clearActiveFilter: function () {
+      clearActiveFilter: function() {
         this.$data.activeFilter = {
           id: null,
           name: null,
@@ -425,7 +425,7 @@
         this.compactOverflowFilters();
       },
 
-      saveFilter: async function () {
+      saveFilter: async function() {
         let filter = this.$data.activeFilter;
 
         if (filter.id == null) {
@@ -436,7 +436,7 @@
           this.$store.state.searchBar.filters.push(savedFilter);
         }
         else {
-          let existingFilter = _.find(this.$store.state.searchBar.filters, function (item) {
+          let existingFilter = _.find(this.$store.state.searchBar.filters, function(item) {
             return filter.id === item.id;
           });
 
@@ -461,7 +461,7 @@
         this.checkNewSearch()
       },
 
-      checkNewSearch: async function (){
+      checkNewSearch: async function(){
         let filters = _.map(this.$store.state.searchBar.filters, function(filter) {
           return _.omit(filter, ['__typename', 'id', '_id']);
         });
@@ -625,7 +625,7 @@
 
         if (facet === 'events') {
           _.each(result.data.eventSearch, function(event) {
-            event.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
+            event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
               return connection.id === event.connection_id_string;
             });
 
@@ -633,8 +633,8 @@
 
             self.$store.state.objects.events.push(obj);
 
-            _.each(obj.content, function (content) {
-              let match = _.find(self.$store.state.objects.content, function (item) {
+            _.each(obj.content, function(content) {
+              let match = _.find(self.$store.state.objects.content, function(item) {
                 return content.id === item.id;
               });
 
@@ -643,8 +643,8 @@
               }
             });
 
-            _.each(obj.contacts, function (contact) {
-              let match = _.find(self.$store.state.objects.contacts, function (item) {
+            _.each(obj.contacts, function(contact) {
+              let match = _.find(self.$store.state.objects.contacts, function(item) {
                 return contact.id === item.id;
               });
 
@@ -656,7 +656,7 @@
         }
         else if (facet === 'content') {
           _.each(result.data.contentSearch, function(content) {
-            content.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
+            content.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
               return connection.id === content.connection_id_string;
             });
 
@@ -667,7 +667,7 @@
         }
         else if (facet === 'contacts') {
           _.each(result.data.contactSearch, function(contact) {
-            contact.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
+            contact.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
               return connection.id === contact.connection_id_string;
             });
 
@@ -684,7 +684,7 @@
       },
 
       compactOverflowFilters: function() {
-        this.$nextTick(function () {
+        this.$nextTick(function() {
           let hideIndex, maxWidth, width, $filters;
 
           if (this.$data.editorOpen) {
@@ -697,7 +697,7 @@
 
           $filters.removeClass('hidden');
 
-          $filters.each(function (i, d) {
+          $filters.each(function(i, d) {
             let elemWidth = $(d).removeClass('hidden').width();
 
             if (elemWidth + width > maxWidth) {
@@ -739,7 +739,7 @@
         this.$store.state.connectionsLoaded = this.$apollo.query({
           query: connectionMany
         })
-          .then(function (result) {
+          .then(function(result) {
             self.$store.state.connectionMany = result.data.connectionMany;
 
             return Promise.resolve();
@@ -748,7 +748,7 @@
         this.$store.state.providersLoaded = this.$apollo.query({
           query: providerHydratedMany
         })
-          .then(function (result) {
+          .then(function(result) {
             self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
 
             return Promise.resolve();

@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) { return typeof obj; } : function(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/**
 	 * Module dependencies.
@@ -498,7 +498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function defaultClearTimeout () {
 	    throw new Error('clearTimeout has not been defined');
 	}
-	(function () {
+	(function() {
 	    try {
 	        if (typeof setTimeout === 'function') {
 	            cachedSetTimeout = setTimeout;
@@ -614,7 +614,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    runClearTimeout(timeout);
 	}
 
-	process.nextTick = function (fun) {
+	process.nextTick = function(fun) {
 	    var args = new Array(arguments.length - 1);
 	    if (arguments.length > 1) {
 	        for (var i = 1; i < arguments.length; i++) {
@@ -632,7 +632,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.fun = fun;
 	    this.array = array;
 	}
-	Item.prototype.run = function () {
+	Item.prototype.run = function() {
 	    this.fun.apply(null, this.array);
 	};
 	process.title = 'browser';
@@ -652,12 +652,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	process.removeAllListeners = noop;
 	process.emit = noop;
 
-	process.binding = function (name) {
+	process.binding = function(name) {
 	    throw new Error('process.binding is not supported');
 	};
 
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
+	process.cwd = function() { return '/' };
+	process.chdir = function(dir) {
 	    throw new Error('process.chdir is not supported');
 	};
 	process.umask = function() { return 0; };
@@ -897,7 +897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	module.exports = function (val, options) {
+	module.exports = function(val, options) {
 	  options = options || {}
 	  var type = typeof val
 	  if (type === 'string' && val.length > 0) {
@@ -1950,7 +1950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var define = false;
 
 	/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-	;(function () {
+	;(function() {
 	  // Detect the `define` function exposed by asynchronous module loaders. The
 	  // strict `define` check is necessary for compatibility with `r.js`.
 	  var isLoader = typeof define === "function" && define.amd;
@@ -2037,7 +2037,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var stringify = exports.stringify, stringifySupported = typeof stringify == "function" && isExtended;
 	          if (stringifySupported) {
 	            // A test function object with a custom `toJSON` method.
-	            (value = function () {
+	            (value = function() {
 	              return 1;
 	            }).toJSON = value;
 	            try {
@@ -2165,7 +2165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
 	        // Internal: Calculates the number of days between the Unix epoch and the
 	        // first day of the given month.
-	        var getDay = function (year, month) {
+	        var getDay = function(year, month) {
 	          return Months[month] + 365 * (year - 1970) + floor((year - 1969 + (month = +(month > 1))) / 4) - floor((year - 1901 + month) / 100) + floor((year - 1601 + month) / 400);
 	        };
 	      }
@@ -2173,7 +2173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Internal: Determines if a property is a direct property of the given
 	      // object. Delegates to the native `Object#hasOwnProperty` method.
 	      if (!(isProperty = objectProto.hasOwnProperty)) {
-	        isProperty = function (property) {
+	        isProperty = function(property) {
 	          var members = {}, constructor;
 	          if ((members.__proto__ = null, members.__proto__ = {
 	            // The *proto* property cannot be set multiple times in recent
@@ -2182,7 +2182,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, members).toString != getClass) {
 	            // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
 	            // supports the mutable *proto* property.
-	            isProperty = function (property) {
+	            isProperty = function(property) {
 	              // Capture and break the object's prototype chain (see section 8.6.2
 	              // of the ES 5.1 spec). The parenthesized expression prevents an
 	              // unsafe transformation by the Closure Compiler.
@@ -2196,7 +2196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            constructor = members.constructor;
 	            // Use the `constructor` property to simulate `Object#hasOwnProperty` in
 	            // other environments.
-	            isProperty = function (property) {
+	            isProperty = function(property) {
 	              var parent = (this.constructor || constructor).prototype;
 	              return property in this && !(property in parent && this[property] === parent[property]);
 	            };
@@ -2208,13 +2208,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      // Internal: Normalizes the `for...in` iteration algorithm across
 	      // environments. Each enumerated key is yielded to a `callback` function.
-	      forEach = function (object, callback) {
+	      forEach = function(object, callback) {
 	        var size = 0, Properties, members, property;
 
 	        // Tests for bugs in the current environment's `for...in` algorithm. The
 	        // `valueOf` property inherits the non-enumerable flag from
 	        // `Object.prototype` in older versions of IE, Netscape, and Mozilla.
-	        (Properties = function () {
+	        (Properties = function() {
 	          this.valueOf = 0;
 	        }).prototype.valueOf = 0;
 
@@ -2234,7 +2234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          members = ["valueOf", "toString", "toLocaleString", "propertyIsEnumerable", "isPrototypeOf", "hasOwnProperty", "constructor"];
 	          // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
 	          // properties.
-	          forEach = function (object, callback) {
+	          forEach = function(object, callback) {
 	            var isFunction = getClass.call(object) == functionClass, property, length;
 	            var hasProperty = !isFunction && typeof object.constructor != "function" && objectTypes[typeof object.hasOwnProperty] && object.hasOwnProperty || isProperty;
 	            for (property in object) {
@@ -2249,7 +2249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          };
 	        } else if (size == 2) {
 	          // Safari <= 2.0.4 enumerates shadowed properties twice.
-	          forEach = function (object, callback) {
+	          forEach = function(object, callback) {
 	            // Create a set of iterated properties.
 	            var members = {}, isFunction = getClass.call(object) == functionClass, property;
 	            for (property in object) {
@@ -2263,7 +2263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          };
 	        } else {
 	          // No bugs detected; use the standard `for...in` algorithm.
-	          forEach = function (object, callback) {
+	          forEach = function(object, callback) {
 	            var isFunction = getClass.call(object) == functionClass, property, isConstructor;
 	            for (property in object) {
 	              if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
@@ -2301,7 +2301,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Internal: Converts `value` into a zero-padded string such that its
 	        // length is at least equal to `width`. The `width` must be <= 6.
 	        var leadingZeroes = "000000";
-	        var toPaddedString = function (width, value) {
+	        var toPaddedString = function(width, value) {
 	          // The `|| 0` expression is necessary to work around a bug in
 	          // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
 	          return (leadingZeroes + (value || 0)).slice(-width);
@@ -2312,7 +2312,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // their escaped equivalents. This is an implementation of the
 	        // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
 	        var unicodePrefix = "\\u00";
-	        var quote = function (value) {
+	        var quote = function(value) {
 	          var result = '"', index = 0, length = value.length, useCharIndex = !charIndexBuggy || length > 10;
 	          var symbols = useCharIndex && (charIndexBuggy ? value.split("") : value);
 	          for (; index < length; index++) {
@@ -2336,7 +2336,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // Internal: Recursively serializes an object. Implements the
 	        // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
-	        var serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
+	        var serialize = function(property, object, callback, properties, whitespace, indentation, stack) {
 	          var value, className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, result;
 	          try {
 	            // Necessary for host object support.
@@ -2443,7 +2443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              // Recursively serialize object members. Members are selected from
 	              // either a user-specified list of property names, or the object
 	              // itself.
-	              forEach(properties || value, function (property) {
+	              forEach(properties || value, function(property) {
 	                var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
 	                if (element !== undef) {
 	                  // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
@@ -2464,7 +2464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
-	        exports.stringify = function (source, filter, width) {
+	        exports.stringify = function(source, filter, width) {
 	          var whitespace, callback, properties, className;
 	          if (objectTypes[typeof filter] && filter) {
 	            if ((className = getClass.call(filter)) == functionClass) {
@@ -2514,7 +2514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Index, Source;
 
 	        // Internal: Resets the parser state and throws a `SyntaxError`.
-	        var abort = function () {
+	        var abort = function() {
 	          Index = Source = null;
 	          throw SyntaxError();
 	        };
@@ -2522,7 +2522,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Internal: Returns the next token, or `"$"` if the parser has reached
 	        // the end of the source string. A token may be a string, number, `null`
 	        // literal, or Boolean literal.
-	        var lex = function () {
+	        var lex = function() {
 	          var source = Source, length = source.length, value, begin, position, isSigned, charCode;
 	          while (Index < length) {
 	            charCode = source.charCodeAt(Index);
@@ -2680,7 +2680,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        // Internal: Parses a JSON `value` token.
-	        var get = function (value) {
+	        var get = function(value) {
 	          var results, hasMembers;
 	          if (value == "$") {
 	            // Unexpected end of input.
@@ -2763,7 +2763,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        // Internal: Updates a traversed object member.
-	        var update = function (source, property, callback) {
+	        var update = function(source, property, callback) {
 	          var element = walk(source, property, callback);
 	          if (element === undef) {
 	            delete source[property];
@@ -2775,7 +2775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Internal: Recursively traverses a parsed JSON object, invoking the
 	        // `callback` function for each value. This is an implementation of the
 	        // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
-	        var walk = function (source, property, callback) {
+	        var walk = function(source, property, callback) {
 	          var value = source[property], length;
 	          if (typeof value == "object" && value) {
 	            // `forEach` can't be used to traverse an array in Opera <= 8.54
@@ -2786,7 +2786,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                update(value, length, callback);
 	              }
 	            } else {
-	              forEach(value, function (property) {
+	              forEach(value, function(property) {
 	                update(value, property, callback);
 	              });
 	            }
@@ -2795,7 +2795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        // Public: `JSON.parse`. See ES 5.1 section 15.12.2.
-	        exports.parse = function (source, callback) {
+	        exports.parse = function(source, callback) {
 	          var result, value;
 	          Index = 0;
 	          Source = "" + source;
@@ -2827,7 +2827,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var JSON3 = runInContext(root, (root["JSON3"] = {
 	      // Public: Restores the original value of the global `JSON` object and
 	      // returns a reference to the `JSON3` object.
-	      "noConflict": function () {
+	      "noConflict": function() {
 	        if (!isRestored) {
 	          isRestored = true;
 	          root.JSON = nativeJSON;
@@ -2846,7 +2846,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // Export for asynchronous module loaders.
 	  if (isLoader) {
-	    define(function () {
+	    define(function() {
 	      return JSON3;
 	    });
 	  }
@@ -3193,7 +3193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports = Array.isArray || function (arr) {
+	module.exports = Array.isArray || function(arr) {
 	  return Object.prototype.toString.call(arr) == '[object Array]';
 	};
 
@@ -3224,7 +3224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) { return typeof obj; } : function(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/**
 	 * Module dependencies.
@@ -3301,7 +3301,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.emitAll = function () {
+	Manager.prototype.emitAll = function() {
 	  this.emit.apply(this, arguments);
 	  for (var nsp in this.nsps) {
 	    if (has.call(this.nsps, nsp)) {
@@ -3316,7 +3316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.updateSocketIds = function () {
+	Manager.prototype.updateSocketIds = function() {
 	  for (var nsp in this.nsps) {
 	    if (has.call(this.nsps, nsp)) {
 	      this.nsps[nsp].id = this.engine.id;
@@ -3338,7 +3338,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.reconnection = function (v) {
+	Manager.prototype.reconnection = function(v) {
 	  if (!arguments.length) return this._reconnection;
 	  this._reconnection = !!v;
 	  return this;
@@ -3352,7 +3352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.reconnectionAttempts = function (v) {
+	Manager.prototype.reconnectionAttempts = function(v) {
 	  if (!arguments.length) return this._reconnectionAttempts;
 	  this._reconnectionAttempts = v;
 	  return this;
@@ -3366,14 +3366,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.reconnectionDelay = function (v) {
+	Manager.prototype.reconnectionDelay = function(v) {
 	  if (!arguments.length) return this._reconnectionDelay;
 	  this._reconnectionDelay = v;
 	  this.backoff && this.backoff.setMin(v);
 	  return this;
 	};
 
-	Manager.prototype.randomizationFactor = function (v) {
+	Manager.prototype.randomizationFactor = function(v) {
 	  if (!arguments.length) return this._randomizationFactor;
 	  this._randomizationFactor = v;
 	  this.backoff && this.backoff.setJitter(v);
@@ -3388,7 +3388,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.reconnectionDelayMax = function (v) {
+	Manager.prototype.reconnectionDelayMax = function(v) {
 	  if (!arguments.length) return this._reconnectionDelayMax;
 	  this._reconnectionDelayMax = v;
 	  this.backoff && this.backoff.setMax(v);
@@ -3402,7 +3402,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.timeout = function (v) {
+	Manager.prototype.timeout = function(v) {
 	  if (!arguments.length) return this._timeout;
 	  this._timeout = v;
 	  return this;
@@ -3415,7 +3415,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.maybeReconnectOnOpen = function () {
+	Manager.prototype.maybeReconnectOnOpen = function() {
 	  // Only try to reconnect if it's the first time we're connecting
 	  if (!this.reconnecting && this._reconnection && this.backoff.attempts === 0) {
 	    // keeps reconnection from firing twice for the same reconnection loop
@@ -3431,7 +3431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.open = Manager.prototype.connect = function (fn, opts) {
+	Manager.prototype.open = Manager.prototype.connect = function(fn, opts) {
 	  debug('readyState %s', this.readyState);
 	  if (~this.readyState.indexOf('open')) return this;
 
@@ -3443,13 +3443,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.skipReconnect = false;
 
 	  // emit `open`
-	  var openSub = on(socket, 'open', function () {
+	  var openSub = on(socket, 'open', function() {
 	    self.onopen();
 	    fn && fn();
 	  });
 
 	  // emit `connect_error`
-	  var errorSub = on(socket, 'error', function (data) {
+	  var errorSub = on(socket, 'error', function(data) {
 	    debug('connect_error');
 	    self.cleanup();
 	    self.readyState = 'closed';
@@ -3470,7 +3470,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    debug('connect attempt will timeout after %d', timeout);
 
 	    // set timer
-	    var timer = setTimeout(function () {
+	    var timer = setTimeout(function() {
 	      debug('connect attempt timed out after %d', timeout);
 	      openSub.destroy();
 	      socket.close();
@@ -3497,7 +3497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.onopen = function () {
+	Manager.prototype.onopen = function() {
 	  debug('open');
 
 	  // clear old subs
@@ -3523,7 +3523,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.onping = function () {
+	Manager.prototype.onping = function() {
 	  this.lastPing = new Date();
 	  this.emitAll('ping');
 	};
@@ -3534,7 +3534,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.onpong = function () {
+	Manager.prototype.onpong = function() {
 	  this.emitAll('pong', new Date() - this.lastPing);
 	};
 
@@ -3544,7 +3544,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.ondata = function (data) {
+	Manager.prototype.ondata = function(data) {
 	  this.decoder.add(data);
 	};
 
@@ -3554,7 +3554,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.ondecoded = function (packet) {
+	Manager.prototype.ondecoded = function(packet) {
 	  this.emit('packet', packet);
 	};
 
@@ -3564,7 +3564,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.onerror = function (err) {
+	Manager.prototype.onerror = function(err) {
 	  debug('error', err);
 	  this.emitAll('error', err);
 	};
@@ -3576,14 +3576,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Manager.prototype.socket = function (nsp, opts) {
+	Manager.prototype.socket = function(nsp, opts) {
 	  var socket = this.nsps[nsp];
 	  if (!socket) {
 	    socket = new Socket(this, nsp, opts);
 	    this.nsps[nsp] = socket;
 	    var self = this;
 	    socket.on('connecting', onConnecting);
-	    socket.on('connect', function () {
+	    socket.on('connect', function() {
 	      socket.id = self.engine.id;
 	    });
 
@@ -3608,7 +3608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Socket} socket
 	 */
 
-	Manager.prototype.destroy = function (socket) {
+	Manager.prototype.destroy = function(socket) {
 	  var index = indexOf(this.connecting, socket);
 	  if (~index) this.connecting.splice(index, 1);
 	  if (this.connecting.length) return;
@@ -3623,7 +3623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.packet = function (packet) {
+	Manager.prototype.packet = function(packet) {
 	  debug('writing packet %j', packet);
 	  var self = this;
 	  if (packet.query && packet.type === 0) packet.nsp += '?' + packet.query;
@@ -3631,7 +3631,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!self.encoding) {
 	    // encode, then write to engine with result
 	    self.encoding = true;
-	    this.encoder.encode(packet, function (encodedPackets) {
+	    this.encoder.encode(packet, function(encodedPackets) {
 	      for (var i = 0; i < encodedPackets.length; i++) {
 	        self.engine.write(encodedPackets[i], packet.options);
 	      }
@@ -3651,7 +3651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.processPacketQueue = function () {
+	Manager.prototype.processPacketQueue = function() {
 	  if (this.packetBuffer.length > 0 && !this.encoding) {
 	    var pack = this.packetBuffer.shift();
 	    this.packet(pack);
@@ -3664,7 +3664,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.cleanup = function () {
+	Manager.prototype.cleanup = function() {
 	  debug('cleanup');
 
 	  var subsLength = this.subs.length;
@@ -3686,7 +3686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.close = Manager.prototype.disconnect = function () {
+	Manager.prototype.close = Manager.prototype.disconnect = function() {
 	  debug('disconnect');
 	  this.skipReconnect = true;
 	  this.reconnecting = false;
@@ -3706,7 +3706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.onclose = function (reason) {
+	Manager.prototype.onclose = function(reason) {
 	  debug('onclose');
 
 	  this.cleanup();
@@ -3725,7 +3725,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.reconnect = function () {
+	Manager.prototype.reconnect = function() {
 	  if (this.reconnecting || this.skipReconnect) return this;
 
 	  var self = this;
@@ -3740,7 +3740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    debug('will wait %dms before reconnect attempt', delay);
 
 	    this.reconnecting = true;
-	    var timer = setTimeout(function () {
+	    var timer = setTimeout(function() {
 	      if (self.skipReconnect) return;
 
 	      debug('attempting reconnect');
@@ -3750,7 +3750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // check again for the case socket closed in above events
 	      if (self.skipReconnect) return;
 
-	      self.open(function (err) {
+	      self.open(function(err) {
 	        if (err) {
 	          debug('reconnect attempt error');
 	          self.reconnecting = false;
@@ -3777,7 +3777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Manager.prototype.onreconnect = function () {
+	Manager.prototype.onreconnect = function() {
 	  var attempt = this.backoff.attempts;
 	  this.reconnecting = false;
 	  this.backoff.reset();
@@ -3968,7 +3968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.createTransport = function (name) {
+	Socket.prototype.createTransport = function(name) {
 	  debug('creating transport "%s"', name);
 	  var query = clone(this.query);
 
@@ -4027,14 +4027,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @api private
 	 */
-	Socket.prototype.open = function () {
+	Socket.prototype.open = function() {
 	  var transport;
 	  if (this.rememberUpgrade && Socket.priorWebsocketSuccess && this.transports.indexOf('websocket') !== -1) {
 	    transport = 'websocket';
 	  } else if (0 === this.transports.length) {
 	    // Emit error on next tick so it can be listened to
 	    var self = this;
-	    setTimeout(function () {
+	    setTimeout(function() {
 	      self.emit('error', 'No transports available');
 	    }, 0);
 	    return;
@@ -4062,7 +4062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.setTransport = function (transport) {
+	Socket.prototype.setTransport = function(transport) {
 	  debug('setting transport %s', transport.name);
 	  var self = this;
 
@@ -4076,16 +4076,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // set up transport listeners
 	  transport
-	  .on('drain', function () {
+	  .on('drain', function() {
 	    self.onDrain();
 	  })
-	  .on('packet', function (packet) {
+	  .on('packet', function(packet) {
 	    self.onPacket(packet);
 	  })
-	  .on('error', function (e) {
+	  .on('error', function(e) {
 	    self.onError(e);
 	  })
-	  .on('close', function () {
+	  .on('close', function() {
 	    self.onClose('transport close');
 	  });
 	};
@@ -4097,7 +4097,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.probe = function (name) {
+	Socket.prototype.probe = function(name) {
 	  debug('probing transport "%s"', name);
 	  var transport = this.createTransport(name, { probe: 1 });
 	  var failed = false;
@@ -4114,7 +4114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    debug('probe transport "%s" opened', name);
 	    transport.send([{ type: 'ping', data: 'probe' }]);
-	    transport.once('packet', function (msg) {
+	    transport.once('packet', function(msg) {
 	      if (failed) return;
 	      if ('pong' === msg.type && 'probe' === msg.data) {
 	        debug('probe transport "%s" pong', name);
@@ -4124,7 +4124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Socket.priorWebsocketSuccess = 'websocket' === transport.name;
 
 	        debug('pausing current transport "%s"', self.transport.name);
-	        self.transport.pause(function () {
+	        self.transport.pause(function() {
 	          if (failed) return;
 	          if ('closed' === self.readyState) return;
 	          debug('changing transport and sending upgrade packet');
@@ -4213,7 +4213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Socket.prototype.onOpen = function () {
+	Socket.prototype.onOpen = function() {
 	  debug('socket open');
 	  this.readyState = 'open';
 	  Socket.priorWebsocketSuccess = 'websocket' === this.transport.name;
@@ -4236,7 +4236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onPacket = function (packet) {
+	Socket.prototype.onPacket = function(packet) {
 	  if ('opening' === this.readyState || 'open' === this.readyState ||
 	      'closing' === this.readyState) {
 	    debug('socket receive: type "%s", data "%s"', packet.type, packet.data);
@@ -4279,7 +4279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onHandshake = function (data) {
+	Socket.prototype.onHandshake = function(data) {
 	  this.emit('handshake', data);
 	  this.id = data.sid;
 	  this.transport.query.sid = data.sid;
@@ -4302,10 +4302,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onHeartbeat = function (timeout) {
+	Socket.prototype.onHeartbeat = function(timeout) {
 	  clearTimeout(this.pingTimeoutTimer);
 	  var self = this;
-	  self.pingTimeoutTimer = setTimeout(function () {
+	  self.pingTimeoutTimer = setTimeout(function() {
 	    if ('closed' === self.readyState) return;
 	    self.onClose('ping timeout');
 	  }, timeout || (self.pingInterval + self.pingTimeout));
@@ -4318,10 +4318,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.setPing = function () {
+	Socket.prototype.setPing = function() {
 	  var self = this;
 	  clearTimeout(self.pingIntervalTimer);
-	  self.pingIntervalTimer = setTimeout(function () {
+	  self.pingIntervalTimer = setTimeout(function() {
 	    debug('writing ping packet - expecting pong within %sms', self.pingTimeout);
 	    self.ping();
 	    self.onHeartbeat(self.pingTimeout);
@@ -4334,9 +4334,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @api private
 	*/
 
-	Socket.prototype.ping = function () {
+	Socket.prototype.ping = function() {
 	  var self = this;
-	  this.sendPacket('ping', function () {
+	  this.sendPacket('ping', function() {
 	    self.emit('ping');
 	  });
 	};
@@ -4347,7 +4347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onDrain = function () {
+	Socket.prototype.onDrain = function() {
 	  this.writeBuffer.splice(0, this.prevBufferLen);
 
 	  // setting prevBufferLen = 0 is very important
@@ -4368,7 +4368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.flush = function () {
+	Socket.prototype.flush = function() {
 	  if ('closed' !== this.readyState && this.transport.writable &&
 	    !this.upgrading && this.writeBuffer.length) {
 	    debug('flushing %d packets in socket', this.writeBuffer.length);
@@ -4391,7 +4391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	Socket.prototype.write =
-	Socket.prototype.send = function (msg, options, fn) {
+	Socket.prototype.send = function(msg, options, fn) {
 	  this.sendPacket('message', msg, options, fn);
 	  return this;
 	};
@@ -4406,7 +4406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.sendPacket = function (type, data, options, fn) {
+	Socket.prototype.sendPacket = function(type, data, options, fn) {
 	  if ('function' === typeof data) {
 	    fn = data;
 	    data = undefined;
@@ -4441,14 +4441,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.close = function () {
+	Socket.prototype.close = function() {
 	  if ('opening' === this.readyState || 'open' === this.readyState) {
 	    this.readyState = 'closing';
 
 	    var self = this;
 
 	    if (this.writeBuffer.length) {
-	      this.once('drain', function () {
+	      this.once('drain', function() {
 	        if (this.upgrading) {
 	          waitForUpgrade();
 	        } else {
@@ -4489,7 +4489,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onError = function (err) {
+	Socket.prototype.onError = function(err) {
 	  debug('socket error %j', err);
 	  Socket.priorWebsocketSuccess = false;
 	  this.emit('error', err);
@@ -4502,7 +4502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onClose = function (reason, desc) {
+	Socket.prototype.onClose = function(reason, desc) {
 	  if ('opening' === this.readyState || 'open' === this.readyState || 'closing' === this.readyState) {
 	    debug('socket close with reason: "%s"', reason);
 	    var self = this;
@@ -4544,7 +4544,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 */
 
-	Socket.prototype.filterUpgrades = function (upgrades) {
+	Socket.prototype.filterUpgrades = function(upgrades) {
 	  var filteredUpgrades = [];
 	  for (var i = 0, j = upgrades.length; i < j; i++) {
 	    if (~index(this.transports, upgrades[i])) filteredUpgrades.push(upgrades[i]);
@@ -4622,7 +4622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var hasCORS = __webpack_require__(23);
 
-	module.exports = function (opts) {
+	module.exports = function(opts) {
 	  var xdomain = opts.xdomain;
 
 	  // scheme must be same when usign XDomainRequest
@@ -4755,7 +4755,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	XHR.prototype.request = function (opts) {
+	XHR.prototype.request = function(opts) {
 	  opts = opts || {};
 	  opts.uri = this.uri();
 	  opts.xd = this.xd;
@@ -4788,12 +4788,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	XHR.prototype.doWrite = function (data, fn) {
+	XHR.prototype.doWrite = function(data, fn) {
 	  var isBinary = typeof data !== 'string' && data !== undefined;
 	  var req = this.request({ method: 'POST', data: data, isBinary: isBinary });
 	  var self = this;
 	  req.on('success', fn);
-	  req.on('error', function (err) {
+	  req.on('error', function(err) {
 	    self.onError('xhr post error', err);
 	  });
 	  this.sendXhr = req;
@@ -4805,14 +4805,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	XHR.prototype.doPoll = function () {
+	XHR.prototype.doPoll = function() {
 	  debug('xhr poll');
 	  var req = this.request();
 	  var self = this;
-	  req.on('data', function (data) {
+	  req.on('data', function(data) {
 	    self.onData(data);
 	  });
-	  req.on('error', function (err) {
+	  req.on('error', function(err) {
 	    self.onError('xhr poll error', err);
 	  });
 	  this.pollXhr = req;
@@ -4865,7 +4865,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.create = function () {
+	Request.prototype.create = function() {
 	  var opts = { agent: this.agent, xdomain: this.xd, xscheme: this.xs, enablesXDR: this.enablesXDR };
 
 	  // SSL options for Node.js client
@@ -4923,21 +4923,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (this.hasXDR()) {
-	      xhr.onload = function () {
+	      xhr.onload = function() {
 	        self.onLoad();
 	      };
-	      xhr.onerror = function () {
+	      xhr.onerror = function() {
 	        self.onError(xhr.responseText);
 	      };
 	    } else {
-	      xhr.onreadystatechange = function () {
+	      xhr.onreadystatechange = function() {
 	        if (4 !== xhr.readyState) return;
 	        if (200 === xhr.status || 1223 === xhr.status) {
 	          self.onLoad();
 	        } else {
 	          // make sure the `error` event handler that's user-set
 	          // does not throw in the same tick and gets caught here
-	          setTimeout(function () {
+	          setTimeout(function() {
 	            self.onError(xhr.status);
 	          }, 0);
 	        }
@@ -4950,7 +4950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Need to defer since .create() is called directly fhrom the constructor
 	    // and thus the 'error' event can only be only bound *after* this exception
 	    // occurs.  Therefore, also, we cannot throw here at all.
-	    setTimeout(function () {
+	    setTimeout(function() {
 	      self.onError(e);
 	    }, 0);
 	    return;
@@ -4968,7 +4968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.onSuccess = function () {
+	Request.prototype.onSuccess = function() {
 	  this.emit('success');
 	  this.cleanup();
 	};
@@ -4979,7 +4979,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.onData = function (data) {
+	Request.prototype.onData = function(data) {
 	  this.emit('data', data);
 	  this.onSuccess();
 	};
@@ -4990,7 +4990,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.onError = function (err) {
+	Request.prototype.onError = function(err) {
 	  this.emit('error', err);
 	  this.cleanup(true);
 	};
@@ -5001,7 +5001,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.cleanup = function (fromError) {
+	Request.prototype.cleanup = function(fromError) {
 	  if ('undefined' === typeof this.xhr || null === this.xhr) {
 	    return;
 	  }
@@ -5031,7 +5031,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.onLoad = function () {
+	Request.prototype.onLoad = function() {
 	  var data;
 	  try {
 	    var contentType;
@@ -5071,7 +5071,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Request.prototype.hasXDR = function () {
+	Request.prototype.hasXDR = function() {
 	  return 'undefined' !== typeof global.XDomainRequest && !this.xs && this.enablesXDR;
 	};
 
@@ -5081,7 +5081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Request.prototype.abort = function () {
+	Request.prototype.abort = function() {
 	  this.cleanup();
 	};
 
@@ -5137,7 +5137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Is XHR2 supported?
 	 */
 
-	var hasXHR2 = (function () {
+	var hasXHR2 = (function() {
 	  var XMLHttpRequest = __webpack_require__(22);
 	  var xhr = new XMLHttpRequest({ xdomain: false });
 	  return null != xhr.responseType;
@@ -5177,7 +5177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Polling.prototype.doOpen = function () {
+	Polling.prototype.doOpen = function() {
 	  this.poll();
 	};
 
@@ -5188,7 +5188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Polling.prototype.pause = function (onPause) {
+	Polling.prototype.pause = function(onPause) {
 	  var self = this;
 
 	  this.readyState = 'pausing';
@@ -5205,7 +5205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.polling) {
 	      debug('we are currently polling - waiting to pause');
 	      total++;
-	      this.once('pollComplete', function () {
+	      this.once('pollComplete', function() {
 	        debug('pre-pause polling complete');
 	        --total || pause();
 	      });
@@ -5214,7 +5214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!this.writable) {
 	      debug('we are currently writing - waiting to pause');
 	      total++;
-	      this.once('drain', function () {
+	      this.once('drain', function() {
 	        debug('pre-pause writing complete');
 	        --total || pause();
 	      });
@@ -5230,7 +5230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Polling.prototype.poll = function () {
+	Polling.prototype.poll = function() {
 	  debug('polling');
 	  this.polling = true;
 	  this.doPoll();
@@ -5243,10 +5243,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Polling.prototype.onData = function (data) {
+	Polling.prototype.onData = function(data) {
 	  var self = this;
 	  debug('polling got data %s', data);
-	  var callback = function (packet, index, total) {
+	  var callback = function(packet, index, total) {
 	    // if its the first message we consider the transport open
 	    if ('opening' === self.readyState) {
 	      self.onOpen();
@@ -5285,7 +5285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Polling.prototype.doClose = function () {
+	Polling.prototype.doClose = function() {
 	  var self = this;
 
 	  function close () {
@@ -5312,15 +5312,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Polling.prototype.write = function (packets) {
+	Polling.prototype.write = function(packets) {
 	  var self = this;
 	  this.writable = false;
-	  var callbackfn = function () {
+	  var callbackfn = function() {
 	    self.writable = true;
 	    self.emit('drain');
 	  };
 
-	  parser.encodePayload(packets, this.supportsBinary, function (data) {
+	  parser.encodePayload(packets, this.supportsBinary, function(data) {
 	    self.doWrite(data, callbackfn);
 	  });
 	};
@@ -5331,7 +5331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Polling.prototype.uri = function () {
+	Polling.prototype.uri = function() {
 	  var query = this.query || {};
 	  var schema = this.secure ? 'https' : 'http';
 	  var port = '';
@@ -5429,7 +5429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Transport.prototype.onError = function (msg, desc) {
+	Transport.prototype.onError = function(msg, desc) {
 	  var err = new Error(msg);
 	  err.type = 'TransportError';
 	  err.description = desc;
@@ -5443,7 +5443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Transport.prototype.open = function () {
+	Transport.prototype.open = function() {
 	  if ('closed' === this.readyState || '' === this.readyState) {
 	    this.readyState = 'opening';
 	    this.doOpen();
@@ -5458,7 +5458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Transport.prototype.close = function () {
+	Transport.prototype.close = function() {
 	  if ('opening' === this.readyState || 'open' === this.readyState) {
 	    this.doClose();
 	    this.onClose();
@@ -5474,7 +5474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Transport.prototype.send = function (packets) {
+	Transport.prototype.send = function(packets) {
 	  if ('open' === this.readyState) {
 	    this.write(packets);
 	  } else {
@@ -5488,7 +5488,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Transport.prototype.onOpen = function () {
+	Transport.prototype.onOpen = function() {
 	  this.readyState = 'open';
 	  this.writable = true;
 	  this.emit('open');
@@ -5501,7 +5501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Transport.prototype.onData = function (data) {
+	Transport.prototype.onData = function(data) {
 	  var packet = parser.decodePacket(data, this.socket.binaryType);
 	  this.onPacket(packet);
 	};
@@ -5510,7 +5510,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Called with a decoded packet.
 	 */
 
-	Transport.prototype.onPacket = function (packet) {
+	Transport.prototype.onPacket = function(packet) {
 	  this.emit('packet', packet);
 	};
 
@@ -5520,7 +5520,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Transport.prototype.onClose = function () {
+	Transport.prototype.onClose = function() {
 	  this.readyState = 'closed';
 	  this.emit('close');
 	};
@@ -5618,7 +5618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	exports.encodePacket = function (packet, supportsBinary, utf8encode, callback) {
+	exports.encodePacket = function(packet, supportsBinary, utf8encode, callback) {
 	  if ('function' == typeof supportsBinary) {
 	    callback = supportsBinary;
 	    supportsBinary = false;
@@ -5753,7 +5753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	exports.decodePacket = function (data, binaryType, utf8decode) {
+	exports.decodePacket = function(data, binaryType, utf8decode) {
 	  if (data === undefined) {
 	    return err;
 	  }
@@ -5838,7 +5838,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	exports.encodePayload = function (packets, supportsBinary, callback) {
+	exports.encodePayload = function(packets, supportsBinary, callback) {
 	  if (typeof supportsBinary == 'function') {
 	    callback = supportsBinary;
 	    supportsBinary = null;
@@ -5901,7 +5901,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	exports.decodePayload = function (data, binaryType, callback) {
+	exports.decodePayload = function(data, binaryType, callback) {
 	  if (typeof data != 'string') {
 	    return exports.decodePayloadAsBinary(data, binaryType, callback);
 	  }
@@ -6085,7 +6085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	exports.decodePayloadAsBinary = function (data, binaryType, callback) {
+	exports.decodePayloadAsBinary = function(data, binaryType, callback) {
 	  if (typeof binaryType === 'function') {
 	    callback = binaryType;
 	    binaryType = null;
@@ -6898,7 +6898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	exports.encode = function (obj) {
+	exports.encode = function(obj) {
 	  var str = '';
 
 	  for (var i in obj) {
@@ -7077,7 +7077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // add callback to jsonp global
 	  var self = this;
-	  callbacks.push(function (msg) {
+	  callbacks.push(function(msg) {
 	    self.onData(msg);
 	  });
 
@@ -7086,7 +7086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // prevent spurious errors from being emitted when the window is unloaded
 	  if (global.document && global.addEventListener) {
-	    global.addEventListener('beforeunload', function () {
+	    global.addEventListener('beforeunload', function() {
 	      if (self.script) self.script.onerror = empty;
 	    }, false);
 	  }
@@ -7110,7 +7110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	JSONPPolling.prototype.doClose = function () {
+	JSONPPolling.prototype.doClose = function() {
 	  if (this.script) {
 	    this.script.parentNode.removeChild(this.script);
 	    this.script = null;
@@ -7131,7 +7131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	JSONPPolling.prototype.doPoll = function () {
+	JSONPPolling.prototype.doPoll = function() {
 	  var self = this;
 	  var script = document.createElement('script');
 
@@ -7142,7 +7142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  script.async = true;
 	  script.src = this.uri();
-	  script.onerror = function (e) {
+	  script.onerror = function(e) {
 	    self.onError('jsonp poll error', e);
 	  };
 
@@ -7157,7 +7157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var isUAgecko = 'undefined' !== typeof navigator && /gecko/i.test(navigator.userAgent);
 
 	  if (isUAgecko) {
-	    setTimeout(function () {
+	    setTimeout(function() {
 	      var iframe = document.createElement('iframe');
 	      document.body.appendChild(iframe);
 	      document.body.removeChild(iframe);
@@ -7173,7 +7173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	JSONPPolling.prototype.doWrite = function (data, fn) {
+	JSONPPolling.prototype.doWrite = function(data, fn) {
 	  var self = this;
 
 	  if (!this.form) {
@@ -7241,7 +7241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } catch (e) {}
 
 	  if (this.iframe.attachEvent) {
-	    this.iframe.onreadystatechange = function () {
+	    this.iframe.onreadystatechange = function() {
 	      if (self.iframe.readyState === 'complete') {
 	        complete();
 	      }
@@ -7338,7 +7338,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	WS.prototype.doOpen = function () {
+	WS.prototype.doOpen = function() {
 	  if (!this.check()) {
 	    // let probe timeout
 	    return;
@@ -7392,19 +7392,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	WS.prototype.addEventListeners = function () {
+	WS.prototype.addEventListeners = function() {
 	  var self = this;
 
-	  this.ws.onopen = function () {
+	  this.ws.onopen = function() {
 	    self.onOpen();
 	  };
-	  this.ws.onclose = function () {
+	  this.ws.onclose = function() {
 	    self.onClose();
 	  };
-	  this.ws.onmessage = function (ev) {
+	  this.ws.onmessage = function(ev) {
 	    self.onData(ev.data);
 	  };
-	  this.ws.onerror = function (e) {
+	  this.ws.onerror = function(e) {
 	    self.onError('websocket error', e);
 	  };
 	};
@@ -7416,7 +7416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	WS.prototype.write = function (packets) {
+	WS.prototype.write = function(packets) {
 	  var self = this;
 	  this.writable = false;
 
@@ -7424,8 +7424,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // no need for encodePayload
 	  var total = packets.length;
 	  for (var i = 0, l = total; i < l; i++) {
-	    (function (packet) {
-	      parser.encodePacket(packet, self.supportsBinary, function (data) {
+	    (function(packet) {
+	      parser.encodePacket(packet, self.supportsBinary, function(data) {
 	        if (!self.usingBrowserWebSocket) {
 	          // always create a new object (GH-437)
 	          var opts = {};
@@ -7465,7 +7465,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // fake drain
 	    // defer to next tick to allow Socket to clear writeBuffer
-	    setTimeout(function () {
+	    setTimeout(function() {
 	      self.writable = true;
 	      self.emit('drain');
 	    }, 0);
@@ -7478,7 +7478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	WS.prototype.onClose = function () {
+	WS.prototype.onClose = function() {
 	  Transport.prototype.onClose.call(this);
 	};
 
@@ -7488,7 +7488,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	WS.prototype.doClose = function () {
+	WS.prototype.doClose = function() {
 	  if (typeof this.ws !== 'undefined') {
 	    this.ws.close();
 	  }
@@ -7500,7 +7500,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	WS.prototype.uri = function () {
+	WS.prototype.uri = function() {
 	  var query = this.query || {};
 	  var schema = this.secure ? 'wss' : 'ws';
 	  var port = '';
@@ -7539,7 +7539,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	WS.prototype.check = function () {
+	WS.prototype.check = function() {
 	  return !!WebSocket && !('__initialize' in WebSocket && this.name === WS.prototype.name);
 	};
 
@@ -7691,7 +7691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.subEvents = function () {
+	Socket.prototype.subEvents = function() {
 	  if (this.subs) return;
 
 	  var io = this.io;
@@ -7704,7 +7704,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Socket.prototype.open = Socket.prototype.connect = function () {
+	Socket.prototype.open = Socket.prototype.connect = function() {
 	  if (this.connected) return this;
 
 	  this.subEvents();
@@ -7721,7 +7721,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Socket.prototype.send = function () {
+	Socket.prototype.send = function() {
 	  var args = toArray(arguments);
 	  args.unshift('message');
 	  this.emit.apply(this, args);
@@ -7737,7 +7737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Socket.prototype.emit = function (ev) {
+	Socket.prototype.emit = function(ev) {
 	  if (events.hasOwnProperty(ev)) {
 	    emit.apply(this, arguments);
 	    return this;
@@ -7778,7 +7778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.packet = function (packet) {
+	Socket.prototype.packet = function(packet) {
 	  packet.nsp = this.nsp;
 	  this.io.packet(packet);
 	};
@@ -7789,7 +7789,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onopen = function () {
+	Socket.prototype.onopen = function() {
 	  debug('transport is open - connecting');
 
 	  // write connect packet if necessary
@@ -7809,7 +7809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onclose = function (reason) {
+	Socket.prototype.onclose = function(reason) {
 	  debug('close (%s)', reason);
 	  this.connected = false;
 	  this.disconnected = true;
@@ -7824,7 +7824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onpacket = function (packet) {
+	Socket.prototype.onpacket = function(packet) {
 	  if (packet.nsp !== this.nsp) return;
 
 	  switch (packet.type) {
@@ -7865,7 +7865,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onevent = function (packet) {
+	Socket.prototype.onevent = function(packet) {
 	  var args = packet.data || [];
 	  debug('emitting event %j', args);
 
@@ -7887,10 +7887,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.ack = function (id) {
+	Socket.prototype.ack = function(id) {
 	  var self = this;
 	  var sent = false;
-	  return function () {
+	  return function() {
 	    // prevent double callbacks
 	    if (sent) return;
 	    sent = true;
@@ -7913,7 +7913,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onack = function (packet) {
+	Socket.prototype.onack = function(packet) {
 	  var ack = this.acks[packet.id];
 	  if ('function' === typeof ack) {
 	    debug('calling ack %s with %j', packet.id, packet.data);
@@ -7930,7 +7930,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.onconnect = function () {
+	Socket.prototype.onconnect = function() {
 	  this.connected = true;
 	  this.disconnected = false;
 	  this.emit('connect');
@@ -7943,7 +7943,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.emitBuffered = function () {
+	Socket.prototype.emitBuffered = function() {
 	  var i;
 	  for (i = 0; i < this.receiveBuffer.length; i++) {
 	    emit.apply(this, this.receiveBuffer[i]);
@@ -7962,7 +7962,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private
 	 */
 
-	Socket.prototype.ondisconnect = function () {
+	Socket.prototype.ondisconnect = function() {
 	  debug('server disconnect (%s)', this.nsp);
 	  this.destroy();
 	  this.onclose('io server disconnect');
@@ -7976,7 +7976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api private.
 	 */
 
-	Socket.prototype.destroy = function () {
+	Socket.prototype.destroy = function() {
 	  if (this.subs) {
 	    // clean subscriptions to avoid reconnections
 	    for (var i = 0; i < this.subs.length; i++) {
@@ -7995,7 +7995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Socket.prototype.close = Socket.prototype.disconnect = function () {
+	Socket.prototype.close = Socket.prototype.disconnect = function() {
 	  if (this.connected) {
 	    debug('performing disconnect (%s)', this.nsp);
 	    this.packet({ type: parser.DISCONNECT });
@@ -8019,7 +8019,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @api public
 	 */
 
-	Socket.prototype.compress = function (compress) {
+	Socket.prototype.compress = function(compress) {
 	  this.flags = this.flags || {};
 	  this.flags.compress = compress;
 	  return this;

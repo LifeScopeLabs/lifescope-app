@@ -30,7 +30,7 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 */
-(function (root, factory) {
+(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         //RequireJS (AMD) build system
         define(factory);
@@ -40,7 +40,7 @@
     } else {
         root.easyrtc_lang = factory();
   }
-}(this, function (undefined) {
+}(this, function(undefined) {
 
   "use strict";
 

@@ -6,18 +6,18 @@
 
     <div class="body flexbox flex-column flex-x-center">
       <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-        <h3>Disable {{ connection.name }}?</h3>
+        <h3 >Delete Tracked Locations?</h3>
         <div class="instructions">
-          <p>Are you sure you'd like to disable this connection?</p>
-          <p>We'll stop collecting data for this connection while it's disabled.</p>
-          <p>You can re-enable the connection at any time and it'll pick up where it left off.</p>
+          <p>Are you sure you'd like to delete all of your tracked locations?</p>
+          <p>This will not delete any locations that were obtained from any of your Connections.</p>
+          <p>If you have location tracking turned on, it will continue to run after this deletion has gone through.</p>
         </div>
       </div>
 
       <div class="flexbox flex-x-center">
         <button style="margin-right: 2em" v-on:click="$emit('close')">No, Cancel</button>
         <span class="flex-grow"></span>
-        <button class="danger confirm" v-on:click="disableConnection(connection)">Yes, Disable</button>
+        <button class="danger confirm" v-on:click="deleteTrackedLocations">Yes, Delete my Tracked Locations</button>
       </div>
     </div>
   </div>
@@ -25,18 +25,14 @@
 
 
 <script>
-  import patchConnection from '../../apollo/mutations/patch-connection.gql'
+  import trackedLocationsRemoveMany from '../../apollo/mutations/tracked-locations-remove-many.gql'
 
   export default {
     props: ['connection'],
     methods: {
-      disableConnection: async function(connection) {
-        await this.$apollo.mutate({
-          mutation: patchConnection,
-          variables: {
-            id: connection.id,
-            enabled: false
-          }
+      deleteTrackedLocations: async function() {
+        let response = await this.$apollo.mutate({
+          mutation: trackedLocationsRemoveMany
         });
 
         this.$emit('close');

@@ -89,15 +89,15 @@
 console.log("from carousel-item.vue <script>")
 export default {
 	props: ['content', 'connection'],
-	
+
 	computed: {
-        imageMaterial: function () {
+        imageMaterial: function() {
             return 'src: #image-' + this.content.id + '; side: double'
         }
     },
 
     methods: {
-        textString: function (value) {
+        textString: function(value) {
             return 'width: 1.5; color: white; value: ' + value
         }
     },

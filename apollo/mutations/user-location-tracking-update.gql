@@ -1,0 +1,10 @@
+mutation userLocationTrackingUpdate($location_tracking_enabled: Boolean!) {
+     userLocationTrackingUpdate(location_tracking_enabled: $location_tracking_enabled) {
+        id,
+        api_key,
+        api_key_string,
+        joined,
+        last_login,
+        location_tracking_enabled
+    }
+}

@@ -38,6 +38,32 @@
           </div>
 
           <div class="boxed-group">
+            <div class="title">Track your location</div>
+
+            <div class="padded paragraphed">
+              <p>
+                You may <u>optionally</u> let LifeScope record your location to better help us locate information that does not natively have any location information.
+                If enabled, we'll record a location every time you load a page, and every 5 minutes later if you remain on the page.
+                You may disable this feature at any time.
+                Any locations we have recorded will remain unless you click the button 'Delete tracked locations'.
+              </p>
+
+              <div class="flexbox">
+                <div>
+                  <button v-if="$store.state.userOne.location_tracking_enabled === true" id="disable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Disable Location Tracking</button>
+                  <button v-if="$store.state.userOne.location_tracking_enabled !== true" id="enable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Enable Location Tracking</button>
+                </div>
+
+                <span class="flex-grow"></span>
+
+                <div>
+                  <button class="danger delete" v-on:click.prevent="showTrackedLocationsDeleteModal">Delete Tracked Locations</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="boxed-group">
             <div class="title">Delete Account</div>
 
             <div class="padded paragraphed">
@@ -119,15 +145,11 @@
                 </div>
 
                 <div class="delete-disable">
-                  <button v-if="connection.enabled === true" class="danger disable"
-                          v-on:click.prevent="showDisableModal(connection)">Disable
-                  </button>
-                  <button v-else class="primary enable" v-on:click.prevent="enableConnection(connection)">Enable
-                  </button>
+                  <button v-if="connection.enabled === true" class="danger disable" v-on:click.prevent="showDisableModal(connection)">Disable</button>
+                  <button v-else class="primary enable" v-on:click.prevent="enableConnection(connection)">Enable</button>
 
                   <span class="flex-grow"></span>
-                  <button class="danger delete" v-on:click.prevent="showConnectionDeleteModal(connection)">Delete
-                  </button>
+                  <button class="danger delete" v-on:click.prevent="showConnectionDeleteModal(connection)">Delete</button>
                 </div>
               </div>
             </form>
@@ -154,8 +176,9 @@
   import deleteAccountModal from '../modals/account-delete';
   import deleteConnectionModal from '../modals/connection-delete';
   import disableConnectionModal from '../modals/connection-disable';
+  import locationTrackingModal from '../modals/location-tracking';
+  import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import patchConnection from '../../apollo/mutations/patch-connection.gql';
-  import userApiKey from '../../apollo/queries/user-api-key.gql';
   import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
 
   function isBefore(value) {
@@ -174,25 +197,25 @@
   }
 
   export default {
-    data: function () {
+    data: function() {
       return {
         activeConnection: null
       }
     },
     methods: {
-      getIcon: function (name) {
+      getIcon: function(name) {
         return 'fa fa-' + name.toLowerCase() + ' fa-2x';
       },
 
-      getUpdated: function (lastRun) {
+      getUpdated: function(lastRun) {
         return (isBefore(lastRun) ? 'Updated ' : 'Updating ') + relativeTime(lastRun);
       },
 
-      toggleActive: function (id) {
+      toggleActive: function(id) {
         this.$data.activeConnection = (this.$data.activeConnection === id) ? null : id;
       },
 
-      showDisableModal: function (connection) {
+      showDisableModal: function(connection) {
         this.$modal.show(disableConnectionModal, {
           connection: connection
         }, {
@@ -202,14 +225,14 @@
         });
       },
 
-      showAccountDeleteModal: function () {
+      showAccountDeleteModal: function() {
         this.$modal.show(deleteAccountModal, {}, {
           height: 'auto',
           scrollable: true
         })
       },
 
-      showConnectionDeleteModal: function (connection) {
+      showConnectionDeleteModal: function(connection) {
         this.$modal.show(deleteConnectionModal, {
           connection: connection
         }, {
@@ -218,7 +241,7 @@
         });
       },
 
-      enableConnection: async function (connection) {
+      enableConnection: async function(connection) {
         await this.$apollo.mutate({
           mutation: patchConnection,
           variables: {
@@ -228,20 +251,20 @@
         });
       },
 
-      getConnectionReauthorization: async function (connection) {
+      getConnectionReauthorization: async function(connection) {
         window.location.href = connection.auth.redirectUrl;
       },
 
-      updatePermissions: _.debounce(async function (connection) {
+      updatePermissions: _.debounce(async function(connection) {
         let sources = connection.provider.sources;
 
         let permissions = {};
 
-        _.each(sources, function (source, name) {
+        _.each(sources, function(source, name) {
           permissions[name] = false;
         });
 
-        _.each(this.$store.state.permissions[connection.id], function (source) {
+        _.each(this.$store.state.permissions[connection.id], function(source) {
           if (typeof source === 'string') {
             permissions[source] = true;
           }
@@ -262,15 +285,25 @@
         });
 
         this.$store.state.userOne = response.data.userApiKeyUpdate;
+      },
+
+      showLocationTrackingModal: async function() {
+        this.$modal.show(locationTrackingModal, {}, {
+          height: 'auto',
+          scrollable: true
+        });
+      },
+
+      showTrackedLocationsDeleteModal: async function() {
+        this.$modal.show(trackedLocationsDeleteModal, {}, {
+          height: 'auto',
+          scrollable: true
+        })
       }
     },
 
     mounted: async function() {
       let self = this;
-
-      let apiKeyResult = await this.$apollo.query({
-        query: userApiKey
-      });
 
       let connectionResult = await this.$apollo.query({
         query: connectionMany
@@ -320,12 +353,10 @@
         }
       });
 
-      this.$store.state.userOne = apiKeyResult.data.userOne;
-
       let connections = connectionResult.data.connectionMany;
 
-      _.each(connections, function (connection) {
-        self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function (source, name) {
+      _.each(connections, function(connection) {
+        self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function(source, name) {
           return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
         });
       });

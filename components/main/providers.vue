@@ -34,26 +34,26 @@
   import loginHelpModal from '../../components/modals/login-help';
 
   export default {
-    data: function () {
+    data: function() {
       return {
         providerHydratedMany: [],
         providerWithMapMany: []
       }
     },
     methods: {
-      providerIcon: function (name) {
+      providerIcon: function(name) {
         return 'fa fa-' + name.toLowerCase();
       },
-      connectionLink: function (id) {
+      connectionLink: function(id) {
         return 'https://app.lifescope.io/settings/connections?provider=' + id;
       },
-      getPlaceholder: function (provider) {
+      getPlaceholder: function(provider) {
         return 'My ' + provider.name + 'Account';
       },
-      showLoginHelpModal: function () {
+      showLoginHelpModal: function() {
         this.$modal.show(loginHelpModal);
       },
-      showConnectionModal: function (provider) {
+      showConnectionModal: function(provider) {
         this.$modal.show(connectionCreateModal, {
           provider: provider
         }, {
@@ -86,7 +86,7 @@
     },
 
     updated() {
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.$store.mixer.forceRefresh();
       });
     }

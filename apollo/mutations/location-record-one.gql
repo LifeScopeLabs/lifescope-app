@@ -1,0 +1,5 @@
+mutation locationRecordOne($datetime: Date!, $geo_format: String!, $longitude: Float, $latitude: Float) {
+     locationRecordOne(datetime: $datetime, geo_format: $geo_format, longitude: $longitude, latitude: $latitude) {
+        id
+    }
+}

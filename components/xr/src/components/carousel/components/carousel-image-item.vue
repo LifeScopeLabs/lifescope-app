@@ -20,7 +20,7 @@
                   :text="this.textString('homepoint: ' + image.homepoint)"
                    position="0 -.8 0"/>
     </a-entity>
-    
+
 </template>
 
 <script>
@@ -29,7 +29,7 @@ export default {
     props: ['image'],
 
     computed: {
-        imageMaterial: function () {
+        imageMaterial: function() {
             //console.log("id: " + this.image.id)
             // debugger;
             return 'src: #image-' + this.image.id + '; side: double'
@@ -37,7 +37,7 @@ export default {
     },
 
     methods: {
-        textString: function (value) {
+        textString: function(value) {
             return 'width: 1.5; color: white; value: ' + value
         }
     },
