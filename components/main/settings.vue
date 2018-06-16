@@ -86,15 +86,15 @@
                v-bind:data-id="connection.id" v-bind:data-provider-id="connection.provider.id">
             <div class="flexbox flex-x-center title" v-on:click="toggleActive(connection.id)">
               <div class="icon-name">
-                <i v-bind:class="getIcon(connection.provider.name)"></i>
+                <i v-bind:class="getIcon(connection)"></i>
                 <div class="flex-grow name">{{ connection.name }}</div>
                 <div class="disabled"></div>
               </div>
               <div class="last-run">
-                <div v-if="connection.last_run != null" class="updates">
+                <div v-if="connection.browser == null && connection.last_run != null" class="updates">
                   {{ getUpdated(connection.last_run) }}
                 </div>
-                <div v-else class="updates">
+                <div v-else-if="connection.browser == null" class="updates">
                   <div>Initial update pending</div>
                   <span></span>
                   <i class="fa fa-spinner fa-spin fa-2x"></i>
@@ -106,7 +106,7 @@
 
             <form class="auto" v-on:submit.prevent="">
               <div class="padded paragraphed">
-                <div>
+                <div v-if="connection.browser == null">
                   <div class="flexbox flex-x-center label">
                     <div>Name</div>
                     <i class="fa fa-check-circle flex-grow success-icon" data-for="name"
@@ -118,7 +118,8 @@
                 </div>
 
                 <div>
-                  <div class="label">What would you like?</div>
+                  <div v-if="connection.browser == null" class="label">What would you like?</div>
+                  <div v-else-if="connection.browser != null" class="label">Please open the extension's settings to change its whitelist.</div>
                   <div>
                     <div v-for="permission, name in orderBy(connection.provider.sources, 'name')" class="paragraph ">
                       <div class="flexbox flex-x-center">
@@ -170,6 +171,8 @@
   import _ from 'lodash';
   import moment from 'moment';
 
+  import icons from '../../lib/util/icons';
+
   import connectionMany from '../../apollo/queries/connection-many.gql';
   import connectionDeleted from '../../apollo/subscriptions/connection-deleted.gql';
   import connectionUpdated from '../../apollo/subscriptions/connection-updated.gql';
@@ -203,8 +206,13 @@
       }
     },
     methods: {
-      getIcon: function(name) {
-        return 'fa fa-' + name.toLowerCase() + ' fa-2x';
+      getIcon: function(connection) {
+        if (connection.browser) {
+          return icons('browser', connection.browser.toLowerCase()) + ' fa-2x';
+        }
+        else {
+          return icons('provider', connection.provider.name.toLowerCase()) + ' fa-2x';
+        }
       },
 
       getUpdated: function(lastRun) {

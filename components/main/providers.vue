@@ -8,15 +8,15 @@
              v-bind:data-id="provider.id" v-bind:data-assoc-count="provider.assoc_count">
           <div>
             <span v-if="provider.assoc_count > 1">{{ provider.assoc_count }}</span>
-            <h1><i v-bind:class="providerIcon(provider.name)"></i></h1>
+            <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>
         </div>
         <div v-if="$store.getters.authenticated !== true" v-model="providerWithMapMany"
-             v-for="provider in providerWithMapMany" v-on:click="showConnectionModal(provider)" v-bind:key="provider.id"
-             v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
+             v-for="provider in loginMaps" v-on:click="showConnectionModal(provider)"
+             v-bind:key="provider.id" v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
           <div>
-            <h1><i v-bind:class="providerIcon(provider.name)"></i></h1>
+            <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>
         </div>
@@ -28,10 +28,12 @@
 </template>
 
 <script>
+  import _ from 'lodash';
+  import connectionCreateModal from '../../components/modals/connection-create';
+  import icons from '../../lib/util/icons';
+  import loginHelpModal from '../../components/modals/login-help';
   import providerHydratedMany from '../../apollo/queries/provider-hydrated-many.gql';
   import providerWithMapMany from '../../apollo/queries/provider-with-map-many.gql';
-  import connectionCreateModal from '../../components/modals/connection-create';
-  import loginHelpModal from '../../components/modals/login-help';
 
   export default {
     data: function() {
@@ -40,19 +42,32 @@
         providerWithMapMany: []
       }
     },
+
+    computed: {
+      loginMaps: function() {
+        return _.filter(this.$data.providerWithMapMany, function(map) {
+          return map.login === true;
+        });
+      }
+    },
+
     methods: {
-      providerIcon: function(name) {
-        return 'fa fa-' + name.toLowerCase();
+      getProviderIcon: function(provider) {
+        return icons('provider', provider.name);
       },
+
       connectionLink: function(id) {
         return 'https://app.lifescope.io/settings/connections?provider=' + id;
       },
+
       getPlaceholder: function(provider) {
         return 'My ' + provider.name + 'Account';
       },
+
       showLoginHelpModal: function() {
         this.$modal.show(loginHelpModal);
       },
+
       showConnectionModal: function(provider) {
         this.$modal.show(connectionCreateModal, {
           provider: provider

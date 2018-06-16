@@ -3,13 +3,26 @@
     <div id="workflow" class="boxed-group" v-bind:data-provider-id="provider.id">
       <div class="align-center">
         <div class="flexbox flex-x-center">
-          <i v-bind:class="providerIcon(provider.name)"></i>
+          <i v-bind:class="getProviderIcon(provider)"></i>
           <div class="header flex-grow">New {{ provider.name }} Connection</div>
           <i class="fa fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
       </div>
 
-      <div class="padded paragraphed">
+      <div v-if="provider.name.toLowerCase() === 'browser extensions' || provider.name.toLowerCase() === 'browser extensions dev'" class="padded paragraphed">
+        <p>
+          You can install browser add-ons/extensions that will record your browsing history for sites that you approve.
+        </p>
+        <p>
+          Click the button below to be taken to the appropriate store for your browser.
+          You may install the extension for multiple browsers if you wish; each will have a separate Connection.
+        </p>
+
+        <div class="action">
+          <button class="primary" v-on:click="openStore">Connect to your browser history</button>
+        </div>
+      </div>
+      <div v-else class="padded paragraphed">
         <form action="/connections" method="POST" v-on:submit.self.prevent="createConnection">
           <!--<input type="hidden" name="csrftoken" value="{{ csrf_token }}" />-->
           <input type="hidden" name="provider_id" v-bind:val="provider.id" v-model="connectionForm.provider_id"/>
@@ -23,8 +36,7 @@
             <div class="label">What would you like?</div>
             <div class="sources">
               <div v-for="source, name in provider.sources" class="paragraph source-checkbox">
-                <label><input type="checkbox" v-bind:value="name" v-model="connectionForm.sources"/>{{ name |
-                  formatNames }}</label>
+                <label><input type="checkbox" v-bind:value="name" v-model="connectionForm.sources"/>{{ name | formatNames }}</label>
                 <div class="tooltip">{{ source.description }}</div>
               </div>
 
@@ -48,6 +60,8 @@
 
 <script>
   import _ from 'lodash';
+  import bowser from 'bowser';
+  import icons from '../../lib/util/icons';
   import initializeConnection from '../../apollo/mutations/initialize-connection.gql';
 
   export default {
@@ -64,6 +78,7 @@
         }
       }
     },
+
     filters: {
       formatNames: function(value) {
         if (!value) return '';
@@ -80,13 +95,16 @@
       }
     },
     props: ['provider'],
+
     methods: {
-      providerIcon: function(name) {
-        return 'fa fa-' + name.toLowerCase();
+      getProviderIcon: function(provider) {
+        return icons('provider', provider.name);
       },
+
       getPlaceholder: function(provider) {
         return 'My ' + provider.name + ' Account';
       },
+
       createConnection: async function() {
         let form = this.$data.connectionForm;
 
@@ -106,6 +124,17 @@
         });
 
         window.location = response.data.initializeConnection.redirectUrl;
+      },
+
+      openStore: function() {
+        if (bowser.name === 'Chrome') {
+          let newWindow = window.open('https://chrome.google.com/webstore/search/lifescope', '_blank');
+          newWindow.focus();
+        }
+        else if (bowser.name === 'Firefox') {
+          let newWindow = window.open('https://addons.mozilla.org/en-US/firefox/search/?platform=' + bowser.osname + '&q=lifescope', '_blank');
+          newWindow.focus();
+        }
       }
     }
   }

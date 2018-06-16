@@ -96,6 +96,9 @@ div#body.providers {
   main {
     #provider-grid {
       $spacing: 10px;
+      @include flexbox;
+      @include flex-center;
+      @include flex-wrap;
 
       @include align-center;
 
