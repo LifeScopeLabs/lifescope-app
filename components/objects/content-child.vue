@@ -32,23 +32,27 @@
 			</a>
 		</div>
 
-		<div class="title">
+		<div v-if="content.title != null && content.title.length > 0" class="title">
 			<a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span>
 		</div>
 
-		<div v-if="content.text != null" class="text">
-		<!--{% if text_truncated %}-->
-			<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
-		<!--{% endif %}-->
-		<a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a>
+		<div v-if="content.text != null && content.text.length > 0" class="text">
+      <!--{% if text_truncated %}-->
+        <!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
+      <!--{% endif %}-->
+      <a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a>
 
-		<!--{% if text_truncated %}-->
-			<!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
-		<!--{% endif %}-->
-		<pre v-else class="full">{{ content.text | safe }}</pre>
+      <!--{% if text_truncated %}-->
+        <!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
+      <!--{% endif %}-->
+      <pre v-else class="full">{{ content.text | safe }}</pre>
 			<!--<div class="expand">More</div>-->
 		</div>
+
+    <div v-if="(content.title == null || content.title.length === 0) && (content.text == null || content.text.length === 0) && content.url != null" class="title">
+      <a href="content.url" target="blank">{{ content.url | safe }}</a>
+    </div>
 
 		<div class="tagging">
 			<div class="tags">

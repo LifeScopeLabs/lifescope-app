@@ -10,10 +10,11 @@
                 <div class="instructions" v-if="$data.lastConnectionMessage === false">
                     <p>Are you sure you'd like to delete this connection?</p>
                     <p>We'll delete all stored data for this connection. If you want to get that data back, you will have to connect to this service again.</p>
+                    <p v-if="connection.browser != null">As this is a Connection to a browser extension, don't forget to remove the extension if you no longer want LifeScope to make Events from your browsing history.</p>
                 </div>
                 <div class="last-connection" v-if="$data.lastConnectionMessage === true">
-                    <p>You cannot delete your last connection. Without any connections, you cannot access your acccount.</p>
-                    <p>If you would like to delete this connection, make a connection to another provider first.</p>
+                    <p>You cannot delete your last login-able connection. Without any connections, you cannot access your acccount.</p>
+                    <p>If you would like to delete this connection, make a connection to another provider that you can log in with first.</p>
                     <p>You can also delete this account, which will get rid of this connection, but you will lose all of your saved searches, tags, etc.</p>
                 </div>
             </div>
@@ -55,7 +56,7 @@
             		self.$data.lastConnectionMessage = true;
             		setTimeout(function() {
             			self.$data.lastConnectionMessage = false;
-                    }, 2000)
+                    }, 10000)
                 }
             }
 		}
