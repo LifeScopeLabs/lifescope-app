@@ -68,7 +68,7 @@ gulp.task('bundle:ebs', function() {
     '.nuxt/**',
     'apollo/**',
     'build/**',
-    'config/**',
+    'config/!(local).json',
     'fixtures/**',
     '.babelrc',
     '.npmrc',
