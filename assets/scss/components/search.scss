@@ -402,6 +402,11 @@ body {
     @include flex-x-center;
     @include hide-empty;
 
+    &.calculating {
+      position: absolute;
+      top: -20000px;
+    }
+
     .filter {
       position: relative;
       top: 1px;

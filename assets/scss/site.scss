@@ -170,7 +170,7 @@ div#body {
         }
 
         @media #{$maxwidth768},#{$mobile} {
-          margin-left: $margin-width;
+          margin-left: 0;
         }
       }
 
@@ -178,7 +178,7 @@ div#body {
         margin-right: $margin-width * 2;
 
         @media #{$maxwidth768},#{$mobile} {
-          margin-right: $margin-width;
+          margin-right: 0;
         }
       }
     }

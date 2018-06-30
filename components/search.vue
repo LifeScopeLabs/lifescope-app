@@ -243,7 +243,6 @@
       </div>
     </form>
 
-
     <div v-if="!$store.state.hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
       <div class="filter" v-for="filter in $store.state.searchBar.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
@@ -252,7 +251,7 @@
       </div>
     </div>
 
-    <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
+    <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count" v-on:click="toggleFilterEditor">+{{ $data.overflowCount }}</div>
 
     <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
       <i class="fa"></i>
@@ -443,6 +442,14 @@
           if (existingFilter) {
             existingFilter.name = filter.name;
             existingFilter.data = filter.data;
+
+            await this.$apollo.mutate({
+              mutation: searchUpsert,
+              variables: {
+                filters: JSON.stringify(this.$store.state.searchBar.filters),
+                query: this.$store.state.currentSearch.query
+              }
+            });
           }
         }
 
@@ -685,7 +692,8 @@
 
       compactOverflowFilters: function() {
         this.$nextTick(function() {
-          let hideIndex, maxWidth, width, $filters;
+          $('#filters').addClass('calculating');
+          let hideIndex, maxWidth, width, $filters, $filterContainer;
 
           if (this.$data.editorOpen) {
             return;
@@ -693,6 +701,8 @@
 
           maxWidth = MAX_FILTER_WIDTH_FRACTION * $('#search-bar').width();
           width = 0;
+
+          $filterContainer = $('#search-bar > #filters');
           $filters = $('#search-bar > #filters > .filter');
 
           $filters.removeClass('hidden');
@@ -717,10 +727,14 @@
           else {
             this.$data.overflowCount = 0;
           }
+
+          $filterContainer.removeClass('calculating');
         })
       },
 
       checkAndSearch: async function() {
+        $('#filters').addClass('calculating');
+
         await Promise.all([
           this.$store.state.connectionsLoaded,
           this.$store.state.providersLoaded
