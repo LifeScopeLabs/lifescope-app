@@ -486,19 +486,10 @@ body {
   }
 
   #search-favorited {
-    i {
-      &:before {
-        content: "\f006";
-      }
-    }
 
     &.filled {
       i {
         color: $blue;
-
-        &:before {
-          content: "\f005";
-        }
       }
     }
   }

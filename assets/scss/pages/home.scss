@@ -272,14 +272,16 @@ div#body.home {
                   background-color: $background-color;
 
                   .favorite-create,
-                  .favorite-edit {
+                  .favorite-edit,
+                  .tag-share {
                     background-color: darken($background-color, 10%);
                     opacity: 0.2;
                   }
                 }
 
                 & > .favorite-create,
-                & > .favorite-edit {
+                & > .favorite-edit,
+                & > .tag-share {
                   position: absolute;
                   top: 0;
                   right: 0;
@@ -364,7 +366,8 @@ div#body.home {
                     }
                   }
 
-                  .last-run {
+                  .last-run,
+                  .sharing {
                     @include no-wrap;
 
                     font-size: 0.85em;
@@ -379,6 +382,10 @@ div#body.home {
                     font-size: 0.85em;
                   }
                 }
+              }
+
+              .share-status {
+                margin: 0 10px;
               }
             }
           }

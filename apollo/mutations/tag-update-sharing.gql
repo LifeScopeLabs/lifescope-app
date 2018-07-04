@@ -1,0 +1,9 @@
+mutation tagUpdateSharing($id: String, $share: String){
+    tagUpdateSharing(id: $id, share: $share) {
+        id,
+        share,
+        tag,
+        passcode,
+        passcode_string
+    }
+}

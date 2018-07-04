@@ -253,9 +253,12 @@ div.text-box {
   border: 1px solid $input-border-color;
 
   & > * {
-    cursor: pointer;
     outline: none;
     border: none;
+
+    &:not(#modals-container) {
+      cursor: pointer;
+    }
   }
 
   & > input {

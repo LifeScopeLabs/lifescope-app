@@ -378,6 +378,10 @@ div#body {
   }
 }
 
+.instructions {
+  text-align: center;
+}
+
 .boxed-group {
   $border-radius: 2px;
 
@@ -452,5 +456,15 @@ html.dark {
     &:hover {
       color: $blue;
     }
+  }
+}
+
+#sharing-options {
+  @include flexbox;
+  @include flex-column;
+  @include flex-x-center;
+
+  & > label {
+    width: 100px;
   }
 }

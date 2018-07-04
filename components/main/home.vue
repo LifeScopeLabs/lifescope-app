@@ -80,7 +80,19 @@
               <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
             </a>
 
-            <div v-if="type === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">#{{ tag.tag }}</div>
+            <a v-if="type === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">
+              <div>
+                <span class="name">#{{ tag.tag }}</span>
+
+                <span class="spacer"></span>
+
+                <span class="sharing">Share</span>
+
+                <i class="share-status" v-bind:class="shareStatus(tag)"></i>
+              </div>
+
+              <div class="tag-share" v-on:click.stop.prevent="showSharingModal(tag)"></div>
+            </a>
           </div>
         </div>
       </div>
@@ -102,6 +114,7 @@
 
   import UserEvent from '../objects/event.vue';
   import favoriteModal from '../modals/favorite';
+  import sharingModal from '../modals/tag-sharing';
 
   export default {
     data: function() {
@@ -181,6 +194,10 @@
         return search.favorited ? 'favorite-edit' : 'favorite-create'
       },
 
+      shareStatus: function(tag) {
+        return tag.share === 'public' ? 'fa fa-unlock' : 'fa fa-lock';
+      },
+
       lastRunRelative: function(search) {
         return moment(new Date(search.last_run)).fromNow();
       },
@@ -205,6 +222,15 @@
           'search-unfavorited': this.searchUnfavorited,
           'search-deleted': this.searchDeleted,
           'search-saved': this.searchSaved
+        });
+      },
+
+      showSharingModal: function(tag) {
+        this.$modal.show(sharingModal, {
+          tag: tag
+        }, {
+          height: 'auto',
+          scrollable: true
         });
       },
 

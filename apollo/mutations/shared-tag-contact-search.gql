@@ -1,0 +1,15 @@
+mutation sharedTagContactSearch($id: String, $passcode: String, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
+    sharedTagContactSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
+        id,
+        avatar_url,
+        connection,
+        connection_id_string,
+        handle,
+        name,
+        tagMasks {
+            added,
+            removed,
+            source
+        }
+    }
+}

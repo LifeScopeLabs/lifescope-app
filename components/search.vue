@@ -1,7 +1,7 @@
 <template slot="search">
-  <div id="search-bar" class="input-group">
+  <div v-if="$store.state.mode !== 'shared'" id="search-bar" class="input-group">
     <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
-      <i v-bind:class="$data.editorOpen ? 'fa-caret-up' : 'fa-caret-down'" class="fa"></i>
+      <i v-bind:class="$data.editorOpen ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
     </div>
 
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
@@ -254,7 +254,7 @@
     <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count" v-on:click="toggleFilterEditor">+{{ $data.overflowCount }}</div>
 
     <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
-      <i class="fa"></i>
+      <i v-bind:class="{ 'fa fa-star': $store.state.currentSearch.favorited === true, 'fa fa-star-o': $store.state.currentSearch.favorited !== true }"></i>
     </div>
 
     <div id="search-button" v-on:click="performSearch(true)">
@@ -277,6 +277,9 @@
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
   import searchFind from '../apollo/mutations/search-find.gql';
   import searchUpsert from '../apollo/mutations/search-upsert.gql';
+  import sharedTagContactSearch from '../apollo/mutations/shared-tag-contact-search.gql';
+  import sharedTagContentSearch from '../apollo/mutations/shared-tag-content-search.gql';
+  import sharedTagEventSearch from '../apollo/mutations/shared-tag-event-search.gql';
 
   import favoriteModal from './modals/favorite';
 
@@ -299,6 +302,12 @@
     contacts: contactSearch,
     content: contentSearch,
     events: eventSearch,
+  };
+
+  const gqlSharedTagMappings = {
+    contacts: sharedTagContactSearch,
+    content: sharedTagContentSearch,
+    events: sharedTagEventSearch
   };
 
   export default {
@@ -545,7 +554,11 @@
       },
 
       performSearch: async function(init) {
+        let params;
         let self = this;
+
+        let sharedSearch = this.$store.state.mode === 'shared';
+
         this.closeFilterEditor();
         this.$store.state.facetSelectOpen = false;
 
@@ -570,28 +583,33 @@
         this.$store.state.searchEnded = false;
         this.$store.state.pageSize = 100;
 
-        let filters = _.map(this.$store.state.currentSearch.filters, function(filter) {
-          return _.omit(filter, ['__typename', 'id']);
-        });
+        if (sharedSearch !== true) {
+          let filters = _.map(this.$store.state.currentSearch.filters, function(filter) {
+            return _.omit(filter, ['__typename', 'id']);
+          });
 
-        let upserted = await this.$apollo.mutate({
-          mutation: searchUpsert,
-          variables: {
-            filters: JSON.stringify(filters),
-            query: this.$store.state.currentSearch.query
-          }
-        });
+          let upserted = await this.$apollo.mutate({
+            mutation: searchUpsert,
+            variables: {
+              filters: JSON.stringify(filters),
+              query: this.$store.state.currentSearch.query
+            }
+          });
 
-        this.$store.state.currentSearch = upserted.data.searchUpsert;
+          this.$store.state.currentSearch = upserted.data.searchUpsert;
+        }
 
         if (process.browser) {
-          let params = qs.parse(history.location.search, {
+          params = qs.parse(history.location.search, {
             ignoreQueryPrefix: true
           });
 
           params.view = this.$store.state.view;
           params.facet = this.$store.state.facet;
-          params.qid = this.$store.state.currentSearch.id;
+
+          if (sharedSearch !== true) {
+            params.qid = this.$store.state.currentSearch.id;
+          }
 
           history.push({
             pathname: history.location.pathname,
@@ -600,38 +618,60 @@
             })
           });
 
-          if (process.browser && history.location.pathname !== '/explore') {
-            history.replace({
-              pathname: 'explore',
-              search: history.location.search
-            });
+          if (sharedSearch !== true) {
+            if (process.browser && history.location.pathname !== '/explore') {
+              history.replace({
+                pathname: 'explore',
+                search: history.location.search
+              });
 
-            window.location.reload();
+              window.location.reload();
+            }
           }
         }
 
         let variables = {
           offset: this.$store.state.offset,
           limit: this.$store.state.pageSize,
-          filters: JSON.stringify(assembleFilters(this)),
           sortField: this.$store.state.sortField,
           sortOrder: this.$store.state.sortOrder
         };
 
-        if (this.$store.state.currentSearch.query != null) {
-          variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
+        if (sharedSearch === true) {
+          variables.id = params.id;
+          variables.passcode = params.passcode;
+        }
+        else {
+          variables.filters = JSON.stringify(assembleFilters(this));
+
+          if (this.$store.state.currentSearch.query != null) {
+            variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
+          }
         }
 
         let facet = this.$store.state.facet;
         let mapping = Object.keys(gqlMappings).indexOf(facet) > -1 ? gqlMappings[facet] : eventSearch;
+        let sharedMapping = Object.keys(gqlSharedTagMappings).indexOf(facet) > -1 ? gqlSharedTagMappings[facet] : sharedTagEventSearch;
 
-        let result = await this.$apollo.mutate({
-          mutation: mapping,
-          variables: variables
-        });
+        let result;
+
+        if (sharedSearch === true) {
+          result = await this.$apollo.mutate({
+            mutation: sharedMapping,
+            variables: variables
+          });
+        }
+        else {
+          result = await this.$apollo.mutate({
+            mutation: mapping,
+            variables: variables
+          });
+        }
 
         if (facet === 'events') {
-          _.each(result.data.eventSearch, function(event) {
+          let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
+
+          _.each(data, function(event) {
             event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
               return connection.id === event.connection_id_string;
             });
@@ -662,7 +702,9 @@
           });
         }
         else if (facet === 'content') {
-          _.each(result.data.contentSearch, function(content) {
+          let data = sharedSearch === true ? result.data.sharedTagContentSearch : result.data.contentSearch;
+
+          _.each(data, function(content) {
             content.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
               return connection.id === content.connection_id_string;
             });
@@ -673,7 +715,9 @@
           });
         }
         else if (facet === 'contacts') {
-          _.each(result.data.contactSearch, function(contact) {
+          let data = sharedSearch === true ? result.data.sharedTagContactSearch : result.data.contactSearch;
+
+          _.each(data, function(contact) {
             contact.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
               return connection.id === contact.connection_id_string;
             });
@@ -771,6 +815,7 @@
     },
 
     mounted: async function() {
+      console.log('Search mounted');
       let self = this;
 
       this.$root.$on('check-and-search', async function() {
@@ -778,8 +823,9 @@
       });
 
       this.$root.$on('perform-search', async function(init) {
+        console.log('Performing search: ' + init);
         await self.performSearch(init);
-      })
+      });
     }
   }
 </script>

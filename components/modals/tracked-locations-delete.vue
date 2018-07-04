@@ -28,10 +28,9 @@
   import trackedLocationsRemoveMany from '../../apollo/mutations/tracked-locations-remove-many.gql'
 
   export default {
-    props: ['connection'],
     methods: {
       deleteTrackedLocations: async function() {
-        let response = await this.$apollo.mutate({
+        await this.$apollo.mutate({
           mutation: trackedLocationsRemoveMany
         });
 

@@ -185,9 +185,15 @@
       params.facet = this.$store.state.facet;
       params.view = this.$store.state.view;
 
-      await this.loadSearch();
+      if (this.$store.state.mode === 'app') {
+        await this.loadSearch();
 
-      this.$root.$emit('check-and-search');
+        this.$root.$emit('check-and-search');
+      }
+      else if (this.$store.state.mode === 'shared') {
+        console.log('Emitting perform-search');
+        this.$root.$emit('perform-search', true);
+      }
     }
   }
 </script>
