@@ -5,7 +5,7 @@
         <div class="flexbox flex-x-center">
           <i v-bind:class="getProviderIcon(provider)"></i>
           <div class="header flex-grow">New {{ provider.name }} Connection</div>
-          <i class="fa fa-times-circle" v-on:click="$emit('close')"></i>
+          <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
       </div>
 

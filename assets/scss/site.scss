@@ -465,6 +465,14 @@ html.dark {
   @include flex-x-center;
 
   & > label {
-    width: 100px;
+    width: 150px;
+  }
+}
+
+.close-button {
+  cursor: pointer;
+
+  &:hover {
+    color: $green
   }
 }

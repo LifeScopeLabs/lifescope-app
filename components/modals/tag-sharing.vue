@@ -2,7 +2,7 @@
   <div id="sharing">
     <div class="content padded">
       <div class="flexbox flex-end">
-        <i class="fa fa-times-circle" v-on:click="$emit('close')"></i>
+        <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
       </div>
 
       <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
@@ -33,7 +33,7 @@
         <div class="flexbox flex-column flex-x-center" v-if="$data.share === 'public' && $data.passcodeString != null">
           <h4>Sharing Link</h4>
           <span>Share this link with others to give them access to tagged results:</span>
-          <span>https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcodeString }}</span>
+          <span style="word-break: break-all">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcodeString }}</span>
         </div>
       </div>
       </div>

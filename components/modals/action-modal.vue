@@ -1,20 +1,26 @@
 <template>
   <div class="content padded actions">
-    <div class="title">
-      {{ item.title || item.text || item.context || item.handle || item.type }}
+    <div class="flexbox flex-end width100">
+      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
+
+    <div class="title">
+      Tag '{{ item.title || item.text || item.context || item.handle || item.type }}'
+    </div>
+
+    <p>You can publicly share items tagged with a given tag through the 'Tags' tab on the <a href="app.lifescope.io">home page.</a></p>
 
     <div v-if="item.embed_thumbnail != null" class="preview">
       <img v-bind:src="item.embed_thumbnail">
     </div>
 
-    <div v-if="shareable === true" class="share-action">
-      <span>Share</span>
-    </div>
+    <!--<div v-if="shareable === true" class="share-action">-->
+      <!--<span>Share</span>-->
+    <!--</div>-->
 
     <div v-if="taggable" class="tagging">
       <form v-on:submit.prevent="addTag">
-        <div>Tag</div>
+        <div>Tags</div>
         <div class="add-tag">
           <span>#</span>
           <input type="text" placeholder="Add a tag" v-model="tagName">

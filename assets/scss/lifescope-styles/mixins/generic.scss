@@ -111,6 +111,10 @@
   text-transform: uppercase;
 }
 
+@mixin width100 {
+  width: 100%;
+}
+
 .align-center {
   text-align: center !important;
 }
@@ -197,4 +201,8 @@
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.width100 {
+  width: 100%;
 }

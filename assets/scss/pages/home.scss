@@ -292,10 +292,6 @@ div#body.home {
                   &:hover {
                     background-color: darken($background-color, 20%);
                   }
-
-                  @media #{$maxwidth768},#{$mobile} {
-                    width: 10%;
-                  }
                 }
 
                 & > * {

@@ -581,6 +581,7 @@
         this.$store.state.spinner = true;
         this.$store.state.searching = true;
         this.$store.state.searchEnded = false;
+        this.$store.state.searchError = false;
         this.$store.state.pageSize = 100;
 
         if (sharedSearch !== true) {
@@ -655,83 +656,104 @@
 
         let result;
 
+        let error = false;
+
         if (sharedSearch === true) {
-          result = await this.$apollo.mutate({
-            mutation: sharedMapping,
-            variables: variables
-          });
+          try {
+            result = await this.$apollo.mutate({
+              mutation: sharedMapping,
+              variables: variables
+            });
+          } catch(err) {
+            console.log('Shared search error');
+            console.log(err);
+            error = true;
+          }
         }
         else {
-          result = await this.$apollo.mutate({
-            mutation: mapping,
-            variables: variables
-          });
+          try {
+            result = await this.$apollo.mutate({
+              mutation: mapping,
+              variables: variables
+            });
+          } catch(err) {
+            error = true;
+          }
         }
 
-        if (facet === 'events') {
-          let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
+        if (error) {
+          console.log('Handling Error');
+          this.$store.state.searchEnded = true;
+          this.$store.state.searchError = true;
+          this.$store.state.searching = false;
+          this.$store.state.spinner = false;
+        }
+        else {
+          if (facet === 'events') {
+            let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
 
-          _.each(data, function(event) {
-            event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
-              return connection.id === event.connection_id_string;
-            });
-
-            let obj = new lifescopeObjects.Event(event);
-
-            self.$store.state.objects.events.push(obj);
-
-            _.each(obj.content, function(content) {
-              let match = _.find(self.$store.state.objects.content, function(item) {
-                return content.id === item.id;
+            _.each(data, function(event) {
+              event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+                return connection.id === event.connection_id_string;
               });
 
-              if (!match) {
-                self.$store.state.objects.content.push(content);
-              }
-            });
+              let obj = new lifescopeObjects.Event(event);
 
-            _.each(obj.contacts, function(contact) {
-              let match = _.find(self.$store.state.objects.contacts, function(item) {
-                return contact.id === item.id;
+              self.$store.state.objects.events.push(obj);
+
+              _.each(obj.content, function(content) {
+                let match = _.find(self.$store.state.objects.content, function(item) {
+                  return content.id === item.id;
+                });
+
+                if (!match) {
+                  self.$store.state.objects.content.push(content);
+                }
               });
 
-              if (!match) {
-                self.$store.state.objects.contacts.push(contact);
-              }
+              _.each(obj.contacts, function(contact) {
+                let match = _.find(self.$store.state.objects.contacts, function(item) {
+                  return contact.id === item.id;
+                });
+
+                if (!match) {
+                  self.$store.state.objects.contacts.push(contact);
+                }
+              });
             });
-          });
-        }
-        else if (facet === 'content') {
-          let data = sharedSearch === true ? result.data.sharedTagContentSearch : result.data.contentSearch;
+          }
+          else if (facet === 'content') {
+            let data = sharedSearch === true ? result.data.sharedTagContentSearch : result.data.contentSearch;
 
-          _.each(data, function(content) {
-            content.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
-              return connection.id === content.connection_id_string;
+            _.each(data, function(content) {
+              content.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+                return connection.id === content.connection_id_string;
+              });
+
+              let obj = new lifescopeObjects.Content(content);
+
+              self.$store.state.objects.content.push(obj);
             });
+          }
+          else if (facet === 'contacts') {
+            let data = sharedSearch === true ? result.data.sharedTagContactSearch : result.data.contactSearch;
 
-            let obj = new lifescopeObjects.Content(content);
+            _.each(data, function(contact) {
+              contact.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+                return connection.id === contact.connection_id_string;
+              });
 
-            self.$store.state.objects.content.push(obj);
-          });
-        }
-        else if (facet === 'contacts') {
-          let data = sharedSearch === true ? result.data.sharedTagContactSearch : result.data.contactSearch;
+              let obj = new lifescopeObjects.Contact(contact);
 
-          _.each(data, function(contact) {
-            contact.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
-              return connection.id === contact.connection_id_string;
+              self.$store.state.objects.contacts.push(obj);
             });
+          }
 
-            let obj = new lifescopeObjects.Contact(contact);
-
-            self.$store.state.objects.contacts.push(obj);
-          });
+          this.$store.state.offset += this.$store.state.pageSize;
+          this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
+          this.$store.state.searching = false;
+          this.$store.state.spinner = false;
         }
-
-        this.$store.state.offset += this.$store.state.pageSize;
-        this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
-        this.$store.state.searching = false;
-        this.$store.state.spinner = false;
       },
 
       compactOverflowFilters: function() {

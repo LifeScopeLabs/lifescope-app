@@ -94,6 +94,12 @@
     <nav>
       <a id="home" href="/"><img class="logo" src="~/assets/images/logo.png" /></a>
       <search-bar ref="searchBar"></search-bar>
+
+      <span class="flex-grow"></span>
+
+      <div id="menu-button" v-on:click.stop="openMenu">
+        <div class="fa fa-bars"></div>
+      </div>
     </nav>
 
     <div class="controls">

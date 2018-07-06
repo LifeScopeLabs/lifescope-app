@@ -24,10 +24,10 @@
 
 					<div class="sort">
 						<div class="current" v-on:click="$store.state.mobileSortSelectorOpen = !$store.state.mobileSortSelectorOpen">
-              <i class="fas" v-bind:class="{ 'fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fa-caret-down': $store.state.movileSortSelectorOpen !== true }"></i>
+              <i v-bind:class="{ 'fa fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fa fa-caret-down': $store.state.movileSortSelectorOpen !== true }"></i>
 							<span class="drawer-label">Sort &ndash;</span>
 							<span class="name">{{ $store.state.sortField[0].toUpperCase() + $store.state.sortField.slice(1) }}</span>
-              <i class="fas" v-bind:class="{ 'fa fa-chevron-up': $store.state.sortOrder === 'asc', 'fa fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
+              <i v-bind:class="{ 'fa fa-chevron-up': $store.state.sortOrder === 'asc', 'fa fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
 						</div>
 						<div class="fields drawer" v-bind:class="{ hidden: $store.state.mobileSortSelectorOpen !== true }">
               <div v-if="$store.state.facet === 'events'" class="sort">
@@ -92,14 +92,14 @@
             </div>
 					</div>
 
-					<a class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search</a>
-					<a class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
-					<a class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
+					<a v-if="$store.state.mode !== 'shared'" class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search</a>
+					<a v-if="$store.state.mode !== 'shared'" class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
+					<a v-if="$store.state.mode !== 'shared'" class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
 					<a class="support" href="http://bitscoop.com/support"><i class="fa fa-question-circle"></i> Support</a>
 				</section>
 
 				<footer>
-					<div class="user-info">
+					<div v-if="$store.state.mode !== 'shared'" class="user-info">
 						<a href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
 					</div>
 

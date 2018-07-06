@@ -21,4 +21,10 @@
   height: auto !important;
 
   margin: auto !important;
+  margin-bottom: auto !important;
+
+
+  @media #{$maxwidth768},#{$mobile} {
+    margin-bottom: 3em !important;
+  }
 }

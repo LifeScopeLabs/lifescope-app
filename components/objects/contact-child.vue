@@ -16,7 +16,7 @@
 
         <aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
           <span>Tag</span><i class="fa fa-hashtag"></i>
-          <span>Share</span><i class="fa fa-share"></i>
+          <!--<span>Share</span><i class="fa fa-share"></i>-->
         </aside>
 			</div>
 		</div>
