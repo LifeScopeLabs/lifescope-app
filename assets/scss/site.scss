@@ -458,21 +458,3 @@ html.dark {
     }
   }
 }
-
-#sharing-options {
-  @include flexbox;
-  @include flex-column;
-  @include flex-x-center;
-
-  & > label {
-    width: 150px;
-  }
-}
-
-.close-button {
-  cursor: pointer;
-
-  &:hover {
-    color: $green
-  }
-}

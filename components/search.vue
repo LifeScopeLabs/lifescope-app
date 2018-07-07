@@ -845,7 +845,6 @@
       });
 
       this.$root.$on('perform-search', async function(init) {
-        console.log('Performing search: ' + init);
         await self.performSearch(init);
       });
     }

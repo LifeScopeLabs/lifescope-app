@@ -1,4 +1,4 @@
-mutation sharedTagEventSearch($id: String, $passcode: String, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
+mutation sharedTagEventSearch($id: String!, $passcode: String!, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
     sharedTagEventSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
         id,
         connection,

@@ -386,6 +386,31 @@ div#body.home {
             }
           }
         }
+
+        #sharing-options {
+          @include flexbox;
+          @include flex-column;
+          @include flex-x-center;
+
+          & > label {
+            width: 200px;
+          }
+        }
+
+        .close-button {
+          cursor: pointer;
+
+          &:hover {
+            color: $green
+          }
+        }
+
+        #social-tag-shares {
+          & > * {
+            font-size: 1.2em;
+            margin: 0.2em;
+          }
+        }
       }
     }
   }
