@@ -9,17 +9,28 @@
         </div>
       </div>
 
-      <div v-if="provider.name.toLowerCase() === 'browser extensions' || provider.name.toLowerCase() === 'browser extensions dev'" class="padded paragraphed">
+      <div v-if="provider.name.toLowerCase() === 'chrome extension'" class="padded paragraphed">
         <p>
-          You can install browser add-ons/extensions that will record your browsing history for sites that you approve.
+          You can install a browser extension for Chrome that will record your browsing history for sites that you approve.
         </p>
         <p>
-          Click the button below to be taken to the appropriate store for your browser.
-          You may install the extension for multiple browsers if you wish; each will have a separate Connection.
+          Click the button below to be taken to the Chrome extension store.
         </p>
 
         <div class="action">
-          <button class="primary" v-on:click="openStore">Connect to your browser history</button>
+          <button class="primary" v-on:click="openStore('chrome')">Connect to your Chrome history</button>
+        </div>
+      </div>
+      <div v-else-if="provider.name.toLowerCase() === 'firefox extension'" class="padded paragraphed">
+        <p>
+          You can install a browser extension for Firefox that will record your browsing history for sites that you approve.
+        </p>
+        <p>
+          Click the button below to be taken to the Firefox extension store.
+        </p>
+
+        <div class="action">
+          <button class="primary" v-on:click="openStore('firefox')">Connect to your Firefox history</button>
         </div>
       </div>
       <div v-else class="padded paragraphed">
@@ -126,12 +137,12 @@
         window.location = response.data.initializeConnection.redirectUrl;
       },
 
-      openStore: function() {
-        if (bowser.name === 'Chrome') {
+      openStore: function(browser) {
+        if (browser === 'chrome') {
           let newWindow = window.open('https://chrome.google.com/webstore/search/lifescope', '_blank');
           newWindow.focus();
         }
-        else if (bowser.name === 'Firefox') {
+        else if (browser === 'firefox') {
           let newWindow = window.open('https://addons.mozilla.org/en-US/firefox/search/?platform=' + bowser.osname + '&q=lifescope', '_blank');
           newWindow.focus();
         }
@@ -140,4 +151,3 @@
   }
 </script>
 
-https://accounts.spotify.com/authorize?redirect_uri=https%3A%2F%2Fauth.api.bitscoop.com%2Fdone%2F7d535efa1c4f49feaab4e2d92fd40ef9&response_type=code&state=f89383bd8f0a4b4f8bc5e108d09b4e52&scope=playlist-read-collaborative%20playlist-read-private%20user-library-read&client_id=2463bbece7ab4127b640f3f7e00a2076

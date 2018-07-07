@@ -89,7 +89,7 @@ const store = () => new Vuex.Store({
 			return state.user != undefined;
 		},
 		dateJoined (state) {
-			return moment(state.user.date_join).format('MMMM DD, YYYY')
+			return moment(state.user.joined).format('MMMM DD, YYYY')
 		}
 	},
 
