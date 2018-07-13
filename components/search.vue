@@ -175,7 +175,7 @@
               <div class="input-container">
                 <select v-model="activeFilter.data.provider" name="provider">
                   <option value=""></option>
-                  <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.name | lowercase">{{ provider.name }}</option>
+                  <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.id | lowercase">{{ provider.name }}</option>
                 </select>
               </div>
             </div>

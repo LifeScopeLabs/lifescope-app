@@ -117,12 +117,19 @@
         }
       },
       {
+        "name": "Facebook",
+        "type": "connector",
+        "data": {
+          "type": "provider",
+          "provider": "e4bbdc7addbf4cbbb2878de2a4c6e959"
+        }
+      },
+      {
         "name": "Instagram",
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "instagram"
+          "provider": "3f094b0b24d048938e40452d34d62a46"
         }
       },
       {
@@ -130,8 +137,7 @@
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "reddit"
+          "provider": "89494825c6304cec8d479bb81bc059e7"
         }
       },
       {
@@ -139,8 +145,7 @@
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "twitter"
+          "provider": "c3817b27324541d0b8eab46fd92b2b9d"
         }
       }
     ],
@@ -182,8 +187,7 @@
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "dropbox"
+          "provider": "05784d1890b74f16a5f3d0eb9084f1f1"
         }
       },
       {
@@ -191,8 +195,7 @@
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "google"
+          "provider": "0f7a86aad3214134ad134250f1a09510"
         }
       },
       {
@@ -200,8 +203,7 @@
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "github"
+          "provider": "3fda7921e46a44bf8e4337467bd86fdc"
         }
       }
     ],
@@ -236,8 +238,7 @@
         "type": "connector",
         "data": {
           "type": "provider",
-          "connection": "",
-          "provider": "google"
+          "provider": "0f7a86aad3214134ad134250f1a09510"
         }
       }
     ],

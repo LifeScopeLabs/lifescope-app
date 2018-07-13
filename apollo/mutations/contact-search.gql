@@ -9,6 +9,8 @@ mutation contactSearch($q: String, $offset: Int, $limit: Int, $filters: String, 
         provider_name,
         handle,
         name,
+        provider_id,
+        provider_id_string,
         tagMasks {
             added,
             removed,
