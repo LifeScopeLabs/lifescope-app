@@ -34,6 +34,8 @@
   }
 
   .mobile-thumbnail {
+    padding: 1em 0;
+
     img {
       @include flexbox;
 
@@ -41,6 +43,7 @@
       width: auto;
       height: auto;
       max-height: 95px;
+      max-width: 100%;
 
       @media #{$maxwidth768},#{$mobile} {
         height: 100%;

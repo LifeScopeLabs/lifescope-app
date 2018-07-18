@@ -57,6 +57,11 @@ button {
     border-radius: 7px;
   }
 
+  &.no-style {
+    padding: 0;
+    border: 0;
+  }
+
   &:disabled,
   &.disabled {
     &,
