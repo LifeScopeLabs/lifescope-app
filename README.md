@@ -8,6 +8,10 @@ Access your digital memory and tell their stories.  The LIFESCOPE App allows any
 
 The codebase is a single-page Universal web app built on Nuxt and Vue.js. Desktop/mobile responsive design interface with javascript extensions. Written with plugin framework for features such as location tracking, webXR and web voice. The web code is containerizable inside a universal app framework Cordova.
 
+# Setup instructions
+
+Please go to the 'setup' folder and follow the instructions.
+
 ## [LIFESCOPE Archive App](https://lifescopelabs.github.io/etl.html#lifescope-archive-app)
 The current LIFESCOPE web app is deprecated and is being rewritten. 
 
@@ -31,6 +35,7 @@ This is for AR and VR views of LifeScope data as Vue Plugins.
 #### [LIFESCOPE-VOICE](https://github.com/LifeScopeLabs/lifescope-voice)
 This is a conversational interface of LifeScope data as Vue Plugins.
 
+<<<<<<< HEAD
 ## Developer Setup
 
 ``` bash
@@ -61,6 +66,8 @@ $ NODE_ENV=dev npm run start
 
 ```
 
+=======
+>>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
 ## Login
 
 **Sign up and login with any provider. Automatically adds an API ETL connection.**

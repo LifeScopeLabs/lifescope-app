@@ -8,15 +8,15 @@
              v-bind:data-id="provider.id" v-bind:data-assoc-count="provider.assoc_count">
           <div>
             <span v-if="provider.assoc_count > 1">{{ provider.assoc_count }}</span>
-            <h1><i v-bind:class="providerIcon(provider.name)"></i></h1>
+            <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>
         </div>
         <div v-if="$store.getters.authenticated !== true" v-model="providerWithMapMany"
-             v-for="provider in providerWithMapMany" v-on:click="showConnectionModal(provider)" v-bind:key="provider.id"
-             v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
+             v-for="provider in loginMaps" v-on:click="showConnectionModal(provider)"
+             v-bind:key="provider.id" v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
           <div>
-            <h1><i v-bind:class="providerIcon(provider.name)"></i></h1>
+            <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>
         </div>
@@ -28,32 +28,47 @@
 </template>
 
 <script>
+  import _ from 'lodash';
+  import connectionCreateModal from '../../components/modals/connection-create';
+  import icons from '../../lib/util/icons';
+  import loginHelpModal from '../../components/modals/login-help';
   import providerHydratedMany from '../../apollo/queries/provider-hydrated-many.gql';
   import providerWithMapMany from '../../apollo/queries/provider-with-map-many.gql';
-  import connectionCreateModal from '../../components/modals/connection-create';
-  import loginHelpModal from '../../components/modals/login-help';
 
   export default {
-    data: function () {
+    data: function() {
       return {
         providerHydratedMany: [],
         providerWithMapMany: []
       }
     },
+
+    computed: {
+      loginMaps: function() {
+        return _.filter(this.$data.providerWithMapMany, function(map) {
+          return map.login === true;
+        });
+      }
+    },
+
     methods: {
-      providerIcon: function (name) {
-        return 'fa fa-' + name.toLowerCase();
+      getProviderIcon: function(provider) {
+        return icons('provider', provider.name);
       },
-      connectionLink: function (id) {
+
+      connectionLink: function(id) {
         return 'https://app.lifescope.io/settings/connections?provider=' + id;
       },
-      getPlaceholder: function (provider) {
+
+      getPlaceholder: function(provider) {
         return 'My ' + provider.name + 'Account';
       },
-      showLoginHelpModal: function () {
+
+      showLoginHelpModal: function() {
         this.$modal.show(loginHelpModal);
       },
-      showConnectionModal: function (provider) {
+
+      showConnectionModal: function(provider) {
         this.$modal.show(connectionCreateModal, {
           provider: provider
         }, {
@@ -62,29 +77,31 @@
         });
       }
     },
-    apollo: {
-      providerHydratedMany: {
-        query: providerHydratedMany,
-        prefetch: true,
-        skip: function () {
-          return this.$store.getters.authenticated !== true;
-        }
-      },
-      providerWithMapMany: {
-        query: providerWithMapMany,
-        prefetch: true,
-        skip: function () {
-          return this.$store.getters.authenticated === true;
-        }
+
+    beforeMount: async function() {
+      if (this.$store.getters.authenticated === true) {
+        let providerHydratedResult = await this.$apollo.query({
+          query: providerHydratedMany
+        });
+
+        this.$data.providerHydratedMany = providerHydratedResult.data.providerHydratedMany;
       }
+
+      let providerWithMapResult = await this.$apollo.query({
+        query: providerWithMapMany,
+      });
+
+      this.$data.providerWithMapMany = providerWithMapResult.data.providerWithMapMany;
     },
-    mounted() {
+
+    mounted: async function() {
       let mixitup = require('mixitup');
 
       this.$store.mixer = mixitup('#provider-grid', {});
     },
+
     updated() {
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.$store.mixer.forceRefresh();
       });
     }

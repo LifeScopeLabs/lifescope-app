@@ -1,0 +1,65 @@
+#favorite {
+  .content {
+    @include flexbox;
+    @include flex-column;
+
+    @media #{$maxwidth768},#{$mobile} {
+      max-width: none;
+    }
+
+    .data {
+      @include flexbox;
+      @include flex-x-center;
+
+      & > i {
+        font-size: 4em;
+        margin-right: 0.2em;
+        min-width: 1.2em;
+        text-align: center;
+      }
+
+      .text-box {
+        margin: 0;
+      }
+    }
+
+    .label {
+      font-weight: 700;
+      font-size: 1.2em;
+      margin: 1em 0 0.2em 0;
+    }
+
+    .selectors {
+      @include flexbox;
+      @include flex-column;
+    }
+
+    .buttons {
+      @include flexbox;
+      @include flex-space-between;
+
+      margin-top: 1.5em;
+
+      @media (max-width: 850px) {
+        @include flex-column;
+      }
+
+      & > div {
+        @include flexbox;
+
+        @media (max-width: 850px) {
+          @include flex-space-between;
+
+          &:last-child {
+            margin-top: 1em;
+          }
+        }
+
+        & > button:first-child {
+          margin-right: 0.5em;
+        }
+      }
+    }
+  }
+
+}

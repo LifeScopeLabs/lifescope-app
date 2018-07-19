@@ -18,7 +18,7 @@ export default {
     props: ['obj'],
 
     methods: {
-        textString: function (value) {
+        textString: function(value) {
             return 'width: 1.5; color: white; value: ' + value
         }
     },

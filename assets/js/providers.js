@@ -1,6 +1,6 @@
 define(
     ["jquery", "lodash", "nunjucks", "jquery-mixitup", "templates"],
-    function (e, o, n) {
+    function(e, o, n) {
         "use strict";
         function t() {
             e("body").hasClass("ctl-expand") ?
@@ -11,18 +11,18 @@ define(
                     .removeClass("fa-caret-up")
                     .addClass("fa-caret-down")
         }
-        e(document).ready(function () {
+        e(document).ready(function() {
             e("#provider-grid").mixItUp(),
-                e(document).on("click", ".mix", function (t) {
+                e(document).on("click", ".mix", function(t) {
                     var i = e(this);
                     e("#connection-modal")
                         .modal({
                             position: !1,
-                            preOpen: function () {
+                            preOpen: function() {
                                 var t;
                                 t = i.attr("data-id"),
                                     e.ajax({ url: "https://app.lifescope.io/api/providers/" + t, type: "GET" })
-                                        .then(function (t) {
+                                        .then(function(t) {
                                             var i, a, c;
                                             c = e("#workflow"),
                                                 a = e(".sources"),
@@ -40,27 +40,27 @@ define(
                                                     .attr("placeholder", i),
                                                 e(".action button")
                                                     .html("Connect to " + t.name),
-                                                o.forEach(t.sources, function (e, o) {
+                                                o.forEach(t.sources, function(e, o) {
                                                     var t;
                                                     t = n.render("components/source.html", {
                                                         source_name: o, source: e
                                                     }), a.append(t)
                                                 })
                                         })
-                            }, postOpen: function () { e(this).css("display", "flex") }
+                            }, postOpen: function() { e(this).css("display", "flex") }
                         })
                 }),
                 e("#done")
-                    .on("click", function (e) {
+                    .on("click", function(e) {
                         window.location.href = "/"
                     }),
                 e(document)
-                    .on("click", ".mobile-selector", function () {
+                    .on("click", ".mobile-selector", function() {
                         e("body")
                             .toggleClass("ctl-expand"), t()
                     }),
                 e(document)
-                    .on("click", ".filter", function () {
+                    .on("click", ".filter", function() {
                         var o = e(this);
                         e("body").removeClass("ctl-expand"),
                             e(".mobile-selector")
@@ -68,10 +68,10 @@ define(
                                 .text(o.text()), t()
                     }),
                 e(document)
-                    .on("click", ".login i", function () {
+                    .on("click", ".login i", function() {
                         e("#login-modal")
                             .modal({
-                                position: !1, postOpen: function () {
+                                position: !1, postOpen: function() {
                                     e(this)
                                         .css("display", "flex")
                                 }

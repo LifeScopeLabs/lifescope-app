@@ -1,4 +1,5 @@
 import 'idempotent-babel-polyfill';
+// import 'intersection-observer';
 import BitScoop from 'bitscoop-sdk';
 import config from 'config';
 import express from 'express';
@@ -27,7 +28,7 @@ const builder = new Builder(nuxt);
 Promise.resolve()
   .then(async function() {
   let mongo = await new Promise(function(resolve, reject) {
-    mongodb.MongoClient.connect(MONGODB_URI, opts, function (err, db) {
+    mongodb.MongoClient.connect(MONGODB_URI, opts, function(err, db) {
       if (err) {
         reject(err);
       }

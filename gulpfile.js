@@ -38,7 +38,7 @@ gulp.task('bundle', function() {
 		'templates/**/*',
 		'package.json',
 		'app.js',
-    'server.js'
+    	'server.js'
 	], {
 		nodir: true,
 		base: '..'
@@ -68,7 +68,7 @@ gulp.task('bundle:ebs', function() {
     '.nuxt/**',
     'apollo/**',
     'build/**',
-    'config/**',
+    'config/!(local).json',
     'fixtures/**',
     '.babelrc',
     '.npmrc',

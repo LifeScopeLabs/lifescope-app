@@ -12,19 +12,19 @@
 
 			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
 				<span>Tag</span><i class="fa fa-hashtag"></i>
-				<span>Share</span><i class="fa fa-share"></i>
+				<!--<span>Share</span><i class="fa fa-share"></i>-->
 			</aside>
 		</div>
 
 		<div class="content-embed" data-type="content" v-bind:data-id="content.id">
-      <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
-      <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
-      <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
-      <iframe v-if="isEmail(content)" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
-      <div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div>
+      <audio v-if="isAudio(content)" controls v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
+      <img v-if="isImage(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
+      <video v-if="isVideo(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
+      <iframe v-if="isEmail(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
+      <div v-if="isIframe(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" ><span v-html="content.embed_content"></span></div>
     </div>
 
-		<div v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail">
+		<div v-if="content.embed_thumbnail" class="thumbnail" v-bind:class="{ hidden: isAudio(content) || isImage(content) || isVideo(content) || isEmail(content) || isIframe(content) }">
 			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
 
 			<a v-else v-bind:href="content.url" target="_blank">
@@ -32,23 +32,27 @@
 			</a>
 		</div>
 
-		<div class="title">
+		<div v-if="content.title != null && content.title.length > 0" class="title">
 			<a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span>
 		</div>
 
-		<div v-if="content.text != null" class="text">
-		<!--{% if text_truncated %}-->
-			<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
-		<!--{% endif %}-->
-		<a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a>
+		<div v-if="content.text != null && content.text.length > 0" class="text">
+      <!--{% if text_truncated %}-->
+        <!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
+      <!--{% endif %}-->
+      <a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a>
 
-		<!--{% if text_truncated %}-->
-			<!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
-		<!--{% endif %}-->
-		<pre v-else class="full">{{ content.text | safe }}</pre>
+      <!--{% if text_truncated %}-->
+        <!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
+      <!--{% endif %}-->
+      <pre v-else class="full">{{ content.text | safe }}</pre>
 			<!--<div class="expand">More</div>-->
 		</div>
+
+    <div v-if="(content.title == null || content.title.length === 0) && (content.text == null || content.text.length === 0) && content.url != null" class="title">
+      <a href="content.url" target="blank">{{ content.url | safe }}</a>
+    </div>
 
 		<div class="tagging">
 			<div class="tags">
@@ -67,6 +71,7 @@
   const DEFAULT_EMBED_WIDTH = '100%';
   const DEFAULT_DESKTOP_EMBED_WIDTH = 600; //px
   const DEFAULT_EMBED_HEIGHT = 500;  //px
+  const SCROLL_EMBED_LEAD_AREA = 700; //px
 
   const audioTypes = ['mp3', 'ogga', 'wav'];
   const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
@@ -120,15 +125,6 @@
 				return typeof input === 'string' ? input : input == null ? '' : input.toString()
 			}
 		},
-
-    directives: {
-		  infocus: {
-		    isLiteral: true,
-        inserted: function(el) {
-
-        }
-      }
-    },
 
 		methods: {
 			getContentTypeIcon: function(type) {
@@ -241,6 +237,17 @@
 			  let iframe = $iframe.get(0);
 			  if (iframe.contentDocument) {
 			    iframe.contentDocument.body.innerHTML = content.embed_content;
+        }
+      },
+
+      visbilityChanged(isVisible, entry) {
+			  if (isVisible) {
+			    entry.target.classList.remove('embed-hidden');
+			    $(entry.target).parent().siblings('.thumbnail').addClass('hidden');
+        }
+        else {
+			    entry.target.classList.add('embed-hidden');
+          $(entry.target).parent().siblings('.thumbnail').removeClass('hidden');
         }
       }
 		},

@@ -1,0 +1,10 @@
+query userOne {
+    userOne {
+        id,
+        api_key,
+        api_key_string,
+        joined,
+        last_login,
+        location_tracking_enabled
+    }
+}

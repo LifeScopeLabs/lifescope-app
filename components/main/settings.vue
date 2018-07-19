@@ -28,11 +28,37 @@
 
               <div class="flexbox">
                 <p style="margin-right:0.5em;">Your API key is:</p>
-                <span>{{ $data.userOne.api_key_string }}</span>
+                <span>{{ $store.state.userOne.api_key_string }}</span>
               </div>
 
               <div>
                 <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New API Key</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="boxed-group">
+            <div class="title">Track your location</div>
+
+            <div class="padded paragraphed">
+              <p>
+                You may <u>optionally</u> let LifeScope record your location to better help us locate information that does not natively have any location information.
+                If enabled, we'll record a location every time you load a page, and every 5 minutes later if you remain on the page.
+                You may disable this feature at any time.
+                Any locations we have recorded will remain unless you click the button 'Delete tracked locations'.
+              </p>
+
+              <div class="flexbox">
+                <div>
+                  <button v-if="$store.state.userOne.location_tracking_enabled === true" id="disable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Disable Location Tracking</button>
+                  <button v-if="$store.state.userOne.location_tracking_enabled !== true" id="enable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Enable Location Tracking</button>
+                </div>
+
+                <span class="flex-grow"></span>
+
+                <div>
+                  <button class="danger delete" v-on:click.prevent="showTrackedLocationsDeleteModal">Delete Tracked Locations</button>
+                </div>
               </div>
             </div>
           </div>
@@ -55,20 +81,20 @@
           <modals-container/>
         </section>
         <section id="connections" v-if="$store.state.mode === 'connections'">
-          <div v-for="connection in orderBy(connectionMany, 'provider.name')"
+          <div v-for="connection in orderBy($store.state.connectionMany, 'provider.name')"
                v-bind:class="{active : $data.activeConnection === connection.id}" class="connection boxed-group"
                v-bind:data-id="connection.id" v-bind:data-provider-id="connection.provider.id">
             <div class="flexbox flex-x-center title" v-on:click="toggleActive(connection.id)">
               <div class="icon-name">
-                <i v-bind:class="getIcon(connection.provider.name)"></i>
+                <i v-bind:class="getIcon(connection)"></i>
                 <div class="flex-grow name">{{ connection.name }}</div>
                 <div class="disabled"></div>
               </div>
               <div class="last-run">
-                <div v-if="connection.last_run != null" class="updates">
+                <div v-if="connection.browser == null && connection.last_run != null" class="updates">
                   {{ getUpdated(connection.last_run) }}
                 </div>
-                <div v-else class="updates">
+                <div v-else-if="connection.browser == null" class="updates">
                   <div>Initial update pending</div>
                   <span></span>
                   <i class="fa fa-spinner fa-spin fa-2x"></i>
@@ -80,7 +106,7 @@
 
             <form class="auto" v-on:submit.prevent="">
               <div class="padded paragraphed">
-                <div>
+                <div v-if="connection.browser == null">
                   <div class="flexbox flex-x-center label">
                     <div>Name</div>
                     <i class="fa fa-check-circle flex-grow success-icon" data-for="name"
@@ -92,12 +118,13 @@
                 </div>
 
                 <div>
-                  <div class="label">What would you like?</div>
+                  <div v-if="connection.browser == null" class="label">What would you like?</div>
+                  <div v-else-if="connection.browser != null" class="label">Please open the extension's settings to change its whitelist.</div>
                   <div>
                     <div v-for="permission, name in orderBy(connection.provider.sources, 'name')" class="paragraph ">
                       <div class="flexbox flex-x-center">
                         <label><input class="flag" type="checkbox" v-bind:value="permission.$key"
-                                      v-model="permissions[connection.id]" v-on:change="updatePermissions(connection)"/>{{
+                                      v-model="$store.state.permissions[connection.id]" v-on:change="updatePermissions(connection)"/>{{
                           permission.$value.name }}</label>
                         <i class="fa fa-check-circle flex-grow success-icon" v-bind:data-for="name"
                            v-bind:data-namespace="connection.id"></i>
@@ -119,15 +146,11 @@
                 </div>
 
                 <div class="delete-disable">
-                  <button v-if="connection.enabled === true" class="danger disable"
-                          v-on:click.prevent="showDisableModal(connection)">Disable
-                  </button>
-                  <button v-else class="primary enable" v-on:click.prevent="enableConnection(connection)">Enable
-                  </button>
+                  <button v-if="connection.enabled === true" class="danger disable" v-on:click.prevent="showDisableModal(connection)">Disable</button>
+                  <button v-else class="primary enable" v-on:click.prevent="enableConnection(connection)">Enable</button>
 
                   <span class="flex-grow"></span>
-                  <button class="danger delete" v-on:click.prevent="showConnectionDeleteModal(connection)">Delete
-                  </button>
+                  <button class="danger delete" v-on:click.prevent="showConnectionDeleteModal(connection)">Delete</button>
                 </div>
               </div>
             </form>
@@ -148,14 +171,17 @@
   import _ from 'lodash';
   import moment from 'moment';
 
+  import icons from '../../lib/util/icons';
+
   import connectionMany from '../../apollo/queries/connection-many.gql';
   import connectionDeleted from '../../apollo/subscriptions/connection-deleted.gql';
   import connectionUpdated from '../../apollo/subscriptions/connection-updated.gql';
   import deleteAccountModal from '../modals/account-delete';
   import deleteConnectionModal from '../modals/connection-delete';
   import disableConnectionModal from '../modals/connection-disable';
+  import locationTrackingModal from '../modals/location-tracking';
+  import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import patchConnection from '../../apollo/mutations/patch-connection.gql';
-  import userApiKey from '../../apollo/queries/user-api-key.gql';
   import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
 
   function isBefore(value) {
@@ -174,28 +200,30 @@
   }
 
   export default {
-    data: function () {
+    data: function() {
       return {
-        activeConnection: null,
-        connectionMany: null,
-        userOne: {},
-        permissions: {}
+        activeConnection: null
       }
     },
     methods: {
-      getIcon: function (name) {
-        return 'fa fa-' + name.toLowerCase() + ' fa-2x';
+      getIcon: function(connection) {
+        if (connection.browser) {
+          return icons('browser', connection.browser.toLowerCase()) + ' fa-2x';
+        }
+        else {
+          return icons('provider', connection.provider.name.toLowerCase()) + ' fa-2x';
+        }
       },
 
-      getUpdated: function (lastRun) {
+      getUpdated: function(lastRun) {
         return (isBefore(lastRun) ? 'Updated ' : 'Updating ') + relativeTime(lastRun);
       },
 
-      toggleActive: function (id) {
+      toggleActive: function(id) {
         this.$data.activeConnection = (this.$data.activeConnection === id) ? null : id;
       },
 
-      showDisableModal: function (connection) {
+      showDisableModal: function(connection) {
         this.$modal.show(disableConnectionModal, {
           connection: connection
         }, {
@@ -205,14 +233,14 @@
         });
       },
 
-      showAccountDeleteModal: function () {
+      showAccountDeleteModal: function() {
         this.$modal.show(deleteAccountModal, {}, {
           height: 'auto',
           scrollable: true
         })
       },
 
-      showConnectionDeleteModal: function (connection) {
+      showConnectionDeleteModal: function(connection) {
         this.$modal.show(deleteConnectionModal, {
           connection: connection
         }, {
@@ -221,7 +249,7 @@
         });
       },
 
-      enableConnection: async function (connection) {
+      enableConnection: async function(connection) {
         await this.$apollo.mutate({
           mutation: patchConnection,
           variables: {
@@ -231,20 +259,20 @@
         });
       },
 
-      getConnectionReauthorization: async function (connection) {
+      getConnectionReauthorization: async function(connection) {
         window.location.href = connection.auth.redirectUrl;
       },
 
-      updatePermissions: _.debounce(async function (connection) {
+      updatePermissions: _.debounce(async function(connection) {
         let sources = connection.provider.sources;
 
         let permissions = {};
 
-        _.each(sources, function (source, name) {
+        _.each(sources, function(source, name) {
           permissions[name] = false;
         });
 
-        _.each(this.$data.permissions[connection.id], function (source) {
+        _.each(this.$store.state.permissions[connection.id], function(source) {
           if (typeof source === 'string') {
             permissions[source] = true;
           }
@@ -264,72 +292,84 @@
           mutation: userApiKeyUpdate
         });
 
-        this.$data.userOne = response.data.userApiKeyUpdate;
-      }
-    },
-    apollo: {
-      userOne: {
-        query: userApiKey,
-        prefetch: true,
-        result({ data }) {
-          this.$data.userOne = data.userOne;
-        }
+        this.$store.state.userOne = response.data.userApiKeyUpdate;
       },
 
-      connectionMany: {
-        query: connectionMany,
-        prefetch: true,
-        result({data}) {
-          let self = this;
-          let connections = data.connectionMany;
+      showLocationTrackingModal: async function() {
+        this.$modal.show(locationTrackingModal, {}, {
+          height: 'auto',
+          scrollable: true
+        });
+      },
 
-          _.each(connections, function (connection) {
-            self.$data.permissions[connection.id] = _.map(connection.provider.sources, function (source, name) {
-              return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
-            });
-          });
-
-          this.$data.connectionMany = connections;
-        },
-        subscribeToMore: [
-          {
-            document: connectionUpdated,
-            updateQuery: function (previousResult, {subscriptionData}) {
-              let newData = subscriptionData.data.connectionUpdated;
-
-              if (newData) {
-                let id = newData.id;
-
-                let replacing = _.find(previousResult.connectionMany, function (item) {
-                  return item.id === id;
-                });
-
-                replacing = newData;
-              }
-
-              return previousResult;
-            }
-          },
-          {
-            document: connectionDeleted,
-            updateQuery: function (previousResult, {subscriptionData}) {
-              let returned = previousResult;
-              let newData = subscriptionData.data.connectionDeleted;
-
-              if (newData) {
-                let id = newData.id;
-                let copy = _.clone(previousResult);
-
-                copy.connectionMany = copy.connectionMany.filter(item => item.id !== id);
-
-                returned = copy;
-              }
-
-              return returned;
-            }
-          }
-        ]
+      showTrackedLocationsDeleteModal: async function() {
+        this.$modal.show(trackedLocationsDeleteModal, {}, {
+          height: 'auto',
+          scrollable: true
+        })
       }
+    },
+
+    mounted: async function() {
+      let self = this;
+
+      let connectionResult = await this.$apollo.query({
+        query: connectionMany
+      });
+
+      let connectionUpdatedObserver = this.$apollo.subscribe({
+        query: connectionUpdated,
+      });
+
+      let connectionDeletedObserver = this.$apollo.subscribe({
+        query: connectionDeleted,
+      });
+
+      connectionUpdatedObserver.subscribe({
+        next(data) {
+          let newData = data.data.connectionUpdated;
+
+          if (newData) {
+            let id = newData.id;
+
+            let clone = _.clone(self.$store.state.connectionMany);
+
+            let index = _.findIndex(clone, function(item) {
+              return item.id === id;
+            });
+
+            clone.splice(index, 1, newData);
+
+            self.$store.state.connectionMany = clone;
+          }
+        }
+      });
+
+      connectionDeletedObserver.subscribe({
+        next(data) {
+          let newData = data.data.connectionDeleted;
+
+          if (newData) {
+            let id = newData.id;
+
+            let clone = _.clone(self.$store.state.connectionMany);
+
+            clone = clone.filter(item => item.id !== id);
+
+            self.$store.state.connectionMany = clone;
+          }
+        }
+      });
+
+      let connections = connectionResult.data.connectionMany;
+
+      _.each(connections, function(connection) {
+        self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function(source, name) {
+          return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
+        });
+      });
+
+      this.$store.state.connectionMany = connections;
     },
   }
 </script>

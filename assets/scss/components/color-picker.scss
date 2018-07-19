@@ -1,0 +1,53 @@
+.color-picker {
+  & > * {
+    &.preview {
+      @include flexbox;
+      @include flex-x-center;
+
+      border: 1px solid $input-border-color;
+      border-radius: 1px;
+      margin-bottom: 0.5em;
+
+      & > label {
+        cursor: pointer;
+        height: 1.5em;
+        width: 1.5em;
+        margin: 0.3em;
+
+        border-radius: 2px;
+      }
+
+      & > input {
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: 100px;
+      }
+
+      & > span {
+        color: $red;
+      }
+    }
+
+    &.options {
+      @include flexbox;
+      @include flex-wrap;
+
+      border: 1px solid $input-border-color;
+      border-radius: 1px;
+
+      & > div {
+        cursor: pointer;
+        height: 2em;
+        width: 2em;
+        margin: 0.3em;
+        border-radius: 2px;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+}

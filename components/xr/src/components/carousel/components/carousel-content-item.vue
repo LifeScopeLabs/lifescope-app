@@ -89,15 +89,25 @@
 console.log("from carousel-item.vue <script>")
 export default {
 	props: ['content', 'connection'],
+<<<<<<< HEAD
 	
 	computed: {
         imageMaterial: function () {
+=======
+
+	computed: {
+        imageMaterial: function() {
+>>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
             return 'src: #image-' + this.content.id + '; side: double'
         }
     },
 
     methods: {
+<<<<<<< HEAD
         textString: function (value) {
+=======
+        textString: function(value) {
+>>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
             return 'width: 1.5; color: white; value: ' + value
         }
     },

@@ -1,0 +1,102 @@
+# https://github.com/mhulse/mhulse.github.io/wiki/Use-SquidMan-to-access-vhosts-on-Mac
+
+# ----------------------------------------------------------------------
+# WARNING - do not edit this template unless you know what you are doing
+# ----------------------------------------------------------------------
+
+# the parent cache
+cache_peer %PARENTPROXY% parent %PARENTPORT% 7 no-query no-digest no-netdb-exchange default
+
+
+# performance options
+pipeline_prefetch %PIPELINE_PREFETCH%
+cache_miss_revalidate %CACHE_MISS_REVALIDATE%
+read_ahead_gap %READ_AHEAD_GAP%
+cache_replacement_policy %CACHE_REPLACEMENT_POLICY%
+memory_replacement_policy %MEMORY_REPLACEMENT_POLICY%
+
+
+# disk and memory cache settings
+cache_dir ufs %CACHEDIR% %CACHESIZE% 16 256
+maximum_object_size %MAXOBJECTSIZE%
+cache_mem %MEMCACHESIZE%
+maximum_object_size_in_memory %MEMMAXOBJECTSIZE%
+
+
+# store coredumps in the first cache dir
+coredump_dir %CACHEDIR%
+
+
+# the hostname squid displays in error messages
+visible_hostname %VISIBLEHOSTNAME%
+
+
+# log & process ID file details
+cache_access_log stdio:%ACCESSLOG%
+cache_store_log stdio:%STORELOG%
+cache_log %CACHELOG%
+pid_filename %PIDFILE%
+
+
+# Squid listening port
+http_port %PORT%
+
+
+# Access Control lists
+acl SSL_ports port 443
+acl Safe_ports port 80		# http
+acl Safe_ports port 21		# ftp
+acl Safe_ports port 443		# https
+acl Safe_ports port 70		# gopher
+acl Safe_ports port 210		# wais
+acl Safe_ports port 1025-65535	# unregistered ports
+acl Safe_ports port 280		# http-mgmt
+acl Safe_ports port 488		# gss-http
+acl Safe_ports port 591		# filemaker
+acl Safe_ports port 777		# multiling http
+acl CONNECT method CONNECT
+%ALLOWEDHOSTS%
+%DIRECTHOSTS%
+
+
+# Only allow cachemgr access from localhost
+http_access allow localhost manager
+http_access deny manager
+
+
+# Deny requests to certain unsafe ports
+http_access deny !Safe_ports
+
+
+# Deny CONNECT to other than secure SSL ports
+http_access deny CONNECT !SSL_ports
+
+
+# protect web apps running on the proxy host from external users
+# http_access deny to_localhost
+
+# hosts file
+hosts_file /private/etc/hosts
+
+# rules for client access go here
+http_access allow localhost
+%HTTPACCESSALLOWED%
+
+
+# after allowed hosts, deny all other access to this proxy
+# don't list any other access settings below this point
+http_access deny all
+
+
+# specify which hosts have direct access (bypassing the parent proxy)
+%ALWAYSDIRECT%
+always_direct deny all
+
+
+# refresh patterns (squid-recommended)
+refresh_pattern ^ftp:		1440	20%	10080
+refresh_pattern ^gopher:	1440	0%	1440
+refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
+refresh_pattern .		0	20%	4320
+
+

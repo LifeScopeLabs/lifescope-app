@@ -1,0 +1,17 @@
+div#body.terms {
+  overflow: visible;
+
+  @media #{$maxwidth768},#{$mobile} {
+    padding: 0.45em 0.35em 0 0.35em;
+  }
+
+  main {
+    display: block;
+    overflow: visible;
+    padding: 1em;
+
+    @media #{$maxwidth768},#{$mobile} {
+      padding: 0.45em 0.35em;
+    }
+  }
+}

@@ -1,0 +1,225 @@
+div#body.providers {
+  overflow: hidden;
+
+  @media #{$maxwidth768},#{$mobile}  {
+    header {
+      .mobile-selector {
+        display: block !important;
+      }
+    }
+
+    aside.filters {
+      @include flex-grow-scrollable;
+
+      display: none;
+
+      #filters {
+        .filter {
+          text-align: center;
+          width: 10em;
+          margin-bottom: 1em;
+
+          font-size: 1.2em;
+        }
+      }
+    }
+
+    &.ctl-expand {
+      aside.filters {
+        @include flexbox;
+      }
+
+      main {
+        @include flex(0);
+      }
+    }
+  }
+
+  header {
+    border-bottom: none;
+
+    .logo {
+      height: 30px;
+    }
+
+    & > nav > :first-child > span {
+      bottom: 11px;
+      left: -20px;
+    }
+
+    #done {
+      width: 100px;
+      align-self: stretch;
+      margin-left: 1em;
+
+      @media #{$maxwidth768},#{$mobile} {
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+    .mobile-selector {
+      @include no-select;
+
+      display: none;
+      cursor: pointer;
+      margin-top: 0.5em;
+      text-align: center;
+      font-size: 1.5em;
+
+      .placeholder-text {
+        margin-right: 0.5em;
+      }
+    }
+  }
+
+  aside.filters {
+    #filters {
+      @include flexbox;
+      @include flex-wrap;
+      @include flex-center;
+      @include flex-x-center;
+
+      & > .filter {
+        @include raleway;
+        @include no-select;
+        @include interactive;
+
+        text-transform: uppercase;
+        padding: 0.25em 0.5em;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+      }
+    }
+  }
+
+  main {
+    #provider-grid {
+      $spacing: 10px;
+      @include flexbox;
+      @include flex-center;
+      @include flex-wrap;
+
+      @include align-center;
+
+      margin: 0;
+      padding: $spacing;
+
+      & > div {
+        @include align-center;
+        @include no-select;
+
+        font-size: 1.8em;
+        display: inline-block;
+        width: 175px;
+        height: 175px;
+        margin: $spacing;
+        cursor: pointer;
+
+        background-color: $background-color;
+        border: 3px solid $border-color;
+
+        &.associated {
+          background-color: $blue;
+          color: #FFF;
+          border: 3px solid lighten($blue, 15%);
+        }
+
+        &:hover,
+        &:active,
+        &.active {
+          border-color: $orange;
+        }
+
+        & > div {
+          @include flexbox;
+          @include flex-column;
+          @include flex-center;
+
+          position: relative;
+          height: 100%;
+
+          & > span {
+            position: absolute;
+            right: 5px;
+            top: 3px;
+          }
+
+          & > h1 {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+
+  padding: 0 !important;
+
+  #workflow {
+    .action {
+      @include flexbox;
+      @include flex-center;
+
+      margin-top: 1.5em;
+    }
+
+    label {
+      font-size: 1.2em;
+    }
+
+    .tooltip {
+      margin: 0.35em 0 0 3em;
+      color: $font-color-subdue;
+
+      @media #{$maxwidth768},#{$mobile} {
+        margin-top: 0em;
+      }
+    }
+
+    .label {
+      font-weight: 700;
+      font-size: 1.2em;
+      margin-bottom: 1em;
+    }
+  }
+
+  .login {
+    font-weight: bold;
+    font-size: 1.4em;
+
+    & > i {
+      margin-left: 0.2em;
+      cursor: pointer;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  #login-modal {
+    text-align: center;
+
+    .body {
+      padding: 0.5em 1em;
+    }
+
+    h3 {
+      margin-bottom: 0.75em;
+    }
+
+    p {
+      margin-bottom: 0.5em;
+
+      &:last-of-type {
+        margin-bottom: 1.1em;
+      }
+    }
+
+    button {
+      &:first-of-type {
+        margin-right: 0.75em;
+      }
+    }
+  }
+}

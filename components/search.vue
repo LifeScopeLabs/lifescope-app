@@ -1,7 +1,7 @@
 <template slot="search">
-  <div id="search-bar" class="input-group">
+  <div v-if="$store.state.mode !== 'shared'" id="search-bar" class="input-group">
     <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
-      <i v-bind:class="$data.editorOpen ? 'fa-caret-up' : 'fa-caret-down'" class="fa"></i>
+      <i v-bind:class="$data.editorOpen ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
     </div>
 
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
@@ -243,7 +243,6 @@
       </div>
     </form>
 
-
     <div v-if="!$store.state.hide_filters" id="filters" v-bind:class="{ hidden: $data.editorOpen }">
       <div class="filter" v-for="filter in $store.state.searchBar.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
@@ -252,10 +251,10 @@
       </div>
     </div>
 
-    <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count">+{{ $data.overflowCount }}</div>
+    <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count" v-on:click="toggleFilterEditor">+{{ $data.overflowCount }}</div>
 
     <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
-      <i class="fa"></i>
+      <i v-bind:class="{ 'fa fa-star': $store.state.currentSearch.favorited === true, 'fa fa-star-o': $store.state.currentSearch.favorited !== true }"></i>
     </div>
 
     <div id="search-button" v-on:click="performSearch(true)">
@@ -278,6 +277,9 @@
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
   import searchFind from '../apollo/mutations/search-find.gql';
   import searchUpsert from '../apollo/mutations/search-upsert.gql';
+  import sharedTagContactSearch from '../apollo/mutations/shared-tag-contact-search.gql';
+  import sharedTagContentSearch from '../apollo/mutations/shared-tag-content-search.gql';
+  import sharedTagEventSearch from '../apollo/mutations/shared-tag-event-search.gql';
 
   import favoriteModal from './modals/favorite';
 
@@ -302,8 +304,14 @@
     events: eventSearch,
   };
 
+  const gqlSharedTagMappings = {
+    contacts: sharedTagContactSearch,
+    content: sharedTagContentSearch,
+    events: sharedTagEventSearch
+  };
+
   export default {
-    data: function () {
+    data: function() {
       return {
         activeFilter: {
           id: null,
@@ -346,7 +354,7 @@
         this.checkNewSearch();
       },
 
-      createBlankFilter: function (type) {
+      createBlankFilter: function(type) {
         this.$data.activeFilter.id = null;
         this.$data.activeFilter.name = null;
         this.$data.activeFilter.type = type;
@@ -389,7 +397,7 @@
         }
       },
 
-      clearActiveFilter: function () {
+      clearActiveFilter: function() {
         this.$data.activeFilter = {
           id: null,
           name: null,
@@ -425,7 +433,7 @@
         this.compactOverflowFilters();
       },
 
-      saveFilter: async function () {
+      saveFilter: async function() {
         let filter = this.$data.activeFilter;
 
         if (filter.id == null) {
@@ -436,13 +444,21 @@
           this.$store.state.searchBar.filters.push(savedFilter);
         }
         else {
-          let existingFilter = _.find(this.$store.state.searchBar.filters, function (item) {
+          let existingFilter = _.find(this.$store.state.searchBar.filters, function(item) {
             return filter.id === item.id;
           });
 
           if (existingFilter) {
             existingFilter.name = filter.name;
             existingFilter.data = filter.data;
+
+            await this.$apollo.mutate({
+              mutation: searchUpsert,
+              variables: {
+                filters: JSON.stringify(this.$store.state.searchBar.filters),
+                query: this.$store.state.currentSearch.query
+              }
+            });
           }
         }
 
@@ -461,7 +477,7 @@
         this.checkNewSearch()
       },
 
-      checkNewSearch: async function (){
+      checkNewSearch: async function(){
         let filters = _.map(this.$store.state.searchBar.filters, function(filter) {
           return _.omit(filter, ['__typename', 'id', '_id']);
         });
@@ -538,11 +554,15 @@
       },
 
       performSearch: async function(init) {
+        let params;
         let self = this;
+
+        let sharedSearch = this.$store.state.mode === 'shared';
+
         this.closeFilterEditor();
         this.$store.state.facetSelectOpen = false;
 
-        if (this.$store.state.searching === true || this.$store.state.searchEnded === true) {
+        if (this.$store.state.searching === true) {
           return;
         }
 
@@ -550,36 +570,47 @@
           this.$store.state.objects.events = [];
           this.$store.state.objects.contacts = [];
           this.$store.state.objects.content = [];
+          this.$store.state.searchEnded = false;
           this.$store.state.offset = 0;
+        }
+
+        if (this.$store.state.searchEnded === true) {
+          return;
         }
 
         this.$store.state.spinner = true;
         this.$store.state.searching = true;
         this.$store.state.searchEnded = false;
+        this.$store.state.searchError = false;
         this.$store.state.pageSize = 100;
 
-        let filters = _.map(this.$store.state.currentSearch.filters, function(filter) {
-          return _.omit(filter, ['__typename', 'id']);
-        });
+        if (sharedSearch !== true) {
+          let filters = _.map(this.$store.state.currentSearch.filters, function(filter) {
+            return _.omit(filter, ['__typename', 'id']);
+          });
 
-        let upserted = await this.$apollo.mutate({
-          mutation: searchUpsert,
-          variables: {
-            filters: JSON.stringify(filters),
-            query: this.$store.state.currentSearch.query
-          }
-        });
+          let upserted = await this.$apollo.mutate({
+            mutation: searchUpsert,
+            variables: {
+              filters: JSON.stringify(filters),
+              query: this.$store.state.currentSearch.query
+            }
+          });
 
-        this.$store.state.currentSearch = upserted.data.searchUpsert;
+          this.$store.state.currentSearch = upserted.data.searchUpsert;
+        }
 
         if (process.browser) {
-          let params = qs.parse(history.location.search, {
+          params = qs.parse(history.location.search, {
             ignoreQueryPrefix: true
           });
 
           params.view = this.$store.state.view;
           params.facet = this.$store.state.facet;
-          params.qid = this.$store.state.currentSearch.id;
+
+          if (sharedSearch !== true) {
+            params.qid = this.$store.state.currentSearch.id;
+          }
 
           history.push({
             pathname: history.location.pathname,
@@ -588,103 +619,147 @@
             })
           });
 
-          if (process.browser && history.location.pathname !== '/explore') {
-            history.replace({
-              pathname: 'explore',
-              search: history.location.search
-            });
+          if (sharedSearch !== true) {
+            if (process.browser && history.location.pathname !== '/explore') {
+              history.replace({
+                pathname: 'explore',
+                search: history.location.search
+              });
 
-            window.location.reload();
+              window.location.reload();
+            }
           }
         }
 
         let variables = {
           offset: this.$store.state.offset,
           limit: this.$store.state.pageSize,
-          filters: JSON.stringify(assembleFilters(this)),
           sortField: this.$store.state.sortField,
           sortOrder: this.$store.state.sortOrder
         };
 
-        if (this.$store.state.currentSearch.query != null) {
-          variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
+        if (sharedSearch === true) {
+          variables.id = params.id;
+          variables.passcode = params.passcode;
+        }
+        else {
+          variables.filters = JSON.stringify(assembleFilters(this));
+
+          if (this.$store.state.currentSearch.query != null) {
+            variables.q = this.$store.state.currentSearch.query.replace(/#[A-Za-z0-9-]+/g, '');
+          }
         }
 
         let facet = this.$store.state.facet;
         let mapping = Object.keys(gqlMappings).indexOf(facet) > -1 ? gqlMappings[facet] : eventSearch;
+        let sharedMapping = Object.keys(gqlSharedTagMappings).indexOf(facet) > -1 ? gqlSharedTagMappings[facet] : sharedTagEventSearch;
 
-        let result = await this.$apollo.mutate({
-          mutation: mapping,
-          variables: variables
-        });
+        let result;
 
-        if (facet === 'events') {
-          _.each(result.data.eventSearch, function(event) {
-            event.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
-              return connection.id === event.connection_id_string;
+        let error = false;
+
+        if (sharedSearch === true) {
+          try {
+            result = await this.$apollo.mutate({
+              mutation: sharedMapping,
+              variables: variables
             });
+          } catch(err) {
+            console.log('Shared search error');
+            console.log(err);
+            error = true;
+          }
+        }
+        else {
+          try {
+            result = await this.$apollo.mutate({
+              mutation: mapping,
+              variables: variables
+            });
+          } catch(err) {
+            error = true;
+          }
+        }
 
-            let obj = new lifescopeObjects.Event(event);
+        if (error) {
+          console.log('Handling Error');
+          this.$store.state.searchEnded = true;
+          this.$store.state.searchError = true;
+          this.$store.state.searching = false;
+          this.$store.state.spinner = false;
+        }
+        else {
+          if (facet === 'events') {
+            let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
 
-            self.$store.state.objects.events.push(obj);
-
-            _.each(obj.content, function (content) {
-              let match = _.find(self.$store.state.objects.content, function (item) {
-                return content.id === item.id;
+            _.each(data, function(event) {
+              event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+                return connection.id === event.connection_id_string;
               });
 
-              if (!match) {
-                self.$store.state.objects.content.push(content);
-              }
-            });
+              let obj = new lifescopeObjects.Event(event);
 
-            _.each(obj.contacts, function (contact) {
-              let match = _.find(self.$store.state.objects.contacts, function (item) {
-                return contact.id === item.id;
+              self.$store.state.objects.events.push(obj);
+
+              _.each(obj.content, function(content) {
+                let match = _.find(self.$store.state.objects.content, function(item) {
+                  return content.id === item.id;
+                });
+
+                if (!match) {
+                  self.$store.state.objects.content.push(content);
+                }
               });
 
-              if (!match) {
-                self.$store.state.objects.contacts.push(contact);
-              }
+              _.each(obj.contacts, function(contact) {
+                let match = _.find(self.$store.state.objects.contacts, function(item) {
+                  return contact.id === item.id;
+                });
+
+                if (!match) {
+                  self.$store.state.objects.contacts.push(contact);
+                }
+              });
             });
-          });
-        }
-        else if (facet === 'content') {
-          _.each(result.data.contentSearch, function(content) {
-            content.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
-              return connection.id === content.connection_id_string;
+          }
+          else if (facet === 'content') {
+            let data = sharedSearch === true ? result.data.sharedTagContentSearch : result.data.contentSearch;
+
+            _.each(data, function(content) {
+              content.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+                return connection.id === content.connection_id_string;
+              });
+
+              let obj = new lifescopeObjects.Content(content);
+
+              self.$store.state.objects.content.push(obj);
             });
+          }
+          else if (facet === 'contacts') {
+            let data = sharedSearch === true ? result.data.sharedTagContactSearch : result.data.contactSearch;
 
-            let obj = new lifescopeObjects.Content(content);
+            _.each(data, function(contact) {
+              contact.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
+                return connection.id === contact.connection_id_string;
+              });
 
-            self.$store.state.objects.content.push(obj);
-          });
-        }
-        else if (facet === 'contacts') {
-          _.each(result.data.contactSearch, function(contact) {
-            contact.hydratedConnection = _.find(self.$store.state.connectionMany, function (connection) {
-              return connection.id === contact.connection_id_string;
+              let obj = new lifescopeObjects.Contact(contact);
+
+              self.$store.state.objects.contacts.push(obj);
             });
+          }
 
-            let obj = new lifescopeObjects.Contact(contact);
-
-            self.$store.state.objects.contacts.push(obj);
-          });
+          this.$store.state.offset += this.$store.state.pageSize;
+          this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
+          this.$store.state.searching = false;
+          this.$store.state.spinner = false;
         }
-
-        this.$store.state.offset += this.$store.state.pageSize;
-        this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
-        this.$store.state.searching = false;
-        this.$store.state.spinner = false;
-
-        console.log(this.$store.state.objects[facet].length);
-        console.log(this.$store.state.pageSize);
-        console.log(this.$store.state.searchEnded);
       },
 
       compactOverflowFilters: function() {
-        this.$nextTick(function () {
-          let hideIndex, maxWidth, width, $filters;
+        this.$nextTick(function() {
+          $('#filters').addClass('calculating');
+          let hideIndex, maxWidth, width, $filters, $filterContainer;
 
           if (this.$data.editorOpen) {
             return;
@@ -692,11 +767,13 @@
 
           maxWidth = MAX_FILTER_WIDTH_FRACTION * $('#search-bar').width();
           width = 0;
+
+          $filterContainer = $('#search-bar > #filters');
           $filters = $('#search-bar > #filters > .filter');
 
           $filters.removeClass('hidden');
 
-          $filters.each(function (i, d) {
+          $filters.each(function(i, d) {
             let elemWidth = $(d).removeClass('hidden').width();
 
             if (elemWidth + width > maxWidth) {
@@ -716,10 +793,14 @@
           else {
             this.$data.overflowCount = 0;
           }
+
+          $filterContainer.removeClass('calculating');
         })
       },
 
       checkAndSearch: async function() {
+        $('#filters').addClass('calculating');
+
         await Promise.all([
           this.$store.state.connectionsLoaded,
           this.$store.state.providersLoaded
@@ -734,26 +815,29 @@
     created: async function() {
       let self = this;
 
-      this.$store.state.connectionsLoaded = this.$apollo.query({
-        query: connectionMany
-      })
-        .then(function(result) {
-          self.$store.state.connectionMany = result.data.connectionMany;
+      if (process.client) {
+        this.$store.state.connectionsLoaded = this.$apollo.query({
+          query: connectionMany
+        })
+          .then(function(result) {
+            self.$store.state.connectionMany = result.data.connectionMany;
 
-          return Promise.resolve();
-        });
+            return Promise.resolve();
+          });
 
-      this.$store.state.providersLoaded = this.$apollo.query({
-        query: providerHydratedMany
-      })
-        .then(function(result) {
-          self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
+        this.$store.state.providersLoaded = this.$apollo.query({
+          query: providerHydratedMany
+        })
+          .then(function(result) {
+            self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
 
-          return Promise.resolve();
-        });
+            return Promise.resolve();
+          });
+      }
     },
 
     mounted: async function() {
+      console.log('Search mounted');
       let self = this;
 
       this.$root.$on('check-and-search', async function() {
@@ -762,7 +846,7 @@
 
       this.$root.$on('perform-search', async function(init) {
         await self.performSearch(init);
-      })
+      });
     }
   }
 </script>

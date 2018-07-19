@@ -23,7 +23,16 @@
         </div>
       </div>
 
-      <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 || $store.state.facet === 'content' && $store.state.objects.content.length === 0 || $store.state.facet === 'events' && $store.state.objects.events.length === 0) && $store.state.spinner === false && $store.state.searching === false" id="no-results">
+      <div v-if="$store.state.searchError === true" id="shared-error">
+        <div class="prompt">
+          <div class="prompt-text">
+            <div v-if="$store.state.mode === 'shared'">There was an error retrieving these shared results. Please verify with the owner that the id and passcode are correct and up-to-date, as unsharing and re-sharing a tag will generate a new passcode.</div>
+            <div v-else>There was a problem retrieving your search results. Please try again in a minute. If this problem persists, please <a href="http://bitscoop.com/support">contact us</a> with details such as the query ID ('qid' in the address bar).</div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 || $store.state.facet === 'content' && $store.state.objects.content.length === 0 || $store.state.facet === 'events' && $store.state.objects.events.length === 0) && $store.state.spinner === false && $store.state.searching === false && $store.state.searchError === false" id="no-results">
         <div class="prompt">
           <div class="prompt-text">
             <h2>No results found.</h2>
@@ -135,8 +144,6 @@
       }, 500),
 
       renderDetailsModal: function(item, type) {
-        console.log(item);
-        console.log(type);
         if (this.$store.state.view === 'grid' || this.$store.state.view === 'list') {
           this.$modal.show(Details, {
             type: type,
@@ -170,13 +177,13 @@
           break;
 
         case 'content':
-          this.$store.state.sortField = 'title';
+          this.$store.state.sortField = 'type';
           this.$store.state.sortOrder = 'asc';
 
           break;
 
         case 'contacts':
-          this.$store.state.sortField = 'name';
+          this.$store.state.sortField = 'connection';
           this.$store.state.sortOrder = 'asc';
       }
 
@@ -187,9 +194,15 @@
       params.facet = this.$store.state.facet;
       params.view = this.$store.state.view;
 
-      await this.loadSearch();
+      if (this.$store.state.mode === 'app') {
+        await this.loadSearch();
 
-      this.$root.$emit('check-and-search');
+        this.$root.$emit('check-and-search');
+      }
+      else if (this.$store.state.mode === 'shared') {
+        console.log('Emitting perform-search');
+        this.$root.$emit('perform-search', true);
+      }
     }
   }
 </script>

@@ -1,0 +1,46 @@
+mutation sharedTagEventSearch($id: String!, $passcode: String!, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
+    sharedTagEventSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
+        id,
+        connection,
+        connection_id_string,
+        contact_interaction_type,
+        context,
+        datetime,
+        provider_name,
+        type,
+        content,
+        contacts,
+        tagMasks {
+          added,
+          removed,
+          source
+        },
+        hydratedContent {
+            id,
+            embed_content,
+            embed_format,
+            embed_thumbnail,
+            mimetype,
+            tagMasks {
+                added,
+                removed,
+                source
+            },
+            text,
+            title,
+            type,
+            url
+        },
+        hydratedContacts {
+            id,
+            avatar_url,
+            handle,
+            name,
+            tagMasks {
+                added,
+                removed,
+                source
+            }
+        }
+    }
+}

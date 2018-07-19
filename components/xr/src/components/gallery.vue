@@ -8,15 +8,15 @@
                 rotation="-90 0 0"
                 position="0 0 -4">
       </a-entity>
-      
+
       <!-- Wall left -->
       <a-entity id="wall-left"
                 :geometry="'primitive: plane; width:' + wallWidth + '; height: ' + wallHeight"
-                material="color: #cee1ff; side: double; transparent: true; opacity: 0.5;" 
+                material="color: #cee1ff; side: double; transparent: true; opacity: 0.5;"
                 rotation="0 90 0"
                 :position="-hallWidth/2 + ' ' + wallHeight/2 + ' 0'">
       </a-entity>
-      
+
       <!-- Wall right repeat: 4 200" -->
       <a-entity id="wall-right"
                 :geometry="'primitive: plane; width:' + wallWidth + '; height: ' + wallHeight"
@@ -27,12 +27,12 @@
 
       <!-- Carousel -->
       <gallery-carousel v-if="$store.state.objects.content.length > 0"/>
-      
+
       <!-- Earth -->
-      <a-sphere id="Earth" position="0 1.2 -4" radius=".99" 
+      <a-sphere id="Earth" position="0 1.2 -4" radius=".99"
                 material="src:#earth; roughness: 1; transparent: true; opacity: 0.9;">
           <a-animation attribute="rotation"
-                 easing="linear" 
+                 easing="linear"
                  dur="150000"
                  fill="forwards"
                  to="0 360 0"
@@ -44,7 +44,7 @@
         <a-gltf-model src="#logo" scale="0.05 0.05 0.05">
             </a-gltf-model>
         <a-animation attribute="rotation"
-                 easing="linear" 
+                 easing="linear"
                  dur="2700"
                  fill="forwards"
                  to="0 360 0"
@@ -90,7 +90,7 @@ export default {
         // el is replaced by the newly created vm.$el
         console.log("mounted");
 
-        this.$nextTick(function () {
+        this.$nextTick(function() {
             // Code that will run only after the
             // entire view has been rendered
             console.log("mounted nextTick");

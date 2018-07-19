@@ -30,7 +30,7 @@
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 */
-(function (root, factory) {
+(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         //RequireJS (AMD) build system
         define('./easyrtc_lang.js',factory);
@@ -40,7 +40,7 @@
     } else {
         root.easyrtc_lang = factory();
   }
-}(this, function (undefined) {
+}(this, function(undefined) {
 
   "use strict";
 
@@ -2804,7 +2804,7 @@ module.exports = {
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-(function (root, factory) {
+(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         //RequireJS (AMD) build system
         define('easyrtc',['./easyrtc_lang.js', 'webrtc-adapter', 'socket.io-client'], factory);
@@ -2818,7 +2818,7 @@ module.exports = {
         }
         root.easyrtc = factory(window.easyrtc_lang, window.adapter, window.io);
   }
-}(this, function (easyrtc_lang, adapter, io, undefined) {
+}(this, function(easyrtc_lang, adapter, io, undefined) {
 
 
 /**
@@ -6325,7 +6325,7 @@ var Easyrtc = function() {
                 }
             };
 
-            pc.onsignalingstatechange = function () {
+            pc.onsignalingstatechange = function() {
                 
                 var eventTarget = event.currentTarget || event.target || pc,
                     signalingState = eventTarget.signalingState || 'unknown';
@@ -6964,7 +6964,7 @@ var Easyrtc = function() {
         if (stream.active === true || stream.ended === false)  {
             isActive = true;
         } else {
-            isActive = stream.getTracks().reduce(function (track) {
+            isActive = stream.getTracks().reduce(function(track) {
                 return track.enabled;
             });
         }
@@ -7416,7 +7416,7 @@ var Easyrtc = function() {
         }
         else {
             aggregatingTimers[key] = {counter: counter +1};
-            aggregatingTimers[key].timer = setTimeout(function () {
+            aggregatingTimers[key].timer = setTimeout(function() {
                 delete aggregatingTimers[key];
                 callback();
             }, period);
@@ -8452,7 +8452,7 @@ return new Easyrtc();
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-(function (root, factory) {
+(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         //RequireJS (AMD) build system
         define('easyrtc_app',['easyrtc'], factory);
@@ -8466,7 +8466,7 @@ return new Easyrtc();
         }
         root.easyrtc = factory(window.easyrtc);
   }
-}(this, function (easyrtc, undefined) {
+}(this, function(easyrtc, undefined) {
 
     "use strict";
 

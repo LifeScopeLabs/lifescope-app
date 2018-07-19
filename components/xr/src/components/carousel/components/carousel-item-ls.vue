@@ -18,7 +18,11 @@ export default {
     props: ['obj'],
 
     methods: {
+<<<<<<< HEAD
         textString: function (value) {
+=======
+        textString: function(value) {
+>>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
             return 'width: 1.5; color: white; value: ' + value
         }
     },

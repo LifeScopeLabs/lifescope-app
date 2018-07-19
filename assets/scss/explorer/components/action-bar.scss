@@ -1,0 +1,45 @@
+.action-bar {
+  @include flexbox;
+  @include flex-row;
+  @include flex-end;
+  @include flex-x-center;
+  @include no-select;
+
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+
+  .share-menu {
+    @include flexbox;
+    @include flex-row;
+    @include flex-end;
+    @include flex-x-center;
+
+    position: absolute;
+    right: 0.5em;
+    background-color: $background-color;
+    border-radius: 3px;
+    padding: 0.25em;
+
+    @media #{$maxwidth768},#{$mobile} {
+      font-size: 1.5em;
+    }
+
+    .sms {
+      display: none;
+
+      @media #{$maxwidth768},#{$mobile} {
+        display: inherit;
+      }
+    }
+
+    & > *:not(:last-child) {
+      margin-right: 0.35em;
+    }
+
+    .close {
+      color: $red;
+      font-size: 1.5em;
+    }
+  }
+}

@@ -1,0 +1,502 @@
+body {
+  &.search-expand {
+    & > main {
+      filter: blur(5px) grayscale(100%);
+      position: relative;
+
+      &::after {
+        position: fixed;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        content: '';
+      }
+    }
+  }
+}
+
+#search-bar {
+  $padding: 0.6em;
+
+  @include flex-grow;
+
+  position: relative;
+  font-size: 1.6rem;
+
+  @media #{$maxwidth768},#{$mobile} {
+    margin: 0;
+  }
+
+  @include source-sans;
+
+  #advanced {
+    padding: 0 $padding;
+
+    @include flexbox;
+    @include flex-x-center;
+  }
+
+  #filter-controls {
+    @include flexbox;
+    @include flex-x-start;
+
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 20;
+    width: 100%;
+    cursor: auto;
+
+    @media #{$maxwidth768},#{$mobile} {
+      @include flex-column;
+
+      left: -65px;
+      right: -58px;
+      margin-top: 10px;
+      width: auto;
+      background-color: $item-background-color;
+      border: 1px solid $input-border-color;
+      font-size: 1.3em;
+    }
+
+    & > div {
+      position: relative;
+      top: 10px;
+
+      border: 1px solid $input-border-color;
+      background-color: $item-background-color;
+
+      @media #{$maxwidth768},#{$mobile} {
+        border: none;
+        top: 0;
+      }
+    }
+
+    #filter-editor {
+      margin-right: 8px;
+      width: 250px;
+
+      @media #{$maxwidth768},#{$mobile} {
+        width: 100%;
+        margin-right: 0;
+        padding: 0 0.5em;
+      }
+
+      padding: 0.85 * $padding $padding;
+
+      @include no-select;
+
+      #filter-buttons {
+        @include flexbox;
+        @include flex-center;
+
+        @media #{$maxwidth768},#{$mobile} {
+          font-size: 1.4em;
+
+          div[data-type="where"] {
+            display: none;
+          }
+        }
+
+        .control {
+          font-size: 1.3em;
+          padding: 0.25em 0.5em;
+
+          cursor: pointer;
+
+          &:not(.disabled) {
+            &:hover {
+              position: relative;
+
+              &:after {
+                display: inline-flex;
+                @include flex-x-center;
+                @include flex-center;
+
+                width: 0.85em;
+                height: 0.85em;
+
+                position: absolute;
+                top: 0;
+                right: 0;
+
+                margin: 0;
+                padding: 0;
+
+                background-color: $item-background-color;
+                border-radius: 5em;
+
+                content: '+';
+              }
+            }
+
+            &:hover {
+              &:after {
+                color: $blue;
+              }
+            }
+          }
+
+          &.disabled {
+            opacity: 0.35;
+            cursor: auto;
+          }
+
+          &.active {
+            opacity: 1 !important;
+            color: $orange;
+          }
+        }
+      }
+
+      #filter-values {
+        font-size: 0.75em;
+
+        input {
+          font-size: 1.1em;
+
+          &[type="radio"] {
+            vertical-align: bottom;
+            display: none;
+          }
+        }
+
+        label {
+          font-size: 1em;
+        }
+
+        &.who {
+          form.who {
+            display: block;
+
+            .input-container {
+              border: 1px solid $border-color;
+              border-radius: 3px;
+
+              & > label {
+                width: 25%;
+
+                &:first-child {
+                  border-radius: 3px 0 0 3px;
+                }
+
+                &:last-child {
+                  border-radius: 0 3px 3px 0;
+                }
+
+                &:not(:last-child) {
+                  border-right: 1px solid $border-color;
+                }
+              }
+            }
+          }
+        }
+
+        &.what {
+          form.what {
+            display: block;
+          }
+        }
+
+        &.when {
+          form.when {
+            display: block;
+
+            & > .input-container {
+              border: 1px solid $border-color;
+              border-radius: 3px;
+              font-size: 0.75em;
+
+              & > label {
+                width: 50%;
+
+                &:first-child {
+                  border-radius: 3px 0 0 3px;
+                }
+
+                &:last-child {
+                  border-radius: 0 3px 3px 0;
+                }
+
+                &:not(:last-child) {
+                  border-right: 1px solid $border-color;
+                }
+              }
+            }
+          }
+
+          .text-box {
+            margin-left: 0.1em;
+            margin-right: 0.2em;
+
+            @media #{$maxwidth768},#{$mobile} {
+              margin-left: 0;
+              margin-right: 0.3em;
+            }
+          }
+
+          .shrink {
+            width: 200px;
+
+            @media #{$mobile-portrait} {
+              width: 100%;
+            }
+          }
+        }
+
+        &.where {
+          form.where {
+            display: block;
+          }
+
+          @media #{$maxwidth768},#{$mobile} {
+            display: none;
+          }
+        }
+
+        &.connector {
+          form.connector {
+            display: block;
+
+            & > .input-container {
+              border: 1px solid $border-color;
+              border-radius: 3px;
+              font-size: 0.75em;
+
+              & > label {
+                &:first-child {
+                  width: 50%;
+                  border-right: 1px solid $border-color;
+                  border-radius: 3px 0 0 3px;
+                }
+
+                &:last-child {
+                  width: 50%;
+                  border-radius: 0 3px 3px 0;
+                }
+              }
+            }
+          }
+        }
+
+        #filter-name {
+          padding: 0 1em;
+
+          .text-box {
+            border-left: none;
+            border-right: none;
+
+            margin-bottom: 1em;
+          }
+
+          &.hidden {
+            display: none;
+          }
+
+          input {
+            text-align: center;
+
+            font-size: 1em;
+            color: lighten($font-color, 35%);
+          }
+        }
+
+        .input-container {
+          @include flexbox;
+          @include flex-grow;
+          @include flex-space-around;
+
+          margin: 0.5em 0;
+
+          text-align: center;
+
+          select {
+            margin-left: 0;
+          }
+
+          .radio {
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 0.5em 0;
+            background-color: $background-color;
+
+            &:not(.active) {
+              &:hover {
+                background-color: darken($background-color, 5%);
+              }
+            }
+            &.active {
+              background-color: $orange;
+              color: $highlight-color;
+            }
+          }
+        }
+
+        .estimated {
+          margin: 1em;
+          text-align: center;
+
+          input {
+            top: 2px;
+            margin: 0 0.5em;
+          }
+        }
+      }
+
+      #filter-done {
+        margin: 1em 0 0.5em;
+        font-size: 0.85em;
+        text-align: center;
+
+        & > button {
+          width: 50%;
+        }
+      }
+    }
+
+    #filter-list {
+      left: 1px;
+      padding: 0.85 * $padding $padding 0 $padding;
+
+      max-height: 250px;
+      overflow-y: auto;
+
+      @include no-select;
+      @include hide-empty;
+
+      .filter {
+        display: inline-block;
+        margin-bottom: 0.85 / 0.7 * $padding;
+        cursor: pointer;
+
+        &:hover,
+        &:active,
+        &.active {
+
+        }
+      }
+    }
+  }
+
+  #query-form {
+    &:first-child {
+      padding-left: $padding
+    }
+  }
+
+  #search-box {
+    margin: 0;
+    border: none;
+
+    & > input {
+      padding: 0.35em 0;
+    }
+  }
+
+  #filters {
+    overflow: hidden;
+    cursor: auto;
+    padding-left: 0.5 * $padding;
+
+    @include flexbox;
+    @include flex-x-center;
+    @include hide-empty;
+
+    &.calculating {
+      position: absolute;
+      top: -20000px;
+    }
+
+    .filter {
+      position: relative;
+      top: 1px;
+      cursor: pointer;
+
+      span {
+        padding: 0.2em 0.3em;
+      }
+    }
+  }
+
+  #filter-overflow-count {
+    @include flexbox;
+    @include flex-x-center;
+    @include hide-empty;
+
+    div {
+      font-size: 0.7em;
+
+      border: 1px solid $input-border-color;
+      background-color: darken($background-color, 2%);
+      border-radius: 4px;
+
+      position: relative;
+      top: 1px;
+      padding: 0.2em 0.4em;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  .filter {
+    display: inline-block;
+
+    font-size: 0.7em;
+
+    white-space: nowrap;
+
+    border: 1px solid $input-border-color;
+    background-color: darken($background-color, 2%);
+    border-radius: 4px;
+
+    margin-right: 0.35em;
+
+    @include source-sans;
+    @include no-select;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    & > * {
+      padding: 0.45em;
+
+      &:first-child {
+        padding-right: 0;
+      }
+    }
+
+    &:hover {
+      color: $blue;
+    }
+
+    &.active {
+      background-color: darken($background-color, 5%);
+    }
+  }
+
+  #search-button,
+  #search-favorited {
+    padding: 0 $padding;
+
+    @include flexbox;
+    @include flex-x-center;
+  }
+
+  #search-favorited {
+
+    &.filled {
+      i {
+        color: $blue;
+      }
+    }
+  }
+
+  input {
+    font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+  }
+}

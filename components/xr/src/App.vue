@@ -38,8 +38,8 @@
     <a-assets class="assets-avatar" v-pre>
     </a-assets>
 
-        
-    
+
+
      <!-- Player -->
     <a-entity id="player-rig"
           movement-controls="speed:0.05"
@@ -101,12 +101,12 @@ export default {
       console.log("mounted");
       // debugger;
 
-      document.body.addEventListener('connected', function (evt) {
+      document.body.addEventListener('connected', function(evt) {
         console.log('connected event. clientId =', evt.detail.clientId);
         document.getElementById('player').setAttribute('visible', 'false');
         console.log(this.roomName);
       });
-      
+
       this.createAvatarTemplate();
       this.addAvatarTemplate();
 
@@ -115,9 +115,9 @@ export default {
         this.LSObjs = res.LSObjs;
         }
       );
-        
+
       //debugger;
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         // Code that will run only after the
         // entire view has been rendered
         console.log("mounted nextTick")
@@ -180,7 +180,7 @@ export default {
               </a-sphere>
             </a-entity>
           </a-entity>
-        </template> 
+        </template>
         `);
 
         document.getElementsByClassName('assets-avatar')[0].appendChild(frag);
@@ -206,12 +206,12 @@ export default {
       fragmentFromString(strHTML) {
             return document.createRange().createContextualFragment(strHTML);
       },
-      
+
       myOnConnect() {
         console.log("Networked-scene connected");
       }
 
     }
-    
+
   }
 </script>

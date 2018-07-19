@@ -8,10 +8,16 @@ import { getMainDefinition } from 'apollo-utilities';
 import _ from 'lodash';
 
 export default (ctx) => {
+  let agentOptions = {};
+
+  if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'dev') {
+    agentOptions.rejectUnauthorized = false;
+  }
+
 	const httpLink = new HttpLink({
 		//Remove fetchOptions in production, as it's only needed for ignoring certs in dev
 		fetchOptions: {
-			agent: new https.Agent({ rejectUnauthorized: false })
+			agent: new https.Agent(agentOptions)
 		},
 		uri: 'https://api.lifescope.io/gql',
 		credentials: 'include'

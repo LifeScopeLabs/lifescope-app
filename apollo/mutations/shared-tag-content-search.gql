@@ -1,0 +1,20 @@
+mutation sharedTagContentSearch($id: String!, $passcode: String!, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
+    sharedTagContentSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
+        id,
+        connection,
+        connection_id_string,
+        embed_content,
+        embed_format,
+        embed_thumbnail,
+        mimetype,
+        tagMasks {
+            added,
+            removed,
+            source
+        },
+        text,
+        title,
+        type,
+        url
+    }
+}

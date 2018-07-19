@@ -8,6 +8,7 @@ subscription connectionUpdated {
             },
             redirectUrl
         },
+        browser,
         name,
         enabled,
         last_run,

@@ -1,6 +1,7 @@
 {
     providerWithMapMany {
         id,
+        login,
         sources,
         remote_map_id,
         remote_map_id_string,

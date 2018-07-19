@@ -1,0 +1,120 @@
+$blue: #2AC1DE;
+$orange: #FF9933;
+$green: #6CC644;
+$red: #BD2C00;
+$purple: #6E5494;
+
+$blue-alt-1: #4183C4;
+$blue-alt-2: #3B8EDE;
+
+$highlight-background: $blue;
+//$highlight-background: #0B558A;
+$highlight-color: #FFF;
+
+// Light mode
+$background-color-light: #FAFAFA;
+$item-background-color-light: #FFF;
+$font-color-light: #4A4A4A;
+$font-color-subdue-light: lighten($font-color-light, 35%);
+$border-color-light: #EDEEEE;
+$input-border-color-light: darken($border-color-light, 7%);
+
+// Dark mode
+$background-color-dark: #222;
+$item-background-color-dark: #2A2A2A;
+$font-color-dark: lighten($background-color-dark, 35%);
+$font-color-subdue-dark: darken($font-color-dark, 5%);
+$border-color-dark: lighten($background-color-dark, 15%);
+
+// Aliases
+$background-color: $background-color-light;
+$item-background-color: $item-background-color-light;
+$font-color: $font-color-light;
+$font-color-subdue: $font-color-subdue-light;
+$border-color: $border-color-light;
+$input-border-color: $input-border-color-light;
+
+// Color classes
+@mixin blue {
+  color: $blue !important;
+}
+
+@mixin orange {
+  color: $orange !important;
+}
+
+@mixin green {
+  color: $green !important;
+}
+
+@mixin red {
+  color: $red !important;
+}
+
+@mixin subdue {
+  color: $font-color-subdue !important;
+}
+
+@mixin transparent {
+  color: transparent !important;
+}
+
+// Color classes
+.blue {
+  color: $blue !important;
+}
+
+.orange {
+  color: $orange !important;
+}
+
+.green {
+  color: $green !important;
+}
+
+.red {
+  color: $red !important;
+}
+
+.subdue {
+  color: $font-color-subdue !important;
+}
+
+.transparent {
+  color: transparent !important;
+}
+
+// Fonts
+.fa {
+  font-family: FontAwesome !important;
+  font-style: normal !important;
+}
+
+@mixin lato($weight: 400) {
+  font-family: 'Lato', Arial, Helvetica, sans-serif;
+  font-weight: $weight;
+}
+
+@mixin pt-sans($weight: 400) {
+  font-family: 'PT Sans', Arial, Helvetica, sans-serif;
+  font-weight: $weight;
+}
+
+@mixin quicksand($weight: 400) {
+  font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+  font-weight: $weight;
+}
+
+@mixin raleway($weight: 400) {
+  font-family: Raleway, Arial, Helvetica, sans-serif;
+}
+
+@mixin roboto($weight: 400) {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-weight: $weight;
+}
+
+@mixin source-sans($weight: 400) {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: $weight;
+}

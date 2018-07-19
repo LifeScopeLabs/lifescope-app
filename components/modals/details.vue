@@ -1,5 +1,8 @@
 <template>
   <div v-if="type === 'event'" class="object event modaled" v-bind:id="item.id">
+    <div class="flexbox flex-end">
+      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+    </div>
     <aside class="details">
       <div class="type">
         <i v-bind:class="getEventTypeIcon(item.type)"></i>
@@ -58,11 +61,17 @@
     </aside>
   </div>
   <div v-else-if="type === 'content'" class="object content modaled" v-bind:id="item.id">
+    <div class="flexbox flex-end">
+      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+    </div>
     <section class="content">
       <user-content v-bind:key="item.id" v-bind:content="item" v-bind:connection="item.connection"></user-content>
     </section>
   </div>
   <div v-else-if="type === 'contact'" class="object contact modaled" v-bind:id="item.id">
+    <div class="flexbox flex-end">
+      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+    </div>
     <div class="objects">
       <user-contact v-bind:key="item.id" v-bind:contact="item" v-bind:connection="item.connection"></user-contact>
     </div>
