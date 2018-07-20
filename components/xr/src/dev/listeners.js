@@ -69,7 +69,7 @@ document.body.addEventListener('componentremoved', function (evt) {
   console.log('componentremoved');
 });
 document.body.addEventListener('play', function (evt) {
-  console.log('play');
+  //console.log('play');
 });
 document.body.addEventListener('pause', function (evt) {
   console.log('pause');

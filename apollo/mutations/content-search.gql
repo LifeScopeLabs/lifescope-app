@@ -1,11 +1,14 @@
 mutation contentSearch($q: String, $offset: Int, $limit: Int, $filters: String, $sortField: String, $sortOrder: String) {
     contentSearch(q: $q, offset: $offset, limit: $limit, filters: $filters, sortField: $sortField, sortOrder: $sortOrder) {
         id,
-        connection,
+        connection_id,
         connection_id_string,
         embed_content,
         embed_format,
         embed_thumbnail,
+        provider_id,
+        provider_id_string,
+        provider_name,
         mimetype,
         tagMasks {
             added,

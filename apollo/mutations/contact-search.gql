@@ -2,8 +2,11 @@ mutation contactSearch($q: String, $offset: Int, $limit: Int, $filters: String, 
     contactSearch(q: $q, offset: $offset, limit: $limit, filters: $filters, sortField: $sortField, sortOrder: $sortOrder) {
         id,
         avatar_url,
-        connection,
+        connection_id,
         connection_id_string,
+        provider_id,
+        provider_id_string,
+        provider_name,
         handle,
         name,
         tagMasks {

@@ -29,7 +29,7 @@
       <gallery-carousel v-if="$store.state.objects.content.length > 0" />
       
       <!-- portals -->
-        <a-entity class="portal-left"
+        <!-- <a-entity class="portal-left"
                     layout="type: line; margin: 4"
                     rotation="0 90 0"
                     position="-3.8 1.5 16">
@@ -50,7 +50,7 @@
                         :room="room"
                         rotation="180 0 180">
                 </carouselLink>
-        </a-entity> 
+        </a-entity>  -->
 
 
       <!-- Earth -->
@@ -106,27 +106,27 @@ export default {
         carouselLink
     },
     
-    computed: {
-        sortedRooms() {
-            var sorted = this.rooms;
-            sorted.sort(function (a, b) {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            });
-            return sorted;
-        },
-        roomsLeft() {
-            return this.sortedRooms.slice(0, this.rooms.length/2);
-        },
-        roomsRight() {
-            var reversed = this.sortedRooms.slice(this.rooms.length/2, this.rooms.length);
-            reversed.reverse();
-            return reversed;
-        },
-        aRoom() {
-            if (CONFIG.DEBUG) {console.log(this.roomsRight[0]);};
-            return this.roomsRight[0];
-        }
-    },
+    // computed: {
+    //     sortedRooms() {
+    //         var sorted = this.rooms;
+    //         sorted.sort(function (a, b) {
+    //             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+    //         });
+    //         return sorted;
+    //     },
+    //     roomsLeft() {
+    //         return this.sortedRooms.slice(0, this.rooms.length/2);
+    //     },
+    //     roomsRight() {
+    //         var reversed = this.sortedRooms.slice(this.rooms.length/2, this.rooms.length);
+    //         reversed.reverse();
+    //         return reversed;
+    //     },
+    //     aRoom() {
+    //         if (CONFIG.DEBUG) {console.log(this.roomsRight[0]);};
+    //         return this.roomsRight[0];
+    //     }
+    // },
     
     // Lifecycle hooks
     // https://vuejs.org/v2/api/#Options-Lifecycle-Hooks
