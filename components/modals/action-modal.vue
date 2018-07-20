@@ -64,7 +64,9 @@
         tagName: ''
       }
     },
+
     props: ['shareable', 'item', 'taggable', 'type'],
+
     methods: {
       addTag: async function() {
         let strippedTag = this.$data.tagName.replace(/[^a-zA-Z0-9\s-]/, '').replace(/\s+/g, ' ');

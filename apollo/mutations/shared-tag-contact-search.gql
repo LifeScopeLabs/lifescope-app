@@ -2,10 +2,12 @@ mutation sharedTagContactSearch($id: String!, $passcode: String!, $offset: Int, 
     sharedTagContactSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
         id,
         avatar_url,
-        connection,
+        connection_id,
         connection_id_string,
         handle,
         name,
+        provider_id,
+        provider_id_string,
         tagMasks {
             added,
             removed,

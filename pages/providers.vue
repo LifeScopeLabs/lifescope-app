@@ -6,7 +6,7 @@
 		layout: 'providers',
 		asyncData({ store }) {
 			store.state.mode = 'home';
-            store.state.pageName = 'providers';
+      store.state.pageName = 'providers';
 		},
 		data: function() {
 			return {
