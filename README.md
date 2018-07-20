@@ -35,7 +35,6 @@ This is for AR and VR views of LifeScope data as Vue Plugins.
 #### [LIFESCOPE-VOICE](https://github.com/LifeScopeLabs/lifescope-voice)
 This is a conversational interface of LifeScope data as Vue Plugins.
 
-<<<<<<< HEAD
 ## Developer Setup
 
 ``` bash
@@ -66,8 +65,6 @@ $ NODE_ENV=dev npm run start
 
 ```
 
-=======
->>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
 ## Login
 
 **Sign up and login with any provider. Automatically adds an API ETL connection.**

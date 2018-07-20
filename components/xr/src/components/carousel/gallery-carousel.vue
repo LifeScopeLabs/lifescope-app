@@ -38,6 +38,9 @@ import carouselContent from "./components/carousel-content-item.vue";
 
 import Vue from 'vue';
 
+var CONFIG = {};
+CONFIG.DEBUG = true;
+
 console.log("from carousel.vue <script>");
 export default {
     // data () {

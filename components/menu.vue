@@ -92,15 +92,9 @@
             </div>
 					</div>
 
-<<<<<<< HEAD
-					<a class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search LifeScope</a>
-					<a class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
-					<a class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
-=======
 					<a v-if="$store.state.mode !== 'shared'" class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search</a>
 					<a v-if="$store.state.mode !== 'shared'" class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
 					<a v-if="$store.state.mode !== 'shared'" class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
->>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
 					<a class="support" href="http://bitscoop.com/support"><i class="fa fa-question-circle"></i> Support</a>
 				</section>
 

@@ -111,22 +111,6 @@ module.exports = {
 				tls: 'empty'
       };
 
-<<<<<<< HEAD
-      // easyrtc support
-      // if (isClient) {
-      //   config.module.rules.push({
-      //     test: require.resolve('./static/easyrtc/easyrtc.js'),
-      //     use: { loader: 'expose-loader',
-      //     options: 'easyrtc' }
-      //   });
-      // }
-
-      // config.module.rules.push({
-      //       exclude: /(node_modules)/
-      // });
-
-=======
->>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
       // /*
       // ** Run ESLint on save
       // */
@@ -170,11 +154,6 @@ module.exports = {
         easyrtc: './static/easyrtc/easyrtc.js',
         // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js'
         }),
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
     ]
 	},
 

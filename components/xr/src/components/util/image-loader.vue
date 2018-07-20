@@ -17,11 +17,7 @@ export default {
 
     methods: {
 
-<<<<<<< HEAD
-        imageSrc: function (image) {
-=======
         imageSrc: function(image) {
->>>>>>> 031590e0ddeb8d24b7eb341af2c3d96fb959ed18
             var x = 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/android-chrome-512x512.png';
             const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
 
