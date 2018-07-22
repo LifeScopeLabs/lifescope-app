@@ -88,7 +88,7 @@ import carouselLink from "./carousel/components/carousel-link.vue";
 import Vue from 'vue';
 
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 if (CONFIG.DEBUG) {console.log("from gallery.vue <script>")}
 export default {
@@ -144,7 +144,6 @@ export default {
     mounted () {
         // el is replaced by the newly created vm.$el
         if (CONFIG.DEBUG) {console.log("mounted");};
-        if (CONFIG.DEBUG) {console.log("gallery.vue :" + this.LSObjs);};
 
         this.$nextTick(function () {
             // Code that will run only after the

@@ -16,7 +16,7 @@
 
 <script>
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 if (CONFIG.DEBUG) {console.log("from carousel-item.vue <script>")}
 export default {

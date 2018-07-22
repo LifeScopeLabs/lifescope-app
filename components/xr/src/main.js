@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 //import 'config';
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 // disable warn
 //console.warn = function() {};
@@ -24,22 +24,15 @@ import './components/aframe/play-gaze.js';
 import './components/aframe/dynamic-autoplay.js';
 import './components/aframe/entangle.js';
 import './components/aframe/avatar-rig';
-import './components/hubs/character-controller.js';
-import './components/hubs/pitch-yaw-rotator.js';
 
 
 // controls
 import {mappings, inputActions} from './controls/input-mappings';
-import { runInThisContext } from 'vm';
-
-import App from './App.vue';
-
-
-//console.log(mappings);
-//console.log(inputActions);
 AFRAME.registerInputActions(inputActions, 'default');
 AFRAME.registerInputMappings(mappings);
 
+
+import { runInThisContext } from 'vm';
 
 // router
 Vue.use(VueRouter);
@@ -49,7 +42,9 @@ var router = new VueRouter({
 });
 
 // ignore elements for Firefox
-Vue.config.ignoredElements = ['a-scene', 'a-assets', 'a-gltf-model', 'a-entity', 'a-sphere', 'a-animation', 'a-sky'];
+Vue.config.ignoredElements = ['a-scene', 'a-assets', 'a-gltf-model', 'a-entity', 'a-sphere', 'a-animation', 'a-sky', 'a-gui-flex-container', 'a-gui-button'];
+
+import App from './App.vue';
 
 //var app = new Vue(Vue.util.extend({ router }, App)).$mount('#app');
 var app = new Vue({

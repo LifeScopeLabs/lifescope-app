@@ -1,5 +1,5 @@
 <template>
-  <a-scene :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-xr; room: ls-room; audio: true; debug: true; adapter: easyrtc; connectOnLoad: true;'">
+  <a-scene embedded :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-xr; room: ls-room; audio: true; debug: true; adapter: easyrtc; connectOnLoad: true;'">
 
     <!-- Register Aframe components -->
 
@@ -34,7 +34,7 @@
     <a-sky src="#sky" rotation="90 0 90">
     </a-sky>
 
-    <!-- Log wall -->
+    <!-- Search Wall -->
     <!-- <a-entity id="wall-log" class="boundry"
                 :geometry="'primitive: plane; width: 8; height: 4'"
                 material="color: #cee1ff; side: double; transparent: true; opacity: 0.5;" 
@@ -47,7 +47,7 @@
               position="0 0 0" rotation="0 0 0"
             >
 
-                <a-gui-button 
+                <a-gui-button class="clickable"
                   width="2.5" height="0.75"
                   onclick="testButtonAction" key-code="32"
                   value="test button"
@@ -65,6 +65,12 @@
 </template>
 
 <script>
+
+// TODO : register input controls
+// import {mappings, inputActions} from './controls/input-mappings';
+// AFRAME.registerInputActions(inputActions, 'default');
+// AFRAME.registerInputMappings(mappings);
+
 import axios from 'axios';
 
 import socketIO from 'socket.io-client';
@@ -73,7 +79,7 @@ import easyrtc from '../../../static/easyrtc/easyrtc.js';
 import gallery from "./components/gallery.vue";
 
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 import debugListeners from './dev/listeners.js';
 
 if (CONFIG.DEBUG) {console.log("from App.vue <script>");}
@@ -112,6 +118,12 @@ export default {
 
       if (CONFIG.DEBUG) {debugListeners();}
 
+      // gamepad in mobile
+      // if (AFRAME.utils.device.isMobile()) {
+      //   var playerRig = document.getElementById('playerRig');
+      //   playerRig.setAttribute("virtual-gamepad-controls", {});
+      // }
+
       //
       // Add hand when user enters vr mode
       var self = this;
@@ -123,6 +135,8 @@ export default {
           if (CONFIG.DEBUG) {console.log('adding hand...');};
           self.createRightHandNetworked();
         }
+
+
       });
 
 
@@ -287,6 +301,7 @@ export default {
       createNetworkedPlayer() {
         var frag = this.fragmentFromString(`
         <a-entity id="playerRig"
+        
           position="0 1.6 0"
           wasd-controls
           look-controls="reverseMouseDrag:true"

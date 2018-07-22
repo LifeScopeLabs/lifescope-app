@@ -11,22 +11,19 @@
                     :connection="con.connection"
                     rotation="0 0 0">
                 </carouselContent>
-                <!-- <carouselItem v-for="wimage of $store.state.objects.content.slice(0, $store.state.objects.content.length/2)"
-                            :key="wimage.id"
-                            :obj='wimage'
-                            rotation="0 0 0">
-                </carouselItem> -->
+
         </a-entity>
         <!-- Carousel right -->
         <a-entity class="gallery-carousel-right"
                     layout="type: line; margin: 4"
                     rotation="0 90 0"
                     position="3.8 1 0">
-                <carouselItem v-for="wimage of $store.state.objects.content.slice($store.state.objects.content.length/2, $store.state.objects.content.length)"
-                            :key="wimage.id"
-                            :obj='wimage'
+                <carouselContent v-for="con of $store.state.objects.content.slice($store.state.objects.content.length/2, $store.state.objects.content.length)"
+                            :key="con.id"
+                            :content="con"
+                            :connection="con.connection"
                             rotation="180 0 180">
-                </carouselItem>
+                </carouselContent>
         </a-entity> 
     </a-entity>
 </template>
@@ -39,7 +36,7 @@ import carouselContent from "./components/carousel-content-item.vue";
 import Vue from 'vue';
 
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 console.log("from carousel.vue <script>");
 export default {

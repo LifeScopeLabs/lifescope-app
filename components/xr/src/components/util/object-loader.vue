@@ -23,7 +23,7 @@
 <script>
 
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 export default {
     props:  ['obj', 'roomConfig'],

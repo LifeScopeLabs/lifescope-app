@@ -141,7 +141,19 @@ module.exports = {
       'vue-observe-visibility',
       'aframe',
       'aframe-layout-component',
-      'networked-aframe'
+      'networked-aframe',
+      'aframe-animation-component',
+      'aframe-src-fit-component',
+      'aframe-asset-on-demand-component',
+      'aframe-input-mapping-component',
+      'aframe-teleport-controls',
+      'aframe-extras',
+      'aframe-gui',
+      '~/components/xr/src/components/aframe/play-gaze.js',
+      '~/components/xr/src/components/aframe/dynamic-autoplay.js',
+      '~/components/xr/src/components/aframe/entangle.js',
+      '~/components/xr/src/components/aframe/avatar-rig',
+      '~/components/xr/src/components/hubs/virtual-gamepad-controls.js'
 		],
 
     plugins: [
