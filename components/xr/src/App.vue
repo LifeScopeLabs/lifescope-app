@@ -16,8 +16,10 @@
         crossorigin="anonymous">
 
       <!-- video controls -->
-      <img id="video-play" src="../static/video/video_play.png">
-      <img id="video-pause" src="../static/video/video_pause.png">
+      <img id="video-play" src="https://s3.amazonaws.com/lifescope-static/static/xr/gallery/video_play.png"
+        crossorigin="anonymous">
+      <img id="video-pause" src="https://s3.amazonaws.com/lifescope-static/static/xr/gallery/video_pause.png"
+        crossorigin="anonymous">
 
       <!-- gltf -->
       <!-- logo -->
