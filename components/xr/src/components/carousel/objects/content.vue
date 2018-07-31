@@ -1,22 +1,25 @@
 <template>
     <a-entity class="carousel-item carousel-content-item" v-bind:id="content.id">
 		<!-- header -->
-		<a-entity class="header">
+		<a-entity class="header"
+			:position="'0 ' + top + ' 0'">
 			<!-- type -->
-			<a-entity class="type" position="0 2 0">
+			<a-entity class="type">
 				<!-- <a-font-awesome :charcode="getContentTypeIcon(content.type)" color="blue" size="512"></a-font-awesome> -->
-				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon(content.type)))"></a-ionicon>
-                <a-entity scale="2 2 1"
+				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon(content.type)))"
+							:size="size * iconSize"></a-ionicon>
+                <a-entity :scale="textScale"
                   :text="this.textString(content.type)"/>
 			</a-entity>
 			<!-- Provider / Connection -->
 			<a-entity v-if="connection.name !== undefined"
 					class="provider"
-					position="0 1.5 0">
+					:position="'0 ' + (-lineSeparation) + ' 0'">
 				<!-- <i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }} -->
-				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(connection.name)))"></a-ionicon>
+				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(connection.name)))"
+							:size="size * iconSize"></a-ionicon>
 
-				<a-entity scale="2 2 1"
+				<a-entity :scale="textScale"
                   :text="this.textString(connection.name)"
 				/>
 			</a-entity>
@@ -49,10 +52,10 @@
 
 		<!-- url link -->
 		<a-entity class="title"
-			position="0 1 0">
+			:position="'0 ' + (top - (3 * lineSeparation)) + ' 0'">
 			<!-- <a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span> -->
-			<a-entity scale="2 2 1"
+			<a-entity :scale="textScale"
                   :text="this.textString(content.title)"
 			/>
 		</a-entity>
@@ -60,13 +63,13 @@
 		<!-- contet.text -->
 		<a-entity v-if="content.text != null"
 			class="text"
-			position="0 0.5 0">
+			:position="'0 ' + (top - (4 * lineSeparation)) + ' 0'">
 			<!--{% if text_truncated %}-->
 				<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
 			<!--{% endif %}-->
 			<!-- <a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a> -->
 
-			<a-entity scale="2 2 1"
+			<a-entity :scale="textScale"
                   :text="this.textString(content.text)"/>
                    <!-- position="0 -.8 0"/> -->
 			<!--{% if text_truncated %}-->
@@ -77,11 +80,11 @@
 		</a-entity>
 
 		<a-entity class="tagging"
-			position="0 0.25 0">
+			:position="'0 ' + (top - (5 * lineSeparation)) + ' 0'">
 			<a-entity class="tags">
 				<a-entity v-for="tag in content.tags"
 					:key="tag"
-					scale="2 2 1"
+					:scale="textScale"
 					:text="tag">
 				</a-entity>
 			</a-entity>
@@ -95,12 +98,24 @@ import FAIonicon from '../../util/font-awesome-ionicons';
 
 console.log("from objects/content.vue <script>")
 export default {
+	data () {
+        return {
+			size: 1,
+			iconSize: 0.25,
+			top: 1.25,
+			lineSeparation: 0.25
+        }
+    },
 	props: ['content', 'connection'],
 
 	computed: {
         imageMaterial: function() {
             return 'src: #image-' + this.content.id + '; side: double'
-        }
+		},
+		
+		textScale: function() {
+			return (0.5*this.size) + ' ' + (0.5*this.size) + ' ' + (0.25*this.size);
+		}
     },
 
     methods: {

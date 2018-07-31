@@ -1,5 +1,5 @@
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 // TODO : make sure ionicon font family loaded
 // TODO : don't create multiple canvas's for the same icon
@@ -26,6 +26,7 @@ var icon_font = {"alert": "\uf101", "alert-circled": "\uf100", "android-add": "\
 AFRAME.registerComponent('ionicon', {
     schema: {
       icon: {type: 'string', default: ''},
+      size: {type: 'number', default: 1},
       width: {type: 'number', default: 1},
       height: {type: 'number', default: 1},
       fontColor: {type: 'string', default: key_offwhite},
@@ -37,13 +38,15 @@ AFRAME.registerComponent('ionicon', {
         console.log('ionicon init');
       }
 
+    //   console.log(`this.data.size: ${this.data.size}`);
+
       var data = this.data;
       var el = this.el;
 
       // dimensions
       var multiplier = 350;
-      var canvasWidth = this.data.height*multiplier; //square
-      var canvasHeight = this.data.height*multiplier;
+      var canvasWidth = this.data.height*multiplier * data.size; //square
+      var canvasHeight = this.data.height*multiplier * data.size;
 
       // canvas container
       var canvasContainer = document.createElement('div');
@@ -65,14 +68,14 @@ AFRAME.registerComponent('ionicon', {
     //   console.log(`data.height: ${data.height}`)
     //   console.log(`data.backgroundColor: ${data.backgroundColor}`)
 
-      el.setAttribute('geometry', `primitive: plane; height: ${data.height}; width: ${data.height};`);
+      el.setAttribute('geometry', `primitive: plane; height: ${data.height * data.size}; width: ${data.height * data.size};`);
       el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
 
-      drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
+      drawIcon(ctx, canvas, data.icon, data.fontColor, data.size);
 
       // place icon
       var iconEntity = document.createElement("a-entity");
-      iconEntity.setAttribute('geometry', `primitive: plane; width: ${data.width/2}; height: ${data.height/2};`);
+      iconEntity.setAttribute('geometry', `primitive: plane; width: ${data.width/2 * data.size}; height: ${data.height/2 * data.size};`);
       iconEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
       iconEntity.setAttribute('position', `0 0 0.041`);
       el.appendChild(iconEntity);
@@ -95,7 +98,8 @@ function getUniqueId(stringPrefix) {
 function drawIcon(ctx, canvas, icon, color, size) {
   if (CONFIG.DEBUG) {console.log("ionicon: drawIcon");}
   setTimeout(function(){
-      ctx.font = '240px Ionicons';
+      //console.log(240*size + 'px Ionicons');
+      ctx.font = 240*size + 'px Ionicons';
       ctx.fillStyle = color;
       ctx.textAlign = "center";
       ctx.textBaseline = 'middle';
@@ -103,9 +107,9 @@ function drawIcon(ctx, canvas, icon, color, size) {
       ctx.shadowBlur = 8;
       ctx.shadowOffsetY = 0;
       ctx.shadowOffsetX = 0;
-      ctx.scale(1, 1);
+      ctx.scale(1, 1);// * size, 1 * size);
 
-      console.log("icon: " + icon); 
+      if (CONFIG.DEBUG) {console.log("icon: " + icon);}
       if(icon_font[icon]){
           ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2);
       }else{
@@ -125,6 +129,7 @@ AFRAME.registerPrimitive( 'a-ionicon', {
     mappings: {
         'width': 'ionicon.width',
         'height': 'ionicon.height',
+        'size': 'ionicon.size',
         'font-color': 'ionicon.fontColor',
         'background-color': 'ionicon.backgroudColor',
         'icon': 'ionicon.icon',

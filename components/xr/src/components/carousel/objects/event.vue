@@ -1,38 +1,45 @@
 <template>
 	<a-entity class="object event feed" v-bind:id="event.id">
 		<!-- details -->
-		<a-entity class="details">
+		<a-entity class="details"
+			:position="'0 ' + top + ' 0'">
 
 			<!-- type -->
-			<a-entity class="type" position="0 2 0">
+			<a-entity class="type" 
+				:position="'0 ' + (-lineSeparation) + ' 0'">
 				<!-- <i v-bind:class="getEventTypeIcon(event.type)"></i> -->
-				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getEventTypeIcon(event.type)))"></a-ionicon>
+				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getEventTypeIcon(event.type)))"
+					:size="size * iconSize"></a-ionicon>
 
 				<a-entity v-if="event.context" 
-					scale="2 2 1"
+					:scale="textScale"
                   	:text="this.textString( event.context )"
-					position="0 -0.5 0">
+					:position="'0 ' + (-lineSeparation) + ' 0'">
 				</a-entity>
 				<a-entity v-else
-					scale="2 2 1"
+					:scale="textScale"
                   	:text="this.textString( event.type )"
-					position="0 -0.5 0">
+					:position="'0 ' + (-lineSeparation) + ' 0'">
 				</a-entity>
 			</a-entity>
 
 			<!-- provider -->
-			<a-entity class="provider" position="0 1 0">
+			<a-entity class="provider" 
+				:position="'0 ' + (-2 * lineSeparation) + ' 0'">
 				<!-- <i v-bind:class="getProviderIcon(event.connection.provider)"></i>
 				 -->
-				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(event.connection.name)))"></a-ionicon>
+				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(event.connection.name)))"
+					:size="size * iconSize"></a-ionicon>
 			</a-entity>
 
 			<!-- date -->
-			<a-entity v-if="event.datetime" class="date" position="0 0.5 0">
+			<a-entity v-if="event.datetime" class="date" 
+				:position="'0 ' + (-3 * lineSeparation) + ' 0'">
 					<a-entity>
-						<a-ionicon :icon="getIoniconFromFA('fa-calendar')"></a-ionicon>
+						<a-ionicon :icon="getIoniconFromFA('fa-calendar')"
+							:size="size * iconSize"></a-ionicon>
 						<a-entity position="0 -0.5 0"
-							scale="2 2 1"
+							:scale="textScale"
 							:text="this.textString( event.datetime )">
 						</a-entity>
 					</a-entity>
@@ -49,7 +56,7 @@
 
 			<!-- tags -->
 			<a-entity class="tagging"
-			position="0 -0.25 0">
+				:position="'0 ' + (-4 * lineSeparation) + ' 0'">
 				<a-entity class="tags">
 					<a-entity v-for="tag in event.tags"
 						:key="tag"
@@ -79,12 +86,24 @@ import FAIonicon from '../../util/font-awesome-ionicons';
 
 console.log("from objects/contact.vue <script>")
 export default {
+	data () {
+        return {
+			size: 1,
+			iconSize: 0.25,
+			top: 1.5,
+			lineSeparation: 0.25
+        }
+	},
+	
 	props: ['event', 'connection'],
 
 	computed: {
         imageMaterial: function() {
             return 'src: #image-' + this.content.id + '; side: double'
-        }
+		},
+		textScale: function() {
+			return (0.5*this.size) + ' ' + (0.5*this.size) + ' ' + (0.25*this.size);
+		}
     },
 
     methods: {

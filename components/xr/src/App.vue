@@ -80,6 +80,7 @@ import easyrtc from '../../../static/easyrtc/easyrtc.js';
 
 import gallery from "./components/gallery.vue";
 
+// TODO: fix CONFIG
 var CONFIG = {};
 CONFIG.DEBUG = false;
 import debugListeners from './dev/listeners.js';
@@ -304,7 +305,7 @@ export default {
         var frag = this.fragmentFromString(`
         <a-entity id="playerRig"
         
-          position="0 1.6 0"
+          position="0 1.6 -2"
           wasd-controls
           look-controls="reverseMouseDrag:true"
           networked="template:#avatar-rig-template;attachTemplateToLocal:true;"

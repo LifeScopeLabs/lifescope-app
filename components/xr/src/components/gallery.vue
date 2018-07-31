@@ -3,33 +3,50 @@
       <!-- Create scene -->
       <!-- Floor -->
       <a-entity id="floor" class="boundry"
-                geometry="primitive: plane; width: 8; height: 400"
-                material="src:#floor; repeat: 4 200"
+                :geometry="'primitive: plane; width:' + hallWidth + '; height: ' + hallDepth + ''"
+                :material="'src:#floor; repeat: ' + hallWidth + ' ' + -hallDepth"
                 rotation="-90 0 0"
-                position="0 0 -4">
+                :position="'0 0 ' + -hallWidth/2">
       </a-entity>
       
       <!-- Wall left -->
       <a-entity id="wall-left" class="boundry"
-                :geometry="'primitive: plane; width:' + wallWidth + '; height: ' + wallHeight"
-                material="color: #cee1ff; side: double; transparent: true; opacity: 0.5;" 
+                :geometry="'primitive: plane; width:' + hallDepth + '; height: ' + wallHeight"
+                material="color: #cee1ff; side: double; transparent: true; opacity: 0.4;" 
                 rotation="0 90 0"
-                :position="-hallWidth/2 + ' ' + wallHeight/2 + ' 0'">
+                :position="-hallWidth/2 + ' ' + wallHeight/2 +' ' + -hallDepth/2">
       </a-entity>
       
-      <!-- Wall right repeat: 4 200" -->
+      <!-- Wall right -->
       <a-entity id="wall-right" class="boundry"
-                :geometry="'primitive: plane; width:' + wallWidth + '; height: ' + wallHeight"
-                material="color: #cee1ff; side: double; transparent: true; opacity: 0.5;"
+                :geometry="'primitive: plane; width:' + hallDepth + '; height: ' + wallHeight"
+                material="color: #cee1ff; side: double; transparent: true; opacity: 0.4;"
                 rotation="180 90 0"
-                :position="hallWidth/2 + ' ' + wallHeight/2 + ' 0'">
+                :position="hallWidth/2 + ' ' + wallHeight/2 +' ' + -hallDepth/2">
       </a-entity>
 
-      <!-- Carousel -->
+      <!-- Wall front -->
+      <a-entity id="wall-front" class="boundry"
+                :geometry="'primitive: plane; width:' + hallWidth + '; height: ' + wallHeight"
+                material="color: #cee1ff; side: double; transparent: true; opacity: 0.4;"
+                rotation="0 0 0"
+                :position="'0 ' + wallHeight/2 +' ' + -hallDepth">
+      </a-entity>
+      
+      <!-- Wall back -->
+      <a-entity id="wall-back" class="boundry"
+                :geometry="'primitive: plane; width:' + hallWidth + '; height: ' + wallHeight"
+                material="color: #cee1ff; side: double; transparent: true; opacity: 0.4;"
+                rotation="0 0 0"
+                :position="'0 ' + wallHeight/2 + ' 0'">
+      </a-entity>
+
+      <!-- Carousel   -->
       <!-- <gallery-carousel v-if="$store.state.objects.content.length > 0" /> -->
       <carousel-explorer v-if="$store.state.objects.content.length > 0 ||
                             $store.state.objects.contacts.length > 0 ||
-                            $store.state.objects.events.length > 0 "/>
+                            $store.state.objects.events.length > 0 "
+                            :hallWidth='hallWidth' :hallDepth='hallDepth'/>
       
       <!-- portals -->
         <!-- <a-entity class="portal-left"
@@ -57,8 +74,9 @@
 
 
       <!-- Earth -->
-      <a-sphere id="Earth" class="boundry"
-                position="0 1.2 -4" radius=".99" 
+       <a-sphere id="Earth" class="boundry"
+                :position="'0 1.5 ' + -hallWidth/2" 
+                radius=".99"
                 material="src:#earth; roughness: 1; transparent: true; opacity: 0.9;">
           <a-animation attribute="rotation"
                  easing="linear" 
@@ -66,9 +84,9 @@
                  fill="forwards"
                  to="0 360 0"
                  repeat="indefinite"></a-animation>
-      </a-sphere>
+        </a-sphere>
 
-    <a-entity id="Logo" position="0 2.5 -4"
+        <a-entity id="Logo" :position="'0 2.6 ' + -hallWidth/2"
               rotation="0 0 0">
       <a-gltf-model src="#logo" scale="0.075 0.075 0.075">
         </a-gltf-model>
@@ -79,6 +97,14 @@
                  to="0 -360 0"
                  repeat="indefinite"></a-animation>
     </a-entity>
+
+
+    <!-- Demo Map -->
+    <!-- Floor -->
+    <!-- <a-mapbox-terrain latitude="34.023552" longitude="-118.286189" position="0 0 -10" zoom-level="11"></a-mapbox-terrain> -->
+    <!-- World -->
+    <!-- <a-mapbox-terrain latitude="34.023552" longitude="-118.286189" position="0 -4 0" zoom-level="11" scale="45 5 45"></a-mapbox-terrain> -->
+
 
 
   </a-entity>
@@ -98,11 +124,11 @@ if (CONFIG.DEBUG) {console.log("from gallery.vue <script>")}
 export default {
     data () {
         return {
-            name: "Lifescope",
+            name: "LifeScope",
             description: "The Internet of You",
-            wallWidth: 400,
-            wallHeight: 4,
-            hallWidth: 8
+            wallHeight: 1.1,
+            hallWidth: 20,
+            hallDepth: 20,
         }
     },
     components: {
@@ -110,28 +136,6 @@ export default {
         galleryCarousel,
         carouselLink
     },
-    
-    // computed: {
-    //     sortedRooms() {
-    //         var sorted = this.rooms;
-    //         sorted.sort(function (a, b) {
-    //             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-    //         });
-    //         return sorted;
-    //     },
-    //     roomsLeft() {
-    //         return this.sortedRooms.slice(0, this.rooms.length/2);
-    //     },
-    //     roomsRight() {
-    //         var reversed = this.sortedRooms.slice(this.rooms.length/2, this.rooms.length);
-    //         reversed.reverse();
-    //         return reversed;
-    //     },
-    //     aRoom() {
-    //         if (CONFIG.DEBUG) {console.log(this.roomsRight[0]);};
-    //         return this.roomsRight[0];
-    //     }
-    // },
     
     // Lifecycle hooks
     // https://vuejs.org/v2/api/#Options-Lifecycle-Hooks

@@ -16,7 +16,7 @@ import 'networked-aframe';
 import 'aframe-animation-component';
 import 'aframe-src-fit-component';
 import 'aframe-asset-on-demand-component';
-import 'aframe-input-mapping-component';
+//import 'aframe-input-mapping-component';
 import 'aframe-teleport-controls';
 import 'aframe-extras';
 import 'aframe-gui';
@@ -27,9 +27,9 @@ import './components/aframe/avatar-rig';
 
 
 // controls
-import {mappings, inputActions} from './controls/input-mappings';
-AFRAME.registerInputActions(inputActions, 'default');
-AFRAME.registerInputMappings(mappings);
+// import {mappings, inputActions} from './controls/input-mappings';
+// AFRAME.registerInputActions(inputActions, 'default');
+// AFRAME.registerInputMappings(mappings);
 
 
 import { runInThisContext } from 'vm';

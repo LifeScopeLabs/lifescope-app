@@ -154,8 +154,7 @@ module.exports = {
       '~/components/xr/src/components/aframe/entangle.js',
       '~/components/xr/src/components/aframe/avatar-rig',
       '~/components/xr/src/components/hubs/virtual-gamepad-controls.js',
-      '~/components/xr/src/components/aframe/ionicon.js',
-      '~/lib/aframe/aframe-font-awesome/dist/aframe-font-awesome.js'
+      '~/components/xr/src/components/aframe/ionicon.js'
 		],
 
     plugins: [
