@@ -4,21 +4,23 @@
       <div id="provider-grid">
         <div v-if="$store.getters.authenticated" v-model="providerHydratedMany" v-for="provider in providerHydratedMany"
              v-on:click="showConnectionModal(provider)" v-bind:key="provider.id"
-             v-bind:class="[{associated: provider.assoc_count > 0}, provider.tags]" class="mix"
+             v-bind:class="[{associated: provider.assoc_count > 0}, provider.tags, {'coming-soon': provider.coming_soon === true}]" class="mix"
              v-bind:data-id="provider.id" v-bind:data-assoc-count="provider.assoc_count">
-          <div>
+          <div class="box-content">
             <span v-if="provider.assoc_count > 1">{{ provider.assoc_count }}</span>
             <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>
+          <div v-if="provider.coming_soon === true" class="coming-soon-text">Coming Soon</div>
         </div>
         <div v-if="$store.getters.authenticated !== true" v-model="providerWithMapMany"
              v-for="provider in loginMaps" v-on:click="showConnectionModal(provider)"
-             v-bind:key="provider.id" v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
-          <div>
+             v-bind:key="provider.id" v-bind:class="[provider.tags, {'coming-soon': provider.coming_soon === true}]" class="mix" v-bind:data-id="provider.id">
+          <div class="box-content">
             <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>
+          <div v-if="provider.coming_soon === true" class="coming-soon-text">Coming Soon</div>
         </div>
       </div>
     </div>
@@ -69,12 +71,14 @@
       },
 
       showConnectionModal: function(provider) {
-        this.$modal.show(connectionCreateModal, {
-          provider: provider
-        }, {
-          height: 'auto',
-          scrollable: true
-        });
+        if (provider.coming_soon !== true) {
+          this.$modal.show(connectionCreateModal, {
+            provider: provider
+          }, {
+            height: 'auto',
+            scrollable: true
+          });
+        }
       }
     },
 

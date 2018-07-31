@@ -24,14 +24,16 @@
               <p>
                 If you want to get hands-on with the LifeScope GraphQL API, you can use your API key to sign requests to the API.
                 The LifeScope GraphQL API can be found at https://api.lifescope.io/gql, and API key signing is performed by sending the header 'Authorization' with the value 'Bearer: &lt;your_api_key&gt;'.
+                You can construct calls and explore the API at <a href="https://api.lifescope.io/gql-p">https://api.lifescope.io/gql-p</a> or <a href="https://api.lifescope.io/gql-i">https://api.lifescope.io/gql-i</a>.
+                Make sure to add the Authorization header with your API key.
               </p>
 
               <div class="flexbox">
                 <p style="margin-right:0.5em;">Your API key is:</p>
-                <span>{{ $store.state.userOne.api_key_string }}</span>
+                <span style="word-break: break-all">{{ $store.state.userOne.api_key_string }}</span>
               </div>
 
-              <div>
+              <div class="mobile-flex-center">
                 <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New API Key</button>
               </div>
             </div>
@@ -48,15 +50,15 @@
                 Any locations we have recorded will remain unless you click the button 'Delete tracked locations'.
               </p>
 
-              <div class="flexbox">
-                <div>
+              <div class="location-buttons">
+                <div class="mobile-flex-center">
                   <button v-if="$store.state.userOne.location_tracking_enabled === true" id="disable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Disable Location Tracking</button>
                   <button v-if="$store.state.userOne.location_tracking_enabled !== true" id="enable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Enable Location Tracking</button>
                 </div>
 
                 <span class="flex-grow"></span>
 
-                <div>
+                <div class="mobile-flex-center">
                   <button class="danger delete" v-on:click.prevent="showTrackedLocationsDeleteModal">Delete Tracked Locations</button>
                 </div>
               </div>
@@ -72,7 +74,7 @@
                 Once you delete your account you will lose access to all the data you've stored with us.
               </p>
 
-              <div>
+              <div class="mobile-flex-center">
                 <button id="delete" class="danger" v-on:click="showAccountDeleteModal">Delete Account</button>
               </div>
             </div>

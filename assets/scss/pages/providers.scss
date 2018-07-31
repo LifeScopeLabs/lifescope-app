@@ -125,13 +125,20 @@ div#body.providers {
           border: 3px solid lighten($blue, 15%);
         }
 
-        &:hover,
-        &:active,
-        &.active {
-          border-color: $orange;
+        &.coming-soon {
+          color: $border-color-light;
+          cursor: initial;
         }
 
-        & > div {
+        &:not(.coming-soon) {
+          &:hover,
+          &:active,
+          &.active {
+            border-color: $orange;
+          }
+        }
+
+        & > div.box-content {
           @include flexbox;
           @include flex-column;
           @include flex-center;
@@ -148,6 +155,12 @@ div#body.providers {
           & > h1 {
             margin: 0;
           }
+        }
+
+        & > div.coming-soon-text {
+          position: relative;
+          top: -125px;
+          color: black;
         }
       }
     }

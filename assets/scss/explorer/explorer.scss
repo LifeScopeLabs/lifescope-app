@@ -332,6 +332,11 @@ div#body.explorer.grid {
 
       & > span {
         @include flex-grow;
+        cursor: pointer;
+
+        &:hover {
+          color: $green;
+        }
       }
 
       & > i {

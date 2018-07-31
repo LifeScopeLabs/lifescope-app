@@ -1,6 +1,26 @@
 <template>
   <div class="modal-content">
-    <div id="workflow" class="boxed-group" v-bind:data-provider-id="provider.id">
+    <div id="workflow" class="boxed-group" v-if="provider.name === 'Instagram' && provider.enabled !== true">
+      <div class="align-center">
+        <div class="flexbox flex-x-center">
+          <i v-bind:class="getProviderIcon(provider)"></i>
+          <div class="header flex-grow">Workaround to get Instagram data</div>
+          <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+        </div>
+      </div>
+      <div class="padded paragraphed">
+        <p>Instagram is shutting off access to their public API and will not approve any new applications for API access. LifeScope is unable to get your Instagram history as a result.</p>
+        <p>
+          There is a partial workaround that you can take: install one of the Browser Extensions and track the domain 'instagram.com'.
+          This isn't a perfect solution for two reasons: one, LifeScope can't tell when you posted anything to Instagram, just when you've viewed things on Instagram; and two, LifeScope can't track what you do in the Instagram app, just what you've viewed in that browser.
+        </p>
+        <p>
+          If you feel very strongly about getting your Instagram history, you could try contacting Instagram and petitioning them to make a new public user API.
+          You could also set up your own local copy of LifeScope; if you make your own application in Instagram, you can register your account as a test account and never need to submit an application for production keys.
+        </p>
+      </div>
+    </div>
+    <div v-else id="workflow" class="boxed-group" v-bind:data-provider-id="provider.id">
       <div class="align-center">
         <div class="flexbox flex-x-center">
           <i v-bind:class="getProviderIcon(provider)"></i>
