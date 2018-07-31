@@ -1,21 +1,26 @@
 <template>
 	<div class="object content" v-bind:id="content.id">
+    <!-- header -->
 		<div class="header">
+      <!-- type -->
 			<div class="type">
 				<i v-bind:class="getContentTypeIcon(content.type)"></i>
 				{{ content.type }}
 			</div>
 
+      <!-- provider -->
 			<div class="provider">
 				<i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }}
 			</div>
 
+      <!-- tags -->
 			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
 				<span>Tag</span><i class="fa fa-hashtag"></i>
 				<!--<span>Share</span><i class="fa fa-share"></i>-->
 			</aside>
 		</div>
 
+    <!-- embed content -->
 		<div class="content-embed" data-type="content" v-bind:data-id="content.id">
       <audio v-if="isAudio(content)" controls v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
       <img v-if="isImage(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
@@ -24,6 +29,7 @@
       <div v-if="isIframe(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" ><span v-html="content.embed_content"></span></div>
     </div>
 
+    <!-- embed thumbnail -->
 		<div v-if="content.embed_thumbnail" class="thumbnail" v-bind:class="{ hidden: isAudio(content) || isImage(content) || isVideo(content) || isEmail(content) || isIframe(content) }">
 			<img v-if="content.title == null" v-bind:src="content.embed_thumbnail"/>
 
@@ -32,11 +38,13 @@
 			</a>
 		</div>
 
+    <!-- title -->
 		<div v-if="content.title != null && content.title.length > 0" class="title">
 			<a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span>
 		</div>
 
+    <!-- text -->
 		<div v-if="content.text != null && content.text.length > 0" class="text">
       <!--{% if text_truncated %}-->
         <!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
@@ -50,10 +58,12 @@
 			<!--<div class="expand">More</div>-->
 		</div>
 
+    <!-- url -->
     <div v-if="(content.title == null || content.title.length === 0) && (content.text == null || content.text.length === 0) && content.url != null" class="title">
       <a href="content.url" target="blank">{{ content.url | safe }}</a>
     </div>
 
+    <!-- tags -->
 		<div class="tagging">
 			<div class="tags">
 				<span v-for="tag in content.tags">#{{ tag }}</span>

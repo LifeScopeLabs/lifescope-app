@@ -26,7 +26,10 @@
       </a-entity>
 
       <!-- Carousel -->
-      <gallery-carousel v-if="$store.state.objects.content.length > 0" />
+      <!-- <gallery-carousel v-if="$store.state.objects.content.length > 0" /> -->
+      <carousel-explorer v-if="$store.state.objects.content.length > 0 ||
+                            $store.state.objects.contacts.length > 0 ||
+                            $store.state.objects.events.length > 0 "/>
       
       <!-- portals -->
         <!-- <a-entity class="portal-left"
@@ -82,6 +85,7 @@
 </template>
 
 <script>
+import carouselExplorer from "./carousel/carousel-explorer.vue";
 import galleryCarousel from "./carousel/gallery-carousel.vue";
 import carouselLink from "./carousel/components/carousel-link.vue";
 
@@ -102,6 +106,7 @@ export default {
         }
     },
     components: {
+        carouselExplorer,
         galleryCarousel,
         carouselLink
     },

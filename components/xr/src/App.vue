@@ -354,3 +354,5 @@ export default {
     }
   }
 </script>
+
+<style src="./components/aframe/ionicon.css"></style>

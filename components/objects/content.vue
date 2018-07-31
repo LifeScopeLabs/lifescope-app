@@ -1,15 +1,26 @@
 <template>
+  <!-- feed -->
 	<div v-if="$store.state.view === 'feed'" class="object feed" v-bind:id="content.id">
     <section class="content">
-      <user-content v-bind:key="content.id" v-bind:content="content" v-bind:connection="content.connection"></user-content>
+      <user-content v-bind:key="content.id"
+          v-bind:content="content"
+          v-bind:connection="content.connection">
+      </user-content>
     </section>
 	</div>
 
-  <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="content.id" v-on:click="$emit('render-details', content, 'content')">
+  <!-- grid -->
+  <div v-else-if="$store.state.view === 'grid'"
+      class="item grid"
+      v-bind:id="content.id"
+      v-on:click="$emit('render-details', content, 'content')">
+
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
-    <i v-else v-bind:class="getContentTypeIcon(content.type)" class="type-icon large-grid-icon"></i>
+    <i v-else
+        v-bind:class="getContentTypeIcon(content.type)"
+        class="type-icon large-grid-icon"></i>
 
     <div class="title-bar">
       <i v-bind:class="getContentTypeIcon(content.type)" class="bubble"></i>
@@ -25,7 +36,11 @@
     </div>
   </div>
 
-  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="content.id" v-on:click="$emit('render-details', content, 'content')">
+  <!-- list -->
+  <div v-else-if="$store.state.view === 'list'"
+      class="item list"
+      v-bind:id="content.id"
+      v-on:click="$emit('render-details', content, 'content')">
     <div>
       <span>{{ content.title | truncate(30) }}</span>
     </div>

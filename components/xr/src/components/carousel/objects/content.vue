@@ -1,25 +1,24 @@
 <template>
     <a-entity class="carousel-item carousel-content-item" v-bind:id="content.id">
+		<!-- header -->
 		<a-entity class="header">
-			<a-entity class="type">
+			<!-- type -->
+			<a-entity class="type" position="0 2 0">
+				<!-- <a-font-awesome :charcode="getContentTypeIcon(content.type)" color="blue" size="512"></a-font-awesome> -->
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon(content.type)))"></a-ionicon>
-				<!-- <i v-bind:class="getContentTypeIcon(content.type)"></i> -->
-                <!-- <a-entity
-                    geometry="primitive: plane; width: 3; height: 2"
-                    :material="this.imageMaterial"
-                    rotation="0 0 0"
-                    position="0 1 0">
-                </a-entity> -->
                 <a-entity scale="2 2 1"
-                  :text="this.textString(content.type)"
-                   position="0 -.2 0"/>
+                  :text="this.textString(content.type)"/>
 			</a-entity>
-
-			<a-entity v-if="connection.name !== undefined" class="provider">
+			<!-- Provider / Connection -->
+			<a-entity v-if="connection.name !== undefined"
+					class="provider"
+					position="0 1.5 0">
 				<!-- <i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }} -->
+				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(connection.name)))"></a-ionicon>
+
 				<a-entity scale="2 2 1"
                   :text="this.textString(connection.name)"
-                   position="0 -.4 0"/>
+				/>
 			</a-entity>
 
 		</a-entity>
@@ -28,12 +27,12 @@
 		 <a-entity class="content-embed" data-type="content" v-bind:data-id="content.id">
 		 	<!-- <audio v-if="isAudio(content)"controls v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio> -->
 		 	<!-- <img v-if="isImage(content)" v-bind:src="content.embed_content" v-bind:alt="content.title"/> -->
-			 <a-entity
+			 <!-- <a-entity
 				geometry="primitive: plane; width: 3; height: 2"
 				:material="this.imageMaterial"
 				rotation="0 0 0"
 				position="0 1 0">
-			</a-entity>
+			</a-entity> -->
 		 	<!-- <video v-if="isVideo(content)" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
 		 	<iframe v-if="isEmail(content)" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
 		 	<div v-if="isIframe(content)"><span v-html="content.embed_content"></span></div> -->
@@ -49,24 +48,27 @@
 		</div> -->
 
 		<!-- url link -->
-		<a-entity class="title">
+		<a-entity class="title"
+			position="0 1 0">
 			<!-- <a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span> -->
 			<a-entity scale="2 2 1"
                   :text="this.textString(content.title)"
-                   position="0 -.6 0"/>
+			/>
 		</a-entity>
 
 		<!-- contet.text -->
-		<a-entity v-if="content.text != null" class="text">
+		<a-entity v-if="content.text != null"
+			class="text"
+			position="0 0.5 0">
 			<!--{% if text_truncated %}-->
 				<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
 			<!--{% endif %}-->
 			<!-- <a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{ content.text | safe }}</a> -->
 
 			<a-entity scale="2 2 1"
-                  :text="this.textString(content.text)"
-                   position="0 -.8 0"/>
+                  :text="this.textString(content.text)"/>
+                   <!-- position="0 -.8 0"/> -->
 			<!--{% if text_truncated %}-->
 				<!--<pre class="truncated">{{ text_truncated | safe }}</pre>-->
 			<!--{% endif %}-->
@@ -74,7 +76,8 @@
 				<!--<div class="expand">More</div>-->
 		</a-entity>
 
-		<a-entity class="tagging">
+		<a-entity class="tagging"
+			position="0 0.25 0">
 			<a-entity class="tags">
 				<a-entity v-for="tag in content.tags"
 					:key="tag"
@@ -90,7 +93,7 @@
 import icons from '../../../../../../lib/util/icons';
 import FAIonicon from '../../util/font-awesome-ionicons';
 
-console.log("from carousel-content-item.vue <script>")
+console.log("from objects/content.vue <script>")
 export default {
 	props: ['content', 'connection'],
 
@@ -102,20 +105,22 @@ export default {
 
     methods: {
         textString: function(value) {
-            return 'width: 1.5; color: white; value: ' + value;
-        },
+            return 'width: 1.5; color: white; value: ' + value
+		},
 		getContentTypeIcon: function(type) {
 			return icons('content', type);
 		},
+		getProviderIcon: function(provider) {
+				return icons('provider', provider.name);
+		},
 		stripFontAwesome(type) {
-			console.log(`stripFontAwesome(${type})`)
+			//console.log(`stripFontAwesome(${type})`)
 			var regex=/fa\-[a-zA-Z\-]+/i;
-			console.log(type.match(regex))
 			return type.match(regex)[0];
 		},
 		getIoniconFromFA: function(icon) {
-			console.log(`getIoniconFromFA(${icon})`)
-			console.log(`FAIonicon[${icon}] == ${FAIonicon[icon]}`)
+			//console.log(`getIoniconFromFA(${icon})`)
+			//console.log(`FAIonicon[${icon}] == ${FAIonicon[icon]}`)
 			return FAIonicon[icon];
 		}
     },

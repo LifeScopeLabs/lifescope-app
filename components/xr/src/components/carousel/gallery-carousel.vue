@@ -11,6 +11,7 @@
                     :connection="con.connection"
                     rotation="0 0 0">
                 </carouselContent>
+                <!-- <carouselExplorer/> -->
 
         </a-entity>
         <!-- Carousel right -->
@@ -32,6 +33,7 @@
 
 import carouselItem from "./components/carousel-item.vue";
 import carouselContent from "./components/carousel-content-item.vue";
+import carouselExplorer from "./carousel-explorer.vue";
 
 import Vue from 'vue';
 
@@ -47,7 +49,8 @@ export default {
     // },
     components: {
         carouselItem,
-        carouselContent
+        carouselContent,
+        carouselExplorer
     },
     mounted () {
         //debugger;
