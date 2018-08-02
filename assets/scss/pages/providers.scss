@@ -39,7 +39,7 @@ div#body.providers {
     border-bottom: none;
 
     .logo {
-      height: 30px;
+      height: 40px;
     }
 
     & > nav > :first-child > span {
@@ -160,6 +160,7 @@ div#body.providers {
         & > div.coming-soon-text {
           position: relative;
           top: -125px;
+          margin: 0 1em;
           color: black;
         }
       }
