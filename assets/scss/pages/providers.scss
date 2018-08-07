@@ -125,17 +125,10 @@ div#body.providers {
           border: 3px solid lighten($blue, 15%);
         }
 
-        &.coming-soon {
-          color: $border-color-light;
-          cursor: initial;
-        }
-
-        &:not(.coming-soon) {
-          &:hover,
-          &:active,
-          &.active {
-            border-color: $orange;
-          }
+        &:hover,
+        &:active,
+        &.active {
+          border-color: $orange;
         }
 
         & > div.box-content {
@@ -194,6 +187,16 @@ div#body.providers {
       font-weight: 700;
       font-size: 1.2em;
       margin-bottom: 1em;
+    }
+
+
+    .coming-soon {
+      color: $red;
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+
+      max-width: 600px;
     }
   }
 
