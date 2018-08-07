@@ -57,11 +57,12 @@ $ npm install
 # launch lifescope-api, ngninx, and lifescope-xr
 # see lifescope-api/README.md, lifescope-xr/README.md
 
+
 # build
 $ npm run build
 
 # run with NODE_ENV set
-$ NODE_ENV=dev npm run start
+$ NODE_ENV=dev npm run dev
 
 ```
 
