@@ -39,7 +39,7 @@ div#body.providers {
     border-bottom: none;
 
     .logo {
-      height: 30px;
+      height: 40px;
     }
 
     & > nav > :first-child > span {
@@ -131,7 +131,7 @@ div#body.providers {
           border-color: $orange;
         }
 
-        & > div {
+        & > div.box-content {
           @include flexbox;
           @include flex-column;
           @include flex-center;
@@ -148,6 +148,13 @@ div#body.providers {
           & > h1 {
             margin: 0;
           }
+        }
+
+        & > div.coming-soon-text {
+          position: relative;
+          top: -125px;
+          margin: 0 1em;
+          color: black;
         }
       }
     }
@@ -180,6 +187,16 @@ div#body.providers {
       font-weight: 700;
       font-size: 1.2em;
       margin-bottom: 1em;
+    }
+
+
+    .coming-soon {
+      color: $red;
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+
+      max-width: 600px;
     }
   }
 

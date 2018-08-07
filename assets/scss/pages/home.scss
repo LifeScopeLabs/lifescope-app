@@ -397,6 +397,16 @@ div#body.home {
           }
         }
 
+        .share-link {
+          @include flexbox;
+          @include flex-column;
+          @include flex-x-center;
+
+          word-break: break-word;
+
+          margin-bottom: 0.5em;
+        }
+
         .close-button {
           cursor: pointer;
 
@@ -406,9 +416,53 @@ div#body.home {
         }
 
         #social-tag-shares {
+          @include flexbox;
+          @include flex-center;
+          @include flex-wrap;
+
+          max-width: 100%;
+
           & > * {
             font-size: 1.2em;
             margin: 0.2em;
+
+
+            @media #{$maxwidth768},#{$mobile} {
+              font-size: 2em;
+            }
+          }
+        }
+
+        #sharing {
+          @media #{$maxwidth768},#{$mobile} {
+            width: 100%;
+          }
+        }
+
+        .clipboard-copy {
+          margin-left: 0.5em;
+
+          &:hover {
+            cursor: pointer;
+            color: $blue;
+
+            .tooltiptext {
+              visibility: visible;
+            }
+          }
+
+          .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: $blue;
+            color: #fff;
+            text-align: center;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 0.8em;
+
+            position: absolute;
+            z-index: 1;
           }
         }
       }

@@ -28,7 +28,7 @@
         </div>
         <div class="tags">
           <div v-for="tag in item.tags">
-            <span>#{{ tag }}</span>
+            <span v-on:click="searchTag(tag)">#{{ tag }}</span>
             <i class="delete fa fa-times" v-on:click="removeTag(tag)"></i>
           </div>
         </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+  import searchUpsert from '../../apollo/mutations/search-upsert.gql';
   import tagContact from '../../apollo/mutations/tag-contact.gql';
   import tagContent from '../../apollo/mutations/tag-content.gql';
   import tagEvent from '../../apollo/mutations/tag-event.gql';
@@ -64,7 +65,9 @@
         tagName: ''
       }
     },
+
     props: ['shareable', 'item', 'taggable', 'type'],
+
     methods: {
       addTag: async function() {
         let strippedTag = this.$data.tagName.replace(/[^a-zA-Z0-9\s-]/, '').replace(/\s+/g, ' ');
@@ -153,6 +156,21 @@
 
         if (removedIndex === -1) {
           this.$props.item.tagMasks.removed.push(strippedTag);
+        }
+      },
+
+      searchTag: async function(tag) {
+        let result = await this.$apollo.mutate({
+          mutation: searchUpsert,
+          variables: {
+            query: '#' + tag
+          }
+        });
+
+        let data = result.data.searchUpsert;
+
+        if (data && data.id) {
+          window.location.href = 'https://app.lifescope.io/explore?qid=' + data.id;
         }
       }
     }

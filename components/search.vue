@@ -175,7 +175,7 @@
               <div class="input-container">
                 <select v-model="activeFilter.data.provider" name="provider">
                   <option value=""></option>
-                  <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.name | lowercase">{{ provider.name }}</option>
+                  <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.id | lowercase">{{ provider.name }}</option>
                 </select>
               </div>
             </div>
@@ -472,6 +472,10 @@
           return filter.id !== item.id;
         });
 
+        if (this.$data.activeFilter.id === filter.id) {
+          this.clearActiveFilter();
+        }
+
         this.compactOverflowFilters();
 
         this.checkNewSearch()
@@ -665,7 +669,6 @@
               variables: variables
             });
           } catch(err) {
-            console.log('Shared search error');
             console.log(err);
             error = true;
           }
@@ -682,15 +685,16 @@
         }
 
         if (error) {
-          console.log('Handling Error');
           this.$store.state.searchEnded = true;
           this.$store.state.searchError = true;
           this.$store.state.searching = false;
           this.$store.state.spinner = false;
         }
         else {
+          let data;
+
           if (facet === 'events') {
-            let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
+            data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
 
             _.each(data, function(event) {
               event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
@@ -723,7 +727,7 @@
             });
           }
           else if (facet === 'content') {
-            let data = sharedSearch === true ? result.data.sharedTagContentSearch : result.data.contentSearch;
+            data = sharedSearch === true ? result.data.sharedTagContentSearch : result.data.contentSearch;
 
             _.each(data, function(content) {
               content.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
@@ -736,7 +740,7 @@
             });
           }
           else if (facet === 'contacts') {
-            let data = sharedSearch === true ? result.data.sharedTagContactSearch : result.data.contactSearch;
+            data = sharedSearch === true ? result.data.sharedTagContactSearch : result.data.contactSearch;
 
             _.each(data, function(contact) {
               contact.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
@@ -750,7 +754,7 @@
           }
 
           this.$store.state.offset += this.$store.state.pageSize;
-          this.$store.state.searchEnded = this.$store.state.objects[facet].length < this.$store.state.pageSize;
+          this.$store.state.searchEnded = data.length < this.$store.state.pageSize;
           this.$store.state.searching = false;
           this.$store.state.spinner = false;
         }
@@ -837,7 +841,6 @@
     },
 
     mounted: async function() {
-      console.log('Search mounted');
       let self = this;
 
       this.$root.$on('check-and-search', async function() {

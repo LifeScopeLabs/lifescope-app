@@ -32,11 +32,16 @@
 
         <div class="flexbox flex-column flex-x-center" v-if="$data.share === 'public' && $data.passcodeString != null">
           <h3 style="margin-top: 1em;">Sharing Links</h3>
-          <div class="flexbox flex-column flex-x-center" style="margin-bottom: 0.5em">
+          <div class="share-link">
             <span>Share this link with others to give them access to tagged results:</span>
-            <a v-bind:href="shareUrl(tag)" style="word-break: break-all">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcodeString }}</a>
+            <div class="flexbox">
+              <a v-bind:href="shareUrl(tag)" style="word-break: break-all" class="public-link">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcodeString }}</a>
+              <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
+                <span class="tooltiptext">Copy to clipboard</span>
+              </i>
+            </div>
           </div>
-          <div class="flexbox flex-column flex-x-center" style="margin-bottom: 0.5em">
+          <div class="share-link">
             <span>Share this tag to social media:</span>
             <div id="social-tag-shares">
               <a v-bind:href="facebookUrl(tag)" target="_blank"><i class="fa fa-facebook"></i></a>
@@ -49,9 +54,14 @@
               <a v-bind:href="linkedInUrl(tag)" target="_blank"><i class="fa fa-linkedin"></i></a>
             </div>
           </div>
-          <div class="flexbox flex-column flex-x-center" style="margin-bottom: 0.5em">
+          <div class="share-link">
             <span>Embed this shared stream on your site:</span>
-            <span>{{ iframe(tag) }}</span>
+            <div class="flexbox">
+              <span class="iframe-code">{{ iframe(tag) }}</span>
+              <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.iframe-code')">
+                <span class="tooltiptext">Copy to clipboard</span>
+              </i>
+            </div>
           </div>
         </div>
       </div>
@@ -102,6 +112,24 @@
         this.$data.share = update.share;
         this.$data.passcodeString = update.passcode_string;
         this.$store.state.tagMany = storeCopy;
+      },
+
+      copyToClipboard(selector) {
+        let text = document.querySelector(selector).innerText;
+        let textarea = document.createElement('textarea');
+        textarea.textContent = text;
+        document.body.appendChild(textarea);
+
+        let selection = document.getSelection();
+        let range = document.createRange();
+        range.selectNode(textarea);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        document.execCommand('copy');
+        selection.removeAllRanges();
+
+        document.body.removeChild(textarea);
       },
 
       shareUrl: function(tag) {

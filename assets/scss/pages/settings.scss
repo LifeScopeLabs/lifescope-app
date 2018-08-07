@@ -233,6 +233,25 @@ div#body.settings {
     #update-email {
       margin-top: 1em;
     }
+
+    .mobile-flex-center {
+      @media #{$maxwidth768},#{$mobile} {
+        @include flexbox;
+        @include flex-center;
+      }
+    }
+
+    .location-buttons {
+      @include flexbox;
+
+      @media #{$maxwidth768},#{$mobile} {
+        @include flex-column;
+
+        span {
+          height: 1em;
+        }
+      }
+    }
   }
 
   &.connections {

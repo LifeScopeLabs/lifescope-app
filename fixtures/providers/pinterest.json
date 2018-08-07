@@ -4,20 +4,22 @@
   "login": true,
 
   "sources": {
-	"boards": {
-	  "name": "Boards",
-	  "description": "Boards you have created",
-	  "enabled_by_default": true,
-	  "mapping": "UserBoards"
-	},
-	"pins": {
-	  "name": "Pins",
-	  "description": "Items you have pinned",
-	  "enabled_by_default": true,
-	  "mapping": "UserPins",
-	  "population": "*"
-	}
+    "boards": {
+      "name": "Boards",
+      "description": "Boards you have created",
+      "enabled_by_default": true,
+      "mapping": "UserBoards"
+    },
+    "pins": {
+      "name": "Pins",
+      "description": "Items you have pinned",
+      "enabled_by_default": true,
+      "mapping": "UserPins",
+      "population": "*"
+    }
   },
+
+  "enabled": true,
 
   "remote_map_id": "eb6b397b54bf4e6392bd1ed74d373c83"
 }

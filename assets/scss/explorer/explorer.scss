@@ -1,6 +1,7 @@
 @import 'components/action-bar.scss';
 @import 'components/action-modal.scss';
 @import 'components/error.scss';
+@import 'components/more-waiting.scss';
 @import 'components/next.scss';
 @import 'components/no-results.scss';
 @import 'components/shared-error.scss';
@@ -331,6 +332,11 @@ div#body.explorer.grid {
 
       & > span {
         @include flex-grow;
+        cursor: pointer;
+
+        &:hover {
+          color: $green;
+        }
       }
 
       & > i {

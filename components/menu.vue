@@ -95,6 +95,7 @@
 					<a v-if="$store.state.mode !== 'shared'" class="live" href="/explore"><i class="fa fa-rocket blue"></i> Search</a>
 					<a v-if="$store.state.mode !== 'shared'" class="providers" href="/providers"><i class="fa fa-plug"></i> Add Connections</a>
 					<a v-if="$store.state.mode !== 'shared'" class="settings" href="/settings"><i class="fa fa-cog"></i> Settings</a>
+          <a class="learn" href="https://lifescope.io/learn" target="_blank"><i class="fa fa-book"></i> Learn</a>
 					<a class="support" href="http://bitscoop.com/support"><i class="fa fa-question-circle"></i> Support</a>
 				</section>
 

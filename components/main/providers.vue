@@ -6,7 +6,7 @@
              v-on:click="showConnectionModal(provider)" v-bind:key="provider.id"
              v-bind:class="[{associated: provider.assoc_count > 0}, provider.tags]" class="mix"
              v-bind:data-id="provider.id" v-bind:data-assoc-count="provider.assoc_count">
-          <div>
+          <div class="box-content">
             <span v-if="provider.assoc_count > 1">{{ provider.assoc_count }}</span>
             <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
@@ -15,7 +15,7 @@
         <div v-if="$store.getters.authenticated !== true" v-model="providerWithMapMany"
              v-for="provider in loginMaps" v-on:click="showConnectionModal(provider)"
              v-bind:key="provider.id" v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
-          <div>
+          <div class="box-content">
             <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
             <p>{{ provider.name }}</p>
           </div>

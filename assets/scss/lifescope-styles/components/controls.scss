@@ -57,6 +57,11 @@ button {
     border-radius: 7px;
   }
 
+  &.no-style {
+    padding: 0;
+    border: 0;
+  }
+
   &:disabled,
   &.disabled {
     &,
@@ -136,6 +141,35 @@ button {
         background-color: #add39f;
         background-image: linear-gradient(#c3ecb4, #add39f);
         border-color: #b9dcac #b9dcac #a7c89b;
+      }
+    }
+
+    &.facebook-connect {
+      $background: #4267B2;
+
+      background-color: $background;
+      background-image: linear-gradient($background, $background);
+
+      &:hover {
+        color: #fff;
+        background-color: darken($background, 5%);
+        background-image: linear-gradient(darken($background, 5%), darken($background, 5%));
+        border-color: $border;
+      }
+
+      &:active {
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+        background-color: darken($background, 5%);
+        background-image: none;
+        border-color: darken($border, 5%);
+      }
+
+      & > img {
+        max-height: 32px;
+      }
+
+      & > div {
+        margin-left: 0.5em;
       }
     }
   }
