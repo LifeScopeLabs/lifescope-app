@@ -54,6 +54,11 @@
         </div>
       </div>
       <div v-else class="padded paragraphed">
+        <div v-if="provider.coming_soon === true" class="coming-soon">
+          We are currently awaiting production credentials for {{ provider.name }}.
+          We need to let them make Connections on our main server as part of the submission process.
+          Until this process is finished, you may not be able to successfully make a Connection.
+        </div>
         <form action="/connections" method="POST" v-on:submit.self.prevent="createConnection">
           <!--<input type="hidden" name="csrftoken" value="{{ csrf_token }}" />-->
           <input type="hidden" name="provider_id" v-bind:val="provider.id" v-model="connectionForm.provider_id"/>
