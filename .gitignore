@@ -4,6 +4,7 @@ build/
 dist/
 config/local.json
 config/dev.json
+config/prod.json
 config/production.json
 
 # logs
