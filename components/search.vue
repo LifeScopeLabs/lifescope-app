@@ -697,6 +697,7 @@
             data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
 
             _.each(data, function(event) {
+              console.log(event.hydratedLocation);
               event.hydratedConnection = _.find(self.$store.state.connectionMany, function(connection) {
                 return connection.id === event.connection_id_string;
               });

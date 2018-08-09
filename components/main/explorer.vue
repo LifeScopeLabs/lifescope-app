@@ -2,6 +2,9 @@
   <main v-if="$store.state.view === 'xr'">
     <xrApp/>
   </main>
+  <main v-else-if="$store.state.view === 'map'">
+    <MapView/>
+  </main>
   <main v-else v-on:scroll="handleScroll">
     <!-- content section -->
     <section v-if="$store.state.user != undefined" id="content">
@@ -100,6 +103,7 @@
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
 
+  import MapView from '../views/map.vue';
   import xrApp from '../xr/XRApp.vue'
 
   export default {
@@ -110,6 +114,7 @@
       };
     },
     components: {
+      MapView,
       UserContact,
       UserContent,
       UserEvent,

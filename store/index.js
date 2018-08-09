@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import config from 'config';
 import moment from 'moment';
 
 Vue.use(Vuex);
@@ -81,7 +82,9 @@ const store = () => new Vuex.Store({
     mobileFacetSelectorOpen: false,
 
     settingsType: null,
-    settingsSelectorOpen: false
+    settingsSelectorOpen: false,
+
+    mapbox: {}
 	},
 
 	getters: {
@@ -97,6 +100,7 @@ const store = () => new Vuex.Store({
 		SET_REQ: function(state, req) {
 			state.cookies = req.cookies;
 			state.user = req.user;
+			state.mapbox = req.mapbox;
 		}
 	},
 

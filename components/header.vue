@@ -18,6 +18,7 @@
 		<div v-if="$store.state.mode === 'app'" class="controls">
 			<div class="views">
 				<a data-view="feed" v-bind:class="{ active: $store.state.view === 'feed' }" v-on:click="setView('feed')"><i class="fa fa-clone"></i> <span>Feed</span></a>
+        <a data-view="map" v-bind:class="{ active: $store.state.view === 'map' }" v-on:click="setView('map')"><i class="fa fa-map"></i> <span>Map</span></a>
 				<a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }" v-on:click="setView('grid')"><i class="fa fa-th"></i> <span>Grid</span></a>
 				<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }" v-on:click="setView('list')"><i class="fa fa-list"></i> <span>List</span></a>
 				<a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }" v-on:click="setView('xr')"><i class="fa fa-cubes"></i> <span>XR</span></a>
@@ -105,6 +106,7 @@
     <div class="controls">
       <div class="views">
         <a data-view="feed" v-bind:class="{ active: $store.state.view === 'feed' }" v-on:click="setView('feed')"><i class="fa fa-clone"></i> <span>Feed</span></a>
+        <a data-view="map" v-bind:class="{ active: $store.state.view === 'map' }" v-on:click="setView('map')"><i class="fa fa-map"></i> <span>Map</span></a>
         <a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }" v-on:click="setView('grid')"><i class="fa fa-th"></i> <span>Grid</span></a>
         <a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }" v-on:click="setView('list')"><i class="fa fa-list"></i> <span>List</span></a>
         <a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }" v-on:click="setView('xr')"><i class="fa fa-cubes"></i> <span>XR</span></a>
