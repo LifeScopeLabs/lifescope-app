@@ -239,7 +239,7 @@
 
     <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="checkAndSearch">
       <div id="search-box" class="text-box">
-        <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter query here" v-on:change="updateQuery"/>
+        <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter Search" v-on:change="updateQuery"/>
       </div>
     </form>
 

@@ -13,7 +13,7 @@
                     <p v-if="connection.browser != null">Please also remove the browser extension to stop LifeScope browser tracking.</p>
                 </div>
                 <div class="last-connection" v-if="$data.lastConnectionMessage === true">
-                    <p>You cannot delete your last login-able connection. Without any connections, you cannot access your acccount.</p>
+                    <p>You cannot delete your last connection. Without any connections, you cannot access your acccount.</p>
                     <p>If you would like to delete this connection, make a connection to another provider that you can log in with first.</p>
                     <p>You can also delete this account, which will get rid of this connection, but you will lose all of your saved searches, tags, etc.</p>
                 </div>
