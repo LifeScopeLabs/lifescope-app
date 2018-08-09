@@ -8,9 +8,9 @@
       <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
         <h3>Disable {{ connection.name }}?</h3>
         <div class="instructions">
-          <p>Are you sure you'd like to disable this connection?</p>
-          <p>We'll stop collecting data for this connection while it's disabled.</p>
-          <p>You can re-enable the connection at any time and it'll pick up where it left off.</p>
+          <p>Are you sure?</p>
+          <p>Disabling this connection will stop data collection.</p>
+          <p>You can re-enable the connection at any time and data collection will restart.</p>
         </div>
       </div>
 

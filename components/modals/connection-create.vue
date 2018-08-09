@@ -9,14 +9,20 @@
         </div>
       </div>
       <div class="padded paragraphed">
-        <p>Instagram is shutting off access to their public API and will not approve any new applications for API access. LifeScope is unable to get your Instagram history as a result.</p>
         <p>
-          There is a partial workaround that you can take: install one of the Browser Extensions and track the domain 'instagram.com'.
-          This isn't a perfect solution for two reasons: one, LifeScope can't tell when you posted anything to Instagram, just when you've viewed things on Instagram; and two, LifeScope can't track what you do in the Instagram app, just what you've viewed in that browser.
+          Instagram has recently shut off access to thrid parties causing direct LifeScope access to no longer be supported.
         </p>
         <p>
-          If you feel very strongly about getting your Instagram history, you could try contacting Instagram and petitioning them to make a new public user API.
-          You could also set up your own local copy of LifeScope; if you make your own application in Instagram, you can register your account as a test account and never need to submit an application for production keys.
+          LifeScope Browser Extensions can track your Instagram visits in your web browser. Simply track the domain 'instagram.com'.
+        </p>
+        <p>
+          Instgram is hugely poplular and profitable, but more closed than ever. We belive that Instagram should be a more open platform and should reopen their API to others.
+        </p>
+        <p>
+         If you feel like we do, <a href="https://www.facebook.com/InstagramEnglish/">contact Instagram and ask for the API back!</a>.
+        </p>
+        <p>
+          You can also create your own LifeScope cluster and create your own app connection Instagram. <a href="https://lifescopelabs.github.io">Learn More</a>
         </p>
       </div>
     </div>
@@ -31,33 +37,25 @@
 
       <div v-if="provider.name.toLowerCase() === 'chrome extension'" class="padded paragraphed">
         <p>
-          You can install a browser extension for Chrome that will record your browsing history for sites that you approve.
-        </p>
-        <p>
-          Click the button below to be taken to the Chrome extension store.
+          Record your Google Chrome browsing history for any sites that you approve.
         </p>
 
         <div class="action">
-          <button class="primary" v-on:click="openStore('chrome')">Connect to your Chrome history</button>
+          <button class="primary" v-on:click="openStore('chrome')">Connect to Chrome</button>
         </div>
       </div>
       <div v-else-if="provider.name.toLowerCase() === 'firefox extension'" class="padded paragraphed">
         <p>
-          You can install a browser extension for Firefox that will record your browsing history for sites that you approve.
-        </p>
-        <p>
-          Click the button below to be taken to the Firefox extension store.
+          Record your Mozilla Firefox browsing history for any sites that you approve.
         </p>
 
         <div class="action">
-          <button class="primary" v-on:click="openStore('firefox')">Connect to your Firefox history</button>
+          <button class="primary" v-on:click="openStore('firefox')">Connect to Firefox</button>
         </div>
       </div>
       <div v-else class="padded paragraphed">
         <div v-if="provider.coming_soon === true" class="coming-soon">
-          We are currently awaiting production credentials for {{ provider.name }}.
-          We need to let them make Connections on our main server as part of the submission process.
-          Until this process is finished, you may not be able to successfully make a Connection.
+          {{ provider.name }} Support is still in development.
         </div>
         <form action="/connections" method="POST" v-on:submit.self.prevent="createConnection">
           <!--<input type="hidden" name="csrftoken" value="{{ csrf_token }}" />-->

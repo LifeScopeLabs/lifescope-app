@@ -1,8 +1,8 @@
 {
   "name": "lifescope-app",
   "version": "1.7.5",
-  "description": "lifescope.io",
-  "author": "(https://lifescope.io)",
+  "description": "Search and Explore the internet of you. lifescope.io",
+  "author": "LifeScope Labs (https://lifescope.io)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lifescopelabs/lifescope-app.git"

@@ -10,11 +10,8 @@
 
         <div class="instructions">
           <p>
-            You can share parts of your LifeScope history tagged with #{{ tag.tag }} by changing the sharing status below.
-            Sharing generates a URL for #{{ tag.tag }}. Anyone who navigates to the link will have access to the tagged results.
-            Adding #{{ tag.tag }} to more items will make them automatically appear at the shared link.
+            Share #{{ tag.tag }} tag stream.
           </p>
-          <p>Don't want anyone to have access to this tag anymore? Just set the status back to 'Not Shared' and the link will stop working.</p>
         </div>
 
         <div id="sharing-options">
@@ -31,18 +28,16 @@
         </div>
 
         <div class="flexbox flex-column flex-x-center" v-if="$data.share === 'public' && $data.passcodeString != null">
-          <h3 style="margin-top: 1em;">Sharing Links</h3>
+          <h3 style="margin-top: 1em;">Share Link</h3>
           <div class="share-link">
-            <span>Share this link with others to give them access to tagged results:</span>
             <div class="flexbox">
               <a v-bind:href="shareUrl(tag)" style="word-break: break-all" class="public-link">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcodeString }}</a>
               <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
-                <span class="tooltiptext">Copy to clipboard</span>
+                <span class="tooltiptext">Copy to Clipboard</span>
               </i>
             </div>
           </div>
           <div class="share-link">
-            <span>Share this tag to social media:</span>
             <div id="social-tag-shares">
               <a v-bind:href="facebookUrl(tag)" target="_blank"><i class="fa fa-facebook"></i></a>
               <a v-bind:href="twitterUrl(tag)" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -55,11 +50,11 @@
             </div>
           </div>
           <div class="share-link">
-            <span>Embed this shared stream on your site:</span>
+            <span>Embed #{{ tag.tag }} tag stream into your site:</span>
             <div class="flexbox">
               <span class="iframe-code">{{ iframe(tag) }}</span>
               <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.iframe-code')">
-                <span class="tooltiptext">Copy to clipboard</span>
+                <span class="tooltiptext">Copy to Clipboard</span>
               </i>
             </div>
           </div>

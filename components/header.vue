@@ -218,7 +218,7 @@
       <div class="scroller">
         <div id="pages">
           <a href="/settings/account">Account</a>
-          <a href="/settings/profile">Connections</a>
+          <a href="/settings/connections">Connections</a>
         </div>
       </div>
     </aside>

@@ -13,7 +13,7 @@ The codebase is a single-page Universal web app built on Nuxt and Vue.js. Deskto
 Please go to the 'setup' folder and follow the instructions.
 
 ## [LIFESCOPE Archive App](https://lifescopelabs.github.io/etl.html#lifescope-archive-app)
-The current LIFESCOPE web app is deprecated and is being rewritten. 
+The current LIFESCOPE web app is deprecated and is being rewritten.
 
 ### [LIFESCOPE Archive App Documentation](https://lifescope.io/getting-started/)
 
@@ -28,7 +28,7 @@ The current LIFESCOPE web app is deprecated and is being rewritten.
 - https://github.com/gonativeio/gonative-android
 - https://github.com/gonativeio/gonative-ios
 
-### LIFESCOPE Plugins 
+### LIFESCOPE Plugins
 #### [LIFESCOPE-XR](https://github.com/LifeScopeLabs/lifescope-xr)
 This is for AR and VR views of LifeScope data as Vue Plugins.
 

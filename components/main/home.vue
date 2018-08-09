@@ -12,7 +12,7 @@
       <div class="info">
         <div>
           <i class="fa fa-clock-o"></i>
-          <span>Joined {{ $store.getters.dateJoined }}</span>
+          <span>Joined LifeScope {{ $store.getters.dateJoined }}</span>
         </div>
       </div>
 

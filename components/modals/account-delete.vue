@@ -8,9 +8,10 @@
             <div class="paragraph flexbox flex-column flex-x-center">
                 <h3>Delete Your LifeScope Account</h3>
                 <p>Are you sure you'd like to delete your LifeScope account?</p>
-                <p>Once you delete your account you will lose access to all the data you've stored with us.</p>
+                <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
+                <p>Once you delete your account, your LifeScope index will be deleted.</p>
+                <p>LifeScope will not keep your data and we never share any data without your consent.</p>
             </div>
-
             <div>
                 <button style="margin-right: 2em" v-on:click="$emit('close')">No, Cancel</button>
                 <button class="danger confirm" v-on:click="deleteAccount">Yolo, Delete</button>

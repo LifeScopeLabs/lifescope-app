@@ -18,18 +18,23 @@
       <section class="flexbox flex-column flex-grow">
         <section id="account" v-if="$store.state.mode === 'account'">
           <div class="boxed-group">
-            <div class="title">API Key</div>
+            <div class="title">LifeScope Developer API Platform</div>
 
             <div class="padded paragraphed">
               <p>
-                If you want to get hands-on with the LifeScope GraphQL API, you can use your API key to sign requests to the API.
-                The LifeScope GraphQL API can be found at https://api.lifescope.io/gql, and API key signing is performed by sending the header 'Authorization' with the value 'Bearer: &lt;your_api_key&gt;'.
-                You can construct calls and explore the API at <a href="https://api.lifescope.io/gql-p">https://api.lifescope.io/gql-p</a> or <a href="https://api.lifescope.io/gql-i">https://api.lifescope.io/gql-i</a>.
-                Make sure to add the Authorization header with your API key.
+                LifeScope is an open data platform you can build on. Learn more by reading our <a href="https://lifescopelabs.github.io">Documentation on GitHub</a>.
               </p>
-
+              <p>
+                Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiAL</a>.
+              </p>
+              <p>
+                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization' Value 'Bearer: &lt;your_api_key&gt;'.
+              </p>
+              <p>
+                Coming Soon! Social sign in provider support using OAuth 2.
+              </p>
               <div class="flexbox">
-                <p style="margin-right:0.5em;">Your API key is:</p>
+                <p style="margin-right:0.5em;">Your Personal LifeScope API key is:</p>
                 <span style="word-break: break-all">{{ $store.state.userOne.api_key_string }}</span>
               </div>
 
@@ -40,16 +45,11 @@
           </div>
 
           <div class="boxed-group">
-            <div class="title">Track your location</div>
-
+            <div class="title">Browser Location Tracking</div>
             <div class="padded paragraphed">
               <p>
-                You may <u>optionally</u> let LifeScope record your location to better help us locate information that does not natively have any location information.
-                If enabled, we'll record a location every time you load a page, and every 5 minutes later if you remain on the page.
-                You may disable this feature at any time.
-                Any locations we have recorded will remain unless you click the button 'Delete tracked locations'.
+                LifeScope can record your location when you visit LifeScope pages. This can greatly improve search results over time.
               </p>
-
               <div class="location-buttons">
                 <div class="mobile-flex-center">
                   <button v-if="$store.state.userOne.location_tracking_enabled === true" id="disable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Disable Location Tracking</button>
@@ -66,13 +66,12 @@
           </div>
 
           <div class="boxed-group">
-            <div class="title">Delete Account</div>
+            <div class="title">Delete LifeScope Account</div>
 
             <div class="padded paragraphed">
-              <p>
-                You can easily delete your LifeScope account if you no longer need it.
-                Once you delete your account you will lose access to all the data you've stored with us.
-              </p>
+                <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
+                <p>Once you delete your account, your LifeScope index will be deleted.</p>
+                <p>LifeScope will not keep your data and we never share any data without your consent.</p>
 
               <div class="mobile-flex-center">
                 <button id="delete" class="danger" v-on:click="showAccountDeleteModal">Delete Account</button>
@@ -97,7 +96,7 @@
                   {{ getUpdated(connection.last_run) }}
                 </div>
                 <div v-else-if="connection.browser == null" class="updates">
-                  <div>Initial update pending</div>
+                  <div>Initial index in progress</div>
                   <span></span>
                   <i class="fa fa-spinner fa-spin fa-2x"></i>
                 </div>
@@ -121,7 +120,7 @@
 
                 <div>
                   <div v-if="connection.browser == null" class="label">What would you like?</div>
-                  <div v-else-if="connection.browser != null" class="label">Please open the extension's settings to change its whitelist.</div>
+                  <div v-else-if="connection.browser != null" class="label">The LifeScope Browser extension only tracks sites you approve. Adding or Removing Tracked sites can be done in the LifeScope Browser extension's options menu.</div>
                   <div>
                     <div v-for="permission, name in orderBy(connection.provider.sources, 'name')" class="paragraph ">
                       <div class="flexbox flex-x-center">

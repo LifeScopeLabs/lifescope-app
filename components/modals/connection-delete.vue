@@ -8,9 +8,9 @@
             <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
                 <h3>Delete {{ connection.name }}?</h3>
                 <div class="instructions" v-if="$data.lastConnectionMessage === false">
-                    <p>Are you sure you'd like to delete this connection?</p>
-                    <p>We'll delete all stored data for this connection. If you want to get that data back, you will have to connect to this service again.</p>
-                    <p v-if="connection.browser != null">As this is a Connection to a browser extension, don't forget to remove the extension if you no longer want LifeScope to make Events from your browsing history.</p>
+                    <p>Are you sure?</p>
+                    <p>Once you delete your connection, all of your data indexed in LifeScope will be deleted.</p>
+                    <p v-if="connection.browser != null">Please also remove the browser extension to stop LifeScope browser tracking.</p>
                 </div>
                 <div class="last-connection" v-if="$data.lastConnectionMessage === true">
                     <p>You cannot delete your last login-able connection. Without any connections, you cannot access your acccount.</p>

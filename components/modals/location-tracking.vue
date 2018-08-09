@@ -6,20 +6,20 @@
 
     <div class="body flexbox flex-column flex-x-center">
       <div v-if="$store.state.userOne.location_tracking_enabled === true" class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-        <h3 >Disable Location Tracking?</h3>
+        <h3 >Disable Location Tracking</h3>
         <div class="instructions">
           <p>Are you sure you'd like to disable location tracking?</p>
           <p>You can re-enable location tracking at any time.</p>
-          <p>Note that any locations we've already recorded will remain in our system unless you specifically tell us to remove them.</p>
+          <p>Locations already recorded will remain in LifeScope until you remove them.</p>
         </div>
       </div>
 
       <div v-if="$store.state.userOne.location_tracking_enabled !== true" class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-        <h3 >Enable Location Tracking?</h3>
+        <h3 >Enable Location Tracking</h3>
         <div class="instructions">
-          <p>Are you sure you'd like to enable location tracking?</p>
-          <p>We'll record your location every time you go to a LifeScope page, and every 5 minutes after that if you remain on the same page.</p>
-          <p>You can disable this at any time. You may also clear your tracked location history whenever you'd like.</p>
+          <p>
+            LifeScope can record your location when you visit LifeScope pages. This can greatly improve search results over time.
+          </p>
         </div>
       </div>
 
@@ -32,7 +32,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
   import userLocationTrackingUpdate from '../../apollo/mutations/user-location-tracking-update.gql'
