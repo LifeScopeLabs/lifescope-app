@@ -1,12 +1,14 @@
 <template>
   <!-- feed -->
 	<div v-if="$store.state.view === 'feed'" class="object feed" v-bind:id="content.id">
-    <section class="content">
-      <user-content v-bind:key="content.id"
-          v-bind:content="content"
-          v-bind:connection="content.connection">
-      </user-content>
-    </section>
+    <div class="items">
+      <section class="content">
+        <user-content v-bind:key="content.id"
+            v-bind:content="content"
+            v-bind:connection="content.connection">
+        </user-content>
+      </section>
+    </div>
 	</div>
 
   <!-- grid -->

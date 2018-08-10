@@ -11,37 +11,41 @@
     border-radius: 5px;
   }
 
-  & > .content {
-    @include flexbox;
-    @include flex-column;
-    @include flex-grow;
+  .items {
+    width: 100%;
 
-    & > *:not(:last-child) {
-      margin-bottom: 1em;
-      padding-bottom: 1em;
-      border-bottom: 1px solid $border-color;
-    }
-
-    .tagging {
-      text-align: center;
-    }
-  }
-
-  & > .contact {
-    @include flexbox;
-    @include flex-grow;
-    @include flex-column;
-
-    & > div:first-child {
+    & > .content {
+      @include flexbox;
+      @include flex-column;
       @include flex-grow;
 
-      .action-bar {
-        margin: 0 0 0 auto;
+      & > *:not(:last-child) {
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid $border-color;
+      }
+
+      .tagging {
+        text-align: center;
       }
     }
 
-    .tagging {
-      text-align: right;
+    & > .contact {
+      @include flexbox;
+      @include flex-grow;
+      @include flex-column;
+
+      & > div:first-child {
+        @include flex-grow;
+
+        .action-bar {
+          margin: 0 0 0 auto;
+        }
+      }
+
+      .tagging {
+        text-align: right;
+      }
     }
   }
 }

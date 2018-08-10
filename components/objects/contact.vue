@@ -3,9 +3,12 @@
 	<div v-if="$store.state.view === 'feed'"
       class="object feed"
       v-bind:id="contact.id">
-    <user-contact v-bind:key="contact.id"
-        v-bind:contact="contact"
-        v-bind:connection="contact.connection"></user-contact>
+	  <div class="items">
+		<user-contact v-bind:key="contact.id"
+			v-bind:contact="contact"
+			v-bind:connection="contact.connection">
+		</user-contact>
+	  </div>
 	</div>
 
   <!-- grid -->

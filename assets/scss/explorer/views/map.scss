@@ -1,100 +1,92 @@
 div#body.explorer.map {
-  $control-margin: 10px;
+  .spider-leg-container {
+    width: 1px;
+    height: 1px;
+    overflow: display;
+    will-change: transform;
 
-  main {
-    position: relative;
-  }
+    &:hover {
+      .spider-leg-line {
+        opacity: 1;
 
-  #map-container {
-    @include flexbox;
-    @include flex-grow;
+        background-color: #f404f4;
+      }
+    }
 
-    #left {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      height: 100%;
+    .spider-leg-pin {
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
 
-      &.expanded {
-        width: 25%;
-        min-width: 400px;
+      width: 40px;
+      height: 40px;
+      margin-left: -20px;
+      margin-top: -20px;
+      font-size: 20px;
+      //background-image: url(https://api.mapbox.com/styles/v1/mapbox/dark-v9/sprite.png?access_token=pk.eyJ1Ijoic29jcmF0YSIsImEiOiJjaXJxc2wzam0waGU5ZmZtODhqd2ttamdxIn0.1ZQEByXoDD7fGIa9lUHIqg);
+      //background-position: -110px -110px;
 
-        #expand-details {
-          left: 100%;
-        }
+      i.type-icon {
+        color: white;
+        //left: 50%;
+        //top: 30%;
       }
 
-      #expand-details {
-        position: absolute;
-        top: $control-margin;
-        left: $control-margin;
-        z-index: 15;
+      .fa-stack-3x {
+        font-size: 3em;
+      }
 
-        width: 1.25em;
-        height: 1.25em;
+      .fa-stack-4x {
+        font-size: 4em;
+      }
+    }
 
-        font-size: 1.5em;
-        cursor: pointer;
+    .spider-leg-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background-color: #343434;
+      opacity: 0.45;
+      transform-origin: bottom;
+      z-index: 0;
+      height: 0;
+    }
 
-        @include flexbox;
-        @include flex-x-center;
-        @include flex-center;
+    &.animate {
+      -webkit-transition: margin 0.15s linear;
+      -moz-transition: margin 0.15s linear;
+      -ms-transition: margin 0.15s linear;
+      -o-transition: margin 0.15s linear;
+      transition: margin 0.15s linear;
 
-        i {
-          position: relative;
+      .spider-leg-line {
+        -webkit-transition: all 0.15s linear;
+        -moz-transition: all 0.15s linear;
+        -ms-transition: all 0.15s linear;
+        -o-transition: all 0.15s linear;
+        transition: all 0.15s linear;
 
-          &.fa-caret-right {
-            left: 1px;
-          }
+        -webkit-transition-delay: inherit;
+        -moz-transition-delay: inherit;
+        -ms-transition-delay: inherit;
+        -o-transition-delay: inherit;
+        transition-delay: inherit;
 
-          &.fa-caret-left {
-            left: -1px;
+        &.initial,
+        &.exit {
+          .spider-leg-line {
+            height: 0 !important;
           }
         }
       }
     }
 
-    #list-scroll {
-      @include flexbox;
-      @include flex-grow;
-
-      margin: $control-margin;
-      overflow-y: auto;
-      max-height: 45%;
-      width: 95%;
-
-      #list {
-        @include hide-empty;
-
-        display: table;
-        border-collapse: collapse;
-        width: 100%;
-
-        .list-item {
-          display: table-row !important;
-          font-size: 1.2em;
-          width: 100%;
-          cursor: pointer;
-
-          &:nth-child(even) {
-
-          }
-
-          > * {
-            display: table-cell !important;
-            padding: 0.4em 1em;
-          }
-
-          &:hover {
-
-          }
-
-          &.active {
-
-          }
-        }
-      }
+    &.initial,
+    &.exit {
+      margin-left: 0 !important;
+      margin-top: 0 !important;
+      height: 0;
     }
   }
 }

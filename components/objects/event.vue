@@ -1,6 +1,7 @@
 <template>
   <!-- feed -->
 	<div v-if="$store.state.view === 'feed'" class="object event feed" v-bind:id="event.id">
+    	<div class="items">
     <!-- details -->
 		<aside class="details">
       <!-- type -->
@@ -35,7 +36,7 @@
 				<div>
           <!-- date -->
 					<div>
-						<i class="fa fa-calendar"></i> 
+						<i class="fa fa-calendar"></i>
             <span>{{ event.datetime | dateShort }}</span>
 					  </div>
 
@@ -85,6 +86,7 @@
 			</div>
 			<!--<div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>-->
 		</aside>
+      </div>
 	</div>
 
   <!-- grid -->
