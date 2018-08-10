@@ -31,6 +31,7 @@ AFRAME.registerComponent('ionicon', {
       height: {type: 'number', default: 1},
       fontColor: {type: 'string', default: key_offwhite},
       backgroundColor: {type: 'string', default: key_grey},
+      textAlign: {type: 'string', default: 'center'},
     },
 
     init: function () {
@@ -71,7 +72,7 @@ AFRAME.registerComponent('ionicon', {
       el.setAttribute('geometry', `primitive: plane; height: ${data.height * data.size}; width: ${data.height * data.size};`);
       el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
 
-      drawIcon(ctx, canvas, data.icon, data.fontColor, data.size);
+      drawIcon(ctx, canvas, data.icon, data.fontColor, data.size, data.textAlign);
 
       // place icon
       var iconEntity = document.createElement("a-entity");
@@ -95,13 +96,13 @@ function getUniqueId(stringPrefix) {
 }
 
 // drawIcon
-function drawIcon(ctx, canvas, icon, color, size) {
+function drawIcon(ctx, canvas, icon, color, size, textAlign) {
   if (CONFIG.DEBUG) {console.log("ionicon: drawIcon");}
   setTimeout(function(){
       //console.log(240*size + 'px Ionicons');
       ctx.font = 240*size + 'px Ionicons';
       ctx.fillStyle = color;
-      ctx.textAlign = "center";
+      ctx.textAlign = textAlign;
       ctx.textBaseline = 'middle';
       ctx.shadowColor = 'rgba(0,0,0,0.5)';
       ctx.shadowBlur = 8;
@@ -133,6 +134,7 @@ AFRAME.registerPrimitive( 'a-ionicon', {
         'font-color': 'ionicon.fontColor',
         'background-color': 'ionicon.backgroudColor',
         'icon': 'ionicon.icon',
+        'textAlign': 'ionicon.textAlign'
     }
 });
 

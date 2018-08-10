@@ -1,63 +1,93 @@
 <template>
+  <!-- feed -->
 	<div v-if="$store.state.view === 'feed'" class="object event feed" v-bind:id="event.id">
+    <!-- details -->
 		<aside class="details">
+      <!-- type -->
 			<div class="type">
+        <!-- type icon -->
 				<i v-bind:class="getEventTypeIcon(event.type)"></i>
 
+        <!-- type/context text -->
 				<span v-if="event.context">
 					{{ event.context }}
-				</span>
+				  </span>
 				<span v-else>
 					{{ event.type }}
-				</span>
+				  </span>
 
+        <!-- Tag -->
 				<aside class="action-bar" v-on:click="openActionModal(event, 'event')">
 					<span>Tag</span><i class="fa fa-hashtag"></i>
-				</aside>
+				  </aside>
 			</div>
 
+      <!-- provider -->
 			<div class="provider">
+        <!-- provider icon -->
 				<i v-bind:class="getProviderIcon(event.connection.provider)"></i>
+        <!-- provider text -->
 				<span>{{ event.connection.name | truncate(30) }}</span>
-			</div>
+			  </div>
 
+      <!-- datetime -->
 			<div v-if="event.datetime" class="date">
 				<div>
+          <!-- date -->
 					<div>
-						<i class="fa fa-calendar"></i> <span>{{ event.datetime | dateShort }}</span>
-					</div>
+						<i class="fa fa-calendar"></i> 
+            <span>{{ event.datetime | dateShort }}</span>
+					  </div>
 
-
+          <!-- estimated -->
+          <!-- ??? won't this never show? we alread checked that event.datetime exists -->
 					<div v-if="!event.datetime" class="estimation">
-						<i class="fa fa-flask"></i> <span>Estimated</span>
-					</div>
-
+						<i class="fa fa-flask"></i>
+            <span>Estimated</span>
+					  </div>
+          <!-- time -->
 					<div v-else>
-						<i class="fa fa-clock-o"></i> <span>{{ event.datetime | dateTime }}</span>
-					</div>
-				</div>
-			</div>
+						<i class="fa fa-clock-o"></i>
+            <span>{{ event.datetime | dateTime }}</span>
+					  </div>
+				  </div>
+			  </div>
 
+      <!-- tags -->
 			<div class="tagging">
 				<div class="tags">
 					<span v-for="tag in event.tags">#{{ tag }}</span>
-				</div>
-			</div>
+				  </div>
+			  </div>
 		</aside>
 
+    <!-- content -->
 		<section v-if="event.content && event.content.length > 0" class="content">
-			<user-content v-for="content in event.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="event.connection"></user-content>
+			<user-content v-for="content in event.content"
+            v-bind:key="content.id"
+            v-bind:content="content"
+            v-bind:connection="event.connection"></user-content>
 		</section>
 
-		<aside v-if="(event.contacts && event.contacts.length > 0) || (event.people && event.people.length > 0) || (event.organizations && event.organizations.length > 0)" class="interactions">
-			<div v-if="event.contact_interaction_type">{{ event.content_interaction_type }}</div>
+    <!-- interactions -->
+		<aside v-if="(event.contacts && event.contacts.length > 0) ||
+            (event.people && event.people.length > 0) ||
+            (event.organizations && event.organizations.length > 0)"
+            class="interactions">
+			<div v-if="event.contact_interaction_type">
+          {{ event.content_interaction_type }}</div>
+      <!-- contact -->
 			<div class="objects">
-				<user-contact v-for="contact in event.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="event.connection"></user-contact>
+				<user-contact v-for="contact in event.contacts"
+            v-bind:key="contact.id"
+            v-bind:contact="contact"
+            v-bind:connection="event.connection"></user-contact>
 			</div>
 			<!--<div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>-->
 		</aside>
 	</div>
 
+  <!-- grid -->
   <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id" v-on:click="$emit('render-details', event, 'event')">
     <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
@@ -89,7 +119,8 @@
     </div>
   </div>
 
-  <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event, 'event')">
+  <!-- list -->
+  <div v-else-if="$store.state.view === 'list'" class="item list" v-bind:id="event.id" v-on:click="$emit('render-details', event, 'event')">
     <div>
       <span v-if="event.content && event.content.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
     </div>

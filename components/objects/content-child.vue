@@ -21,12 +21,33 @@
 		</div>
 
     <!-- embed content -->
-		<div class="content-embed" data-type="content" v-bind:data-id="content.id">
-      <audio v-if="isAudio(content)" controls v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:style="{ width: getWidth, height: getHeight }"><source v-bind:src="content.embed_content" v-bind:type="getAudioType(content.embed_format)"></audio>
-      <img v-if="isImage(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:src="content.embed_content" v-bind:alt="content.title"/>
-      <video v-if="isVideo(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:width="getWidth" v-bind:height="getHeight" controls><source v-bind:src="content.embed_content" v-bind:type="getVideoType(content.embed_format)"></video>
-      <iframe v-if="isEmail(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" frameBorder="0" v-bind:width="getWidth()" v-bind:height="getHeight()" v-on:load="renderEmailIframe(content)" v-bind:name="content.id"></iframe>
-      <div v-if="isIframe(content)" v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" ><span v-html="content.embed_content"></span></div>
+		<div class="content-embed"
+        data-type="content"
+        v-bind:data-id="content.id">
+      <audio v-if="isAudio(content)"
+            controls v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:style="{ width: getWidth, height: getHeight }">
+            <source v-bind:src="content.embed_content"
+                    v-bind:type="getAudioType(content.embed_format)">
+        </audio>
+      <img v-if="isImage(content)"
+          v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" v-bind:src="content.embed_content" v-bind:alt="content.title"
+        />
+      <video v-if="isVideo(content)"
+          v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+          v-bind:width="getWidth" v-bind:height="getHeight"
+          controls>
+          <source v-bind:src="content.embed_content"
+                  v-bind:type="getVideoType(content.embed_format)">
+        </video>
+      <iframe v-if="isEmail(content)"
+              v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" frameBorder="0" v-bind:width="getWidth()"
+              v-bind:height="getHeight()"
+              v-on:load="renderEmailIframe(content)"
+              v-bind:name="content.id"></iframe>
+      <div v-if="isIframe(content)"
+          v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" >
+          <span v-html="content.embed_content"></span>
+        </div>
     </div>
 
     <!-- embed thumbnail -->
@@ -59,7 +80,11 @@
 		</div>
 
     <!-- url -->
-    <div v-if="(content.title == null || content.title.length === 0) && (content.text == null || content.text.length === 0) && content.url != null" class="title">
+    <!-- if no title or text but there is a url -->
+    <div v-if="(content.title == null || content.title.length === 0) &&
+         (content.text == null || content.text.length === 0) && 
+         content.url != null"
+         class="title">
       <a href="content.url" target="blank">{{ content.url | safe }}</a>
     </div>
 

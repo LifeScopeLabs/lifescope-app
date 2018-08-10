@@ -1,25 +1,33 @@
 <template>
 	<div class="object contact" v-model="contact" v-bind:id="contact.id">
+		<!-- contact -->
 		<div>
+			<!-- avatar -->
 			<div class="user-avatar">
+				<!-- avatar image -->
 				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url" />
-
+				<!-- else avatar icon -->
 				<i v-else class="fa fa-user"></i>
 			</div>
 
+			<!-- details -->
 			<div class="details flexbox flex-grow">
         <div class="flexbox flex-column">
+					<!-- name -->
           <div v-if="contact.name">{{ contact.name }}</div>
-
+					<!-- handle -->
           <div v-if="contact.handle">{{ contact.handle }}</div>
         </div>
 
+				<!-- Tag -->
         <aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
           <span>Tag</span><i class="fa fa-hashtag"></i>
           <!--<span>Share</span><i class="fa fa-share"></i>-->
         </aside>
 			</div>
 		</div>
+
+		<!-- tags -->
 		<div>
 			<div class="tagging">
 				<div class="tags">
