@@ -4,7 +4,7 @@
         <!-- Paginator -->
         <!-- content/events/contacts -->
         <a-entity class="gallery-carousel-left"
-                        layout="type: line; margin: 1"
+                        :layout="'type: line; margin: ' + layoutMargin"
                         rotation="0 90 0"
                         :position="-hallWidth/2 + ' 1 ' + (-wallEdgeOffset) ">
             <user-contact v-if="$store.state.facet === 'contacts'"
@@ -23,12 +23,19 @@
                 v-for="event in itemsLeft"
                 :key="event.id"
                 :event="event">
+                <!-- TODO: boarder -->
+                <!-- <a-entity 
+                            :geometry="'primitive: plane; width:' + layoutMargin + '; height: ' + contentHeight + ';'"
+                            material="color: #cee1ff; side: double; transparent: true; opacity: 0.4;" 
+                            rotation="0 0 0"
+                            :position="'0 0 0'">
+                </a-entity> -->
             </user-event>
         </a-entity>
 
         <!-- Carousel back -->
         <a-entity class="gallery-carousel-back"
-                    layout="type: line; margin: 1"
+                    :layout="'type: line; margin: ' + layoutMargin"
                     rotation="0 0 0"
                     :position="(-hallDepth/2 + wallEdgeOffset) + ' 1 ' + -hallDepth">
             <user-contact v-if="$store.state.facet === 'contacts'"
@@ -52,7 +59,7 @@
 
         <!-- Carousel right -->
         <a-entity class="gallery-carousel-right"
-                    layout="type: line; margin: 1"
+                    :layout="'type: line; margin: ' + layoutMargin"
                     rotation="0 -90 0"
                     :position="hallWidth/2 + ' 1 ' + (-hallDepth + wallEdgeOffset)">
             <user-contact v-if="$store.state.facet === 'contacts'"
@@ -87,7 +94,9 @@ export default {
         return {
             wallEdgeOffset: 1,
 			page: 0,
-			itemsPerWall: 19
+            itemsPerWall: 6,
+            layoutMargin: 3,
+            contentHeight: 2
         }
     },
     props: ['hallWidth', 'hallDepth'],

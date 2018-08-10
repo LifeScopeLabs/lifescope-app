@@ -1,5 +1,8 @@
 var FAIonicon = {'fa-circle-o': 'radio-button-off',
-    'fa-user': 'person',
+    'fa-envelope': 'email',
+    'fa-clock-o': 'clock', // time timer
+    'fa-calendar': 'calendar',
+    'fa-user': 'android-person',
     'fa-map-marker': 'pin',
     'fa-trophy': 'trophy',
     'fa-headphones': 'headset',
@@ -9,13 +12,14 @@ var FAIonicon = {'fa-circle-o': 'radio-button-off',
     'fa-picture-o': 'image',
     'fa-dollar': 'cash', //'logo-usd',
     'fa-floppy-o': 'disc',
-    'fa-file-text-o': 'paper', // or list-box
+    'fa-file-text-o': 'ios-paper', // paper list-box
     'fa-video-camera': 'videocam',
+    'fa-video': 'videocam',
     'fa-desktop': 'laptop', // desktop is in later version
     'fa-exclamation': 'alert',
     'fa-phone': 'call', //'phone-portrait', // 'phone-landscape'
-    'fa-comment': 'text', // chatbubbles
-    'fa-pencil-square-o': 'create',
+    'fa-comment': 'android-textsms', //'text', // chatbubbles
+    'fa-pencil-square-o': 'android-create', //create
     'fa-cutlery': 'restaurant',
     'fa-heartbeat': 'medkit', // 'heart' 'medical'
     'fa-play': 'play',

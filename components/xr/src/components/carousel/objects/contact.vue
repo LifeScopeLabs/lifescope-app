@@ -4,15 +4,18 @@
 		<a-entity :position="'0 ' + top + ' 0'">
 			<!-- Avatar -->
 			<a-entity class="user-avatar">
+				<!-- TODO : use avatar_url -->
 				<!-- <img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url" /> -->
 				<!-- <i v-else class="fa fa-user"></i> -->
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon('fa-user')))"
-					:size="size * iconSize"></a-ionicon>
+					:size="size * iconSize"
+					textAlign="right"
+					:position="(-iconOffset) + ' 0 0'"></a-ionicon>
 			</a-entity>
 
 			<!-- details -->
 			<a-entity class="details" 
-				:position="'0 ' + (-lineSeparation) + ' 0'">
+				:position="'0 0 0'">
 				<!-- Name -->
 				<a-entity v-if="contact.name"
 					:scale="textScale"
@@ -51,7 +54,10 @@ export default {
 			size: 1,
 			iconSize: 0.25,
 			top: 1,
-			lineSeparation: 0.25
+			lineSeparation: 0.25,
+			layoutMargin: 3, // TODO : use layoutMargin from explorer
+			columnWidth: 1,
+			iconOffset: 0.5
         }
 	},
 

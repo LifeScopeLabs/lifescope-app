@@ -1,8 +1,14 @@
 <template>
-	<div v-if="$store.state.view === 'feed'" class="object feed" v-bind:id="contact.id">
-    <user-contact v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="contact.connection"></user-contact>
+  <!-- feed -->
+	<div v-if="$store.state.view === 'feed'"
+      class="object feed"
+      v-bind:id="contact.id">
+    <user-contact v-bind:key="contact.id"
+        v-bind:contact="contact"
+        v-bind:connection="contact.connection"></user-contact>
 	</div>
 
+  <!-- grid -->
   <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="contact.id" v-on:click="$emit('render-details', contact, 'contact')">
     <div v-if="hasAvatar() === true" class="mobile-thumbnail">
       <img v-bind:src="contact.avatar_url" />
@@ -23,6 +29,7 @@
     </div>
   </div>
 
+  <!-- list -->
   <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="contact.id" v-on:click="$emit('render-details', contact, 'contact')">
     <div>
       <span>{{ contact.name | truncate(30) }}</span>
