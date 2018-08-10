@@ -105,7 +105,7 @@
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
 
-  import xrApp from '../xr/src/App.vue'
+  import xrApp from '../xr/XRApp.vue'
 
   export default {
     data: function() {

@@ -149,13 +149,13 @@ module.exports = {
       'aframe-teleport-controls',
       'aframe-extras',
       'aframe-gui',
-      '~/components/xr/src/components/aframe/play-gaze.js',
-      '~/components/xr/src/components/aframe/dynamic-autoplay.js',
-      '~/components/xr/src/components/aframe/entangle.js',
-      '~/components/xr/src/components/aframe/avatar-rig',
-      '~/components/xr/src/components/hubs/virtual-gamepad-controls.js',
-      '~/components/xr/src/components/aframe/ionicon.js',
-      '~/components/xr/src/components/aframe/mapbox-terrain.js'
+      '~/lib/aframe/play-gaze.js',
+      '~/lib/aframe/dynamic-autoplay.js',
+      '~/lib/aframe/entangle.js',
+      '~/lib/aframe/avatar-rig',
+      '~/lib/aframe/virtual-gamepad-controls.js',
+      '~/lib/aframe/ionicon.js',
+      '~/lib/aframe/mapbox-terrain.js'
 		],
 
     plugins: [
