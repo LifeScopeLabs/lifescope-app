@@ -1,7 +1,7 @@
 <template>
 	<a-entity class="object contact" v-bind:id="contact.id">
 		<!-- Contact -->
-		<a-entity :position="'0 ' + top + ' 0'">
+		<a-entity :position="'0 ' + carouselDim.top + ' 0'">
 			<!-- Avatar -->
 			<a-entity class="user-avatar">
 				<!-- TODO : use avatar_url -->
@@ -10,7 +10,7 @@
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon('fa-user')))"
 					:size="size * iconSize"
 					textAlign="right"
-					:position="(-iconOffset) + ' 0 0'"></a-ionicon>
+					:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 			</a-entity>
 
 			<!-- details -->
@@ -23,7 +23,7 @@
 				</a-entity>
 				<!-- Handle -->
 				<a-entity v-if="contact.handle"
-					:position="'0 ' + (-lineSeparation) + ' 0'"
+					:position="'0 ' + (-carouselDim.lineSeparation) + ' 0'"
 					:scale="textScale"
                   	:text="this.textString( contact.handle )">
 				</a-entity>
@@ -31,7 +31,7 @@
 		</a-entity>
 		<!-- tags -->
 		<a-entity class="tagging"
-			:position="'0 ' + (top -( 3 * lineSeparation)) + ' 0'">
+			:position="'0 ' + (carouselDim.top -( 3 * carouselDim.lineSeparation)) + ' 0'">
 			<a-entity class="tags">
 				<a-entity v-for="tag in contact.tags"
 					:key="tag"
@@ -53,15 +53,10 @@ export default {
         return {
 			size: 1,
 			iconSize: 0.25,
-			top: 1,
-			lineSeparation: 0.25,
-			layoutMargin: 3, // TODO : use layoutMargin from explorer
-			columnWidth: 1,
-			iconOffset: 0.5
         }
 	},
 
-	props: ['contact', 'connection'],
+	props: ['contact', 'connection', 'carouselDim'],
 
 	computed: {
         imageMaterial: function() {

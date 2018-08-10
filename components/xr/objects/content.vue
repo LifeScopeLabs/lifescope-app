@@ -2,7 +2,7 @@
     <a-entity class="carousel-item carousel-content-item" v-bind:id="content.id">
 		<!-- header -->
 		<a-entity class="header"
-			:position="'0 ' + top + ' 0'">
+			:position="'0 ' + carouselDim.top + ' 0'">
 			<!-- type -->
 			<a-entity class="type"
 					:position="'0 0 0'">
@@ -10,19 +10,19 @@
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon(content.type)))"
 							:size="size * iconSize"
 							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'"></a-ionicon>
+							:position="(-carouselDim.columnWidth/2) + ' 0 0'"></a-ionicon>
                 <a-entity :scale="textScale"
                   :text="this.textString(content.type)"/>
 			</a-entity>
 			<!-- Provider / Connection -->
 			<a-entity v-if="connection.name !== undefined"
 					class="provider"
-					:position="(1*layoutMargin/6) + ' 0 0'">
+					:position="'0 ' + (-carouselDim.lineSeparation) + ' 0'">
 				<!-- <i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }} -->
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(connection.name)))"
 							:size="size * iconSize"
 							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'"></a-ionicon>
+							:position="(-carouselDim.columnWidth/2) + ' 0 0'"></a-ionicon>
 
 				<a-entity :scale="textScale"
                   :text="this.textString(connection.name)"
@@ -49,7 +49,7 @@
 		<!-- audio/image/video/email/iframe/-->
 		 <a-entity class="content-embed" 
 		 	v-bind:data-id="content.id"
-			:position="'0 ' + (top-2*lineSeparation) + ' 0'">
+			:position="'0 ' + (carouselDim.top-2*carouselDim.lineSeparation) + ' 0'">
 
 			<!-- Audio -->
 			<a-entity v-if="isAudio(content)">
@@ -57,7 +57,7 @@
 							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-headphones')))"
 							:size="size * iconSize"
 							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'">
+							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
 					</a-ionicon>
 				<a-entity :scale="textScale"
                   :text="this.textString('Audio')"
@@ -80,7 +80,7 @@
 							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-video')))"
 							:size="size * iconSize"
 							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'">
+							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
 					</a-ionicon>
 				<a-entity :scale="textScale"
                   :text="this.textString('Video')"
@@ -93,7 +93,7 @@
 							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-code')))"
 							:size="size * iconSize"
 							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'">
+							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
 					</a-ionicon>
 				<a-entity :scale="textScale"
                   :text="this.textString('iFrame')"
@@ -106,7 +106,7 @@
 							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-envelope')))"
 							:size="size * iconSize"
 							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'">
+							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
 					</a-ionicon>
 				<a-entity :scale="textScale"
                   :text="this.textString('Email')"
@@ -117,7 +117,7 @@
 
 		<!-- content.embed_thumbnail -->
 		<a-entity v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail"
-			:position="'0 ' + (top - (3 * lineSeparation)) + ' 0'">
+			:position="'0 ' + (carouselDim.top - (2 * carouselDim.lineSeparation)) + ' 0'">
 			<a-entity v-if="content.title == null"
 				geometry="primitive: plane; width: 1; height: 1"
 				:material="this.thumbnailMaterial"/>
@@ -129,7 +129,7 @@
 
 		<!-- title -->
 		<a-entity class="title"
-			:position="'0 ' + (top - (4 * lineSeparation)) + ' 0'">
+			:position="'0 ' + (carouselDim.top - (3 * carouselDim.lineSeparation)) + ' 0'">
 			<!-- <a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span> -->
 			<a-entity :scale="textScale"
@@ -141,7 +141,7 @@
 		<!-- content.text -->
 		<a-entity v-if="content.text != null"
 			class="text"
-			:position="'0 ' + (top - (5 * lineSeparation)) + ' 0'">
+			:position="'0 ' + (carouselDim.top - (4 * carouselDim.lineSeparation)) + ' 0'">
 			<a-entity :scale="textScale"
                   :text="this.textString(content.text)"/>
 		</a-entity>
@@ -152,14 +152,14 @@
 					(content.text == null || content.text.length === 0) &&
 					content.url != null"
 					class="title"
-					:position="'0 ' + (top - (5 * lineSeparation)) + ' 0'">
+					:position="'0 ' + (carouselDim.top - (4 * carouselDim.lineSeparation)) + ' 0'">
 					<a-entity :scale="textScale"
                   		:text="this.textString(content.url)"/>
 		</a-entity>
 
 		<!-- tags -->
 		<a-entity class="tagging"
-			:position="'0 ' + (top - (5 * lineSeparation)) + ' 0'">
+			:position="'0 ' + (carouselDim.top - (5 * carouselDim.lineSeparation)) + ' 0'">
 			<a-entity class="tags">
 				<a-entity v-for="tag in content.tags"
 					:key="tag"
@@ -188,14 +188,9 @@ export default {
         return {
 			size: 1,
 			iconSize: 0.25,
-			top: 1.5,
-			lineSeparation: 0.25,
-			layoutMargin: 3, // TODO : use layoutMargin from explorer
-			columnWidth: 1,
-			iconOffset: 1.5
         }
     },
-	props: ['content', 'connection'],
+	props: ['content', 'connection', 'carouselDim'],
 
 	computed: {
         imageMaterial: function() {

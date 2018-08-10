@@ -1,16 +1,23 @@
 <template>
 	<a-entity class="object event feed" v-bind:id="event.id">
+		
+		<!-- background -->
+		<a-entity 
+				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
+				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
+				:position="(-carouselDim.backgroundWidth/4) + ' ' + (carouselDim.top - 5*carouselDim.lineSeparation)+ ' -0.01'">
+		</a-entity>
+		
 		<!-- details -->
 		<a-entity class="details"
-			:position="'0 ' + top + ' 0'">
-
+			:position="'0 ' + carouselDim.top + ' 0'">
 			<!-- type -->
 			<a-entity class="type" >
 				<!-- type icon -->
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getEventTypeIcon(event.type)))"
 					:size="size * iconSize"
 					textAlign="right"
-					:position="(-iconOffset) + ' 0 0'"></a-ionicon>
+					:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 
 				<!-- type/context text -->
 				<a-entity v-if="event.context" 
@@ -26,11 +33,11 @@
 
 			<!-- provider -->
 			<a-entity class="provider" 
-				:position="'0 ' + (-1 * lineSeparation) + ' 0'">
+				:position="'0 ' + (-1 * carouselDim.lineSeparation) + ' 0'">
 				 <!-- provider icon -->
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon(event.connection.name)))"
 					:size="size * iconSize"
-					:position="(-iconOffset) + ' 0 0'"></a-ionicon>
+					:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 				<!-- provider text -->
 				<a-entity
 						:scale="textScale"
@@ -40,13 +47,13 @@
 
 			<!-- datetime -->
 			<a-entity v-if="event.datetime" class="date" 
-				:position="'0 ' + (-2 * lineSeparation) + ' 0'">
+				:position="'0 ' + (-2 * carouselDim.lineSeparation) + ' 0'">
 				<!-- date -->
 				<a-entity>
 					<!-- date icon -->
 					<a-ionicon :icon="getIoniconFromFA('fa-calendar')"
 						:size="size * iconSize"
-						:position="(-iconOffset) + ' 0 0'"></a-ionicon>
+						:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 					<!-- date text -->
 					<!-- TODO : Format datetime -->
 					<a-entity
@@ -57,11 +64,11 @@
 
 
 				<!-- time -->
-				<a-entity :position="'0 ' + (-1 * lineSeparation) + ' 0'">
+				<a-entity :position="'0 ' + (-1 * carouselDim.lineSeparation) + ' 0'">
 					<!-- time icon -->
 					<a-ionicon :icon="getIoniconFromFA('fa-clock-o')"
 						:size="size * iconSize"
-						:position="(-iconOffset) + ' 0 0'"></a-ionicon>
+						:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 					<!-- time text -->
 					<!-- TODO : Format datetime -->
 					<a-entity
@@ -76,7 +83,7 @@
 
 			<!-- tags -->
 			<a-entity class="tagging"
-				:position="'0 ' + (-4 * lineSeparation) + ' 0'">
+				:position="'0 ' + (-4 * carouselDim.lineSeparation) + ' 0'">
 				<a-entity class="tags">
 					<a-entity v-for="tag in event.tags"
 						:key="tag"
@@ -87,21 +94,33 @@
 			</a-entity>
 		</a-entity>
 
+
+		<a-entity 
+				:scale="textScale"
+				:text="this.textString( '________________________________' )"
+				:position="'0 ' + (carouselDim.top - 4 * carouselDim.lineSeparation) + ' 0'"></a-entity>
+
 		<!-- content -->
 		<a-entity v-if="event.content && event.content.length > 0"
 			class="content"
-			:position="(1*layoutMargin/4) + ' 0 0'">
+			:position="'0 ' + (-5 * carouselDim.lineSeparation) + ' 0'">
 			<user-content v-for="content in event.content"
 				:key="content.id"
 				:content="content"
-				:connection="event.connection"></user-content>
+				:connection="event.connection"
+                :carouselDim="carouselDim"></user-content>
 		</a-entity>
 
+		 <a-entity 
+		 		:scale="textScale"
+		 		:text="this.textString( '________________________________' )"
+		 		:position="'0 ' + (carouselDim.top - 9 * carouselDim.lineSeparation) + ' 0'"></a-entity>
 		<!-- contacts -->
 		<a-entity v-if="(event.contacts && event.contacts.length > 0) ||
 			(event.people && event.people.length > 0) ||
 			(event.organizations && event.organizations.length > 0)" 
-			class="interactions">
+			class="interactions"
+			:position="'0 ' + (- 10 * carouselDim.lineSeparation) + ' 0'">
 			<!-- Content interaction type -->
 			<a-entity v-if="event.contact_interaction_type"
 				:scale="textScale"
@@ -111,7 +130,8 @@
 				<user-contact v-for="contact in event.contacts"
 					:key="contact.id"
 					:contact="contact"
-					:connection="event.connection"></user-contact>
+					:connection="event.connection"
+                	:carouselDim="carouselDim"></user-contact>
 			</a-entity>
 			<!-- <div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div> -->
 		</a-entity>
@@ -132,12 +152,7 @@ export default {
 	data () {
         return {
 			size: 1,
-			iconSize: 0.25,
-			top: 1.5,
-			lineSeparation: 0.25,
-			layoutMargin: 3, // TODO : use layoutMargin from explorer
-			columnWidth: 1,
-			iconOffset: 0.5
+			iconSize: 0.25
         }
 	},
 	
@@ -146,7 +161,7 @@ export default {
 		UserContact
 	},
 
-	props: ['event', 'connection'],
+	props: ['event', 'connection', 'carouselDim'],
 
 
 	computed: {
@@ -204,10 +219,8 @@ export default {
     mounted () {
 		// console.log(this.content.id)
 		// console.log(`this.event.type: ${this.event.type}`);
-		// console.log('event:');
-		// console.log(this.event);
-		console.log("event.datetime:");
-		console.log( this.event.datetime );
+		console.log('event:');
+		console.log(this.event);
     }
   }
 </script>
