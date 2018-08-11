@@ -2,6 +2,7 @@
 node_modules
 build/
 dist/
+config/prod.json
 config/local.json
 config/dev.json
 config/prod.json
