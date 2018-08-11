@@ -1,12 +1,16 @@
 <template>
-  <mapbox
-    v-bind:access-token='$store.state.mapbox.accessToken'
-    v-bind:map-options='$store.state.mapbox.options'
-    v-on:map-init='initializeMap'
-    v-on:map-load='loadMap'
-  >
+  <div>
+    <mapbox
+      v-bind:access-token='$store.state.mapbox.accessToken'
+      v-bind:map-options='$store.state.mapbox.options'
+      v-on:map-init='initializeMap'
+      v-on:map-load='loadMap'
+    >
 
-  </mapbox>
+    </mapbox>
+
+    <modals-container/>
+  </div>
 </template>
 
 <script>
@@ -39,6 +43,7 @@
       },
 
       populateMap: function() {
+        let markers = [];
         let self = this;
         let map = this.$store.state.map;
 
@@ -47,8 +52,9 @@
         let CLUSTER_RADIUS = 50;
 
         _.each(this.$store.state.objects.events, function(event, index) {
-          let color = index % 3 === 0 ? '#6CC644' : index % 3 === 1 ? '#BD2C00' : '#6E5494';
           if (event.location != null) {
+            let color = index % 3 === 0 ? '#6CC644' : index % 3 === 1 ? '#BD2C00' : '#6E5494';
+
             features.push({
               type: 'Feature',
               geometry: {
@@ -56,7 +62,7 @@
                 coordinates: event.location.geolocation
               },
               properties: {
-                id: event.id,
+                event: event,
                 color: color
               }
             })
@@ -65,28 +71,22 @@
 
         let spiderifier = new MapboxSpiderifier(map, {
           customPin: true,
-          markerWidth: 200,
-          markerHeight: 200,
-          onClick: function(e, spiderLeg) {
-            let eventId = spiderLeg.feature.id;
-          },
+          spiralFootSeparation: 500,
+          circleFootSeparation: 500,
           animate: true,
+          animationSpeed: 200,
           initializeLeg: initializeSpiderLeg
         });
 
-        function initializeSpiderLeg(spiderLeg){
-          console.log(spiderLeg);
-
+        function initializeSpiderLeg(spiderLeg) {
           let pinElem = spiderLeg.elements.pin;
           let feature = spiderLeg.feature;
           let popup;
 
-          let event = _.find(self.$store.state.objects.events, function(event) {
-            return event.id === spiderLeg.feature.id;
-          });
+          let event = feature.event;
 
-          pinElem.className = pinElem.className + ' fa-stack fa-lg';
-          pinElem.innerHTML = '<i class="circle-icon fa fa-circle fa-stack-2x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+          pinElem.className = pinElem.className + ' map-marker fa-stack fa-lg';
+          pinElem.innerHTML = '<i class="fill-circle fa fa-circle fa-stack-1x"></i>' + '<i class="circle-icon fa fa-map-marker fa-stack-3x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
           pinElem.style.color = feature.color;
 
           $(pinElem)
@@ -106,8 +106,9 @@
                 popup.remove();
               }
             })
-            .on('click', function() {
-              console.log('Rendering modal');
+            .on('click', function(e) {
+              e.stopPropagation();
+
               self.renderDetailsModal(event);
             });
         }
@@ -158,7 +159,7 @@
           layout: {
             'icon-image': 'marker-15'
           },
-          'filter': ['all',['!has', 'point_count']]
+          filter: ['all',['!has', 'point_count']]
         });
 
         map.addLayer({
@@ -210,12 +211,60 @@
           }
         });
 
-        map.on('mouseenter', 'clusters', function () {
+        map.on('mouseenter', 'clusters', function() {
           map.getCanvas().style.cursor = 'pointer';
         });
 
-        map.on('mouseleave', 'clusters', function () {
+        map.on('mouseleave', 'clusters', function() {
           map.getCanvas().style.cursor = '';
+        });
+
+        map.on('render', function(e) {
+          _.each(markers, function(marker) {
+            marker.remove();
+          });
+
+          let symbols = map.queryRenderedFeatures(e.point, { layers: ['events']});
+
+          _.each(symbols, function(symbol) {
+            let popup;
+            let event = JSON.parse(symbol.properties.event);
+            let pinElem = document.createElement('div');
+            let coordinates = symbol.geometry.coordinates;
+
+            pinElem.className = 'map-marker fa-stack fa-lg';
+            pinElem.innerHTML = '<i class="fill-circle fa fa-circle fa-stack-1x"></i>' + '<i class="circle-icon fa fa-map-marker fa-stack-3x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+            pinElem.style.color = symbol.properties.color;
+
+            let marker = new mapboxgl.Marker(pinElem)
+              .setLngLat(coordinates)
+              .addTo(map);
+
+            $(pinElem)
+              .on('mouseenter', function(){
+                popup = new mapboxgl.Popup({
+                  closeButton: false,
+                  closeOnClick: false,
+                  offset: 20
+                });
+
+                popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
+
+                marker.setPopup(popup);
+              })
+              .on('mouseleave', function(){
+                if(popup){
+                  popup.remove();
+                }
+              })
+              .on('click', function(e) {
+                e.stopPropagation();
+
+                self.renderDetailsModal(event);
+              });
+
+            markers.push(marker);
+          });
         });
 
         map.on('zoomstart', function(){
@@ -225,8 +274,6 @@
 
       renderDetailsModal: function(event) {
         if (event) {
-          console.log(event);
-          console.log(this.$modal);
           this.$modal.show(Details, {
             type: 'event',
             item: event

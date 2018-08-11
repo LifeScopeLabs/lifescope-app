@@ -58,6 +58,17 @@
       max-width: 100%;
     }
 
+    .iframe-wrapper {
+      position: relative;
+
+      @media #{$maxwidth768},#{$mobile} {
+        iframe {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
     .embed-hidden {
       height: 0;
     }

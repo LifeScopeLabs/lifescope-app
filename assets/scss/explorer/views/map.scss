@@ -1,4 +1,11 @@
 div#body.explorer.map {
+  main {
+    & > div {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
   .spider-leg-container {
     width: 1px;
     height: 1px;
@@ -14,31 +21,8 @@ div#body.explorer.map {
     }
 
     .spider-leg-pin {
-      position: relative;
-      z-index: 1;
-      cursor: pointer;
-
-      width: 40px;
-      height: 40px;
       margin-left: -20px;
       margin-top: -20px;
-      font-size: 20px;
-      //background-image: url(https://api.mapbox.com/styles/v1/mapbox/dark-v9/sprite.png?access_token=pk.eyJ1Ijoic29jcmF0YSIsImEiOiJjaXJxc2wzam0waGU5ZmZtODhqd2ttamdxIn0.1ZQEByXoDD7fGIa9lUHIqg);
-      //background-position: -110px -110px;
-
-      i.type-icon {
-        color: white;
-        //left: 50%;
-        //top: 30%;
-      }
-
-      .fa-stack-3x {
-        font-size: 3em;
-      }
-
-      .fa-stack-4x {
-        font-size: 4em;
-      }
     }
 
     .spider-leg-line {
@@ -87,6 +71,34 @@ div#body.explorer.map {
       margin-left: 0 !important;
       margin-top: 0 !important;
       height: 0;
+    }
+  }
+
+  .map-marker {
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+
+    i.type-icon {
+      color: white;
+      margin-left: -2px;
+    }
+
+    i.fill-circle {
+      margin-top: 3px;
+      font-size: 1.5em;
+    }
+
+    .fa-stack-3x {
+      font-size: 3em;
+    }
+
+    .fa-stack-4x {
+      font-size: 4em;
     }
   }
 }
