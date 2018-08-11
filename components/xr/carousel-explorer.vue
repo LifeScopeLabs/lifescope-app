@@ -106,7 +106,8 @@ export default {
                 iconOffset: 0.5,
                 iconWidth: 0.1,
                 backgroundWidth: 0.8,
-                backgroundHeight: 1.5
+                backgroundHeight: 1.5,
+                displayDegrees: 45
             }
         }
     },
@@ -154,9 +155,6 @@ export default {
     },
 
     mounted () {
-        //console.log(this.content.id)
-        console.log(`this.carouselDim: ${this.carouselDim}`);
-        console.log(`this.carouselDim.layoutMargin: ${this.carouselDim.layoutMargin}`);
     }
   }
 </script>

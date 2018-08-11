@@ -5,12 +5,15 @@
 		<a-entity 
 				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
 				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
-				:position="(-carouselDim.backgroundWidth/4) + ' ' + (carouselDim.top - 5*carouselDim.lineSeparation)+ ' -0.01'">
+				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
+				:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 		</a-entity>
-		
+
 		<!-- details -->
+		<!--  +  (-horizontalToSlanted(3*carouselDim.lineSeparation, carouselDim.displayDegrees) - 1) -->
 		<a-entity class="details"
-			:position="'0 ' + carouselDim.top + ' 0'">
+			:position="'0 ' + verticleToSlanted(6*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.35'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<!-- type -->
 			<a-entity class="type" >
 				<!-- type icon -->
@@ -82,7 +85,7 @@
 				</a-entity>
 
 			<!-- tags -->
-			<a-entity class="tagging"
+			<!-- <a-entity class="tagging"
 				:position="'0 ' + (-4 * carouselDim.lineSeparation) + ' 0'">
 				<a-entity class="tags">
 					<a-entity v-for="tag in event.tags"
@@ -91,19 +94,21 @@
 						:text="tag">
 					</a-entity>
 				</a-entity>
-			</a-entity>
+			</a-entity> -->
 		</a-entity>
 
 
-		<a-entity 
+		<!-- <a-entity 
 				:scale="textScale"
 				:text="this.textString( '________________________________' )"
-				:position="'0 ' + (carouselDim.top - 4 * carouselDim.lineSeparation) + ' 0'"></a-entity>
+				:position="'0 ' + verticleToSlanted( 1 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.1'"
+				:rotation="(-carouselDim.displayDegrees) + ' 0 0'"></a-entity> -->
 
 		<!-- content -->
 		<a-entity v-if="event.content && event.content.length > 0"
 			class="content"
-			:position="'0 ' + (-5 * carouselDim.lineSeparation) + ' 0'">
+			:position="'0 ' + verticleToSlanted(1 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<user-content v-for="content in event.content"
 				:key="content.id"
 				:content="content"
@@ -111,20 +116,22 @@
                 :carouselDim="carouselDim"></user-content>
 		</a-entity>
 
-		 <a-entity 
+		 <!-- <a-entity 
 		 		:scale="textScale"
 		 		:text="this.textString( '________________________________' )"
-		 		:position="'0 ' + (carouselDim.top - 9 * carouselDim.lineSeparation) + ' 0'"></a-entity>
+		 		:position="'0 ' + verticleToSlanted(- 3 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -0.75'"
+				:rotation="(-carouselDim.displayDegrees) + ' 0 0'"></a-entity> -->
 		<!-- contacts -->
 		<a-entity v-if="(event.contacts && event.contacts.length > 0) ||
 			(event.people && event.people.length > 0) ||
 			(event.organizations && event.organizations.length > 0)" 
 			class="interactions"
-			:position="'0 ' + (- 10 * carouselDim.lineSeparation) + ' 0'">
+			:position="'0 ' + verticleToSlanted( - 3 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -0.75'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<!-- Content interaction type -->
-			<a-entity v-if="event.contact_interaction_type"
+			<!-- <a-entity v-if="event.contact_interaction_type"
 				:scale="textScale"
-				:text="this.textString( event.content_interaction_type )"></a-entity>
+				:text="this.textString( event.content_interaction_type )"></a-entity> -->
 				<!-- UserContact -->
 			<a-entity class="objects">
 				<user-contact v-for="contact in event.contacts"
@@ -139,13 +146,15 @@
 </template>
 
 <script>
+import Math from 'math';
+
 import moment from 'moment';
 
 import icons from '../../../lib/util/icons';
 import FAIonicon from '../../../lib/aframe/font-awesome-ionicons';
 
-import UserContent from './content';
-import UserContact from './contact';
+import UserContent from './content-child';
+import UserContact from './contact-child';
 
 console.log("from objects/contact.vue <script>")
 export default {
@@ -213,14 +222,37 @@ export default {
 			console.log(`getIoniconFromFA(${icon})`);
 			console.log(`FAIonicon[${icon}] == ${FAIonicon[icon]}`);
 			return FAIonicon[icon];
+		},
+
+		// Layout
+		verticleToSlanted: function(len, degrees) {
+			// console.log("verticleToSlanted")
+			function toRadians (angle) {
+				// console.log(`${angle} degrees is ${angle * (Math.PI / 180)} radians`)
+				return angle * (Math.PI / 180);
+			}
+			// console.log(`Math.sin(toRadians(${degrees}): ${Math.sin(toRadians(degrees))}`)
+			return len * Math.sin(toRadians(degrees));
+		},
+
+		horizontalToSlanted: function(len, degrees) {
+			// console.log("horizontalToSlanted");
+			function toRadians (angle) {
+				// console.log(`${angle} degrees is ${angle * (Math.PI / 180)} radians`);
+				return angle * (Math.PI / 180);
+			}
+			// console.log(`Math.cos(toRadians(${degrees}): ${Math.cos(toRadians(degrees))}`)
+			return len * Math.cos(toRadians(degrees));
 		}
+
+		// TODO : truncate text
     },
 
     mounted () {
 		// console.log(this.content.id)
 		// console.log(`this.event.type: ${this.event.type}`);
-		console.log('event:');
-		console.log(this.event);
+		// console.log('event:');
+		// console.log(this.event);
     }
   }
 </script>

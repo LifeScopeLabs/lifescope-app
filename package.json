@@ -117,6 +117,7 @@
     "jquery": "^3.3.1",
     "json-schema-ref-parser": "^5.0.0",
     "lodash": "^4.17.5",
+    "math": "0.0.3",
     "mixitup": "^3.2.2",
     "moment": "^2.21.0",
     "mongodb": "^3.0.7",
