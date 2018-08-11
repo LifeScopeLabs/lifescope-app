@@ -39,11 +39,6 @@
             <div class="text blue">Loading more results</div>
           </div>
 
-          <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0) && $store.state.spinner === true" id="more-waiting">
-            <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
-            <div class="text blue">Loading more results</div>
-          </div>
-
           <modals-container/>
         </div>
       </div>
