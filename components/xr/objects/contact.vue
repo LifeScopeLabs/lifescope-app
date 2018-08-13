@@ -1,7 +1,18 @@
 <template>
 	<a-entity class="object contact" v-bind:id="contact.id">
+
+		<!-- background -->
+		<a-entity 
+				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
+				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
+				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
+				:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
+		</a-entity>
+
 		<!-- Contact -->
-		<a-entity :position="'0 ' + carouselDim.top + ' 0'">
+		<a-entity
+			:position="'0 ' + verticleToSlanted(6*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.35'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<!-- Avatar -->
 			<a-entity class="user-avatar">
 				<!-- TODO : use avatar_url -->
@@ -86,6 +97,27 @@ export default {
 			//console.log(`getIoniconFromFA(${icon})`)
 			//console.log(`FAIonicon[${icon}] == ${FAIonicon[icon]}`)
 			return FAIonicon[icon];
+		},
+
+		// Layout
+		verticleToSlanted: function(len, degrees) {
+			// console.log("verticleToSlanted")
+			function toRadians (angle) {
+				// console.log(`${angle} degrees is ${angle * (Math.PI / 180)} radians`)
+				return angle * (Math.PI / 180);
+			}
+			// console.log(`Math.sin(toRadians(${degrees}): ${Math.sin(toRadians(degrees))}`)
+			return len * Math.sin(toRadians(degrees));
+		},
+
+		horizontalToSlanted: function(len, degrees) {
+			// console.log("horizontalToSlanted");
+			function toRadians (angle) {
+				// console.log(`${angle} degrees is ${angle * (Math.PI / 180)} radians`);
+				return angle * (Math.PI / 180);
+			}
+			// console.log(`Math.cos(toRadians(${degrees}): ${Math.cos(toRadians(degrees))}`)
+			return len * Math.cos(toRadians(degrees));
 		}
     },
 
