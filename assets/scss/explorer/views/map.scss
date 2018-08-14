@@ -6,6 +6,27 @@ div#body.explorer.map {
     }
   }
 
+  .map-corner {
+    position: absolute;
+
+    top: 10px;
+    left: 10px;
+
+    padding: 0.2em 0.4em;
+
+    border-radius: 0.4em;
+
+    background-color: $background-color-light;
+
+    &.clickable {
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($background-color-light, 10%);
+      }
+    }
+  }
+
   .spider-leg-container {
     width: 1px;
     height: 1px;
@@ -75,9 +96,11 @@ div#body.explorer.map {
   }
 
   .map-marker {
-    position: relative;
     z-index: 1;
     cursor: pointer;
+
+    top: -25px;
+    left: 3px;
 
     width: 40px;
     height: 40px;
