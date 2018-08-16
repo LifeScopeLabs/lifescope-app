@@ -151,11 +151,13 @@ module.exports = {
       'aframe-gui',
       '~/lib/aframe/play-gaze.js',
       '~/lib/aframe/dynamic-autoplay.js',
-      '~/lib/aframe/entangle.js',
       '~/lib/aframe/avatar-rig',
       '~/lib/aframe/virtual-gamepad-controls.js',
       '~/lib/aframe/ionicon.js',
-      '~/lib/aframe/mapbox-terrain.js'
+      '~/lib/aframe/mapbox-terrain.js',
+      '~/lib/aframe/look-on-mobile.js',
+      '~/lib/aframe/character-controller.js',
+      '~/lib/aframe/pitch-yaw-rotator.js'
 		],
 
     plugins: [

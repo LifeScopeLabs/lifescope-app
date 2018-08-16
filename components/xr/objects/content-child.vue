@@ -181,44 +181,45 @@ export default {
 		isAudio: function(item) {
 			var truth = audioTypes.indexOf(item.embed_format.toLowerCase()) > -1;
 			if (CONFIG.DEBUG & truth) {
-				console.log("isAudio");
-				console.log(item.embed_format);
+				// console.log("isAudio");
+				// console.log(item.embed_format);
 				}
 			else {
-				console.log("not audio");
-				console.log(item.embed_format);
+				// console.log("not audio");
+				// console.log(item.embed_format);
 			};
 			return truth;
 		},
 		isEmail: function(item) {
 			var truth = item.embed_format.toLowerCase() === 'email';
 			if (CONFIG.DEBUG & truth) {
-				console.log("isEmail");
-				console.log(item.embed_format);
+				// console.log("isEmail");
+				// console.log(item.embed_format);
 				};
 			return truth;
 		},
 		isIframe: function(item) {
 			var truth = item.embed_format.toLowerCase() === 'iframe';
 			if (CONFIG.DEBUG & truth) {
-				console.log("isIframe");
-				console.log(item.embed_format);
+				// console.log("isIframe");
+				// console.log(item.embed_format);
 				};
 			return truth;
 		},
 		isImage: function(item) {
 			var truth = imageTypes.indexOf(item.embed_format.toLowerCase()) > -1;
 			if (CONFIG.DEBUG & truth) {
-				console.log("isImage");
-				console.log(item.embed_format);
+				// console.log("isImage");
+				// console.log(item.embed_format);
 				};
 			return truth;
 		},
 		isVideo: function(item) {
 			var truth = videoTypes.indexOf(item.embed_format.toLowerCase()) > -1;
 			if (CONFIG.DEBUG & truth) {
-				console.log("isVideo");
-				console.log(item.embed_format);};
+				// console.log("isVideo");
+				// console.log(item.embed_format);};
+			}
 			return truth;
 		},
 

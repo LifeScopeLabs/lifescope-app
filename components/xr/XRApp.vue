@@ -51,7 +51,7 @@ import gallery from "./gallery.vue";
 
 // TODO: fix CONFIG
 var CONFIG = {};
-CONFIG.DEBUG = false;
+CONFIG.DEBUG = true;
 import debugListeners from '../../lib/dev/listeners.js';
 
 if (CONFIG.DEBUG) {console.log("from App.vue <script>");}
@@ -88,7 +88,17 @@ export default {
         AFRAME.scenes[0].renderer.vr.userHeight = 0;
       });
 
-      if (CONFIG.DEBUG) {debugListeners();}
+      // if (CONFIG.DEBUG) {debugListeners();}
+
+      // document.body.addEventListener('move', function (evt) {
+      //   if (CONFIG.DEBUG) {console.log(`move:\nx: ${evt.detail.axis[0]}\ny: ${evt.detail.axis[1]}`);};
+      // });
+      // document.body.addEventListener('rotateY', function (evt) {
+      //   if (CONFIG.DEBUG) {console.log(`rotateY: ${evt.detail.value}`);};
+      // });
+      // document.body.addEventListener('rotateX', function (evt) {
+      //   if (CONFIG.DEBUG) {console.log(`rotateX: ${evt.detail.value}`);};
+      // });
 
       // gamepad in mobile
       // if (AFRAME.utils.device.isMobile()) {
@@ -123,23 +133,24 @@ export default {
       });
       
 
-      // this.getRoomConfig().then((res) => {
-      //     if (CONFIG.DEBUG) {console.log("getRoomConfig().then")};
+      this.createAvatarRigTemplate();
+      this.addAvatarRigTemplate();
+      this.createNetworkedPlayer();
 
-      //     this.roomConfig = res.roomConfig;
-      //     //this.roomName = res.roomConfig.ROOM_NAME;
-
-      //     this.getObjs().then((res) => {
-      //       this.LSObjs = res.LSObjs;
-      //       this.rooms = res.rooms;
-
-            this.createAvatarRigTemplate();
-            this.addAvatarRigTemplate();
-            this.createNetworkedPlayer();
-        //     }
-        //   );
-        // }
-      // );
+      if (AFRAME.utils.device.isMobile()) {
+        if (CONFIG.DEBUG) {console.log("isMobile");};
+        var playerRig = document.getElementById('playerRig');
+        playerRig.setAttribute("virtual-gamepad-controls", {});
+        var camera = document.getElementById('player-camera');
+        var sceneEl = document.getElementsByTagName('a-scene')[0];
+        //this.eventHandlers.push(new TouchEventsHandler(this.cursor, this.cameraController, this.cursor.el));
+        sceneEl.setAttribute("look-on-mobile", "camera", camera);
+        sceneEl.setAttribute("look-on-mobile", "verticalLookSpeedRatio", 3);
+      } else {
+        if (CONFIG.DEBUG) {console.log("!isMobile");};
+        var playerRig = document.getElementById('playerRig');
+        playerRig.setAttribute("look-controls", "reverseMouseDrag:true");
+      }
     },
 
 
@@ -270,21 +281,21 @@ export default {
           //       geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
           //       material="color: black; shader: flat">
           //     </a-entity>
+          // avatar-rig="camera:#player-camera;"
+          //look-controls="reverseMouseDrag:true"
       createNetworkedPlayer() {
         var frag = this.fragmentFromString(`
         <a-entity id="playerRig"
-        
           position="0 1.6 -2"
           wasd-controls
-          look-controls="reverseMouseDrag:true"
           networked="template:#avatar-rig-template;attachTemplateToLocal:true;"
-          avatar-rig="camera:#player-camera;"
+          character-controller="pivot: #player-camera"
           >
          
          <a-entity id="player-camera"
             class="camera"
             camera
-            
+            pitch-yaw-rotator
           >
           
           <a-gui-cursor id="cursor"
