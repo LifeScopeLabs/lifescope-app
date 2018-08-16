@@ -23,9 +23,9 @@
             <i class="fa fa-plug"></i>
           </div>
 
-          <!--<div class="control" data-type="where" v-on:click="createBlankFilter('where')">-->
-            <!--<i class="fa fa-globe"></i>-->
-          <!--</div>-->
+          <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map' }">
+            <i class="fa fa-globe"></i>
+          </div>
         </div>
 
         <div id="filter-values" v-bind:class="$data.activeFilter.type">
@@ -195,36 +195,31 @@
             </div>
           </form>
 
-          <!--<form v-if="$data.activeFilter && activeFilter.type === 'where'" class="where" v-on:submit.self.prevent="saveFilter">-->
-            <!--<div>-->
-              <!--Distance:-->
-            <!--</div>-->
+          <form v-if="$data.activeFilter && activeFilter.type === 'where'" class="where" v-on:submit.self.prevent="saveFilter">
+            <div class="input-container">
+              <label v-bind:class="{active: $data.activeFilter.data.where_type === 'inside' }" class="radio" for="where-type-inside">
+                <input id="where-type-inside" type="radio" name="inside-outside" value="inside" v-model="activeFilter.data.where_type"/>
+                <span>Inside</span>
+              </label>
 
-            <!--<div class="text-box">-->
-              <!--<input type="text" name="distance"/>-->
-            <!--</div>-->
+              <label v-bind:class="{active: $data.activeFilter.data.where_type === 'outside' }" class="radio" for="where-type-outside">
+                <input id="where-type-outside" type="radio" name="inside-outside" value="outside" v-model="activeFilter.data.where_type"/>
+                <span>Outside</span>
+              </label>
+            </div>
 
-            <!--<div>-->
-              <!--Area:-->
-            <!--</div>-->
+            <div class="estimated">
+              <label>
+                <input type="checkbox" name="estimated"/>
+                <span>Return Estimated Results</span>
+              </label>
+            </div>
 
-            <!--<div class="input-container">-->
-              <!--<label for="where-type-1"><input id="where-type-1" type="radio" name="geometry" value="inside" checked/>Inside</label>-->
-              <!--<label for="where-type-2"><input id="where-type-2" type="radio" name="geometry" value="outside"/>Outside</label>-->
-            <!--</div>-->
-
-            <!--<div class="estimated">-->
-              <!--<label>-->
-                <!--<input type="checkbox" name="estimated"/>-->
-                <!--<span>Return Estimated Results</span>-->
-              <!--</label>-->
-            <!--</div>-->
-
-            <!--<div id="filter-done">-->
-              <!--<button v-if="$data.activeFilter.id" class="primary">Save Filter</button>-->
-              <!--<button v-else class="primary">Add Filter</button>-->
-            <!--</div>-->
-          <!--</form>-->
+            <div id="filter-done">
+              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
+              <button v-else class="primary">Add Filter</button>
+            </div>
+          </form>
         </div>
       </div>
 
@@ -355,6 +350,8 @@
       },
 
       createBlankFilter: function(type) {
+        this.$root.$emit('remove-unattached-polygons');
+
         this.$data.activeFilter.id = null;
         this.$data.activeFilter.name = null;
         this.$data.activeFilter.type = type;
@@ -411,10 +408,14 @@
         this.$data.activeFilter.name = filter.name;
         this.$data.activeFilter.type = filter.type;
         this.$data.activeFilter.data = _.clone(filter.data);
+
+        if (filter.type === 'where') {
+          this.$root.$emit('select-polygon', filter);
+        }
       },
 
       openAndLoadFilter(filter) {
-        this.toggleFilterEditor();
+        this.openFilterEditor();
         this.loadFilter(filter);
       },
 
@@ -423,8 +424,14 @@
         this.$data.editorOpen = !this.$data.editorOpen;
 
         if (!this.$data.editorOpen) {
+          this.$root.$emit('remove-unattached-polygons');
           this.compactOverflowFilters();
         }
+      },
+
+      openFilterEditor: function() {
+        this.clearActiveFilter();
+        this.$data.editorOpen = true;
       },
 
       closeFilterEditor: function() {
@@ -462,6 +469,10 @@
           }
         }
 
+        if (this.$data.activeFilter.type === 'where') {
+          this.$root.$emit('deselect-mapbox');
+        }
+
         this.clearActiveFilter();
 
         await this.checkNewSearch();
@@ -483,8 +494,11 @@
 
       checkNewSearch: async function(){
         let filters = _.map(this.$store.state.searchBar.filters, function(filter) {
-          return _.omit(filter, ['__typename', 'id', '_id']);
+          return _.omit(filter, ['__typename', 'id', '_id', 'data.object_id']);
         });
+
+        console.log('Checking new search');
+        console.log(filters);
 
         let query = this.$store.state.searchBar.query;
 
@@ -547,6 +561,9 @@
             });
           }
         }
+
+        console.log('Trigger polygon redraw');
+        this.$root.$emit('redraw-polygons');
       },
 
       updateFrom: function(e) {
@@ -590,7 +607,7 @@
 
         if (sharedSearch !== true) {
           let filters = _.map(this.$store.state.currentSearch.filters, function(filter) {
-            return _.omit(filter, ['__typename', 'id']);
+            return _.omit(filter, ['__typename', 'id', '_id', 'data.object_id']);
           });
 
           let upserted = await this.$apollo.mutate({
@@ -850,6 +867,63 @@
 
       this.$root.$on('perform-search', async function(init) {
         await self.performSearch(init);
+      });
+
+      this.$root.$on('polygon-created', async function(feature) {
+        let coordinates = feature.geometry.coordinates[0];
+
+        let filter = {
+          id: null,
+          name: null,
+          type: 'where',
+          data: {
+            coordinates: coordinates.slice(0, (coordinates.length - 1)),
+            where_type: 'inside',
+            object_id: feature.id
+          }
+        };
+
+        await self.openAndLoadFilter(filter);
+      });
+
+      this.$root.$on('polygon-deleted', async function(features) {
+        _.each(features, async function(feature) {
+          let filter = _.find(self.$store.state.searchBar.filters, function(filter) {
+            return filter.data.object_id === feature.id
+          });
+
+          console.log(filter);
+
+          if (filter) {
+            self.deleteFilter({
+              id: filter.id
+            });
+          }
+        });
+      });
+
+      this.$root.$on('polygon-updated', async function(features) {
+        _.each(features, async function(feature) {
+          let filter = _.find(self.$store.state.searchBar.filters, function(filter) {
+            return filter.data.object_id === feature.id
+          });
+
+          let coordinates = feature.geometry.coordinates[0];
+
+          filter.data.coordinates = coordinates.slice(0, (coordinates.length - 1));
+
+          console.log('Polygon updated in store');
+        });
+      });
+
+      this.$root.$on('polygon-selected', async function(feature) {
+        let filter = _.find(self.$store.state.searchBar.filters, function(filter) {
+          return filter.data.object_id === feature.id
+        });
+
+        if (filter) {
+          self.openAndLoadFilter(filter);
+        }
       });
     }
   }

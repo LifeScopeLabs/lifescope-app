@@ -21,13 +21,24 @@
 </template>
 
 <script>
+  import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
+
   import Mapbox from 'mapbox-gl-vue';
+  import Draw from '@mapbox/mapbox-gl-draw';
 
   import Details from '../modals/details.vue';
   import icons from '../../lib/util/icons';
+  import uuid from '../../lib/util/uuid';
 
   let MapboxSpiderifier;
   let mapboxgl;
+  let mapboxDraw = new Draw({
+    displayControlsDefault: false,
+    controls: {
+      polygon: true,
+      trash: true
+    }
+  });
 
   export default {
     components: {
@@ -36,7 +47,11 @@
 
     methods: {
       initializeMap: function(map) {
+        map.addControl(mapboxDraw, 'top-left');
+
         this.$store.state.map = map;
+
+        console.log(mapboxDraw);
       },
 
       loadMap: function() {
@@ -297,6 +312,36 @@
           map.on('zoomstart', function() {
             spiderifier.unspiderfy();
           });
+
+          map.on('draw.create', function(e) {
+            let feature = e.features[0];
+
+            if (feature) {
+              self.$root.$emit('polygon-created', feature);
+            }
+          });
+
+          map.on('draw.delete', function(e) {
+            console.log(e);
+
+            self.$root.$emit('polygon-deleted', e.features);
+          });
+
+          map.on('draw.selectionchange', function(e) {
+            console.log(e);
+
+            let features = e.features;
+
+            if (features && features.length > 0) {
+              let selectFeature = features[features.length - 1];
+
+              self.$root.$emit('polygon-selected', selectFeature)
+            }
+          });
+
+          map.on('draw.update', function(e) {
+            self.$root.$emit('polygon-updated', e.features);
+          });
         }
       },
 
@@ -323,6 +368,70 @@
 
       this.$root.$on('search-finished', function(init) {
         self.populateMap(init);
+      });
+
+      this.$root.$on('deselect-mapbox', function() {
+        mapboxDraw.changeMode('simple_select')
+      });
+
+      this.$root.$on('remove-unattached-polygons', function() {
+        let filterPolygonIds = {};
+
+        _.each(self.$store.state.searchBar.filters, function(filter) {
+          if (filter.type === 'where') {
+            filterPolygonIds[filter.data.object_id] = true;
+          }
+        });
+
+        let polygons = mapboxDraw.getAll();
+
+        let toDelete = [];
+
+        _.each(polygons.features, function(polygon) {
+          if (filterPolygonIds[polygon.id] == null) {
+            toDelete.push(polygon.id);
+          }
+        });
+
+        mapboxDraw.delete(toDelete);
+      });
+
+      this.$root.$on('redraw-polygons', function() {
+        console.log('Redrawing Polygons');
+        mapboxDraw.deleteAll();
+
+        let whereFilters = _.filter(self.$store.state.searchBar.filters, function(filter) {
+          return filter.type === 'where';
+        });
+
+        _.each(whereFilters, function(filter) {
+          let newPolygonId = uuid();
+          let polygonCoordinates = filter.data.coordinates;
+
+          if (polygonCoordinates[0] !== polygonCoordinates[polygonCoordinates.length - 1]) {
+            polygonCoordinates.push(polygonCoordinates[0]);
+          }
+
+          mapboxDraw.add({
+            id: newPolygonId,
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [polygonCoordinates]
+            }
+          });
+
+          filter.data.object_id = newPolygonId;
+        });
+      });
+
+      this.$root.$on('select-polygon', function(filter) {
+        if (filter.type === 'where' && filter.data && filter.data.object_id != null) {
+          mapboxDraw.changeMode('simple_select', {
+            featureIds: [filter.data.object_id]
+          });
+        }
       });
     }
   }

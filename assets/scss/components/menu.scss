@@ -173,44 +173,6 @@ div#body.explorer {
           }
         }
       }
-
-      .sort {
-        //display: none;
-        //
-        //& > div:last-child {
-        //	@include flex-column;
-        //	@include flex-space-around;
-        //	@include flex-wrap;
-        //
-        //	text-transform: capitalize;
-        //	font-size: 1.5em;
-        //	cursor: pointer;
-        //	padding-left: 15px;
-        //
-        //	& > div {
-        //		.sort-arrow {
-        //			width: 15px;
-        //			font-size: @include 8em;
-        //		}
-        //
-        //		& > span {
-        //			padding-left: 8px;
-        //		}
-        //
-        //		&:not(:last-child) {
-        //			margin-bottom: 0.5em;
-        //		}
-        //	}
-        //}
-      }
-
-      .views > div:last-child {
-        & > a[data-view="map"] {
-          @media #{$maxwidth768},#{$mobile} {
-            display: none;
-          }
-        }
-      }
     }
 
     & > footer {
