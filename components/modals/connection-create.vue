@@ -166,7 +166,12 @@
           newWindow.focus();
         }
         else if (browser === 'firefox') {
-          let newWindow = window.open('https://addons.mozilla.org/en-US/firefox/search/?platform=' + bowser.osname + '&q=lifescope', '_blank');
+          if (bowser.osname === 'macOS') {
+            let newWindow = window.open('https://addons.mozilla.org/en-US/firefox/search/?platform=mac&q=lifescope', '_blank');
+          }
+          else {
+            let newWindow = window.open('https://addons.mozilla.org/en-US/firefox/search/?platform=' + bowser.osname + '&q=lifescope', '_blank');
+          }
           newWindow.focus();
         }
       }
