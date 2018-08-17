@@ -50,8 +50,6 @@
         map.addControl(mapboxDraw, 'top-left');
 
         this.$store.state.map = map;
-
-        console.log(mapboxDraw);
       },
 
       loadMap: function() {
@@ -314,6 +312,7 @@
           });
 
           map.on('draw.create', function(e) {
+            console.log('Draw.create fired');
             let feature = e.features[0];
 
             if (feature) {
@@ -322,14 +321,10 @@
           });
 
           map.on('draw.delete', function(e) {
-            console.log(e);
-
             self.$root.$emit('polygon-deleted', e.features);
           });
 
           map.on('draw.selectionchange', function(e) {
-            console.log(e);
-
             let features = e.features;
 
             if (features && features.length > 0) {
@@ -343,6 +338,42 @@
             self.$root.$emit('polygon-updated', e.features);
           });
         }
+      },
+
+      redrawPolygons: function() {
+        console.log('Redrawing Polygons');
+        mapboxDraw.deleteAll();
+
+        console.log(this.$store.state);
+        let whereFilters = _.filter(this.$store.state.searchBar.filters, function(filter) {
+          return filter.type === 'where';
+        });
+
+        _.each(whereFilters, function(filter) {
+          let newPolygonId = uuid();
+          let polygonCoordinates = filter.data.coordinates;
+          let firstCoordinate = polygonCoordinates[0];
+          let lastCoordinate = polygonCoordinates[polygonCoordinates.length - 1];
+
+          if (firstCoordinate[0] !== lastCoordinate[0] || firstCoordinate[1] !== lastCoordinate[1]) {
+            polygonCoordinates.push(polygonCoordinates[0]);
+          }
+
+          console.log('Adding new Polygon');
+          mapboxDraw.add({
+            id: newPolygonId,
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [polygonCoordinates]
+            }
+          });
+
+          filter.data.object_id = newPolygonId;
+        });
+
+        this.$store.state.redrawPolygons = false;
       },
 
       renderDetailsModal: function(event) {
@@ -396,35 +427,7 @@
         mapboxDraw.delete(toDelete);
       });
 
-      this.$root.$on('redraw-polygons', function() {
-        console.log('Redrawing Polygons');
-        mapboxDraw.deleteAll();
-
-        let whereFilters = _.filter(self.$store.state.searchBar.filters, function(filter) {
-          return filter.type === 'where';
-        });
-
-        _.each(whereFilters, function(filter) {
-          let newPolygonId = uuid();
-          let polygonCoordinates = filter.data.coordinates;
-
-          if (polygonCoordinates[0] !== polygonCoordinates[polygonCoordinates.length - 1]) {
-            polygonCoordinates.push(polygonCoordinates[0]);
-          }
-
-          mapboxDraw.add({
-            id: newPolygonId,
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'Polygon',
-              coordinates: [polygonCoordinates]
-            }
-          });
-
-          filter.data.object_id = newPolygonId;
-        });
-      });
+      this.$root.$on('redraw-polygons', this.redrawPolygons);
 
       this.$root.$on('select-polygon', function(filter) {
         if (filter.type === 'where' && filter.data && filter.data.object_id != null) {

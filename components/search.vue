@@ -563,6 +563,7 @@
         }
 
         console.log('Trigger polygon redraw');
+        this.$store.state.redrawPolygons = true;
         this.$root.$emit('redraw-polygons');
       },
 
@@ -870,6 +871,8 @@
       });
 
       this.$root.$on('polygon-created', async function(feature) {
+        console.log('Handling polygon-created');
+        console.log(feature);
         let coordinates = feature.geometry.coordinates[0];
 
         let filter = {
