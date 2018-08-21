@@ -7,23 +7,23 @@
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
       <div id="filter-editor">
         <div id="filter-buttons">
-          <div class="control" data-type="who" v-on:click="createBlankFilter('who')">
+          <div class="control" data-type="who" v-on:click="createBlankFilter('who')" v-bind:class="{ active: $data.activeFilter.type === 'who' }">
             <i class="fa fa-user"></i>
           </div>
 
-          <div class="control" data-type="what" v-on:click="createBlankFilter('what')">
+          <div class="control" data-type="what" v-on:click="createBlankFilter('what')" v-bind:class="{ active: $data.activeFilter.type === 'what' }">
             <i class="fa fa-picture-o"></i>
           </div>
 
-          <div class="control" data-type="when" v-on:click="createBlankFilter('when')">
+          <div class="control" data-type="when" v-on:click="createBlankFilter('when')" v-bind:class="{ active: $data.activeFilter.type === 'when' }">
             <i class="fa fa-calendar"></i>
           </div>
 
-          <div class="control" data-type="connector" v-on:click="createBlankFilter('connector')">
+          <div class="control" data-type="connector" v-on:click="createBlankFilter('connector')" v-bind:class="{ active: $data.activeFilter.type === 'connector' }">
             <i class="fa fa-plug"></i>
           </div>
 
-          <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map' }">
+          <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map', active: $data.activeFilter.type === 'where' }">
             <i class="fa fa-globe"></i>
           </div>
         </div>
@@ -351,6 +351,7 @@
 
       createBlankFilter: function(type) {
         this.$root.$emit('remove-unattached-polygons');
+        this.$root.$emit('deselect-polygons');
 
         this.$data.activeFilter.id = null;
         this.$data.activeFilter.name = null;
@@ -411,6 +412,9 @@
 
         if (filter.type === 'where') {
           this.$root.$emit('select-polygon', filter);
+        }
+        else {
+          this.$root.$emit('deselect-polygons');
         }
       },
 
@@ -497,9 +501,6 @@
           return _.omit(filter, ['__typename', 'id', '_id', 'data.object_id']);
         });
 
-        console.log('Checking new search');
-        console.log(filters);
-
         let query = this.$store.state.searchBar.query;
 
         let result = await this.$apollo.mutate({
@@ -562,7 +563,6 @@
           }
         }
 
-        console.log('Trigger polygon redraw');
         this.$store.state.redrawPolygons = true;
         this.$root.$emit('redraw-polygons');
       },
@@ -775,7 +775,8 @@
           this.$store.state.searchEnded = data.length < this.$store.state.pageSize;
           this.$store.state.searching = false;
           this.$store.state.spinner = false;
-          this.$root.$emit('search-finished', init);
+
+          this.$root.$emit('search-finished');
         }
       },
 
@@ -871,8 +872,6 @@
       });
 
       this.$root.$on('polygon-created', async function(feature) {
-        console.log('Handling polygon-created');
-        console.log(feature);
         let coordinates = feature.geometry.coordinates[0];
 
         let filter = {
@@ -895,8 +894,6 @@
             return filter.data.object_id === feature.id
           });
 
-          console.log(filter);
-
           if (filter) {
             self.deleteFilter({
               id: filter.id
@@ -911,12 +908,17 @@
             return filter.data.object_id === feature.id
           });
 
+          if (filter == null) {
+            filter = self.$data.activeFilter;
+          }
+
           let coordinates = feature.geometry.coordinates[0];
 
           filter.data.coordinates = coordinates.slice(0, (coordinates.length - 1));
 
-          console.log('Polygon updated in store');
         });
+
+        self.checkNewSearch();
       });
 
       this.$root.$on('polygon-selected', async function(feature) {

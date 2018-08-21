@@ -40,9 +40,18 @@
     }
   });
 
+  let SPIDERFY_FROM_ZOOM = 20;
+  let CLUSTER_RADIUS = 50;
+
   export default {
     components: {
       Mapbox
+    },
+
+    data: function() {
+      return {
+        mapInitialized: false
+      }
     },
 
     methods: {
@@ -53,21 +62,16 @@
       },
 
       loadMap: function() {
-        if (this.$store.state.view === 'map' && this.$store.state.objects.events.length > 0) {
-          this.populateMap();
-        }
+        this.populateMap();
       },
 
       getEventTypeIcon: function(type) {
         return icons('event', type)
       },
 
-      populateMap: function(init) {
+      populateMap: function() {
         let self = this;
         let map = this.$store.state.map;
-
-        let SPIDERFY_FROM_ZOOM = 20;
-        let CLUSTER_RADIUS = 50;
 
         let features = [];
         let markers = [];
@@ -194,7 +198,7 @@
           layout: {
             'icon-image': 'marker-15'
           },
-          filter: ['all',['!has', 'point_count']]
+          filter: ['all', ['!has', 'point_count']]
         });
 
         map.addLayer({
@@ -209,7 +213,7 @@
           }
         });
 
-        if (init) {
+        if (this.$data.mapInitialized !== true) {
           map.on('click', function(e) {
             spiderifier.unspiderfy();
           });
@@ -312,7 +316,6 @@
           });
 
           map.on('draw.create', function(e) {
-            console.log('Draw.create fired');
             let feature = e.features[0];
 
             if (feature) {
@@ -337,14 +340,16 @@
           map.on('draw.update', function(e) {
             self.$root.$emit('polygon-updated', e.features);
           });
+
+          this.$data.mapInitialized = true;
+
+          this.redrawPolygons();
         }
       },
 
       redrawPolygons: function() {
-        console.log('Redrawing Polygons');
         mapboxDraw.deleteAll();
 
-        console.log(this.$store.state);
         let whereFilters = _.filter(this.$store.state.searchBar.filters, function(filter) {
           return filter.type === 'where';
         });
@@ -359,7 +364,6 @@
             polygonCoordinates.push(polygonCoordinates[0]);
           }
 
-          console.log('Adding new Polygon');
           mapboxDraw.add({
             id: newPolygonId,
             type: 'Feature',
@@ -397,8 +401,8 @@
       MapboxSpiderifier = require('mapboxgl-spiderifier');
       mapboxgl = require('mapbox-gl');
 
-      this.$root.$on('search-finished', function(init) {
-        self.populateMap(init);
+      this.$root.$on('search-finished', function() {
+        self.populateMap();
       });
 
       this.$root.$on('deselect-mapbox', function() {
@@ -431,11 +435,33 @@
 
       this.$root.$on('select-polygon', function(filter) {
         if (filter.type === 'where' && filter.data && filter.data.object_id != null) {
-          mapboxDraw.changeMode('simple_select', {
-            featureIds: [filter.data.object_id]
-          });
+          //There's a bug in Mapbox that will cause an endless loop of draw.create firings if you don't encapsulate
+          //this changeMode in a setTimeout. I don't know why, but this fixes it.
+          setTimeout(function() {
+            mapboxDraw.changeMode('simple_select', {
+              featureIds: [filter.data.object_id]
+            });
+          }, 0);
         }
       });
+
+      this.$root.$on('deselect-polygons', function() {
+        setTimeout(function() {
+          mapboxDraw.changeMode('simple_select', {
+            featureIds: []
+          });
+        })
+      });
+    },
+
+    destroyed: function() {
+      this.$root.$off([
+        'search-finished',
+        'remove-unattached-polygons',
+        'redraw-polygons',
+        'select-polygon',
+        'deselect-polygons'
+      ]);
     }
   }
 </script>
