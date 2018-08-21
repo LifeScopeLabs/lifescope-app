@@ -1,8 +1,17 @@
 <template>
     <a-entity class="carousel-item carousel-content-item" v-bind:id="content.id">
+		<!-- background -->
+		<a-entity 
+				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
+				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
+				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
+				:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
+		</a-entity>
+
 		<!-- header -->
 		<a-entity class="header"
-			:position="'0 ' + carouselDim.top + ' 0'">
+			:position="'0 ' + verticleToSlanted(6*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.35'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<!-- type -->
 			<a-entity class="type"
 					:position="'0 0 0'">
@@ -49,7 +58,8 @@
 		<!-- audio/image/video/email/iframe/-->
 		 <a-entity class="content-embed" 
 		 	v-bind:data-id="content.id"
-			:position="'0 ' + (carouselDim.top-2*carouselDim.lineSeparation) + ' 0'">
+			:position="'0 ' + verticleToSlanted(-3*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -0.75'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 
 			<!-- Audio -->
 			<a-entity v-if="isAudio(content)">
@@ -67,10 +77,11 @@
 			 <!-- Image -->
 			 <a-entity v-if="isImage(content)">
 				<a-entity 
-					geometry="primitive: plane; width: 3; height: 2"
+					geometry="primitive: plane; width: 0.7"
 					:material="this.imageMaterial"
 					rotation="0 0 0"
-					position="0 1 0">
+					position="-0.175 0 0"
+					src-fit="orientation: width; maxDimension: 0.7;">
 				</a-entity>
 			</a-entity>
 
@@ -117,7 +128,8 @@
 
 		<!-- content.embed_thumbnail -->
 		<a-entity v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail"
-			:position="'0 ' + (carouselDim.top - (2 * carouselDim.lineSeparation)) + ' 0'">
+			:position="'0 ' + verticleToSlanted(4*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.35'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<a-entity v-if="content.title == null"
 				geometry="primitive: plane; width: 1; height: 1"
 				:material="this.thumbnailMaterial"/>
@@ -129,7 +141,8 @@
 
 		<!-- title -->
 		<a-entity class="title"
-			:position="'0 ' + (carouselDim.top - (3 * carouselDim.lineSeparation)) + ' 0'">
+			:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<!-- <a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span> -->
 			<a-entity :scale="textScale"
@@ -141,7 +154,8 @@
 		<!-- content.text -->
 		<a-entity v-if="content.text != null"
 			class="text"
-			:position="'0 ' + (carouselDim.top - (4 * carouselDim.lineSeparation)) + ' 0'">
+			:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<a-entity :scale="textScale"
                   :text="this.textString(content.text)"/>
 		</a-entity>
@@ -152,7 +166,8 @@
 					(content.text == null || content.text.length === 0) &&
 					content.url != null"
 					class="title"
-					:position="'0 ' + (carouselDim.top - (4 * carouselDim.lineSeparation)) + ' 0'">
+					:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
+					:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 					<a-entity :scale="textScale"
                   		:text="this.textString(content.url)"/>
 		</a-entity>
@@ -173,7 +188,7 @@
 
 <script>
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 import icons from '../../../lib/util/icons';
 import FAIonicon from '../../../lib/aframe/font-awesome-ionicons';
@@ -194,7 +209,7 @@ export default {
 
 	computed: {
         imageMaterial: function() {
-            return 'src: #image-' + this.content.id + '; side: double'
+            return 'src: ' + this.content.embed_content + '; side: double'
 		},
 
 		thumbnailMaterial: function() {
@@ -237,7 +252,7 @@ export default {
 				console.log("isAudio");
 				console.log(item.embed_format);
 				}
-			else {
+			else if (CONFIG.DEBUG){
 				console.log("not audio");
 				console.log(item.embed_format);
 			};
@@ -275,10 +290,24 @@ export default {
 			return truth;
 		},
 
+		// Layout
+		verticleToSlanted: function(len, degrees) {
+			// console.log("verticleToSlanted")
+			function toRadians (angle) {
+				// console.log(`${angle} degrees is ${angle * (Math.PI / 180)} radians`)
+				return angle * (Math.PI / 180);
+			}
+			// console.log(`Math.sin(toRadians(${degrees}): ${Math.sin(toRadians(degrees))}`)
+			return len * Math.sin(toRadians(degrees));
+		},
+
     },
 
     mounted () {
-        //console.log(this.content.id)
+		console.log("content.vue mounted")
+		console.log(this.content.id);
+		console.log(this.content.url);
+		console.log(this.content);
     }
   }
 </script>

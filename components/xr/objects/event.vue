@@ -209,8 +209,8 @@ export default {
 			return icons('provider', provider.name);
 		},
 		getEventTypeIcon: function(type) {
-			console.log("getEventTypeIcon");
-			console.log(icons('event', type));
+			//console.log("getEventTypeIcon");
+			//console.log(icons('event', type));
 			return icons('event', type);
 		},
 		stripFontAwesome(type) {
@@ -219,8 +219,8 @@ export default {
 			return type.match(regex)[0];
 		},
 		getIoniconFromFA: function(icon) {
-			console.log(`getIoniconFromFA(${icon})`);
-			console.log(`FAIonicon[${icon}] == ${FAIonicon[icon]}`);
+			//console.log(`getIoniconFromFA(${icon})`);
+			//console.log(`FAIonicon[${icon}] == ${FAIonicon[icon]}`);
 			return FAIonicon[icon];
 		},
 

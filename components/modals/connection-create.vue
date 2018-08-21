@@ -156,7 +156,7 @@
             permissions: permissions
           }
         });
-
+        
         window.location = response.data.initializeConnection.redirectUrl;
       },
 
