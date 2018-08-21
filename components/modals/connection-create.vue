@@ -79,6 +79,12 @@
 
           <div class="action">
             <button v-if="provider.name === 'Google'" class="no-style" type="submit"><img src="~/assets/images/google_signin_buttons/web/1x/btn_google_signin_dark_normal_web.png" /></button>
+            <button v-else-if="provider.name === 'Facebook'" class="primary facebook-connect flexbox flex-x-center" type="submit">
+              <img src="~/assets/images/facebook/white/PNG/flogo-HexRBG-Wht-58.png">
+              <div v-if="$store.getters.authenticated === true">Connect to {{ provider.name }}</div>
+              <div v-else>Log in with {{ provider.name }}</div>
+            </button>
+            <button v-else-if="$store.getters.authenticated === true" class="primary" type="submit">Connect to {{ provider.name }}</button>
             <button v-else class="primary" type="submit">Log in with {{ provider.name }}</button>
           </div>
         </form>
