@@ -50,7 +50,8 @@
 
     data: function() {
       return {
-        mapInitialized: false
+        mapInitialized: false,
+        markersNeedRendering: true
       }
     },
 
@@ -261,58 +262,70 @@
             map.getCanvas().style.cursor = '';
           });
 
-          map.on('render', function(e) {
-            _.each(markers, function(marker) {
-              marker.remove();
-            });
+          map.on('render', function() {
+            if (self.$data.markersNeedRendering === true) {
+              _.each(markers, function(marker) {
+                marker.remove();
+              });
+            }
+          });
 
-            let symbols = map.queryRenderedFeatures(e.point, {
-              layers: ['events']
-            });
+          map.on('render', 'events', function(e) {
+            if (self.$data.markersNeedRendering === true) {
+              let symbols = map.queryRenderedFeatures(e.point, {
+                layers: ['events']
+              });
 
-            _.each(symbols, function(symbol) {
-              let popup;
-              let event = JSON.parse(symbol.properties.event);
-              let pinElem = document.createElement('div');
-              let coordinates = symbol.geometry.coordinates;
+              _.each(symbols, function(symbol) {
+                let popup;
+                let event = JSON.parse(symbol.properties.event);
+                let pinElem = document.createElement('div');
+                let coordinates = symbol.geometry.coordinates;
 
-              pinElem.className = 'map-marker fa-stack fa-lg';
-              pinElem.innerHTML = '<i class="fill-circle fa fa-circle fa-stack-1x"></i>' + '<i class="circle-icon fa fa-map-marker fa-stack-3x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
-              pinElem.style.color = symbol.properties.color;
+                pinElem.className = 'map-marker fa-stack fa-lg';
+                pinElem.innerHTML = '<i class="fill-circle fa fa-circle fa-stack-1x"></i>' + '<i class="circle-icon fa fa-map-marker fa-stack-3x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+                pinElem.style.color = symbol.properties.color;
 
-              let marker = new mapboxgl.Marker(pinElem)
-                .setLngLat(coordinates)
-                .addTo(map);
+                let marker = new mapboxgl.Marker(pinElem)
+                  .setLngLat(coordinates)
+                  .addTo(map);
 
-              $(pinElem)
-                .on('mouseenter', function() {
-                  popup = new mapboxgl.Popup({
-                    closeButton: false,
-                    closeOnClick: false,
-                    offset: 20
+                $(pinElem)
+                  .on('mouseenter', function(e) {
+                    popup = new mapboxgl.Popup({
+                      closeButton: false,
+                      closeOnClick: false,
+                      offset: 20
+                    });
+
+                    popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
+
+                    marker.setPopup(popup);
+                  })
+                  .on('mouseleave', function() {
+                    if (popup) {
+                      popup.remove();
+                    }
+                  })
+                  .on('click', function(e) {
+                    e.stopPropagation();
+
+                    self.renderDetailsModal(event);
                   });
 
-                  popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
+                markers.push(marker);
+              });
 
-                  marker.setPopup(popup);
-                })
-                .on('mouseleave', function() {
-                  if (popup) {
-                    popup.remove();
-                  }
-                })
-                .on('click', function(e) {
-                  e.stopPropagation();
-
-                  self.renderDetailsModal(event);
-                });
-
-              markers.push(marker);
-            });
+              self.$data.markersNeedRendering = false;
+            }
           });
 
           map.on('zoomstart', function() {
             spiderifier.unspiderfy();
+          });
+
+          map.on('zoomend', function() {
+            self.$data.markersNeedRendering = true;
           });
 
           map.on('draw.create', function(e) {
@@ -342,9 +355,9 @@
           });
 
           this.$data.mapInitialized = true;
-
-          this.redrawPolygons();
         }
+
+        this.redrawPolygons();
       },
 
       redrawPolygons: function() {
@@ -402,6 +415,7 @@
       mapboxgl = require('mapbox-gl');
 
       this.$root.$on('search-finished', function() {
+        self.$data.markersNeedRendering = true;
         self.populateMap();
       });
 
