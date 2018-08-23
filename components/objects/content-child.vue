@@ -44,10 +44,11 @@
               v-bind:height="getHeight()"
               v-on:load="renderEmailIframe(content)"
               v-bind:name="content.id"></iframe>
-      <div v-if="isIframe(content)"
-          v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }" >
-          <span v-html="content.embed_content"></span>
-        </div>
+      <span v-if="isIframe(content)"
+            class="iframe-wrapper"
+          v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+            v-html="content.embed_content">
+        </span>
     </div>
 
     <!-- embed thumbnail -->
@@ -82,7 +83,7 @@
     <!-- url -->
     <!-- if no title or text but there is a url -->
     <div v-if="(content.title == null || content.title.length === 0) &&
-         (content.text == null || content.text.length === 0) && 
+         (content.text == null || content.text.length === 0) &&
          content.url != null"
          class="title">
       <a href="content.url" target="blank">{{ content.url | safe }}</a>

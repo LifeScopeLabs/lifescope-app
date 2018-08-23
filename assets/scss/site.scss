@@ -225,6 +225,15 @@ div#body {
           & > i {
             margin-right: 0.2em;
           }
+
+          &.disabled {
+            color: $border-color-light;
+            cursor: initial;
+
+            &:hover {
+              color: $border-color-light;
+            }
+          }
         }
       }
 
@@ -456,5 +465,13 @@ html.dark {
     &:hover {
       color: $blue;
     }
+  }
+}
+
+.close-button {
+  cursor: pointer;
+
+  &:hover {
+    color: $green
   }
 }

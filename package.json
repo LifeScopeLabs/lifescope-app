@@ -1,6 +1,6 @@
 {
   "name": "lifescope-app",
-  "version": "1.8.0",
+  "version": "1.9.2",
   "description": "Search and Explore the internet of you. lifescope.io",
   "author": "LifeScope Labs (https://lifescope.io)",
   "repository": {
@@ -30,9 +30,7 @@
     "nuxt-build": "nuxt build",
     "nuxt-start": "nuxt start",
     "nuxt-generate": "nuxt generate",
-    "serve": "node dist/app/server.js",
-    "easyrtc-install": "cd ./node_modules/easyrtc; yarn install --ignore-engines; cd ../../;",
-    "engine-install": "cd ./node_modules/engine.io; yarn install --ignore-engines; cd ../../;"
+    "serve": "node dist/app/server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -77,6 +75,7 @@
     "webrtc-adapter": "^6.2.1"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.0.9",
     "@nuxtjs/apollo": "^3.0.5",
     "@nuxtjs/google-analytics": "^2.0.2",
     "aframe": "^0.8.2",
@@ -117,6 +116,9 @@
     "jquery": "^3.3.1",
     "json-schema-ref-parser": "^5.0.0",
     "lodash": "^4.17.5",
+    "mapbox-gl": "^0.47.0",
+    "mapbox-gl-vue": "^1.9.0",
+    "mapboxgl-spiderifier": "^1.0.9",
     "math": "0.0.3",
     "mixitup": "^3.2.2",
     "moment": "^2.21.0",

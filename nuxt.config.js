@@ -7,6 +7,7 @@ const webpack = require('webpack');
 
 const cookieAuthorization = require('./lib/middleware/cookie-authorization');
 const initialSearches = require('./lib/middleware/initial-searches');
+const loadMapboxConfig = require('./lib/middleware/load-mapbox-config');
 
 module.exports = {
   /*
@@ -62,6 +63,7 @@ module.exports = {
       { rel: 'mask-icon', color: '#5bbad5', href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/safari-pinned-tab.svg' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700|PT+Sans:400,400italic,700,700italic|Quicksand:400,300|Raleway:400|Roboto:300,400,700|Source+Sans+Pro:300,400,700' },
       { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' },
+      { rel: 'stylesheet', href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' },
     ]
   },
 
@@ -168,8 +170,9 @@ module.exports = {
         moment: 'moment',
         // 'socket.io': 'socket.io-client',
         easyrtc: './static/easyrtc/easyrtc.js',
-        // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js'
-        }),
+        // 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js',
+        mapboxgl: 'mapbox-gl'
+      }),
     ]
 	},
 
@@ -188,5 +191,6 @@ module.exports = {
 		cookieParser(),
 		cookieAuthorization,
     initialSearches,
+    loadMapboxConfig
 	]
 };

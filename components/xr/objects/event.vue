@@ -209,8 +209,8 @@ export default {
 			return icons('provider', provider.name);
 		},
 		getEventTypeIcon: function(type) {
-			// console.log("getEventTypeIcon");
-			// console.log(icons('event', type));
+			//console.log("getEventTypeIcon");
+			//console.log(icons('event', type));
 			return icons('event', type);
 		},
 		stripFontAwesome(type) {

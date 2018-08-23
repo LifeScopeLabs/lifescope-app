@@ -247,10 +247,28 @@ body {
         &.where {
           form.where {
             display: block;
-          }
 
-          @media #{$maxwidth768},#{$mobile} {
-            display: none;
+            & > .input-container {
+              border: 1px solid $border-color;
+              border-radius: 3px;
+              font-size: 0.75em;
+
+              & > label {
+                width: 50%;
+
+                &:first-child {
+                  border-radius: 3px 0 0 3px;
+                }
+
+                &:last-child {
+                  border-radius: 0 3px 3px 0;
+                }
+
+                &:not(:last-child) {
+                  border-right: 1px solid $border-color;
+                }
+              }
+            }
           }
         }
 

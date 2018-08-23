@@ -49,7 +49,7 @@
 		<!-- audio/image/video/email/iframe/-->
 		 <a-entity class="content-embed" 
 		 	v-bind:data-id="content.id"
-			:position="'0 ' + (-2*carouselDim.lineSeparation) + ' 0'">
+			:position="'0 ' + (-4*carouselDim.lineSeparation) + ' 0'">
 
 			<!-- Audio -->
 			<a-entity v-if="isAudio(content)">
@@ -67,10 +67,11 @@
 			 <!-- Image -->
 			 <a-entity v-if="isImage(content)">
 				<a-entity 
-					geometry="primitive: plane; width: 3; height: 2"
+					geometry="primitive: plane; width: 0.7"
 					:material="this.imageMaterial"
 					rotation="0 0 0"
-					position="0 1 0">
+					position="-0.175 0 0"
+					src-fit="orientation: width; maxDimension: 0.7;">
 				</a-entity>
 			</a-entity>
 
@@ -120,7 +121,7 @@
 
 <script>
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 import icons from '../../../lib/util/icons';
 import FAIonicon from '../../../lib/aframe/font-awesome-ionicons';
@@ -141,7 +142,7 @@ export default {
 
 	computed: {
         imageMaterial: function() {
-            return 'src: #image-' + this.content.id + '; side: double'
+            return 'src: ' + this.content.embed_content + '; side: double'
 		},
 
 		thumbnailMaterial: function() {

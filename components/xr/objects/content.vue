@@ -1,6 +1,5 @@
 <template>
     <a-entity class="carousel-item carousel-content-item" v-bind:id="content.id">
-
 		<!-- background -->
 		<a-entity 
 				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
@@ -61,7 +60,7 @@
 			:position="'0 ' + (carouselDim.top-2*carouselDim.lineSeparation) + ' 0'" -->
 		 <a-entity class="content-embed" 
 		 	v-bind:data-id="content.id"
-			:position="'0 ' + verticleToSlanted(2 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.05'"
+			:position="'0 ' + verticleToSlanted(-3*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -0.75'"
 			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 
 			<!-- Audio -->
@@ -80,21 +79,25 @@
 			 <!-- Image -->
 			 <a-entity v-if="isImage(content)">
 				<a-entity 
-					geometry="primitive: plane; width: 3; height: 2"
+					geometry="primitive: plane; width: 0.7"
 					:material="this.imageMaterial"
 					rotation="0 0 0"
-					position="0 1 0">
+					position="-0.175 0 0"
+					src-fit="orientation: width; maxDimension: 0.7;">
 				</a-entity>
 			</a-entity>
 
 			<!-- Video -->
 			<a-entity v-if="isVideo(content)">
-				<a-ionicon 
-							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-video')))"
-							:size="size * iconSize"
-							textAlign="right"
-							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
-					</a-ionicon>
+				<a-video
+                :src="this.videoSrc"
+                rotation="-30 0 0"
+                position="0 0.4 0"
+                width="0.7"
+                src-fit>
+                <!-- :play-gaze="'button: true; rig: video-rig-' + this.image.id + '; position: -1 -0.35 0;'"
+                dynamic-autoplay="false"> -->
+            </a-video>
 				<a-entity :scale="textScale"
                   :text="this.textString('Video')"
 				/>
@@ -131,7 +134,8 @@
 
 		<!-- content.embed_thumbnail -->
 		<a-entity v-if="content.embed_thumbnail && !isImage(content) && !isVideo(content) && !isIframe(content)" class="thumbnail"
-			:position="'0 ' + (carouselDim.top - (2 * carouselDim.lineSeparation)) + ' 0'">
+			:position="'0 ' + verticleToSlanted(4*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.35'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<a-entity v-if="content.title == null"
 				geometry="primitive: plane; width: 1; height: 1"
 				:material="this.thumbnailMaterial"/>
@@ -144,7 +148,7 @@
 		<!-- title -->
 		<!-- :position="'0 ' + (carouselDim.top - (3 * carouselDim.lineSeparation)) + ' 0'" -->
 		<a-entity class="title"
-			:position="'0 ' + verticleToSlanted( - 3 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -0.6'"
+			:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
 			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<!-- <a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span> -->
@@ -158,9 +162,8 @@
 		<!-- :position="'0 ' + (carouselDim.top - (4 * carouselDim.lineSeparation)) + ' 0'" -->
 		<a-entity v-if="content.text != null"
 			class="text"
-			:position="'0 ' + verticleToSlanted( - 3 * carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -0.75'"
-			:rotation="(-carouselDim.displayDegrees) + ' 0 0'"
-			>
+			:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
+			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<a-entity :scale="textScale"
                   :text="this.textString(content.text)"/>
 		</a-entity>
@@ -171,7 +174,8 @@
 					(content.text == null || content.text.length === 0) &&
 					content.url != null"
 					class="title"
-					:position="'0 ' + (carouselDim.top - (4 * carouselDim.lineSeparation)) + ' 0'">
+					:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
+					:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 					<a-entity :scale="textScale"
                   		:text="this.textString(content.url)"/>
 		</a-entity>
@@ -192,7 +196,7 @@
 
 <script>
 var CONFIG = {};
-CONFIG.DEBUG = true;
+CONFIG.DEBUG = false;
 
 import icons from '../../../lib/util/icons';
 import FAIonicon from '../../../lib/aframe/font-awesome-ionicons';
@@ -213,12 +217,17 @@ export default {
 
 	computed: {
         imageMaterial: function() {
-            return 'src: #image-' + this.content.id + '; side: double'
+            return 'src: ' + this.content.embed_content + '; side: double'
 		},
 
 		thumbnailMaterial: function() {
             return 'src: ' + this.content.embed_thumbnail + '; side: double'
 		},
+
+		videoSrc: function () {
+            //console.log('src: ' + this.roomConfig.bucket_route + '/' + this.roomConfig.BUCKET_NAME + '/' + this.image.route);
+            return "https://s3.amazonaws.com/lifescope-static/test/content/video/VideoOfWomenModelling.mp4";//this.roomConfig.bucket_route + '/' + this.roomConfig.BUCKET_NAME + '/' + this.image.route;
+        },
 		
 		textScale: function() {
 			return (0.5*this.size) + ' ' + (0.5*this.size) + ' ' + (0.25*this.size);
@@ -256,7 +265,7 @@ export default {
 				console.log("isAudio");
 				console.log(item.embed_format);
 				}
-			else {
+			else if (CONFIG.DEBUG){
 				console.log("not audio");
 				console.log(item.embed_format);
 			};
@@ -305,20 +314,13 @@ export default {
 			return len * Math.sin(toRadians(degrees));
 		},
 
-		horizontalToSlanted: function(len, degrees) {
-			// console.log("horizontalToSlanted");
-			function toRadians (angle) {
-				// console.log(`${angle} degrees is ${angle * (Math.PI / 180)} radians`);
-				return angle * (Math.PI / 180);
-			}
-			// console.log(`Math.cos(toRadians(${degrees}): ${Math.cos(toRadians(degrees))}`)
-			return len * Math.cos(toRadians(degrees));
-		}
-
     },
 
     mounted () {
-        //console.log(this.content.id)
+		console.log("content.vue mounted")
+		console.log(this.content.id);
+		console.log(this.content.url);
+		console.log(this.content);
     }
   }
 </script>

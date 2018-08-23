@@ -1,6 +1,9 @@
 <template>
   <main v-if="$store.state.view === 'xr'">
-    <xrApp/>
+    <galleryContainer/>
+  </main>
+  <main v-else-if="$store.state.view === 'map'">
+    <MapView/>
   </main>
   <main v-else v-on:scroll="handleScroll">
     <!-- content section -->
@@ -100,7 +103,8 @@
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
 
-  import xrApp from '../xr/XRApp.vue'
+  import MapView from '../views/map.vue';
+  import galleryContainer from '../xr/gallery-container.vue'
 
   export default {
     data: function() {
@@ -110,10 +114,11 @@
       };
     },
     components: {
+      MapView,
       UserContact,
       UserContent,
       UserEvent,
-      xrApp
+      galleryContainer
     },
     methods: {
       searchIcon: function(search) {
@@ -171,7 +176,16 @@
             }
           });
 
-          this.$store.state.currentSearch = this.$store.state.searchBar = _.clone(result.data.searchOne);
+          if (result.data.searchOne == null) {
+            let result = await this.$apollo.mutate({
+              mutation: searchFind
+            });
+
+            this.$store.state.currentSearch = this.$store.state.searchBar = _.clone(result);
+          }
+          else {
+            this.$store.state.currentSearch = this.$store.state.searchBar = _.clone(result.data.searchOne);
+          }
         }
       },
 

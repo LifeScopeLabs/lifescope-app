@@ -16,6 +16,7 @@
 						</div>
 						<div class="drawer" v-bind:class="{ hidden: $store.state.mobileViewSelectorOpen !== true }">
 							<a data-view="feed" v-bind:class="{ active: $store.state.view === 'feed' }" v-on:click="setView('feed')"><i class="fa fa-clone"></i><span>Feed</span></a>
+              <a data-view="map" v-bind:class="{ active: $store.state.view === 'map', disabled: $store.state.facet !== 'events' }" v-on:click="setView('map')"><i class="fa fa-map"></i><span>Map</span></a>
 							<a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }" v-on:click="setView('grid')"><i class="fa fa-th"></i><span>Grid</span></a>
 							<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }" v-on:click="setView('list')"><i class="fa fa-list"></i><span>List</span></a>
 							<a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }" v-on:click="setView('xr')"><i class="fa fa-cubes"></i><span>XR</span></a>
@@ -87,8 +88,8 @@
 						</div>
 						<div class="drawer" v-bind:class="{ hidden: $store.state.mobileFacetSelectorOpen !== true }">
               <a v-bind:class="{ active: $store.state.facet === 'events' }" v-on:click="setFacet('events')">Events</a>
-              <a v-bind:class="{ active: $store.state.facet === 'content' }" v-on:click="setFacet('content')">Content</a>
-              <a v-bind:class="{ active: $store.state.facet === 'contacts' }" v-on:click="setFacet('contacts')">Contacts</a>
+              <a v-if="$store.state.view !== 'map'" v-bind:class="{ active: $store.state.facet === 'content' }" v-on:click="setFacet('content')">Content</a>
+              <a v-if="$store.state.view !== 'map'" v-bind:class="{ active: $store.state.facet === 'contacts' }" v-on:click="setFacet('contacts')">Contacts</a>
             </div>
 					</div>
 

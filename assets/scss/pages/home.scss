@@ -407,14 +407,6 @@ div#body.home {
           margin-bottom: 0.5em;
         }
 
-        .close-button {
-          cursor: pointer;
-
-          &:hover {
-            color: $green
-          }
-        }
-
         #social-tag-shares {
           @include flexbox;
           @include flex-center;

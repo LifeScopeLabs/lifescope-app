@@ -1,75 +1,76 @@
 <template>
-  <div v-if="type === 'event'" class="object event modaled" v-bind:id="item.id">
-    <div class="flexbox flex-end">
+  <div v-if="type === 'event'" class="object event modaled flex-column" v-bind:id="item.id">
+    <div class="flexbox flex-end close-container">
       <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
-    <aside class="details">
-      <div class="type">
-        <i v-bind:class="getEventTypeIcon(item.type)"></i>
+    <div class="items">
+      <aside class="details">
+        <div class="type">
+          <i v-bind:class="getEventTypeIcon(item.type)"></i>
 
-        <span v-if="item.context">
-					{{ item.context }}
-				</span>
-        <span v-else>
-					{{ item.type }}
-				</span>
+          <span v-if="item.context">
+            {{ item.context }}
+          </span>
+          <span v-else>
+            {{ item.type }}
+          </span>
 
-        <aside class="action-bar" v-on:click="openActionModal(event, 'event')">
-          <span>Tag</span><i class="fa fa-hashtag"></i>
-        </aside>
-      </div>
+          <aside class="action-bar" v-on:click="openActionModal(event, 'event')">
+            <span>Tag</span><i class="fa fa-hashtag"></i>
+          </aside>
+        </div>
 
-      <div class="provider">
-        <i v-bind:class="getProviderIcon(item.connection.provider)"></i>
-        <span>{{ item.connection.name | truncate(30) }}</span>
-      </div>
+        <div class="provider">
+          <i v-bind:class="getProviderIcon(item.connection.provider)"></i>
+          <span>{{ item.connection.name | truncate(30) }}</span>
+        </div>
 
-      <div v-if="item.datetime" class="date">
-        <div>
+        <div v-if="item.datetime" class="date">
           <div>
-            <i class="fa fa-calendar"></i> <span>{{ item.datetime | dateShort }}</span>
-          </div>
+            <div>
+              <i class="fa fa-calendar"></i> <span>{{ item.datetime | dateShort }}</span>
+            </div>
 
 
-          <div v-if="!item.datetime" class="estimation">
-            <i class="fa fa-flask"></i> <span>Estimated</span>
-          </div>
+            <div v-if="!item.datetime" class="estimation">
+              <i class="fa fa-flask"></i> <span>Estimated</span>
+            </div>
 
-          <div v-else>
-            <i class="fa fa-clock-o"></i> <span>{{ item.datetime | dateTime }}</span>
+            <div v-else>
+              <i class="fa fa-clock-o"></i> <span>{{ item.datetime | dateTime }}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="tagging">
-        <div class="tags">
-          <span v-for="tag in tags">#{{ tag }}</span>
+        <div class="tagging">
+          <div class="tags">
+            <span v-for="tag in tags">#{{ tag }}</span>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+      <section v-if="item.content && item.content.length > 0" class="content">
+        <user-content v-for="content in item.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="item.connection"></user-content>
+      </section>
 
-    <section v-if="item.content && item.content.length > 0" class="content">
-      <user-content v-for="content in item.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="item.connection"></user-content>
-    </section>
-
-    <aside v-if="(item.contacts && item.contacts.length > 0) || (item.people && item.people.length > 0) || (item.organizations && item.organizations.length > 0)" class="interactions">
-      <div v-if="item.contact_interaction_type">{{ item.content_interaction_type }}</div>
-      <div class="objects">
-        <user-contact v-for="contact in item.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="item.connection"></user-contact>
-      </div>
-      <div v-if="item.contacts > 3 || item.people > 3 || item.organizations > 3" class="expand">More</div>
-    </aside>
+      <aside v-if="(item.contacts && item.contacts.length > 0) || (item.people && item.people.length > 0) || (item.organizations && item.organizations.length > 0)" class="interactions">
+        <div v-if="item.contact_interaction_type">{{ item.content_interaction_type }}</div>
+        <div class="objects">
+          <user-contact v-for="contact in item.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="item.connection"></user-contact>
+        </div>
+        <div v-if="item.contacts > 3 || item.people > 3 || item.organizations > 3" class="expand">More</div>
+      </aside>
+    </div>
   </div>
-  <div v-else-if="type === 'content'" class="object content modaled" v-bind:id="item.id">
-    <div class="flexbox flex-end">
+  <div v-else-if="type === 'content'" class="object content modaled flex-column" v-bind:id="item.id">
+    <div class="flexbox flex-end close-container">
       <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
     <section class="content">
       <user-content v-bind:key="item.id" v-bind:content="item" v-bind:connection="item.connection"></user-content>
     </section>
   </div>
-  <div v-else-if="type === 'contact'" class="object contact modaled" v-bind:id="item.id">
-    <div class="flexbox flex-end">
+  <div v-else-if="type === 'contact'" class="object contact modaled flex-column" v-bind:id="item.id">
+    <div class="flexbox flex-end close-container">
       <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
     <div class="objects">

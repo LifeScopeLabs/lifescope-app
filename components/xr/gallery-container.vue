@@ -1,42 +1,24 @@
 <template>
-  <a-scene embedded :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-xr; room: ls-room; audio: true; debug: true; adapter: easyrtc; connectOnLoad: true;'">
+  <a-scene embedded :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-app; room: '+ roomName + '; audio: true; adapter: easyrtc; connectOnLoad: true;'">
 
-    <!-- Register Aframe components -->
-
-    <!-- Load assets -->
-    <!-- <a-assets/> -->
     <a-assets class="aframe-assets">
       <img id="sky" src="../../static/images/nightsky.jpg">
-
       <img id="floor" src="../../static/images/floor.jpg">
-
       <img id="earth" src="../../static/earth/Albedo.jpg">
-
-      <!-- video controls -->
       <img id="video-play" src="../../static/video/video_play.png">
       <img id="video-pause" src="../../static/video/video_pause.png">
-
-      <!-- gltf -->
-      <!-- logo -->
-      <a-gltf-model id="logo" src="https://s3.amazonaws.com/lifescope-static/static/xr/logo/logo.gltf"
-                    crossorigin="anonymous">
-      </a-gltf-model>
-
+      <a-gltf-model id="logo" src="https://s3.amazonaws.com/lifescope-static/static/xr/logo/logo.gltf" crossorigin="anonymous"></a-gltf-model>
     </a-assets>
 
-    <!-- gallery -->
     <gallery />
 
-    <!-- Sky id="Sky" -->
     <a-sky src="#sky" rotation="90 0 90">
     </a-sky>
-
 
   </a-scene>
 </template>
 
 <script>
-
 // TODO : register input controls
 // import {mappings, inputActions} from './controls/input-mappings';
 // AFRAME.registerInputActions(inputActions, 'default');
@@ -49,7 +31,7 @@ import easyrtc from '../../static/easyrtc/easyrtc.js';
 
 import gallery from "./gallery.vue";
 
-// TODO: fix CONFIG
+// TODO: fix CONFIG (working with webpack) for debug
 var CONFIG = {};
 CONFIG.DEBUG = true;
 import debugListeners from '../../lib/dev/listeners.js';
@@ -58,14 +40,6 @@ if (CONFIG.DEBUG) {console.log("from App.vue <script>");}
 export default {
     components: {
         gallery
-    },
-    data() {
-      return {
-        LSObjs: [],
-        rooms: [],
-        roomConfig: {},
-        roomName: 'ls-room'
-      }
     },
 
     beforeCreate () {
@@ -82,57 +56,34 @@ export default {
 
     mounted () {
       if (CONFIG.DEBUG) {console.log("App.vue mounted");};
+
       // set userHeight after a-scene is available
       document.body.addEventListener('renderstart', function (evt) {
         if (CONFIG.DEBUG) {console.log('renderstart');};
         AFRAME.scenes[0].renderer.vr.userHeight = 0;
       });
 
-      // if (CONFIG.DEBUG) {debugListeners();}
-
-      // document.body.addEventListener('move', function (evt) {
-      //   if (CONFIG.DEBUG) {console.log(`move:\nx: ${evt.detail.axis[0]}\ny: ${evt.detail.axis[1]}`);};
-      // });
-      // document.body.addEventListener('rotateY', function (evt) {
-      //   if (CONFIG.DEBUG) {console.log(`rotateY: ${evt.detail.value}`);};
-      // });
-      // document.body.addEventListener('rotateX', function (evt) {
-      //   if (CONFIG.DEBUG) {console.log(`rotateX: ${evt.detail.value}`);};
-      // });
-
-      // gamepad in mobile
-      // if (AFRAME.utils.device.isMobile()) {
-      //   var playerRig = document.getElementById('playerRig');
-      //   playerRig.setAttribute("virtual-gamepad-controls", {});
-      // }
-
-      //
       // Add hand when user enters vr mode
       var self = this;
       document.body.addEventListener('enter-vr', function (evt) {
         if (CONFIG.DEBUG) {console.log('entered vr');};
         var rightHand = document.getElementById('rightHandController');
-        //typeof array != "undefined" && array != null && array.length != null && array.length > 0
         if (rightHand == null) {
           if (CONFIG.DEBUG) {console.log('adding hand...');};
           self.createRightHandNetworked();
         }
-
-
       });
-
 
       // Set eyes to invisible when room connects
       document.body.addEventListener('connected', function (evt) {
-        if (CONFIG.DEBUG) {console.log('connected event. clientId =', evt.detail.clientId);};
+        console.log('connected event. clientId =', evt.detail.clientId);
         
         document.getElementsByClassName('player')[0].getElementsByClassName('face')[0].setAttribute('visible', 'false');
         document.getElementsByClassName('player')[0].getElementsByClassName('head')[0].setAttribute('visible', 'false');
       
-        if (CONFIG.DEBUG) {console.log('roomName: ' + self.roomName);};
+        console.log('roomName: ' + self.roomName);
       });
       
-
       this.createAvatarRigTemplate();
       this.addAvatarRigTemplate();
       this.createNetworkedPlayer();
@@ -153,51 +104,14 @@ export default {
       }
     },
 
+    computed: {
+      roomName: function() {
+          return this.$store.state.user._id;
+        },
+    },
 
     methods: {
-      textString: function (value) {
-            return 'width: 1.5; color: white; value: ' + value
-      },
-      logText: function (value) {
-        var logtext = document.getElementById('log-text');
-        logtext.setAttribute('text', this.textString(value));
-      },
-      testButtonAction: function () {
-        if (CONFIG.DEBUG) {console.log("testButtonAction");};
-      },
       
-      getRoomConfig () {
-        if (CONFIG.DEBUG) {console.log("getRoomConfig");};
-        return axios.get("/roomconfig")
-        .then((res) => {
-          //console.log(res.data);
-          return {roomConfig: res.data}
-        })
-      },
-
-      getObjs () {
-        if (CONFIG.DEBUG) {console.log("getObjs");};
-        
-        var x = '/' + this.roomConfig.BUCKET_PATH;
-
-        if (!this.$route.query.room){
-          this.$route.query.room = 'ls-room';
-        }
-
-        this.roomName = this.$route.query.room || 'ls-room';
-
-        if (CONFIG.DEBUG) {console.log(x);};
-        return axios.get(x)
-        .then((res) => {
-          var result = [];
-          var rooms = Object.keys(res.data);
-          var someData = res.data[this.roomName].forEach(element => {
-            result.push(element);
-          });
-          return { LSObjs: result, rooms: rooms }
-        })
-      },
-
       createAvatarRigTemplate() {
         var frag = this.fragmentFromString(`
         <template id="avatar-rig-template" v-pre>
@@ -233,17 +147,6 @@ export default {
                     scale="0.2 0.2 0.2"
                   ></a-sphere>
                 </a-sphere>
-                <a-sphere class="eye dev"
-                  color="#efefef"
-                  position="0 0.1 0.35"
-                  scale="0.12 0.12 0.12"
-                >
-                  <a-sphere class="pupil dev"
-                    color="#000"
-                    position="0 0 1"
-                    scale="0.2 0.2 0.2"
-                  ></a-sphere>
-                </a-sphere>
               </a-entity>
             </a-entity>
 
@@ -274,15 +177,6 @@ export default {
        });
       },
 
-
-          // <a-entity id="cursor"
-          //       cursor="fuse: true; fuseTimeout: 500"
-          //       position="0 0 -1"
-          //       geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-          //       material="color: black; shader: flat">
-          //     </a-entity>
-          // avatar-rig="camera:#player-camera;"
-          //look-controls="reverseMouseDrag:true"
       createNetworkedPlayer() {
         var frag = this.fragmentFromString(`
         <a-entity id="playerRig"
