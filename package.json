@@ -30,9 +30,7 @@
     "nuxt-build": "nuxt build",
     "nuxt-start": "nuxt start",
     "nuxt-generate": "nuxt generate",
-    "serve": "node dist/app/server.js",
-    "easyrtc-install": "cd ./node_modules/easyrtc; yarn install --ignore-engines; cd ../../;",
-    "engine-install": "cd ./node_modules/engine.io; yarn install --ignore-engines; cd ../../;"
+    "serve": "node dist/app/server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -87,12 +87,15 @@
 
 			<!-- Video -->
 			<a-entity v-if="isVideo(content)">
-				<a-ionicon 
-							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-video')))"
-							:size="size * iconSize"
-							textAlign="right"
-							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
-					</a-ionicon>
+				<a-video
+                :src="this.videoSrc"
+                rotation="-30 0 0"
+                position="0 0.4 0"
+                width="0.7"
+                src-fit>
+                <!-- :play-gaze="'button: true; rig: video-rig-' + this.image.id + '; position: -1 -0.35 0;'"
+                dynamic-autoplay="false"> -->
+            </a-video>
 				<a-entity :scale="textScale"
                   :text="this.textString('Video')"
 				/>
@@ -215,6 +218,11 @@ export default {
 		thumbnailMaterial: function() {
             return 'src: ' + this.content.embed_thumbnail + '; side: double'
 		},
+
+		videoSrc: function () {
+            //console.log('src: ' + this.roomConfig.bucket_route + '/' + this.roomConfig.BUCKET_NAME + '/' + this.image.route);
+            return "https://s3.amazonaws.com/lifescope-static/test/content/video/VideoOfWomenModelling.mp4";//this.roomConfig.bucket_route + '/' + this.roomConfig.BUCKET_NAME + '/' + this.image.route;
+        },
 		
 		textScale: function() {
 			return (0.5*this.size) + ' ' + (0.5*this.size) + ' ' + (0.25*this.size);

@@ -1,6 +1,6 @@
 <template>
   <main v-if="$store.state.view === 'xr'">
-    <xrApp/>
+    <galleryContainer/>
   </main>
   <main v-else-if="$store.state.view === 'map'">
     <MapView/>
@@ -104,7 +104,7 @@
   import UserEvent from '../objects/event.vue';
 
   import MapView from '../views/map.vue';
-  import xrApp from '../xr/XRApp.vue'
+  import galleryContainer from '../xr/gallery-container.vue'
 
   export default {
     data: function() {
@@ -118,7 +118,7 @@
       UserContact,
       UserContent,
       UserEvent,
-      xrApp
+      galleryContainer
     },
     methods: {
       searchIcon: function(search) {
