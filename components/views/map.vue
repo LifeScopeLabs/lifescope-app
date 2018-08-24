@@ -146,11 +146,46 @@
                 popup.remove();
               }
             })
-            .on('click', function(e) {
+            .on('click touchend', function(e) {
               e.stopPropagation();
 
               self.renderDetailsModal(event);
             });
+        }
+
+        function handleClusterClick(e) {
+            let features = map.queryRenderedFeatures(e.point, {
+                layers: ['clusters']
+            });
+
+            if (!features.length) {
+                return;
+            }
+
+            let feature = features[0];
+
+            let clusterId = features[0].properties.cluster_id;
+
+            if (map.getZoom() < SPIDERFY_FROM_ZOOM) {
+                map.getSource('events').getClusterExpansionZoom(clusterId, function(err, zoom) {
+                    if (err)
+                        return;
+
+                    map.easeTo({
+                        center: feature.geometry.coordinates,
+                        zoom: zoom
+                    });
+                });
+            }
+            else {
+                map.getSource('events').getClusterLeaves(clusterId, 100, 0, function(err, data) {
+                    let markers = _.map(data, function(child) {
+                        return child.properties;
+                    });
+
+                    spiderifier.spiderfy(feature.geometry.coordinates, markers);
+                });
+            }
         }
 
         map.addSource('events', {
@@ -219,40 +254,13 @@
             spiderifier.unspiderfy();
           });
 
-          map.on('click', 'clusters', function(e) {
-            let features = map.queryRenderedFeatures(e.point, {
-              layers: ['clusters']
-            });
-
-            if (!features.length) {
-              return;
-            }
-
-            let feature = features[0];
-
-            let clusterId = features[0].properties.cluster_id;
-
-            if (map.getZoom() < SPIDERFY_FROM_ZOOM) {
-              map.getSource('events').getClusterExpansionZoom(clusterId, function(err, zoom) {
-                if (err)
-                  return;
-
-                map.easeTo({
-                  center: feature.geometry.coordinates,
-                  zoom: zoom
-                });
-              });
-            }
-            else {
-              map.getSource('events').getClusterLeaves(clusterId, 100, 0, function(err, data) {
-                let markers = _.map(data, function(child) {
-                  return child.properties;
-                });
-
-                spiderifier.spiderfy(feature.geometry.coordinates, markers);
-              });
-            }
+          map.on('touchend', function() {
+	          spiderifier.unspiderfy();
           });
+
+          map.on('click', 'clusters', handleClusterClick);
+
+          map.on('touchend', 'clusters', handleClusterClick);
 
           map.on('mouseenter', 'clusters', function() {
             map.getCanvas().style.cursor = 'pointer';
@@ -307,7 +315,7 @@
                       popup.remove();
                     }
                   })
-                  .on('click', function(e) {
+                  .on('click touchend', function(e) {
                     e.stopPropagation();
 
                     self.renderDetailsModal(event);
