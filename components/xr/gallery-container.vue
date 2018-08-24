@@ -31,6 +31,8 @@ import easyrtc from '../../static/easyrtc/easyrtc.js';
 
 import gallery from "./gallery.vue";
 
+import specialCharacters from "../../lib/util/specialcharacters.js";
+
 // TODO: fix CONFIG (working with webpack) for debug
 var CONFIG = {};
 CONFIG.DEBUG = true;
@@ -106,8 +108,10 @@ export default {
 
     computed: {
       roomName: function() {
-          return this.$store.state.user._id;
-        },
+        //var testname = '//!"#$%&\'() *+,\\/:;<=>?@[]^_`{|}~'; 
+        var name = this.$store.state.user._id;
+        return name.replace(/[!"#$%&'()*+,-.\\\/:;<=>?@\[\]^_`{|}~]/g, function(match) {return specialCharacters[match]; });
+      },
     },
 
     methods: {

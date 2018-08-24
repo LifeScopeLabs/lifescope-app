@@ -317,10 +317,6 @@ export default {
     },
 
     mounted () {
-		console.log("content.vue mounted")
-		console.log(this.content.id);
-		console.log(this.content.url);
-		console.log(this.content);
     }
   }
 </script>
