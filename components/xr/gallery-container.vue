@@ -19,10 +19,6 @@
 </template>
 
 <script>
-// TODO : register input controls
-// import {mappings, inputActions} from './controls/input-mappings';
-// AFRAME.registerInputActions(inputActions, 'default');
-// AFRAME.registerInputMappings(mappings);
 
 import axios from 'axios';
 
@@ -31,6 +27,7 @@ import easyrtc from '../../static/easyrtc/easyrtc.js';
 
 import gallery from "./gallery.vue";
 
+import {mappings, inputActions} from '../../lib/aframe/input-mappings';
 import specialCharacters from "../../lib/util/specialcharacters.js";
 
 // TODO: fix CONFIG (working with webpack) for debug
@@ -63,6 +60,8 @@ export default {
       document.body.addEventListener('renderstart', function (evt) {
         if (CONFIG.DEBUG) {console.log('renderstart');};
         AFRAME.scenes[0].renderer.vr.userHeight = 0;
+        AFRAME.registerInputActions(inputActions, 'default');
+        AFRAME.registerInputMappings(mappings);
       });
 
       // Add hand when user enters vr mode
@@ -95,8 +94,9 @@ export default {
         var playerRig = document.getElementById('playerRig');
         playerRig.setAttribute("virtual-gamepad-controls", {});
         var camera = document.getElementById('player-camera');
-        var sceneEl = document.getElementsByTagName('a-scene')[0];
+        var sceneEl = AFRAME.scenes[0];
         //this.eventHandlers.push(new TouchEventsHandler(this.cursor, this.cameraController, this.cursor.el));
+        //camera.setAttribute("pitch-yaw-rotator");
         sceneEl.setAttribute("look-on-mobile", "camera", camera);
         sceneEl.setAttribute("look-on-mobile", "verticalLookSpeedRatio", 3);
       } else {
@@ -188,6 +188,7 @@ export default {
           wasd-controls
           networked="template:#avatar-rig-template;attachTemplateToLocal:true;"
           character-controller="pivot: #player-camera"
+          avatar-rig="camera:#player-camera;"
           >
          
          <a-entity id="player-camera"
