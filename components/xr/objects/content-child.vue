@@ -130,7 +130,7 @@ const audioTypes = ['mp3', 'ogga', 'wav'];
 const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
 const videoTypes = ['mp4', 'oggv', 'webm'];
 
-console.log("from objects/content.vue <script>")
+console.log("from objects/content-child.vue <script>")
 export default {
 	data () {
         return {

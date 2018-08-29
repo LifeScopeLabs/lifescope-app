@@ -36,7 +36,7 @@
 import icons from '../../../lib/util/icons';
 import FAIonicon from '../../../lib/aframe/font-awesome-ionicons';
 
-console.log("from objects/contact.vue <script>")
+console.log("from objects/contact-child.vue <script>")
 export default {
 	data () {
         return {

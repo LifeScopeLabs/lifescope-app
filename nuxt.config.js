@@ -151,6 +151,7 @@ module.exports = {
       'aframe-teleport-controls',
       'aframe-extras',
       'aframe-gui',
+      'aframe-geojson-component',
       '~/lib/aframe/play-gaze.js',
       '~/lib/aframe/dynamic-autoplay.js',
       '~/lib/aframe/avatar-rig',
