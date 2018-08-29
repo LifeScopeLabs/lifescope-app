@@ -35,7 +35,7 @@ var CONFIG = {};
 CONFIG.DEBUG = true;
 import debugListeners from '../../lib/dev/listeners.js';
 
-if (CONFIG.DEBUG) {console.log("from App.vue <script>");}
+if (CONFIG.DEBUG) {console.log("from gallery-container.vue <script>");}
 export default {
     components: {
         gallery

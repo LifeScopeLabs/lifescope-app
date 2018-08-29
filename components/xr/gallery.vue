@@ -48,6 +48,8 @@
                             :hallWidth='hallWidth' :hallDepth='hallDepth'/>
       
       <!-- Earth -->
+      <globe-points />
+
        <a-sphere id="Earth" class="boundry"
                 :position="'0 1.5 ' + -hallWidth/2" 
                 radius=".99"
@@ -86,11 +88,12 @@
 
 <script>
 import carouselExplorer from "./carousel-explorer.vue";
+import globePoints from "./globe.vue";
 
 import Vue from 'vue';
 
 var CONFIG = {};
-CONFIG.DEBUG = false;
+CONFIG.DEBUG = true;
 
 if (CONFIG.DEBUG) {console.log("from gallery.vue <script>")}
 export default {
@@ -104,7 +107,8 @@ export default {
         }
     },
     components: {
-        carouselExplorer
+        carouselExplorer,
+        globePoints
     },
     
     // Lifecycle hooks
