@@ -16,15 +16,30 @@ div#body.explorer.map {
 
     border-radius: 0.4em;
 
-    background-color: $background-color-light;
+    background-color: lighten($blue, 30%);
 
     &.clickable {
       cursor: pointer;
 
       &:hover {
-        background-color: darken($background-color-light, 10%);
+        background-color: lighten($blue, 20%);
       }
     }
+  }
+
+  #where-instructions {
+    position: absolute;
+
+    top: 80px;
+    left: 10px;
+
+    max-width: 200px;
+    padding: 0.2em 0.4em;
+    border-radius: 0.4em;
+
+    text-align: center;
+
+    background-color: lighten($green, 30%);
   }
 
   .spider-leg-container {
