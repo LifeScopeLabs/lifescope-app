@@ -84,7 +84,8 @@ const store = () => new Vuex.Store({
     settingsType: null,
     settingsSelectorOpen: false,
 
-    mapbox: {}
+    mapbox: {},
+    mapInitialized: false,
 	},
 
 	getters: {

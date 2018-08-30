@@ -92,19 +92,15 @@ body {
 
         @media #{$maxwidth768},#{$mobile} {
           font-size: 1.4em;
-
-          div[data-type="where"] {
-            display: none;
-          }
         }
 
         .control {
           font-size: 1.3em;
           padding: 0.25em 0.5em;
 
-          cursor: pointer;
+          &:not([data-type='where']) {
+            cursor: pointer;
 
-          &:not(.disabled) {
             &:hover {
               position: relative;
 
@@ -137,7 +133,7 @@ body {
             }
           }
 
-          &.disabled {
+          &[data-type='where'] {
             opacity: 0.35;
             cursor: auto;
           }

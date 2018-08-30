@@ -15,7 +15,6 @@ export default (ctx) => {
   }
 
 	const httpLink = new HttpLink({
-		//Remove fetchOptions in production, as it's only needed for ignoring certs in dev
 		fetchOptions: {
 			agent: new https.Agent(agentOptions)
 		},

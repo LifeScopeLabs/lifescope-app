@@ -40,9 +40,19 @@
     }
   });
 
+  let SPIDERFY_FROM_ZOOM = 20;
+  let CLUSTER_RADIUS = 50;
+
   export default {
     components: {
       Mapbox
+    },
+
+    data: function() {
+      return {
+        mapInitialized: false,
+        markersNeedRendering: true
+      }
     },
 
     methods: {
@@ -53,21 +63,16 @@
       },
 
       loadMap: function() {
-        if (this.$store.state.view === 'map' && this.$store.state.objects.events.length > 0) {
-          this.populateMap();
-        }
+        this.populateMap();
       },
 
       getEventTypeIcon: function(type) {
         return icons('event', type)
       },
 
-      populateMap: function(init) {
+      populateMap: function() {
         let self = this;
         let map = this.$store.state.map;
-
-        let SPIDERFY_FROM_ZOOM = 20;
-        let CLUSTER_RADIUS = 50;
 
         let features = [];
         let markers = [];
@@ -126,10 +131,16 @@
 
           $(pinElem)
             .on('mouseenter', function() {
+              let offset = MapboxSpiderifier.popupOffsetForSpiderLeg(spiderLeg);
+
+              _.each(offset, function(item) {
+                  item[1] -= 40;
+              });
+
               popup = new mapboxgl.Popup({
                 closeButton: false,
                 closeOnClick: false,
-                offset: MapboxSpiderifier.popupOffsetForSpiderLeg(spiderLeg)
+                offset: offset
               });
 
               popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
@@ -141,11 +152,46 @@
                 popup.remove();
               }
             })
-            .on('click', function(e) {
+            .on('click touchend', function(e) {
               e.stopPropagation();
 
               self.renderDetailsModal(event);
             });
+        }
+
+        function handleClusterClick(e) {
+            let features = map.queryRenderedFeatures(e.point, {
+                layers: ['clusters']
+            });
+
+            if (!features.length) {
+                return;
+            }
+
+            let feature = features[0];
+
+            let clusterId = features[0].properties.cluster_id;
+
+            if (map.getZoom() < SPIDERFY_FROM_ZOOM) {
+                map.getSource('events').getClusterExpansionZoom(clusterId, function(err, zoom) {
+                    if (err)
+                        return;
+
+                    map.easeTo({
+                        center: feature.geometry.coordinates,
+                        zoom: zoom
+                    });
+                });
+            }
+            else {
+                map.getSource('events').getClusterLeaves(clusterId, 100, 0, function(err, data) {
+                    let markers = _.map(data, function(child) {
+                        return child.properties;
+                    });
+
+                    spiderifier.spiderfy(feature.geometry.coordinates, markers);
+                });
+            }
         }
 
         map.addSource('events', {
@@ -194,7 +240,7 @@
           layout: {
             'icon-image': 'marker-15'
           },
-          filter: ['all',['!has', 'point_count']]
+          filter: ['all', ['!has', 'point_count']]
         });
 
         map.addLayer({
@@ -209,45 +255,18 @@
           }
         });
 
-        if (init) {
+        if (this.$data.mapInitialized !== true) {
           map.on('click', function(e) {
             spiderifier.unspiderfy();
           });
 
-          map.on('click', 'clusters', function(e) {
-            let features = map.queryRenderedFeatures(e.point, {
-              layers: ['clusters']
-            });
-
-            if (!features.length) {
-              return;
-            }
-
-            let feature = features[0];
-
-            let clusterId = features[0].properties.cluster_id;
-
-            if (map.getZoom() < SPIDERFY_FROM_ZOOM) {
-              map.getSource('events').getClusterExpansionZoom(clusterId, function(err, zoom) {
-                if (err)
-                  return;
-
-                map.easeTo({
-                  center: feature.geometry.coordinates,
-                  zoom: zoom
-                });
-              });
-            }
-            else {
-              map.getSource('events').getClusterLeaves(clusterId, 100, 0, function(err, data) {
-                let markers = _.map(data, function(child) {
-                  return child.properties;
-                });
-
-                spiderifier.spiderfy(feature.geometry.coordinates, markers);
-              });
-            }
+          map.on('touchend', function() {
+	          spiderifier.unspiderfy();
           });
+
+          map.on('click', 'clusters', handleClusterClick);
+
+          map.on('touchend', 'clusters', handleClusterClick);
 
           map.on('mouseenter', 'clusters', function() {
             map.getCanvas().style.cursor = 'pointer';
@@ -257,62 +276,73 @@
             map.getCanvas().style.cursor = '';
           });
 
-          map.on('render', function(e) {
-            _.each(markers, function(marker) {
-              marker.remove();
-            });
+          map.on('render', function() {
+            if (self.$data.markersNeedRendering === true) {
+              _.each(markers, function(marker) {
+                marker.remove();
+              });
+            }
+          });
 
-            let symbols = map.queryRenderedFeatures(e.point, {
-              layers: ['events']
-            });
+          map.on('render', 'events', function(e) {
+            if (self.$data.markersNeedRendering === true) {
+              let symbols = map.queryRenderedFeatures(e.point, {
+                layers: ['events']
+              });
 
-            _.each(symbols, function(symbol) {
-              let popup;
-              let event = JSON.parse(symbol.properties.event);
-              let pinElem = document.createElement('div');
-              let coordinates = symbol.geometry.coordinates;
+              _.each(symbols, function(symbol) {
+                let popup;
+                let event = JSON.parse(symbol.properties.event);
+                let pinElem = document.createElement('div');
+                let coordinates = symbol.geometry.coordinates;
 
-              pinElem.className = 'map-marker fa-stack fa-lg';
-              pinElem.innerHTML = '<i class="fill-circle fa fa-circle fa-stack-1x"></i>' + '<i class="circle-icon fa fa-map-marker fa-stack-3x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
-              pinElem.style.color = symbol.properties.color;
+                pinElem.className = 'map-marker fa-stack fa-lg';
+                pinElem.innerHTML = '<i class="fill-circle fa fa-circle fa-stack-1x"></i>' + '<i class="circle-icon fa fa-map-marker fa-stack-3x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+                pinElem.style.color = symbol.properties.color;
 
-              let marker = new mapboxgl.Marker(pinElem)
-                .setLngLat(coordinates)
-                .addTo(map);
+                let marker = new mapboxgl.Marker(pinElem)
+                  .setLngLat(coordinates)
+                  .addTo(map);
 
-              $(pinElem)
-                .on('mouseenter', function() {
-                  popup = new mapboxgl.Popup({
-                    closeButton: false,
-                    closeOnClick: false,
-                    offset: 20
+                $(pinElem)
+                  .on('mouseenter', function(e) {
+                    popup = new mapboxgl.Popup({
+                      closeButton: false,
+                      closeOnClick: false,
+                      offset: 40
+                    });
+
+                    popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
+
+                    marker.setPopup(popup);
+                  })
+                  .on('mouseleave', function() {
+                    if (popup) {
+                      popup.remove();
+                    }
+                  })
+                  .on('click touchend', function(e) {
+                    e.stopPropagation();
+
+                    self.renderDetailsModal(event);
                   });
 
-                  popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
+                markers.push(marker);
+              });
 
-                  marker.setPopup(popup);
-                })
-                .on('mouseleave', function() {
-                  if (popup) {
-                    popup.remove();
-                  }
-                })
-                .on('click', function(e) {
-                  e.stopPropagation();
-
-                  self.renderDetailsModal(event);
-                });
-
-              markers.push(marker);
-            });
+              self.$data.markersNeedRendering = false;
+            }
           });
 
           map.on('zoomstart', function() {
             spiderifier.unspiderfy();
           });
 
+          map.on('zoomend', function() {
+            self.$data.markersNeedRendering = true;
+          });
+
           map.on('draw.create', function(e) {
-            console.log('Draw.create fired');
             let feature = e.features[0];
 
             if (feature) {
@@ -337,14 +367,16 @@
           map.on('draw.update', function(e) {
             self.$root.$emit('polygon-updated', e.features);
           });
+
+          this.$data.mapInitialized = true;
         }
+
+        this.redrawPolygons();
       },
 
       redrawPolygons: function() {
-        console.log('Redrawing Polygons');
         mapboxDraw.deleteAll();
 
-        console.log(this.$store.state);
         let whereFilters = _.filter(this.$store.state.searchBar.filters, function(filter) {
           return filter.type === 'where';
         });
@@ -359,7 +391,6 @@
             polygonCoordinates.push(polygonCoordinates[0]);
           }
 
-          console.log('Adding new Polygon');
           mapboxDraw.add({
             id: newPolygonId,
             type: 'Feature',
@@ -397,8 +428,9 @@
       MapboxSpiderifier = require('mapboxgl-spiderifier');
       mapboxgl = require('mapbox-gl');
 
-      this.$root.$on('search-finished', function(init) {
-        self.populateMap(init);
+      this.$root.$on('search-finished', function() {
+        self.$data.markersNeedRendering = true;
+        self.populateMap();
       });
 
       this.$root.$on('deselect-mapbox', function() {
@@ -431,11 +463,33 @@
 
       this.$root.$on('select-polygon', function(filter) {
         if (filter.type === 'where' && filter.data && filter.data.object_id != null) {
-          mapboxDraw.changeMode('simple_select', {
-            featureIds: [filter.data.object_id]
-          });
+          //There's a bug in Mapbox that will cause an endless loop of draw.create firings if you don't encapsulate
+          //this changeMode in a setTimeout. I don't know why, but this fixes it.
+          setTimeout(function() {
+            mapboxDraw.changeMode('simple_select', {
+              featureIds: [filter.data.object_id]
+            });
+          }, 0);
         }
       });
+
+      this.$root.$on('deselect-polygons', function() {
+        setTimeout(function() {
+          mapboxDraw.changeMode('simple_select', {
+            featureIds: []
+          });
+        })
+      });
+    },
+
+    destroyed: function() {
+      this.$root.$off([
+        'search-finished',
+        'remove-unattached-polygons',
+        'redraw-polygons',
+        'select-polygon',
+        'deselect-polygons'
+      ]);
     }
   }
 </script>

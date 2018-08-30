@@ -34,12 +34,6 @@ header {
       & > div {
         top: 20px;
       }
-
-      @media #{$maxwidth768},#{$mobile} {
-        .control[data-type="where"] {
-          display: none;
-        }
-      }
     }
   }
 }

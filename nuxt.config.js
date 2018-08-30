@@ -191,7 +191,7 @@ module.exports = {
 		bodyParser.json(),
 		cookieParser(),
 		cookieAuthorization,
-    initialSearches,
-    loadMapboxConfig
+	    initialSearches,
+	    loadMapboxConfig
 	]
 };

@@ -86,7 +86,7 @@
          (content.text == null || content.text.length === 0) &&
          content.url != null"
          class="title">
-      <a href="content.url" target="blank">{{ content.url | safe }}</a>
+      <a v-bind:href="content.url" target="blank">{{ content.url | safe }}</a>
     </div>
 
     <!-- tags -->
