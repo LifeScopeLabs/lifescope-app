@@ -131,10 +131,16 @@
 
           $(pinElem)
             .on('mouseenter', function() {
+              let offset = MapboxSpiderifier.popupOffsetForSpiderLeg(spiderLeg);
+
+              _.each(offset, function(item) {
+                  item[1] -= 40;
+              });
+
               popup = new mapboxgl.Popup({
                 closeButton: false,
                 closeOnClick: false,
-                offset: MapboxSpiderifier.popupOffsetForSpiderLeg(spiderLeg)
+                offset: offset
               });
 
               popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);
@@ -303,7 +309,7 @@
                     popup = new mapboxgl.Popup({
                       closeButton: false,
                       closeOnClick: false,
-                      offset: 20
+                      offset: 40
                     });
 
                     popup.setHTML(event.context + ' via ' + event.connection.provider.name + ' on ' + moment.utc(event.datetime).local().format('M/D/YY')).addTo(map);

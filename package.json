@@ -1,6 +1,6 @@
 {
   "name": "lifescope-app",
-  "version": "1.10.4",
+  "version": "1.11.0",
   "description": "Search and Explore the internet of you. lifescope.io",
   "author": "LifeScope Labs (https://lifescope.io)",
   "repository": {
@@ -87,6 +87,7 @@
     "aframe-layout-component": "^4.3.1",
     "aframe-src-fit-component": "git+https://git@github.com/lifescopelabs/aframe-src-fit-component",
     "aframe-teleport-controls": "^0.3.1",
+    "apollo-boost": "^0.1.15",
     "apollo-cache-inmemory": "^1.1.11",
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.3",
