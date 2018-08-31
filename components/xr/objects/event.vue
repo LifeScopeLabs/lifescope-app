@@ -3,6 +3,8 @@
 		
 		<!-- background -->
 		<a-entity 
+				:id="'background-' + event.id"
+				class="clickable"
 				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
 				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
 				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
@@ -243,9 +245,66 @@ export default {
 			}
 			// console.log(`Math.cos(toRadians(${degrees}): ${Math.cos(toRadians(degrees))}`)
 			return len * Math.cos(toRadians(degrees));
-		}
+		},
 
 		// TODO : truncate text
+
+		createMapbox(lat, long) {
+			var mapboxFloor = document.getElementById('mapbox-floor');
+			mapboxFloor.outerHTML = "";
+			var newMapboxFloor = document.createElement('a-mapbox-terrain');
+			newMapboxFloor.setAttribute('id', "mapbox-floor");
+			newMapboxFloor.setAttribute('latitude', lat);
+			newMapboxFloor.setAttribute('longitude', long);
+			newMapboxFloor.setAttribute('position', "0 0.05 -10");//{x: 0, y: 0, z:-10 });
+			newMapboxFloor.setAttribute('zoom-level', 11);
+
+			var mapboxWorld = document.getElementById('mapbox-world');
+			mapboxWorld.outerHTML = "";
+			var newMapboxWorld = document.createElement('a-mapbox-terrain');
+			newMapboxWorld.setAttribute('id', "mapbox-world");
+			newMapboxWorld.setAttribute('latitude', lat);
+			newMapboxWorld.setAttribute('longitude', long);
+			newMapboxWorld.setAttribute('position', "0 -4 0");//{x: 0, y: -4, z:0 });
+			newMapboxWorld.setAttribute('zoom-level', 11);
+			newMapboxWorld.setAttribute('scale', "45 5 45");
+
+			var gallery = document.getElementsByClassName('gallery')[0];
+			gallery.appendChild(newMapboxFloor);
+			gallery.appendChild(newMapboxWorld);
+		},
+
+		hasGeoData:  function()  {
+			console.log("hasGeoData called");
+			var event = this.$props.event;
+			var bool;
+			if (typeof event.location != 'undefined' & event.location != null) {
+				bool = true;
+			} else {
+				bool = false;
+			}
+			return bool;
+		},
+
+		getCoords: function() {
+            //console.log("getCoords called");
+            var event = this.$props.event;
+            var coords = [];
+            
+			if (typeof event.hydratedLocation != 'undefined') {
+				// console.log('event.hydratedLocation.geolocation');
+				coords = event.hydratedLocation.geolocation;
+			}
+			else if (typeof event.location != 'undefined' & event.location != null) {
+				// console.log('event.location');
+				// console.log(event.location);
+				// console.log(event.location.geolocation);
+				coords = event.location.geolocation;
+			}
+            
+            return coords;
+        },
+
     },
 
     mounted () {
@@ -253,6 +312,22 @@ export default {
 		// console.log(`this.event.type: ${this.event.type}`);
 		// console.log('event:');
 		// console.log(this.event);
+
+		var self = this;
+		if (self.hasGeoData()) { // TODO : only make clickable if hasGeoData
+			//console.log('background-' + this.event.id);
+			var bg = document.getElementById('background-' + this.event.id);
+			bg.addEventListener('click', function(event) {
+				console.log('click');
+
+				var coords = self.getCoords();
+				var lat = coords[1];//38.904722;
+				var long = coords[0];//-77.016389;
+				self.createMapbox(lat, long);
+				
+			})
+		}
+		
     }
   }
 </script>

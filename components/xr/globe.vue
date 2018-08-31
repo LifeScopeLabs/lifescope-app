@@ -50,20 +50,19 @@ export default {
             var sceneEl = document.querySelector('a-scene');
 
             sceneEl.addEventListener('loaded', function () {
-            console.log("injectGeojsonTest")
-            // add GeoJson.  
-            var aContainer = document.querySelector('#globe-container')
-            aContainer.innerHTML = '<a-entity id="globe" geometry="primitive: sphere; radius: 1;" material="color: #F0A;" geojson="src: #' + src + '; featureKey: name;"></a-entity>'; // 
+                // add GeoJson.  
+                var aContainer = document.querySelector('#globe-container')
+                aContainer.innerHTML = '<a-entity id="globe" geometry="primitive: sphere; radius: 1;" material="color: #F0A;" geojson="src: #' + src + '; featureKey: name;"></a-entity>'; // 
             });
         },
 
       loadGeoAsset : function (geoAsset) {
         // loads geojson data into assets on the fly
-        console.log("loadGeoAsset")
+        //console.log("loadGeoAsset")
 
         var sceneEl = document.querySelector('a-scene');
         var geosrc = this.geoObjectToUrl(geoAsset)
-        console.log(sceneEl);
+        //console.log(sceneEl);
         //console.log(geosrc)
 
         sceneEl.addEventListener('loaded', function () {
@@ -72,7 +71,7 @@ export default {
           // add GeoJson asset  
           var aAssets = document.getElementsByTagName('a-assets')[0];
           var geoItem = document.createElement("a-asset-item");
-          console.log(aAssets);
+          //console.log(aAssets);
           geoItem.setAttribute('id', 'geojson-fly')
           geoItem.setAttribute('src', geosrc)
 
@@ -85,7 +84,7 @@ export default {
         latlongToGeojsonPoints : function (coordinates) {
             // creates a geojson FeatureCollection of Points
             // from an array of lat/long values
-            console.log("latlongToGeojsonPoint")
+            //console.log("latlongToGeojsonPoint")
             var gj = {"type": "FeatureCollection",
                     "features": []}
             var nextID = 0;
@@ -104,15 +103,15 @@ export default {
                 }
                 gj.features.push(feature)
             }
-            console.log("geojson:");
-            console.log(gj)
+            // console.log("geojson:");
+            // console.log(gj)
             return(gj)
         },
 
 
         geoObjectToUrl : function (geo) {
             // converts a geojson object into a url
-            console.log("geoObjectToUrl")
+            // console.log("geoObjectToUrl")
             //console.log(geo)
             var url = 'data:text/json;charset=utf8,' + encodeURIComponent(JSON.stringify(geo));
             //console.log(url)
@@ -122,7 +121,7 @@ export default {
     },
     
     mounted () {
-        console.log("globe mounted")
+        // console.log("globe mounted");
         // console.log(this.geoCoords());
         this.loadGeoAsset(this.latlongToGeojsonPoints(this.geoCoords()))
         this.injectGeojson('geojson-fly');
