@@ -19,7 +19,6 @@ console.log("from globe.vue <script>");
 export default {
     props: {
       'position': {default: '0 1.5 -10'},
-      'geoCoordinates': {default: () => [[0,1], [300,-20], [0, -20], [-300, 5], [0,1]]}
       },
 
 
