@@ -141,6 +141,7 @@ module.exports = {
 			'vue2-filters',
       'vue-bootstrap-datetimepicker',
       'vue-observe-visibility',
+      '~/vue.config.js',
       'aframe',
       'aframe-layout-component',
       'networked-aframe',
