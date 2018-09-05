@@ -35,7 +35,7 @@ var CONFIG = {};
 CONFIG.DEBUG = true;
 import debugListeners from '../../lib/dev/listeners.js';
 
-if (CONFIG.DEBUG) {console.log("from gallery-container.vue <script>");}
+//if (CONFIG.DEBUG) {console.log("from gallery-container.vue <script>");}
 export default {
     components: {
         gallery
@@ -204,8 +204,8 @@ export default {
           >
           
           <a-gui-cursor id="cursor"
-					  raycaster="interval: 1000; objects: gui-interactable, .clickable"
-					  fuse="true" fuse-timeout="2000"
+					  raycaster="far: 1;interval: 1000; objects: gui-interactable, .clickable"
+					  fuse="true" fuse-timeout="4000"
 					  design="dot"
 			      >
 			    </a-gui-cursor>

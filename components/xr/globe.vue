@@ -3,7 +3,7 @@
             :position="position">
       <a-animation attribute="rotation"
                  easing="linear" 
-                 dur="150000"
+                 :dur="dur"
                  fill="forwards"
                  to="0 360 0"
                  repeat="indefinite"></a-animation>
@@ -19,6 +19,7 @@ console.log("from globe.vue <script>");
 export default {
     props: {
       'position': {default: '0 1.5 -10'},
+      'dur': {default: 150000}
       },
 
 

@@ -2,6 +2,7 @@
     <a-entity class="carousel-item carousel-content-item" v-bind:id="content.id">
 		<!-- background -->
 		<a-entity 
+				:id="'background-' + content.id"
 				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
 				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
 				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
@@ -153,7 +154,7 @@
 			<!-- <a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span> -->
 			<a-entity :scale="textScale"
-                  :text="this.textString(content.title)"
+                  :text="this.textString(content.title.substring(0, truncateText))"
 			/>
 		</a-entity>
 
@@ -165,7 +166,7 @@
 			:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
 			:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 			<a-entity :scale="textScale"
-                  :text="this.textString(content.text)"/>
+                  :text="this.textString(content.text.substring(0,truncateText))"/>
 		</a-entity>
 
 		<!-- url -->
@@ -177,7 +178,7 @@
 					:position="'0 ' + verticleToSlanted(2*carouselDim.lineSeparation, carouselDim.displayDegrees) + ' -1.0'"
 					:rotation="(-carouselDim.displayDegrees) + ' 0 0'">
 					<a-entity :scale="textScale"
-                  		:text="this.textString(content.url)"/>
+                  		:text="this.textString(content.url.substring(0, truncateText))"/>
 		</a-entity>
 
 		<!-- tags -->
@@ -211,6 +212,7 @@ export default {
         return {
 			size: 1,
 			iconSize: 0.25,
+			truncateText: 30
         }
     },
 	props: ['content', 'connection', 'carouselDim'],
@@ -314,9 +316,59 @@ export default {
 			return len * Math.sin(toRadians(degrees));
 		},
 
+
+		hasURL:  function()  {
+			//console.log("hasGeoData called");
+			var content = this.$props.content;
+			var bool;
+			if (typeof content.url != 'undefined' & content.url != null) {
+				bool = true;
+			} else {
+				bool = false;
+			}
+			return bool;
+		},
+
+
+		// returns true if event should be clickable;
+		clickable: function() {
+			var truth = false;
+			truth = this.hasURL(); // | this.otherReason
+			return truth;
+		},
+
+		makeClickable: function() {
+			console.log('makeClickable');
+			if (this.clickable()) {
+				console.log('making clickable');
+				var bg = document.getElementById('background-' + this.content.id);
+
+				bg.className += ' clickable';
+			}
+		}
+
     },
 
     mounted () {
+		// console.log("content:");
+		// console.log(this.content);
+		// console.log(this.content.url);
+
+		var self = this;
+
+		self.makeClickable();
+
+		if (self.clickable()) {
+			//console.log('background-' + this.event.id);
+			var bg = document.getElementById('background-' + this.content.id);
+			bg.addEventListener('click', function(event) {
+				console.log('click');
+				console.log('redirecting to ' + self.content.url);
+
+				window.open(self.content.url, "_self");//"_blank");//
+				window.focus();
+			})
+		}
     }
   }
 </script>

@@ -4,7 +4,6 @@
 		<!-- background -->
 		<a-entity 
 				:id="'background-' + event.id"
-				class="clickable"
 				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
 				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
 				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
@@ -60,7 +59,6 @@
 						:size="size * iconSize"
 						:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 					<!-- date text -->
-					<!-- TODO : Format datetime -->
 					<a-entity
 						:scale="textScale"
 						:text="this.textString( this.dateShort(event.datetime))">
@@ -75,7 +73,6 @@
 						:size="size * iconSize"
 						:position="(-carouselDim.iconOffset) + ' 0 0'"></a-ionicon>
 					<!-- time text -->
-					<!-- TODO : Format datetime -->
 					<a-entity
 						:scale="textScale"
 						:text="this.textString( this.dateTime(event.datetime) )">
@@ -158,7 +155,7 @@ import FAIonicon from '../../../lib/aframe/font-awesome-ionicons';
 import UserContent from './content-child';
 import UserContact from './contact-child';
 
-console.log("from objects/contact.vue <script>")
+console.log("from objects/event.vue <script>")
 export default {
 	data () {
         return {
@@ -275,7 +272,7 @@ export default {
 		},
 
 		hasGeoData:  function()  {
-			console.log("hasGeoData called");
+			//console.log("hasGeoData called");
 			var event = this.$props.event;
 			var bool;
 			if (typeof event.location != 'undefined' & event.location != null) {
@@ -305,6 +302,22 @@ export default {
             return coords;
         },
 
+		// returns true if event should be clickable;
+		clickable: function() {
+			var truth = false;
+			truth = this.hasGeoData(); // | this.otherReason
+			return truth;
+		},
+
+		makeClickable: function() {
+			//console.log('makeClickable');
+			if (this.clickable()) {
+				//console.log('making clickable');
+				var bg = document.getElementById('background-' + this.event.id);
+
+				bg.className += ' clickable';
+			}
+		}
     },
 
     mounted () {
@@ -312,9 +325,13 @@ export default {
 		// console.log(`this.event.type: ${this.event.type}`);
 		// console.log('event:');
 		// console.log(this.event);
+		// console.log(this.event.source);
 
 		var self = this;
-		if (self.hasGeoData()) { // TODO : only make clickable if hasGeoData
+
+		self.makeClickable();
+
+		if (self.clickable()) {
 			//console.log('background-' + this.event.id);
 			var bg = document.getElementById('background-' + this.event.id);
 			bg.addEventListener('click', function(event) {
