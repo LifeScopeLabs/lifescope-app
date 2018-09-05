@@ -16,6 +16,8 @@
 
     <div v-if="$store.state.searchEnded === false && $store.state.searching !== true" class="map-corner clickable" v-on:click="$root.$emit('perform-search', false)">Get more results</div>
 
+  	<div id="where-instructions">Draw a polygon and double-click the final point to initialize a Where filter.</div>
+
     <modals-container/>
   </div>
 </template>
@@ -258,6 +260,8 @@
         if (this.$data.mapInitialized !== true) {
           map.on('click', function(e) {
             spiderifier.unspiderfy();
+
+            $('#where-instructions').addClass('hidden');
           });
 
           map.on('touchend', function() {

@@ -350,6 +350,7 @@ export default {
     },
 
     mounted () {
+<<<<<<< HEAD
 		// console.log("content:");
 		// console.log(this.content);
 		// console.log(this.content.url);
@@ -369,6 +370,8 @@ export default {
 				window.focus();
 			})
 		}
+=======
+>>>>>>> 24c4b0b178f266e96c9d7665521762b07fc4e233
     }
   }
 </script>

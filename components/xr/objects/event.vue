@@ -4,6 +4,10 @@
 		<!-- background -->
 		<a-entity 
 				:id="'background-' + event.id"
+<<<<<<< HEAD
+=======
+				class="clickable"
+>>>>>>> 24c4b0b178f266e96c9d7665521762b07fc4e233
 				:geometry="'primitive: plane; width:' + carouselDim.backgroundWidth + '; height: ' + carouselDim.backgroundHeight"
 				material="color: #3B3B3B; side: double; transparent: true; opacity: 0.4;"
 				:position="(-carouselDim.backgroundWidth/4) + ' 0 -1'"
@@ -272,7 +276,11 @@ export default {
 		},
 
 		hasGeoData:  function()  {
+<<<<<<< HEAD
 			//console.log("hasGeoData called");
+=======
+			console.log("hasGeoData called");
+>>>>>>> 24c4b0b178f266e96c9d7665521762b07fc4e233
 			var event = this.$props.event;
 			var bool;
 			if (typeof event.location != 'undefined' & event.location != null) {
@@ -302,6 +310,7 @@ export default {
             return coords;
         },
 
+<<<<<<< HEAD
 		// returns true if event should be clickable;
 		clickable: function() {
 			var truth = false;
@@ -318,6 +327,8 @@ export default {
 				bg.className += ' clickable';
 			}
 		}
+=======
+>>>>>>> 24c4b0b178f266e96c9d7665521762b07fc4e233
     },
 
     mounted () {
@@ -325,6 +336,7 @@ export default {
 		// console.log(`this.event.type: ${this.event.type}`);
 		// console.log('event:');
 		// console.log(this.event);
+<<<<<<< HEAD
 		// console.log(this.event.source);
 
 		var self = this;
@@ -332,6 +344,11 @@ export default {
 		self.makeClickable();
 
 		if (self.clickable()) {
+=======
+
+		var self = this;
+		if (self.hasGeoData()) { // TODO : only make clickable if hasGeoData
+>>>>>>> 24c4b0b178f266e96c9d7665521762b07fc4e233
 			//console.log('background-' + this.event.id);
 			var bg = document.getElementById('background-' + this.event.id);
 			bg.addEventListener('click', function(event) {
