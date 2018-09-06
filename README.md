@@ -1,10 +1,10 @@
-# [LIFESCOPE-APP](https://github.com/LifeScopeLabs/lifescope-app)
+# [LifeScope-APP](https://github.com/LifeScopeLabs/lifescope-app)
 
 ## [Repository](https://github.com/LifeScopeLabs/lifescope-app)
 
 (development phase, high priority)
 
-Access your digital memory and tell their stories.  The LIFESCOPE App allows anyone to search and curate your personal data in various views. Search anything about yourself in a web browser or on a native app (Firefox, Chrome, Android, iOS, Windows, Mac).
+Access your digital memory and tell their stories.  The LifeScope App allows anyone to search and curate your personal data in various views. Search anything about yourself in a web browser or on a native app (Firefox, Chrome, Android, iOS, Windows, Mac).
 
 The codebase is a single-page Universal web app built on Nuxt and Vue.js. Desktop/mobile responsive design interface with javascript extensions. Written with plugin framework for features such as location tracking, webXR and web voice. The web code is containerizable inside a universal app framework Cordova.
 
@@ -12,15 +12,15 @@ The codebase is a single-page Universal web app built on Nuxt and Vue.js. Deskto
 
 Please go to the 'setup' folder and follow the instructions.
 
-## [LIFESCOPE Archive App](https://lifescopelabs.github.io/etl.html#lifescope-archive-app)
-The current LIFESCOPE web app is deprecated and is being rewritten.
+## [LifeScope Archive App](https://lifescopelabs.github.io/etl.html#lifescope-archive-app)
+The current LifeScope web app is deprecated and is being rewritten.
 
-### [LIFESCOPE Archive App Documentation](https://lifescope.io/getting-started/)
+### [LifeScope Archive App Documentation](https://lifescope.io/getting-started/)
 
 ### Requirements
-- **MVP**:  Rewrite the [LIFESCOPE Archive App](https://lifescopelabs.github.io/etl.html#lifescope-archive-app) for Nuxt.
-- Get location tracking working with the LIFESCOPE API.
-- Port the LIFESCOPE web App to Cordova or other native framework.
+- **MVP**:  Rewrite the [LifeScope Archive App](https://lifescopelabs.github.io/etl.html#lifescope-archive-app) for Nuxt.
+- Get location tracking working with the LifeScope API.
+- Port the LifeScope web App to Cordova or other native framework.
 
 ### Dependencies
 - Vue/Nuxt compatible
@@ -28,11 +28,11 @@ The current LIFESCOPE web app is deprecated and is being rewritten.
 - https://github.com/gonativeio/gonative-android
 - https://github.com/gonativeio/gonative-ios
 
-### LIFESCOPE Plugins
-#### [LIFESCOPE-XR](https://github.com/LifeScopeLabs/lifescope-xr)
+### LifeScope Plugins
+#### [LifeScope-XR](https://github.com/LifeScopeLabs/lifescope-xr)
 This is for AR and VR views of LifeScope data as Vue Plugins.
 
-#### [LIFESCOPE-VOICE](https://github.com/LifeScopeLabs/lifescope-voice)
+#### [LifeScope-VOICE](https://github.com/LifeScopeLabs/lifescope-voice)
 This is a conversational interface of LifeScope data as Vue Plugins.
 
 ## Developer Setup

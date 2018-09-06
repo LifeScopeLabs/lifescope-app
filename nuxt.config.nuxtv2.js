@@ -12,8 +12,8 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: 'LIFESCOPE',
-    description: 'This is LIFESCOPE',
+    title: 'LifeScope',
+    description: 'Search and explore the internet of you',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
