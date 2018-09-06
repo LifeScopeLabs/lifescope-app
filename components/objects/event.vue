@@ -57,7 +57,7 @@
       <!-- tags -->
 			<div class="tagging">
 				<div class="tags">
-					<span v-for="tag in event.tags">#{{ tag }}</span>
+					<span v-for="tag in event.tags" v-bind:key="tag">#{{ tag }}</span>
 				  </div>
 			  </div>
 		</aside>

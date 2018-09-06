@@ -92,7 +92,7 @@
     <!-- tags -->
 		<div class="tagging">
 			<div class="tags">
-				<span v-for="tag in content.tags">#{{ tag }}</span>
+				<span v-for="tag in content.tags" v-bind:key="tag">#{{ tag }}</span>
 			</div>
 		</div>
 	</div>
