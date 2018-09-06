@@ -1,5 +1,5 @@
-mutation patchConnection($id: String!, $enabled: Boolean, $permissions: JSON) {
-    connectionPatch(id: $id, enabled: $enabled, permissions: $permissions) {
+mutation patchConnection($id: String!, $enabled: Boolean, $permissions: JSON, $name: String) {
+    connectionPatch(id: $id, enabled: $enabled, permissions: $permissions, name: $name) {
         connection,
         reauthorize
     }

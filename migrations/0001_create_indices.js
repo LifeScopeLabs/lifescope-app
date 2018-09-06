@@ -76,11 +76,6 @@ const config = require('config');
           user_id: 1
         }),
 
-        // `users` Collection
-        db.db('live').collection('users').createIndex({
-          social_accounts: 1
-        }),
-
         // `connections` collection
         db.db('live').collection('connections').createIndex({
           enabled: 1
@@ -204,7 +199,17 @@ const config = require('config');
         // `tags` collection
         db.db('live').collection('tags').createIndex({
           user_id: 1
-        })
+        }),
+
+        // `users` Collection
+        db.db('live').collection('users').createIndex({
+            last_location_estimation: 1
+        }),
+
+        // `users` Collection
+        db.db('live').collection('users').createIndex({
+            location_estimation_status: 1
+        }),
       ]);
     })
     .then(function() {

@@ -1,5 +1,5 @@
 <template>
-	<div class="object contact" v-model="contact" v-bind:id="contact.id">
+	<div class="object contact" v-bind:id="contact.id">
 		<!-- contact -->
 		<div>
 			<!-- avatar -->
@@ -31,7 +31,7 @@
 		<div>
 			<div class="tagging">
 				<div class="tags">
-					<span v-for="tag in contact.tags">#{{ tag }}</span>
+					<span v-for="tag in contact.tags" v-bind:key="tag">#{{ tag }}</span>
 				</div>
 			</div>
 		</div>

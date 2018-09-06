@@ -111,10 +111,10 @@
                   <div class="flexbox flex-x-center label">
                     <div>Name</div>
                     <i class="fa fa-check-circle flex-grow success-icon" data-for="name"
-                       v-bind:data-namespace="connection.id"></i>
+                       v-bind:data-namespace="connection.name"></i>
                   </div>
                   <div class="text-box shrink">
-                    <input name="name" type="text" v-bind:value="connection.name"/>
+                    <input name="name" type="text" v-bind:value="connection.name" v-on:change="updateName(connection, $event)"/>
                   </div>
                 </div>
 
@@ -125,8 +125,9 @@
                     <div v-for="permission, name in orderBy(connection.provider.sources, 'name')" class="paragraph ">
                       <div class="flexbox flex-x-center">
                         <label><input class="flag" type="checkbox" v-bind:value="permission.$key"
-                                      v-model="$store.state.permissions[connection.id]" v-on:change="updatePermissions(connection)"/>{{
-                          permission.$value.name }}</label>
+                                      v-model="$store.state.permissions[connection.id]" v-on:change="updatePermissions(connection)"/>
+                          {{ permission.$value.name }}
+                        </label>
                         <i class="fa fa-check-circle flex-grow success-icon" v-bind:data-for="name"
                            v-bind:data-namespace="connection.id"></i>
                       </div>
@@ -287,6 +288,24 @@
           }
         });
       }, 1000),
+
+      updateName: async function(connection, e) {
+      	console.log(connection);
+      	console.log(e);
+      	console.log(e.srcElement.value);
+
+      	if (e.srcElement && e.srcElement.value) {
+	        let result = await this.$apollo.mutate({
+		        mutation: patchConnection,
+		        variables: {
+			        id: connection.id,
+			        name: e.srcElement.value
+		        }
+	        });
+
+	        console.log(result);
+        }
+      },
 
       generateApiKey: async function() {
         let response = await this.$apollo.mutate({
