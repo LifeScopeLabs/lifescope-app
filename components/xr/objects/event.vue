@@ -202,7 +202,7 @@ export default {
 
 		// Icons
 		getContentTypeIcon: function(type) {
-			return icons('content', type);
+			return icons('event', type);
 		},
 		getProviderIcon: function(provider) {
 			return icons('provider', provider.name);

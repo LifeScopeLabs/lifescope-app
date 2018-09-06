@@ -83,7 +83,7 @@ export default {
             return 'width: 1.5; color: white; value: ' + value
 		},
 		getContentTypeIcon: function(type) {
-			return icons('content', type);
+			return icons('contact', type);
 		},
 		getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
@@ -122,7 +122,9 @@ export default {
     },
 
     mounted () {
-        //console.log(this.content.id)
+		//console.log(this.content.id)
+		console.log('contact.avatar_url');
+		console.log(this.contact.avatar_url);
     }
   }
 </script>

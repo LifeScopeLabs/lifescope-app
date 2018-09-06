@@ -61,7 +61,7 @@ export default {
             return 'width: 1.5; color: white; value: ' + value
 		},
 		getContentTypeIcon: function(type) {
-			return icons('content', type);
+			return icons('contact', type);
 		},
 		getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
