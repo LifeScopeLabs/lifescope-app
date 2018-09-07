@@ -3,7 +3,6 @@ query tagMany($skip: Int, $limit: Int) {
         id,
         tag,
         share,
-        passcode,
-        passcode_string
+        passcode
     }
 }

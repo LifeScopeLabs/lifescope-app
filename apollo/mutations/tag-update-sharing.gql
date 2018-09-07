@@ -3,7 +3,6 @@ mutation tagUpdateSharing($id: String, $share: String){
         id,
         share,
         tag,
-        passcode,
-        passcode_string
+        passcode
     }
 }

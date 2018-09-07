@@ -453,8 +453,11 @@ div#body.home {
             border-radius: 10px;
             font-size: 0.8em;
 
-            position: absolute;
+            position: relative;
             z-index: 1;
+
+            top: -25px;
+            left: -110px;
           }
         }
       }

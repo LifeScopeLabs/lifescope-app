@@ -27,11 +27,11 @@
           </label>
         </div>
 
-        <div class="flexbox flex-column flex-x-center" v-if="$data.share === 'public' && $data.passcodeString != null">
+        <div class="flexbox flex-column flex-x-center" v-if="$data.share === 'public' && $data.passcode != null">
           <h3 style="margin-top: 1em;">Share Link</h3>
           <div class="share-link">
             <div class="flexbox">
-              <a v-bind:href="shareUrl(tag)" style="word-break: break-all" class="public-link">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcodeString }}</a>
+              <a v-bind:href="shareUrl(tag)" style="word-break: break-all" class="public-link">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcode }}</a>
               <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
                 <span class="tooltiptext">Copy to Clipboard</span>
               </i>
@@ -74,7 +74,7 @@
     data: function() {
       return {
         share: null,
-        passcodeString: null
+        passcode: null
       };
     },
 
@@ -101,11 +101,10 @@
         });
 
         match.passcode = update.passcode;
-        match.passcode_string = update.passcode_string;
         match.share = update.share;
 
         this.$data.share = update.share;
-        this.$data.passcodeString = update.passcode_string;
+        this.$data.passcode = update.passcode;
         this.$store.state.tagMany = storeCopy;
       },
 
@@ -128,7 +127,7 @@
       },
 
       shareUrl: function(tag) {
-        return 'https://app.lifescope.io/shared?id=' +  tag.id + '&passcode=' + this.$data.passcodeString;
+        return 'https://app.lifescope.io/shared?id=' +  tag.id + '&passcode=' + this.$data.passcode;
       },
 
       emailUrl: function(tag) {
@@ -170,7 +169,7 @@
 
     mounted: function() {
       this.$data.share = this.$props.tag.share || 'none';
-      this.$data.passcodeString = this.$props.tag.passcode_string || null;
+      this.$data.passcode = this.$props.tag.passcode || null;
     }
   }
 </script>
