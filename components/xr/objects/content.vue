@@ -206,13 +206,15 @@ const audioTypes = ['mp3', 'ogga', 'wav'];
 const imageTypes = ['png', 'jpg', 'jpeg', 'svg', 'tiff', 'bmp', 'webp'];
 const videoTypes = ['mp4', 'oggv', 'webm'];
 
+
 console.log("from objects/content.vue <script>")
 export default {
 	data () {
         return {
 			size: 1,
 			iconSize: 0.25,
-			truncateText: 30
+			truncateText: 30,
+			imageState: 0// 0: collapsed, 1: expanded
         }
     },
 	props: ['content', 'connection', 'carouselDim'],
@@ -318,7 +320,6 @@ export default {
 
 
 		hasURL:  function()  {
-			//console.log("hasGeoData called");
 			var content = this.$props.content;
 			var bool;
 			if (typeof content.url != 'undefined' & content.url != null) {
@@ -333,26 +334,49 @@ export default {
 		// returns true if event should be clickable;
 		clickable: function() {
 			var truth = false;
-			truth = this.hasURL(); // | this.otherReason
+			truth = this.hasURL() || this.isImage();
 			return truth;
 		},
 
 		makeClickable: function() {
-			console.log('makeClickable');
 			if (this.clickable()) {
-				console.log('making clickable');
 				var bg = document.getElementById('background-' + this.content.id);
 
 				bg.className += ' clickable';
 			}
-		}
+		},
+
+		expandImage: function() {
+			var self = this;
+			// get rid of any other expanded image
+			var expanded = document.getElementsByClassName('xr-expanded-image');
+			for (var i of expanded) {
+				i.parentNode.removeChild(i);
+			}
+
+			if (this.isImage(self.content)) {
+				var frag = this.fragmentFromString(`
+				<a-entity
+						id="xr-expanded-image-${this.content.embed_content}"
+						class="xr-expanded-image"
+						geometry="primitive: plane; width: 3.5"
+						material="${this.imageMaterial}"
+						rotation="0 0 0"
+						position="-0.175 1.5 -5"
+						src-fit="orientation: width; maxDimension: 3.5;">
+					</a-entity>`);
+
+				this.$el.appendChild(frag);
+				}
+		},
+
+		 fragmentFromString(strHTML) {
+            return document.createRange().createContextualFragment(strHTML);
+      },
 
     },
 
     mounted () {
-		// console.log("content:");
-		// console.log(this.content);
-		// console.log(this.content.url);
 
 		var self = this;
 
@@ -363,10 +387,21 @@ export default {
 			var bg = document.getElementById('background-' + this.content.id);
 			bg.addEventListener('click', function(event) {
 				console.log('click');
-				console.log('redirecting to ' + self.content.url);
+				
+				var expand = document.getElementById(`xr-expanded-image-${self.content.embed_content}`);
+				if ( expand == 'undefined' | expand == null) {
+					self.imageState = 0;
+				}  
 
-				window.open(self.content.url, "_self");//"_blank");//
-				window.focus();
+				if (self.imageState == 0){ // expand photo
+					self.expandImage();
+					self.imageState += 1;
+				}
+				else if (self.imageState == 1) { // open link
+					console.log('redirecting to ' + self.content.url);
+					window.open(self.content.url, "_self");//"_blank");//
+					window.focus();
+				}
 			})
 		}
     }

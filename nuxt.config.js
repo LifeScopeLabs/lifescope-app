@@ -147,7 +147,6 @@ module.exports = {
       'networked-aframe',
       'aframe-animation-component',
       'aframe-src-fit-component',
-      'aframe-asset-on-demand-component',
       'aframe-input-mapping-component',
       'aframe-teleport-controls',
       'aframe-extras',
