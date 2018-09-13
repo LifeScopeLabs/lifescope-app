@@ -78,6 +78,7 @@
                 <option value="file">File</option>
                 <option value="game">Game</option>
                 <option value="image">Image</option>
+                <option value="invite">Invite</option>
                 <option value="receipt">Receipt</option>
                 <option value="software">Software</option>
                 <option value="text">Text</option>
@@ -184,7 +185,7 @@
               <div class="input-container">
                 <select v-model="activeFilter.data.connection" name="connection">
                   <option value=""></option>
-                  <option v-for="connection in $store.state.connectionMany" v-bind:value="connection.id">{{ connection.name }}</option>
+                  <option v-for="connection in $store.state.connectionMany" v-bind:value="connection.id">{{ connection.name }} ({{ connection.provider.name }})</option>
                 </select>
               </div>
             </div>
