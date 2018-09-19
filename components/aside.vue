@@ -13,6 +13,7 @@
                 <div v-bind:class="{ active: activeFilter === 'music' }" class="filter" data-filter=".music" v-on:click="setActiveFilter('music')">Music</div>
                 <div v-bind:class="{ active: activeFilter === 'productivity' }" class="filter" data-filter=".productivity" v-on:click="setActiveFilter('productivity')">Productivity</div>
                 <div v-bind:class="{ active: activeFilter === 'social' }" class="filter" data-filter=".social" v-on:click="setActiveFilter('social')">Social</div>
+                <div v-bind:class="{ active: activeFilter === 'transportation' }" class="filter" data-filter=".transportation" v-on:click="setActiveFilter('transportation')">Transportation</div>
                 <div v-bind:class="{ active: activeFilter === 'video' }" class="filter" data-filter=".video" v-on:click="setActiveFilter('video')">Video</div>
             </div>
         </div>
