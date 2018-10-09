@@ -475,3 +475,21 @@ html.dark {
     color: $green
   }
 }
+
+.mobile-modal-buttons {
+  @include flexbox;
+  @include flex-x-center;
+
+  @media #{$maxwidth768},#{$mobile} {
+    @include flex-column;
+  }
+
+  button.left-button {
+    margin-right: 2em;
+
+    @media #{$maxwidth768},#{$mobile} {
+      margin-right: 0;
+      margin-bottom: 1em;
+    }
+  }
+}

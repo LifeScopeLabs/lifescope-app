@@ -27,4 +27,17 @@
   @media #{$maxwidth768},#{$mobile} {
     margin-bottom: 3em !important;
   }
+
+  & > .upload {
+    max-width: 800px;
+
+    @media #{$maxwidth768},#{$mobile} {
+      max-width: 100%;
+    }
+
+    input {
+      max-width: 100%;
+      margin-bottom: 1em;
+    }
+  }
 }

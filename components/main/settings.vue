@@ -66,6 +66,16 @@
           </div>
 
           <div class="boxed-group">
+            <div class="title">Upload Location History</div>
+            <div class="padded paragraphed">
+              <p>
+                LifeScope can accept Location history from services such as Google. This can greatly improve the estimation of Events' Locations.
+              </p>
+              <button class="primary" v-on:click="showLocationUploadModal">Upload my history</button>
+            </div>
+          </div>
+
+          <div class="boxed-group">
             <div class="title">Delete LifeScope Account</div>
 
             <div class="padded paragraphed">
@@ -182,6 +192,7 @@
   import deleteConnectionModal from '../modals/connection-delete';
   import disableConnectionModal from '../modals/connection-disable';
   import locationTrackingModal from '../modals/location-tracking';
+  import locationUploadModal from '../modals/location-upload';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import patchConnection from '../../apollo/mutations/patch-connection.gql';
   import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
@@ -326,7 +337,14 @@
         this.$modal.show(trackedLocationsDeleteModal, {}, {
           height: 'auto',
           scrollable: true
-        })
+        });
+      },
+
+      showLocationUploadModal: async function() {
+      	this.$modal.show(locationUploadModal, {}, {
+      		height: 'auto',
+            scrollable: true,
+        });
       }
     },
 

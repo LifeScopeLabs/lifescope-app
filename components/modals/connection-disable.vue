@@ -14,9 +14,8 @@
         </div>
       </div>
 
-      <div class="flexbox flex-x-center">
-        <button style="margin-right: 2em" v-on:click="$emit('close')">No, Cancel</button>
-        <span class="flex-grow"></span>
+      <div class="mobile-modal-buttons">
+        <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
         <button class="danger confirm" v-on:click="disableConnection(connection)">Yes, Disable</button>
       </div>
     </div>

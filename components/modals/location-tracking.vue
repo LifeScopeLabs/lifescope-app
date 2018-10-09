@@ -6,7 +6,7 @@
 
     <div class="body flexbox flex-column flex-x-center">
       <div v-if="$store.state.userOne.location_tracking_enabled === true" class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-        <h3 >Disable Location Tracking</h3>
+        <h3>Disable Location Tracking</h3>
         <div class="instructions">
           <p>Are you sure you'd like to disable location tracking?</p>
           <p>You can re-enable location tracking at any time.</p>
@@ -23,8 +23,8 @@
         </div>
       </div>
 
-      <div class="flexbox flex-x-center">
-        <button style="margin-right: 2em" v-on:click="$emit('close')">No, Cancel</button>
+      <div class="mobile-modal-buttons">
+        <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
         <span class="flex-grow"></span>
         <button v-if="$store.state.userOne.location_tracking_enabled === true" class="primary confirm" v-on:click="updateTracking">Yes, Disable</button>
         <button v-if="$store.state.userOne.location_tracking_enabled !== true" class="primary confirm" v-on:click="updateTracking">Yes, Enable</button>
