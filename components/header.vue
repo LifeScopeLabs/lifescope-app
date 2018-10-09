@@ -211,7 +211,7 @@
 			</div>
 		</nav>
 
-    <div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account'" class="mobile-selector" v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
+    <div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations'" class="mobile-selector" v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
       <span class="placeholder-text">{{ $store.state.mode[0].toUpperCase() + $store.state.mode.slice(1) }}</span>
       <i v-bind:class="{ 'fa fa-caret-down': $store.state.settingsSelectorOpen === false, 'fa fa-caret-up': $store.state.settingsSelectorOpen === true }"></i>
     </div>
@@ -220,6 +220,7 @@
       <div class="scroller">
         <div id="pages">
           <a href="/settings/account">Account</a>
+		  <a href="/settings/locations">Locations</a>
           <a href="/settings/connections">Connections</a>
         </div>
       </div>
