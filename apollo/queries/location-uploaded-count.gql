@@ -1,0 +1,3 @@
+query locationUploadedCount {
+    locationCount(filter: { uploaded: true })
+}

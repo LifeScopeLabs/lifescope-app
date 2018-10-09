@@ -13,6 +13,8 @@ $mobile-landscape: #{"(orientation: landscape) and (max-device-width: 1080px) an
 #{"(orientation: landscape) and (min-device-pixel-ratio: 3)"},
 #{"(orientation: landscape) and (-webkit-min-device-pixel-ratio: 3)"};
 
+$maxwidth400: #{"(max-width: 400px)"};
+
 $maxwidth768: #{"(max-width: 768px)"};
 
 $maxwidth1080: #{"(max-width: 1080px)"};

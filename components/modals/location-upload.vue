@@ -6,6 +6,8 @@
 
 		<h3 class="align-center">Upload Location History</h3>
 
+		<h4 class="align-center">This operation may take a few minutes depending on your network speed and size of Location file. Please be patient.</h4>
+
 		<div class="body flexbox flex-column flex-x-center">
 			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
 				<h3>Google</h3>
@@ -25,7 +27,8 @@
 		<form class="flexbox flex-column flex-x-center" id="location-file" action="/locations/upload_file" method="POST" v-on:submit.self.prevent="uploadFile">
 			<input type="file" name="spec" accept=".json"/>
 			<div class="errorlist hidden">Error uploading location file. Check that this is a valid file of location data is in JSON format.</div>
-			<button class=primary type="submit">Submit</button>
+			<button class="primary" v-bind:class="{ hidden: $data.uploading === true }" type="submit">Submit</button>
+			<i class="fa fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
 		</form>
 	</div>
 </template>
@@ -33,21 +36,19 @@
 <script>
 	export default {
 		data: function() {
-			return {};
+			return {
+				uploading: false
+			};
 		},
 		methods: {
 			uploadFile: function(e) {
 				let file, self = this;
 
-				console.log(e);
-
 				let $formElem = $(e.srcElement);
-
-				console.log($formElem);
 
 				file = new FormData($formElem.get(0));
 
-				console.log(file);
+				this.$data.uploading = true;
 
 				$.ajax({
 					url: $formElem.attr('action'),
@@ -58,9 +59,13 @@
 					data: file
 				})
 					.done(function(data) {
+						self.$data.uploading = false;
+
 						self.$emit('close');
 					})
 					.fail(function() {
+						self.$data.uploading = false;
+
 						$formElem.find('.errorlist').removeClass('hidden');
 					});
 			}

@@ -233,15 +233,10 @@ div#body.settings {
     #update-email {
       margin-top: 1em;
     }
+  }
 
-    .mobile-flex-center {
-      @media #{$maxwidth768},#{$mobile} {
-        @include flexbox;
-        @include flex-center;
-      }
-    }
-
-    .location-buttons {
+  &.locations {
+    .flex-mobile {
       @include flexbox;
 
       @media #{$maxwidth768},#{$mobile} {
@@ -401,6 +396,17 @@ div#body.settings {
 
       @media #{$maxwidth768},#{$mobile} {
         margin-top: 1em;
+      }
+    }
+  }
+
+  .mobile-flex-center {
+    @media #{$maxwidth768},#{$mobile} {
+      @include flexbox;
+      @include flex-center;
+
+      @media #{$maxwidth400} {
+        font-size: 0.8em;
       }
     }
   }

@@ -1,0 +1,3 @@
+query locationTrackedCount {
+    locationCount(filter: { tracked: true })
+}

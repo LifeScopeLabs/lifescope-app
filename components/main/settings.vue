@@ -10,6 +10,10 @@
           </div>
 
           <div>
+            <a href="/settings/locations">Locations</a>
+          </div>
+
+          <div>
             <a href="/settings/connections">Connections</a>
           </div>
         </div>
@@ -45,43 +49,12 @@
           </div>
 
           <div class="boxed-group">
-            <div class="title">Browser Location Tracking</div>
-            <div class="padded paragraphed">
-              <p>
-                LifeScope can record your location when you visit LifeScope pages. This can greatly improve search results over time.
-              </p>
-              <div class="location-buttons">
-                <div class="mobile-flex-center">
-                  <button v-if="$store.state.userOne.location_tracking_enabled === true" id="disable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Disable Location Tracking</button>
-                  <button v-if="$store.state.userOne.location_tracking_enabled !== true" id="enable-location-tracking" class="primary" v-on:click.prevent="showLocationTrackingModal">Enable Location Tracking</button>
-                </div>
-
-                <span class="flex-grow"></span>
-
-                <div class="mobile-flex-center">
-                  <button class="danger delete" v-on:click.prevent="showTrackedLocationsDeleteModal">Delete Tracked Locations</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="boxed-group">
-            <div class="title">Upload Location History</div>
-            <div class="padded paragraphed">
-              <p>
-                LifeScope can accept Location history from services such as Google. This can greatly improve the estimation of Events' Locations.
-              </p>
-              <button class="primary" v-on:click="showLocationUploadModal">Upload my history</button>
-            </div>
-          </div>
-
-          <div class="boxed-group">
             <div class="title">Delete LifeScope Account</div>
 
             <div class="padded paragraphed">
-                <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
-                <p>Once you delete your account, your LifeScope index will be deleted.</p>
-                <p>LifeScope will not keep your data and we never share any data without your consent.</p>
+              <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
+              <p>Once you delete your account, your LifeScope index will be deleted.</p>
+              <p>LifeScope will not keep your data and we never share any data without your consent.</p>
 
               <div class="mobile-flex-center">
                 <button id="delete" class="danger" v-on:click="showAccountDeleteModal">Delete Account</button>
@@ -90,6 +63,44 @@
           </div>
 
           <modals-container/>
+        </section>
+        <section id="locations" v-if="$store.state.mode === 'locations'">
+          <div class="boxed-group">
+            <div class="title">Browser Location Tracking</div>
+            <div class="padded paragraphed">
+              <div>Number of tracked Locations: {{ locationTrackedCount }}</div>
+              <p>
+                LifeScope can record your location when you visit LifeScope pages. This can greatly improve search results over time.
+              </p>
+              <div class="flex-mobile">
+                <button v-if="$store.state.userOne.location_tracking_enabled === true" id="disable-location-tracking" class="primary mobile-flex-center" v-on:click.prevent="showLocationTrackingModal">Disable Location Tracking</button>
+                <button v-if="$store.state.userOne.location_tracking_enabled !== true" id="enable-location-tracking" class="primary mobile-flex-center" v-on:click.prevent="showLocationTrackingModal">Enable Location Tracking</button>
+
+                <span class="flex-grow"></span>
+
+                <button class="danger delete mobile-flex-center" v-on:click.prevent="showTrackedLocationsDeleteModal">Delete Tracked Locations</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="boxed-group">
+            <div class="title">Upload Location History</div>
+            <div class="padded paragraphed">
+              <div>Number of uploaded Locations: {{ locationUploadedCount }}</div>
+              <div>Location files awaiting processing: {{ locationFilesCount }}</div>
+              <p>
+                LifeScope can accept Location history from services such as Google. This can greatly improve the estimation of Events' Locations.
+              </p>
+
+              <div class="flex-mobile">
+                <button class="primary mobile-flex-center" v-on:click="showLocationUploadModal">Upload Location Files</button>
+
+                <span class="flex-grow"></span>
+
+                <button class="danger delete mobile-flex-center" v-on:click.prevent="showUploadedLocationsDeleteModal">Delete Uploaded Locations</button>
+              </div>
+            </div>
+          </div>
         </section>
         <section id="connections" v-if="$store.state.mode === 'connections'">
           <div v-for="connection in orderBy($store.state.connectionMany, 'provider.name')"
@@ -193,7 +204,11 @@
   import disableConnectionModal from '../modals/connection-disable';
   import locationTrackingModal from '../modals/location-tracking';
   import locationUploadModal from '../modals/location-upload';
+  import locationFileCount from '../../apollo/queries/location-file-count.gql';
+  import locationTrackedCount from '../../apollo/queries/location-tracked-count.gql';
+  import locationUploadedCount from '../../apollo/queries/location-uploaded-count.gql';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
+  import uploadedLocationsDeleteModal from '../modals/uploaded-locations-delete';
   import patchConnection from '../../apollo/mutations/patch-connection.gql';
   import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
 
@@ -215,7 +230,10 @@
   export default {
     data: function() {
       return {
-        activeConnection: null
+        activeConnection: null,
+        locationFilesCount: null,
+        locationTrackedCount: null,
+        locationUploadedCount: null
       }
     },
     methods: {
@@ -345,6 +363,13 @@
       		height: 'auto',
             scrollable: true,
         });
+      },
+
+      showUploadedLocationsDeleteModal: async function() {
+          this.$modal.show(uploadedLocationsDeleteModal, {}, {
+              height: 'auto',
+              scrollable: true,
+          });
       }
     },
 
@@ -353,6 +378,18 @@
 
       let connectionResult = await this.$apollo.query({
         query: connectionMany
+      });
+
+      let locationFilesResult = await this.$apollo.query({
+          query: locationFileCount
+      });
+
+      let locationTrackedResult = await this.$apollo.query({
+          query: locationTrackedCount
+      });
+
+      let locationUploadedResult = await this.$apollo.query({
+          query: locationUploadedCount
       });
 
       let connectionUpdatedObserver = this.$apollo.subscribe({
@@ -407,6 +444,9 @@
         });
       });
 
+      this.$data.locationFilesCount = locationFilesResult.data.locationFileCount;
+      this.$data.locationTrackedCount = locationTrackedResult.data.locationCount;
+      this.$data.locationUploadedCount = locationUploadedResult.data.locationCount;
       this.$store.state.connectionMany = connections;
     },
   }
