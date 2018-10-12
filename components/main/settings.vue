@@ -116,7 +116,7 @@
                 <div v-if="connection.browser == null && connection.last_run != null" class="updates">
                   {{ getUpdated(connection.last_run) }}
                 </div>
-                <div v-else-if="connection.browser == null" class="updates">
+                <div v-else-if="connection.browser == null || connection.runnable !== false" class="updates">
                   <div>Initial index in progress</div>
                   <span></span>
                   <i class="fa fa-spinner fa-spin fa-2x"></i>

@@ -26,7 +26,7 @@
 
 		<form class="flexbox flex-column flex-x-center" id="location-file" action="/locations/upload_file" method="POST" v-on:submit.self.prevent="uploadFile">
 			<input type="file" name="spec" accept=".json"/>
-			<div class="errorlist hidden">Error uploading location file. Check that this is a valid file of location data is in JSON format.</div>
+			<div class="errorlist hidden">Error uploading location file. Check that this is a valid file of location data and is in JSON format.</div>
 			<button class="primary" v-bind:class="{ hidden: $data.uploading === true }" type="submit">Submit</button>
 			<i class="fa fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
 		</form>

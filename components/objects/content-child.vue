@@ -62,8 +62,13 @@
 
     <!-- title -->
 		<div v-if="content.title != null && content.title.length > 0" class="title">
-			<a v-if="content.url != null" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
+			<a v-if="content.url != null && content.url.length > 0" v-bind:href="content.url" target="_blank">{{ content.title | safe }}</a>
 			<span v-else>{{ content.title | safe }}</span>
+		</div>
+
+	<!-- amount -->
+		<div v-if="content.price && content.price > 0">
+			<div style="text-align: center">${{ content.price }}</div>
 		</div>
 
     <!-- text -->
