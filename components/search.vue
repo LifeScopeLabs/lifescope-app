@@ -1,30 +1,30 @@
 <template slot="search">
   <div v-if="$store.state.mode !== 'shared'" id="search-bar" class="input-group">
     <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
-      <i v-bind:class="$data.editorOpen ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
+      <i v-bind:class="$data.editorOpen ? 'fas fa-caret-up' : 'fas fa-caret-down'"></i>
     </div>
 
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
       <div id="filter-editor">
         <div id="filter-buttons">
           <div class="control" data-type="who" v-on:click="createBlankFilter('who')" v-bind:class="{ active: $data.activeFilter.type === 'who' }">
-            <i class="fa fa-user"></i>
+            <i class="fas fa-user"></i>
           </div>
 
           <div class="control" data-type="what" v-on:click="createBlankFilter('what')" v-bind:class="{ active: $data.activeFilter.type === 'what' }">
-            <i class="fa fa-picture-o"></i>
+            <i class="far fa-image"></i>
           </div>
 
           <div class="control" data-type="when" v-on:click="createBlankFilter('when')" v-bind:class="{ active: $data.activeFilter.type === 'when' }">
-            <i class="fa fa-calendar"></i>
+            <i class="far fa-calendar-alt"></i>
           </div>
 
           <div class="control" data-type="connector" v-on:click="createBlankFilter('connector')" v-bind:class="{ active: $data.activeFilter.type === 'connector' }">
-            <i class="fa fa-plug"></i>
+            <i class="fas fa-plug"></i>
           </div>
 
           <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map', active: $data.activeFilter.type === 'where' }">
-            <i class="fa fa-globe"></i>
+            <i class="fas fa-globe"></i>
           </div>
         </div>
 
@@ -211,7 +211,7 @@
 
             <div class="estimated">
               <label>
-                <input type="checkbox" name="estimated"/>
+                <input type="checkbox" name="estimated" v-model="activeFilter.data.estimated"/>
                 <span>Return Estimated Results</span>
               </label>
             </div>
@@ -228,7 +228,7 @@
         <div class="filter" v-for="filter in $store.state.searchBar.filters">
           <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
           <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
-          <i class="fa fa-close" v-on:click="deleteFilter(filter)"></i>
+          <i class="fas fa-times" v-on:click="deleteFilter(filter)"></i>
         </div>
       </div>
     </div>
@@ -243,18 +243,18 @@
       <div class="filter" v-for="filter in $store.state.searchBar.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
         <span v-else v-on:click="openAndLoadFilter(filter)">{{ filter.type | capitalize }}</span>
-        <i class="fa fa-close" v-on:click="deleteFilter(filter)"></i>
+        <i class="fas fa-times" v-on:click="deleteFilter(filter)"></i>
       </div>
     </div>
 
     <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count" v-on:click="toggleFilterEditor">+{{ $data.overflowCount }}</div>
 
     <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
-      <i v-bind:class="{ 'fa fa-star': $store.state.currentSearch.favorited === true, 'fa fa-star-o': $store.state.currentSearch.favorited !== true }"></i>
+      <i v-bind:class="{ 'fas fa-star': $store.state.currentSearch.favorited === true, 'far fa-star': $store.state.currentSearch.favorited !== true }"></i>
     </div>
 
     <div id="search-button" v-on:click="performSearch(true)">
-      <i class="fa fa-search"></i>
+      <i class="fas fa-search"></i>
     </div>
 
     <modals-container/>
@@ -270,6 +270,7 @@
   import connectionMany from '../apollo/queries/connection-many.gql';
   import contentSearch from '../apollo/mutations/content-search.gql';
   import eventSearch from '../apollo/mutations/event-search.gql';
+  import locationManyById from '../apollo/queries/location-many-by-id.gql';
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
   import searchFind from '../apollo/mutations/search-find.gql';
   import searchUpsert from '../apollo/mutations/search-upsert.gql';
@@ -698,6 +699,37 @@
               mutation: mapping,
               variables: variables
             });
+
+            //Trying to populate Locations as part of the Event search is very slow for reasons I haven't been able to determine.
+            //It's a lot faster to do a separate request for the Locations and attach them as appropriate.
+            if (facet === 'events') {
+	            let ids = [];
+
+	            let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
+
+	            _.each(data, function(event) {
+	            	if (event.location_id_string != null) {
+	            		ids.push(event.location_id_string)
+                    }
+                });
+
+            	let locations = await this.$apollo.query({
+                    query: locationManyById,
+                    variables: {
+                    	ids: ids
+                    }
+                });
+
+            	_.each(locations.data.locationFindManyById, function(location) {
+            		let eventMatch = _.find(data, function(event) {
+            			return event.location_id_string === location.id;
+                    });
+
+            		if (eventMatch != null) {
+			            eventMatch.hydratedLocation = location;
+		            }
+                });
+            }
           } catch(err) {
             error = true;
           }

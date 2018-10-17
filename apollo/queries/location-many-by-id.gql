@@ -1,0 +1,8 @@
+query locationManyById ($ids: [String]) {
+    locationFindManyById (ids: $ids) {
+    	id,
+    	estimated,
+    	geo_format,
+    	geolocation
+    }
+}

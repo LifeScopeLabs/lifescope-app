@@ -122,7 +122,7 @@
     },
     methods: {
       searchIcon: function(search) {
-        return search.favorited && search.icon ? search.icon : 'fa fa-circle-o';
+        return search.favorited && search.icon ? search.icon : 'far fa-circle';
       },
 
       searchColor: function(search) {
@@ -130,7 +130,7 @@
       },
 
       favoriteIcon: function(search) {
-        return search.favorited ? 'favorite-edit fa fa-star subdue' : 'favorite-create fa fa-star-o subdue'
+        return search.favorited ? 'favorite-edit fas fa-star subdue' : 'favorite-create far fa-star subdue'
       },
 
       favoriteButton: function(search) {

@@ -13,12 +13,7 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
         content,
         contacts,
         location,
-        hydratedLocation {
-          id,
-          estimated,
-          geo_format,
-          geolocation
-        },
+        location_id_string,
         tagMasks {
           added,
           removed,

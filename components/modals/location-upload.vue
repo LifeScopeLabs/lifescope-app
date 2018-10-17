@@ -1,7 +1,7 @@
 <template>
 	<div class="content padded upload">
 		<div class="flexbox flex-end">
-			<i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+			<i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
 		</div>
 
 		<h3 class="align-center">Upload Location History</h3>
@@ -28,7 +28,7 @@
 			<input type="file" name="spec" accept=".json"/>
 			<div class="errorlist hidden">Error uploading location file. Check that this is a valid file of location data and is in JSON format.</div>
 			<button class="primary" v-bind:class="{ hidden: $data.uploading === true }" type="submit">Submit</button>
-			<i class="fa fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
+			<i class="fas fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
 		</form>
 	</div>
 </template>

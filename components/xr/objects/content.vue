@@ -44,13 +44,13 @@
 				<a-entity :scale="textScale"
                   :text="this.textString('Tag')"
 				/>
-				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-hashtag')))"
+				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fas fa-hashtag')))"
 							:size="size * iconSize"
 							textAlign="right"
 							:position="(-columnWidth/2) + ' 0 0'"></a-ionicon>
 				
 			</a-entity> -->
-			<!--<span>Share</span><i class="fa fa-share"></i>-->
+			<!--<span>Share</span><i class="fas fa-share"></i>-->
 
 		</a-entity>
 
@@ -66,7 +66,7 @@
 			<!-- Audio -->
 			<a-entity v-if="isAudio(content)">
 				<a-ionicon 
-							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-headphones')))"
+							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fas fa-headphones')))"
 							:size="size * iconSize"
 							textAlign="right"
 							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
@@ -106,7 +106,7 @@
 			<!-- iframe -->
 			<a-entity v-if="isIframe(content)">
 				<a-ionicon 
-							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-code')))"
+							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fas fa-code')))"
 							:size="size * iconSize"
 							textAlign="right"
 							:position="(-carouselDim.columnWidth/2) + ' 0 0'">
@@ -119,7 +119,7 @@
 			<!-- Email -->
 			<a-entity v-if="isEmail(content)">
 				<a-ionicon 
-							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fa fa-envelope')))"
+							:icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('far fa-envelope')))"
 							:size="size * iconSize"
 							textAlign="right"
 							:position="(-carouselDim.columnWidth/2) + ' 0 -0.01'">

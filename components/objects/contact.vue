@@ -16,7 +16,7 @@
     <div v-if="hasAvatar() === true" class="mobile-thumbnail">
       <img v-bind:src="contact.avatar_url" />
     </div>
-    <i v-else class="type-icon large-grid-icon fa fa-user"></i>
+    <i v-else class="type-icon large-grid-icon fas fa-user"></i>
 
     <div class="title-bar">
       <i class="bubble hidden"></i>

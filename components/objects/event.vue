@@ -19,7 +19,7 @@
 
 					<!-- Tag -->
 					<aside class="action-bar" v-on:click="openActionModal(event, 'event')">
-						<span>Tag</span><i class="fa fa-hashtag"></i>
+						<span>Tag</span><i class="fas fa-hashtag"></i>
 					</aside>
 				</div>
 
@@ -36,19 +36,19 @@
 					<div>
 						<!-- date -->
 						<div>
-							<i class="fa fa-calendar"></i>
+							<i class="far fa-calendar-alt"></i>
 							<span>{{ event.datetime | dateShort }}</span>
 						</div>
 
 						<!-- estimated -->
 						<!-- ??? won't this never show? we alread checked that event.datetime exists -->
 						<div v-if="!event.datetime" class="estimation">
-							<i class="fa fa-flask"></i>
+							<i class="fas fa-flask"></i>
 							<span>Estimated</span>
 						</div>
 						<!-- time -->
 						<div v-else>
-							<i class="fa fa-clock-o"></i>
+							<i class="far fa-clock"></i>
 							<span>{{ event.datetime | dateTime }}</span>
 						</div>
 					</div>
@@ -110,11 +110,11 @@
 			<!--<div v-else-if="event.datetime">-->
 			<!--<div class="title">-->
 			<!--<div>-->
-			<!--<i class="fa fa-calendar"></i> <span>{{ event.datetime | dateShort }}</span>-->
+			<!--<i class="far fa-calendar-alt"></i> <span>{{ event.datetime | dateShort }}</span>-->
 			<!--</div>-->
 
 			<!--<div>-->
-			<!--<i class="fa fa-clock-o"></i> <span>{{ event.datetime | dateTime }}</span>-->
+			<!--<i class="far fa-clock"></i> <span>{{ event.datetime | dateTime }}</span>-->
 			<!--</div>-->
 			<!--</div>-->
 			<!--</div>-->

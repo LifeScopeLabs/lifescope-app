@@ -81,7 +81,7 @@
 						:text="this.textString( this.dateTime(event.datetime) )">
 						</a-entity>
 						<!-- <a-entity v-else>
-							<i class="fa fa-clock-o"></i> <span>{{ event.datetime | dateTime }}</span>
+							<i class="far fa-clock"></i> <span>{{ event.datetime | dateTime }}</span>
 						</a-entity> -->
 					</a-entity>
 				</a-entity>

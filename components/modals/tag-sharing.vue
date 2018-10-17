@@ -2,7 +2,7 @@
   <div id="sharing">
     <div class="content padded">
       <div class="flexbox flex-end">
-        <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+        <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
       </div>
 
       <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
@@ -32,28 +32,28 @@
           <div class="share-link">
             <div class="flexbox">
               <a v-bind:href="shareUrl(tag)" style="word-break: break-all" class="public-link">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcode }}</a>
-              <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
+              <i class="fas fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
                 <span class="tooltiptext">Copy to Clipboard</span>
               </i>
             </div>
           </div>
           <div class="share-link">
             <div id="social-tag-shares">
-              <a v-bind:href="facebookUrl(tag)" target="_blank"><i class="fa fa-facebook"></i></a>
-              <a v-bind:href="twitterUrl(tag)" target="_blank"><i class="fa fa-twitter"></i></a>
-              <a v-bind:href="redditUrl(tag)" target="_blank"><i class="fa fa-reddit-alien"></i></a>
-              <a v-bind:href="emailUrl(tag)" target="_blank"><i class="fa fa-envelope"></i></a>
-              <a v-bind:href="smsUrl(tag)" target="_blank"><i class="fa fa-comments"></i></a>
-              <a v-bind:href="tumblrUrl(tag)" target="_blank"><i class="fa fa-tumblr"></i></a>
-              <a v-bind:href="pinterestUrl(tag)" target="_blank"><i class="fa fa-pinterest"></i></a>
-              <a v-bind:href="linkedInUrl(tag)" target="_blank"><i class="fa fa-linkedin"></i></a>
+              <a v-bind:href="facebookUrl(tag)" target="_blank"><i class="fab fa-facebook"></i></a>
+              <a v-bind:href="twitterUrl(tag)" target="_blank"><i class="fab fa-twitter"></i></a>
+              <a v-bind:href="redditUrl(tag)" target="_blank"><i class="fab fa-reddit-alien"></i></a>
+              <a v-bind:href="emailUrl(tag)" target="_blank"><i class="far fa-envelope"></i></a>
+              <a v-bind:href="smsUrl(tag)" target="_blank"><i class="fas fa-comments"></i></a>
+              <a v-bind:href="tumblrUrl(tag)" target="_blank"><i class="fab fa-tumblr"></i></a>
+              <a v-bind:href="pinterestUrl(tag)" target="_blank"><i class="fab fa-pinterest"></i></a>
+              <a v-bind:href="linkedInUrl(tag)" target="_blank"><i class="fab fa-linkedin"></i></a>
             </div>
           </div>
           <div class="share-link">
             <span>Embed #{{ tag.tag }} tag stream into your site:</span>
             <div class="flexbox">
               <span class="iframe-code">{{ iframe(tag) }}</span>
-              <i class="fa fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.iframe-code')">
+              <i class="fas fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.iframe-code')">
                 <span class="tooltiptext">Copy to Clipboard</span>
               </i>
             </div>

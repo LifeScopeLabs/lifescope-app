@@ -27,7 +27,9 @@
     color: transparent!important
 }
 
-.fa {
+.fas,
+.far,
+.fab {
     font-family: FontAwesome!important;
     font-style: normal!important
 }

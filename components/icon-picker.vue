@@ -1,61 +1,60 @@
 <template>
   <div class="icon-picker">
     <div class="options">
-      <i class="fa fa-circle-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-circle-o'"></i>
-      <i class="fa fa-tag" v-on:click="$store.state.tempSearch.icon = 'fa fa-tag'"></i>
-      <i class="fa fa-square" v-on:click="$store.state.tempSearch.icon = 'fa fa-square'"></i>
-      <i class="fa fa-circle" v-on:click="$store.state.tempSearch.icon = 'fa fa-circle'"></i>
-      <i class="fa fa-star" v-on:click="$store.state.tempSearch.icon = 'fa fa-star'"></i>
-      <i class="fa fa-certificate" v-on:click="$store.state.tempSearch.icon = 'fa fa-certificate'"></i>
-      <i class="fa fa-check" v-on:click="$store.state.tempSearch.icon = 'fa fa-check'"></i>
-      <i class="fa fa-user" v-on:click="$store.state.tempSearch.icon = 'fa fa-user'"></i>
-      <i class="fa fa-users" v-on:click="$store.state.tempSearch.icon = 'fa fa-users'"></i>
-      <i class="fa fa-at" v-on:click="$store.state.tempSearch.icon = 'fa fa-at'"></i>
-      <i class="fa fa-bar-chart" v-on:click="$store.state.tempSearch.icon = 'fa fa-bar-chart'"></i>
-      <i class="fa fa-bell" v-on:click="$store.state.tempSearch.icon = 'fa fa-bell'"></i>
-      <i class="fa fa-briefcase" v-on:click="$store.state.tempSearch.icon = 'fa fa-briefcase'"></i>
-      <i class="fa fa-calendar" v-on:click="$store.state.tempSearch.icon = 'fa fa-calendar'"></i>
-      <i class="fa fa-camera-retro" v-on:click="$store.state.tempSearch.icon = 'fa fa-camera-retro'"></i>
-      <i class="fa fa-code" v-on:click="$store.state.tempSearch.icon = 'fa fa-code'"></i>
-      <i class="fa fa-copy" v-on:click="$store.state.tempSearch.icon = 'fa fa-copy'"></i>
-      <i class="fa fa-cutlery" v-on:click="$store.state.tempSearch.icon = 'fa fa-cutlery'"></i>
-      <i class="fa fa-desktop" v-on:click="$store.state.tempSearch.icon = 'fa fa-desktop'"></i>
-      <i class="fa fa-file-code-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-file-code-o'"></i>
-      <i class="fa fa-file-image-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-file-image-o'"></i>
-      <i class="fa fa-file-text-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-file-text-o'"></i>
-      <i class="fa fa-files-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-files-o'"></i>
-      <i class="fa fa-film" v-on:click="$store.state.tempSearch.icon = 'fa fa-film'"></i>
-      <i class="fa fa-filter" v-on:click="$store.state.tempSearch.icon = 'fa fa-filter'"></i>
-      <i class="fa fa-gamepad" v-on:click="$store.state.tempSearch.icon = 'fa fa-gamepad'"></i>
-      <i class="fa fa-glass" v-on:click="$store.state.tempSearch.icon = 'fa fa-glass'"></i>
-      <i class="fa fa-globe" v-on:click="$store.state.tempSearch.icon = 'fa fa-globe'"></i>
-      <i class="fa fa-hashtag" v-on:click="$store.state.tempSearch.icon = 'fa fa-hashtag'"></i>
-      <i class="fa fa-headphones" v-on:click="$store.state.tempSearch.icon = 'fa fa-headphones'"></i>
-      <i class="fa fa-heart" v-on:click="$store.state.tempSearch.icon = 'fa fa-heart'"></i>
-      <i class="fa fa-heartbeat" v-on:click="$store.state.tempSearch.icon = 'fa fa-heartbeat'"></i>
-      <i class="fa fa-history" v-on:click="$store.state.tempSearch.icon = 'fa fa-history'"></i>
-      <i class="fa fa-home" v-on:click="$store.state.tempSearch.icon = 'fa fa-home'"></i>
-      <i class="fa fa-image" v-on:click="$store.state.tempSearch.icon = 'fa fa-image'"></i>
-      <i class="fa fa-inbox" v-on:click="$store.state.tempSearch.icon = 'fa fa-inbox'"></i>
-      <i class="fa fa-map-marker" v-on:click="$store.state.tempSearch.icon = 'fa fa-map-marker'"></i>
-      <i class="fa fa-usd" v-on:click="$store.state.tempSearch.icon = 'fa fa-usd'"></i>
-      <i class="fa fa-music" v-on:click="$store.state.tempSearch.icon = 'fa fa-music'"></i>
-      <i class="fa fa-paw" v-on:click="$store.state.tempSearch.icon = 'fa fa-paw'"></i>
-      <i class="fa fa-phone" v-on:click="$store.state.tempSearch.icon = 'fa fa-phone'"></i>
-      <i class="fa fa-puzzle-piece" v-on:click="$store.state.tempSearch.icon = 'fa fa-puzzle-piece'"></i>
-      <i class="fa fa-smile-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-smile-o'"></i>
-      <i class="fa fa-soccer-ball-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-soccer-ball'"></i>
-      <i class="fa fa-commenting-o" v-on:click="$store.state.tempSearch.icon = 'fa fa-commenting-o'"></i>
-      <i class="fa fa-thumbs-o-up" v-on:click="$store.state.tempSearch.icon = 'fa fa-thumbs-o-up'"></i>
-      <i class="fa fa-tree" v-on:click="$store.state.tempSearch.icon = 'fa fa-tree'"></i>
-      <i class="fa fa-trophy" v-on:click="$store.state.tempSearch.icon = 'fa fa-trophy'"></i>
-      <i class="fa fa-tv" v-on:click="$store.state.tempSearch.icon = 'fa fa-tv'"></i>
-      <i class="fa fa-video-camera" v-on:click="$store.state.tempSearch.icon = 'fa fa-video-camera'"></i>
-      <i class="fa fa-wrench" v-on:click="$store.state.tempSearch.icon = 'fa fa-wrench'"></i>
+      <i class="far fa-circle" v-on:click="$store.state.tempSearch.icon = 'far fa-circle'"></i>
+      <i class="fas fa-tag" v-on:click="$store.state.tempSearch.icon = 'fas fa-tag'"></i>
+      <i class="fas fa-square" v-on:click="$store.state.tempSearch.icon = 'fas fa-square'"></i>
+      <i class="fas fa-circle" v-on:click="$store.state.tempSearch.icon = 'fas fa-circle'"></i>
+      <i class="fas fa-star" v-on:click="$store.state.tempSearch.icon = 'fas fa-star'"></i>
+      <i class="fas fa-certificate" v-on:click="$store.state.tempSearch.icon = 'fas fa-certificate'"></i>
+      <i class="fas fa-check" v-on:click="$store.state.tempSearch.icon = 'fas fa-check'"></i>
+      <i class="fas fa-user" v-on:click="$store.state.tempSearch.icon = 'fas fa-user'"></i>
+      <i class="fas fa-users" v-on:click="$store.state.tempSearch.icon = 'fas fa-users'"></i>
+      <i class="fas fa-at" v-on:click="$store.state.tempSearch.icon = 'fas fa-at'"></i>
+      <i class="fas fa-chart-bar" v-on:click="$store.state.tempSearch.icon = 'fas fa-bar-chart'"></i>
+      <i class="fas fa-bell" v-on:click="$store.state.tempSearch.icon = 'fas fa-bell'"></i>
+      <i class="fas fa-briefcase" v-on:click="$store.state.tempSearch.icon = 'fas fa-briefcase'"></i>
+      <i class="far fa-calendar-alt" v-on:click="$store.state.tempSearch.icon = 'far fa-calendar-alt'"></i>
+      <i class="fas fa-camera-retro" v-on:click="$store.state.tempSearch.icon = 'fas fa-camera-retro'"></i>
+      <i class="fas fa-code" v-on:click="$store.state.tempSearch.icon = 'fas fa-code'"></i>
+      <i class="far fa-copy" v-on:click="$store.state.tempSearch.icon = 'fas fa-copy'"></i>
+      <i class="fas fa-utensils" v-on:click="$store.state.tempSearch.icon = 'fas fa-utensils'"></i>
+      <i class="fas fa-desktop" v-on:click="$store.state.tempSearch.icon = 'fas fa-desktop'"></i>
+      <i class="far fa-file-code" v-on:click="$store.state.tempSearch.icon = 'far fa-file-code'"></i>
+      <i class="far fa-file-image" v-on:click="$store.state.tempSearch.icon = 'far fa-file-image'"></i>
+      <i class="far fa-file-alt" v-on:click="$store.state.tempSearch.icon = 'far fa-file-alt'"></i>
+      <i class="fas fa-film" v-on:click="$store.state.tempSearch.icon = 'fas fa-film'"></i>
+      <i class="fas fa-filter" v-on:click="$store.state.tempSearch.icon = 'fas fa-filter'"></i>
+      <i class="fas fa-gamepad" v-on:click="$store.state.tempSearch.icon = 'fas fa-gamepad'"></i>
+      <i class="fas fa-glass-martini" v-on:click="$store.state.tempSearch.icon = 'fas fa-glass-martini'"></i>
+      <i class="fas fa-globe" v-on:click="$store.state.tempSearch.icon = 'fas fa-globe'"></i>
+      <i class="fas fa-hashtag" v-on:click="$store.state.tempSearch.icon = 'fas fa-hashtag'"></i>
+      <i class="fas fa-headphones" v-on:click="$store.state.tempSearch.icon = 'fas fa-headphones'"></i>
+      <i class="fas fa-heart" v-on:click="$store.state.tempSearch.icon = 'fas fa-heart'"></i>
+      <i class="fas fa-heartbeat" v-on:click="$store.state.tempSearch.icon = 'fas fa-heartbeat'"></i>
+      <i class="fas fa-history" v-on:click="$store.state.tempSearch.icon = 'fas fa-history'"></i>
+      <i class="fas fa-home" v-on:click="$store.state.tempSearch.icon = 'fas fa-home'"></i>
+      <i class="far fa-image" v-on:click="$store.state.tempSearch.icon = 'far fa-image'"></i>
+      <i class="fas fa-inbox" v-on:click="$store.state.tempSearch.icon = 'fas fa-inbox'"></i>
+      <i class="fas fa-map-marker" v-on:click="$store.state.tempSearch.icon = 'fas fa-map-marker'"></i>
+      <i class="fas fa-dollar-sign" v-on:click="$store.state.tempSearch.icon = 'fas fa-dollar-sign'"></i>
+      <i class="fas fa-music" v-on:click="$store.state.tempSearch.icon = 'fas fa-music'"></i>
+      <i class="fas fa-paw" v-on:click="$store.state.tempSearch.icon = 'fas fa-paw'"></i>
+      <i class="fas fa-phone" v-on:click="$store.state.tempSearch.icon = 'fas fa-phone'"></i>
+      <i class="fas fa-puzzle-piece" v-on:click="$store.state.tempSearch.icon = 'fas fa-puzzle-piece'"></i>
+      <i class="far fa-smile" v-on:click="$store.state.tempSearch.icon = 'far fa-smile'"></i>
+      <i class="fas fa-futbol" v-on:click="$store.state.tempSearch.icon = 'fas fa-futbol'"></i>
+      <i class="fas fa-comment-dots" v-on:click="$store.state.tempSearch.icon = 'fas fa-comment-dots'"></i>
+      <i class="far fa-thumbs-up" v-on:click="$store.state.tempSearch.icon = 'far fa-thumbs-up'"></i>
+      <i class="fas fa-tree" v-on:click="$store.state.tempSearch.icon = 'fas fa-tree'"></i>
+      <i class="fas fa-trophy" v-on:click="$store.state.tempSearch.icon = 'fas fa-trophy'"></i>
+      <i class="fas fa-tv" v-on:click="$store.state.tempSearch.icon = 'fas fa-tv'"></i>
+      <i class="fas fa-video" v-on:click="$store.state.tempSearch.icon = 'fas fa-video'"></i>
+      <i class="fas fa-wrench" v-on:click="$store.state.tempSearch.icon = 'fas fa-wrench'"></i>
     </div>
 
     <div id="clear-icon" v-on:click="$store.state.tempSearch.icon = ''">
-      <i class="fa fa-times-circle" ></i> <span>Clear icon</span>
+      <i class="fas fa-times-circle" ></i> <span>Clear icon</span>
     </div>
   </div>
 </template>

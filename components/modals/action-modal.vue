@@ -1,7 +1,7 @@
 <template>
   <div class="content padded actions">
     <div class="flexbox flex-end width100">
-      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
 
     <div class="title">
@@ -24,12 +24,12 @@
         <div class="add-tag">
           <span>#</span>
           <input type="text" placeholder="Add a tag" v-model="tagName">
-          <i class="fa fa-plus" v-on:click="addTag"></i>
+          <i class="fas fa-plus" v-on:click="addTag"></i>
         </div>
         <div class="tags">
           <div v-for="tag in item.tags">
             <span v-on:click="searchTag(tag)">#{{ tag }}</span>
-            <i class="delete fa fa-times" v-on:click="removeTag(tag)"></i>
+            <i class="delete fas fa-times" v-on:click="removeTag(tag)"></i>
           </div>
         </div>
       </form>

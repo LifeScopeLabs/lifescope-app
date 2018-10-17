@@ -119,11 +119,11 @@
                 <div v-else-if="connection.browser == null || connection.runnable !== false" class="updates">
                   <div>Initial index in progress</div>
                   <span></span>
-                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                  <i class="fas fa-spinner fa-spin fa-2x"></i>
                 </div>
               </div>
 
-              <i class="fa fa-caret-down expand-indicator"></i>
+              <i class="fas fa-caret-down expand-indicator"></i>
             </div>
 
             <form class="auto" v-on:submit.prevent="">
@@ -131,7 +131,7 @@
                 <div v-if="connection.browser == null">
                   <div class="flexbox flex-x-center label">
                     <div>Name</div>
-                    <i class="fa fa-check-circle flex-grow success-icon" data-for="name"
+                    <i class="fas fa-check-circle flex-grow success-icon" data-for="name"
                        v-bind:data-namespace="connection.name"></i>
                   </div>
                   <div class="text-box shrink">
@@ -149,7 +149,7 @@
                                       v-model="$store.state.permissions[connection.id]" v-on:change="updatePermissions(connection)"/>
                           {{ permission.$value.name }}
                         </label>
-                        <i class="fa fa-check-circle flex-grow success-icon" v-bind:data-for="name"
+                        <i class="fas fa-check-circle flex-grow success-icon" v-bind:data-for="name"
                            v-bind:data-namespace="connection.id"></i>
                       </div>
                       <div class="tooltip" data-for="">{{ permission.$value.description }}</div>
@@ -180,7 +180,7 @@
           </div>
 
           <a id="big-add" class="flexbox flex-center" href="https://app.lifescope.io/providers">
-            <i class="fa fa-plus"></i>
+            <i class="fas fa-plus"></i>
           </a>
         </section>
 

@@ -44,7 +44,6 @@ body {
     left: 0;
     top: 100%;
     z-index: 20;
-    width: 100%;
     cursor: auto;
 
     @media #{$maxwidth768},#{$mobile} {

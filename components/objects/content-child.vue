@@ -15,8 +15,8 @@
 
       <!-- tags -->
 			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
-				<span>Tag</span><i class="fa fa-hashtag"></i>
-				<!--<span>Share</span><i class="fa fa-share"></i>-->
+				<span>Tag</span><i class="fas fa-hashtag"></i>
+				<!--<span>Share</span><i class="fas fa-share"></i>-->
 			</aside>
 		</div>
 

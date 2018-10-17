@@ -3,7 +3,7 @@
     <aside v-if="$store.state.user != undefined" id="profile">
       <div class="avatar">
         <a href="https://app.lifescope.io/settings/connections">
-          <i class="fa fa-user"></i>
+          <i class="fas fa-user"></i>
         </a>
       </div>
 
@@ -11,7 +11,7 @@
 
       <div class="info">
         <div>
-          <i class="fa fa-clock-o"></i>
+          <i class="far fa-clock"></i>
           <span>Joined LifeScope {{ $store.getters.dateJoined }}</span>
         </div>
       </div>
@@ -179,7 +179,7 @@
       },
 
       searchIcon: function(search) {
-        return search.favorited && search.icon ? search.icon : 'fa fa-circle-o';
+        return search.favorited && search.icon ? search.icon : 'far fa-circle';
       },
 
       searchColor: function(search) {
@@ -187,7 +187,7 @@
       },
 
       favoriteIcon: function(search) {
-        return search.favorited ? 'favorite-edit fa fa-star subdue' : 'favorite-create fa fa-star-o subdue'
+        return search.favorited ? 'favorite-edit fas fa-star subdue' : 'favorite-create far fa-star subdue'
       },
 
       favoriteButton: function(search) {
@@ -195,7 +195,7 @@
       },
 
       shareStatus: function(tag) {
-        return tag.share === 'public' ? 'fa fa-unlock' : 'fa fa-lock';
+        return tag.share === 'public' ? 'fas fa-lock-open' : 'fas fa-lock';
       },
 
       lastRunRelative: function(search) {

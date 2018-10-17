@@ -1,7 +1,7 @@
 <template>
   <div v-if="type === 'event'" class="object event modaled flex-column" v-bind:id="item.id">
     <div class="flexbox flex-end close-container">
-      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
     <div class="items">
       <aside class="details">
@@ -16,7 +16,7 @@
           </span>
 
           <aside class="action-bar" v-on:click="openActionModal(event, 'event')">
-            <span>Tag</span><i class="fa fa-hashtag"></i>
+            <span>Tag</span><i class="fas fa-hashtag"></i>
           </aside>
         </div>
 
@@ -28,16 +28,16 @@
         <div v-if="item.datetime" class="date">
           <div>
             <div>
-              <i class="fa fa-calendar"></i> <span>{{ item.datetime | dateShort }}</span>
+              <i class="far fa-calendar-alt"></i> <span>{{ item.datetime | dateShort }}</span>
             </div>
 
 
             <div v-if="!item.datetime" class="estimation">
-              <i class="fa fa-flask"></i> <span>Estimated</span>
+              <i class="fas fa-flask"></i> <span>Estimated</span>
             </div>
 
             <div v-else>
-              <i class="fa fa-clock-o"></i> <span>{{ item.datetime | dateTime }}</span>
+              <i class="far fa-clock"></i> <span>{{ item.datetime | dateTime }}</span>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
   </div>
   <div v-else-if="type === 'content'" class="object content modaled flex-column" v-bind:id="item.id">
     <div class="flexbox flex-end close-container">
-      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
     <section class="content">
       <user-content v-bind:key="item.id" v-bind:content="item" v-bind:connection="item.connection"></user-content>
@@ -71,7 +71,7 @@
   </div>
   <div v-else-if="type === 'contact'" class="object contact modaled flex-column" v-bind:id="item.id">
     <div class="flexbox flex-end close-container">
-      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
     <div class="objects">
       <user-contact v-bind:key="item.id" v-bind:contact="item" v-bind:connection="item.connection"></user-contact>

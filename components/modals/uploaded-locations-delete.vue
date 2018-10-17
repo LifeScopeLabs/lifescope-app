@@ -1,7 +1,7 @@
 <template>
   <div class="content padded">
     <div class="flexbox flex-end">
-      <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
 
     <div class="body flexbox flex-column flex-x-center">
@@ -15,7 +15,7 @@
       <div class="mobile-modal-buttons">
         <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
         <button class="danger confirm" v-bind:class="{ hidden: $data.deleting === true }" v-on:click="deleteUploadedLocations">Yes, Delete</button>
-        <i class="fa fa-spin fa-spinner" v-bind:class="{ hidden: $data.deleting === false }"></i>
+        <i class="fas fa-spin fa-spinner" v-bind:class="{ hidden: $data.deleting === false }"></i>
       </div>
     </div>
   </div>

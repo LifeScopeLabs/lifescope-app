@@ -2,7 +2,7 @@
   <div id="favorite">
     <div class="content padded">
       <div class="flexbox flex-end">
-        <i class="close-button fa fa-times-circle" v-on:click="$emit('close')"></i>
+        <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
       </div>
       <h3 class="align-center">Favorite Your Search</h3>
 
