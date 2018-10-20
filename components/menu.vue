@@ -102,7 +102,7 @@
 
 				<footer>
 					<div v-if="$store.state.mode !== 'shared'" class="user-info">
-						<a href="/logout"><i class="fas fa-sign-out"></i> Logout</a>
+						<a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 					</div>
 
 					<div>

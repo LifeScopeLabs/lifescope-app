@@ -183,6 +183,14 @@ div#body.explorer {
 
       margin-bottom: 0.5em;
 
+      a {
+        text-decoration: none;
+
+        &:hover {
+          color: $blue;
+        }
+      }
+
       & > div {
         &:first-child {
           @include flexbox;

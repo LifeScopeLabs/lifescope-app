@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import _ from 'lodash';
 import config from 'config';
 import moment from 'moment';
 
@@ -92,6 +93,11 @@ const store = () => new Vuex.Store({
 		authenticated (state) {
 			return state.user != undefined;
 		},
+
+		theme (state) {
+			return state.user && _.has(state.user, 'settings.theme') ? state.user.settings.theme : 'light';
+		},
+
 		dateJoined (state) {
 			return moment(state.user.joined).format('MMMM DD, YYYY')
 		}

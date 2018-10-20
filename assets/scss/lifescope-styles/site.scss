@@ -101,6 +101,14 @@ div#body {
     }
   }
 
+  &.dark {
+    header {
+      background-color: $background-color-dark;
+      color: $font-color-dark;
+      border-bottom: 1px solid $border-color-dark !important;
+    }
+  }
+
   & > header {
     $margin-width: 10px;
 
@@ -154,6 +162,7 @@ div#body {
         }
       }
     }
+
     & > .controls {
       @include flexbox;
       @include flex-space-between;

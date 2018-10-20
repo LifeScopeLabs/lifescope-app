@@ -385,9 +385,13 @@
           return filter.type === 'where';
         });
 
+        let newFilters = [];
+
         _.each(whereFilters, function(filter) {
+          let newFilter = _.cloneDeep(filter);
+
           let newPolygonId = uuid();
-          let polygonCoordinates = filter.data.coordinates;
+          let polygonCoordinates = newFilter.data.coordinates;
           let firstCoordinate = polygonCoordinates[0];
           let lastCoordinate = polygonCoordinates[polygonCoordinates.length - 1];
 
@@ -405,8 +409,12 @@
             }
           });
 
-          filter.data.object_id = newPolygonId;
+          newFilter.data.object_id = newPolygonId;
+
+          newFilters.push(newFilter);
         });
+
+        this.$store.state.searchBar.filters = newFilters;
 
         this.$store.state.redrawPolygons = false;
       },

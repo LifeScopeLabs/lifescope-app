@@ -1,5 +1,5 @@
 <template>
-  <div id="body" v-bind:class="[{ authenticated: $store.getters.authenticated }, $store.state.pageName]">
+  <div id="body" v-bind:class="[{ authenticated: $store.getters.authenticated }, $store.getters.theme, $store.state.pageName]">
     <vue-header></vue-header>
 
     <vue-menu></vue-menu>
