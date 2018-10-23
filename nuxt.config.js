@@ -183,11 +183,15 @@ module.exports = {
 	plugins: [
 		'./plugins/vue-js-modal',
 		'./plugins/vue2-filters',
-    './plugins/vue-observe-visibility',
+        './plugins/vue-observe-visibility',
     {
       src: './plugins/vue-bootstrap-datetimepicker',
       ssr: false
-    }
+    },
+		{
+			src: './plugins/vue-toggle-button',
+			ssr: false
+		}
 	],
 
 	serverMiddleware: [

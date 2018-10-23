@@ -2,24 +2,26 @@ div#body.providers {
   overflow: hidden;
 
   @media #{$maxwidth768},#{$mobile}  {
-    header {
-      .mobile-selector {
-        display: block !important;
+    .mobile-selector {
+      display: block !important;
+
+      & > i {
+        margin-left: 0.5em;
       }
     }
 
     aside.filters {
-      @include flex-grow-scrollable;
+      & > .scroller {
+        display: none;
 
-      display: none;
+        #filters {
+          .filter {
+            text-align: center;
+            width: 10em;
+            margin-bottom: 1em;
 
-      #filters {
-        .filter {
-          text-align: center;
-          width: 10em;
-          margin-bottom: 1em;
-
-          font-size: 1.2em;
+            font-size: 1.2em;
+          }
         }
       }
     }
@@ -31,6 +33,51 @@ div#body.providers {
 
       main {
         @include flex(0);
+      }
+    }
+  }
+
+  &.dark {
+    aside.filters {
+      background-color: $background-color-dark;
+      color: $font-color-dark;
+    }
+
+    main {
+      background-color: $background-color-dark;
+
+      #provider-grid {
+        & > div {
+          color: $font-color-dark;
+          background-color: $background-color-dark;
+          border: 3px solid $border-color-dark;
+        }
+      }
+    }
+
+    #workflow {
+      .tooltip {
+        color: $font-color-subdue-dark;
+      }
+    }
+  }
+
+  .mobile-selector {
+    @include no-select;
+
+    display: none;
+    cursor: pointer;
+    margin-top: 0.5em;
+    text-align: center;
+    font-size: 1.5em;
+  }
+
+  aside.mobile-type-selector {
+    display: none;
+
+    @media #{$maxwidth768},#{$mobile} {
+      &.open {
+        display: block;
       }
     }
   }

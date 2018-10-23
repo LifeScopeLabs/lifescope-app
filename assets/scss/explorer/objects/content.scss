@@ -120,3 +120,30 @@
     display: none !important;
   }
 }
+
+div#body.dark {
+  .object.content {
+    .header {
+      & > * {
+        color: $font-color-subdue-dark;
+      }
+    }
+
+    .title {
+      color: $font-color-subdue-dark;
+    }
+
+    .text {
+      .expand {
+        display: block;
+        cursor: pointer;
+        width: 50px;
+        margin: 0.5em auto 0 auto;
+        padding: 0.2em;
+        text-transform: uppercase;
+        font-size: 0.85em;
+        background-color: $border-color-dark;
+      }
+    }
+  }
+}

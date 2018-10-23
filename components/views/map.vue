@@ -61,6 +61,10 @@
       initializeMap: function(map) {
         map.addControl(mapboxDraw, 'top-left');
 
+        if (this.$store.getters.theme === 'dark') {
+	        map.setStyle('mapbox://styles/mapbox/dark-v9');
+        }
+
         this.$store.state.map = map;
       },
 

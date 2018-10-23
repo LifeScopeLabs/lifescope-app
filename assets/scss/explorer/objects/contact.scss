@@ -63,3 +63,21 @@
     }
   }
 }
+
+div#body.dark {
+  .object.contact {
+    & > div {
+      &:first-child {
+        .user-avatar {
+          i {
+            color: $font-color-subdue-dark;
+          }
+        }
+
+        .provider {
+          color: $font-color-subdue-dark;
+        }
+      }
+    }
+  }
+}

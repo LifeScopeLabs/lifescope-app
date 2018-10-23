@@ -55,6 +55,21 @@ div#body.explorer {
     }
   }
 
+  &.dark {
+    main {
+      color: $font-color-dark;
+      background-color: $background-color-dark;
+    }
+
+    .modal {
+      .content {
+        & > aside {
+          background-color: $background-color-dark;
+        }
+      }
+    }
+  }
+
   .type-grid {
     @include flexbox;
     @include flex-wrap;

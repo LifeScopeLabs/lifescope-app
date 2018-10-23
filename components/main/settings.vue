@@ -48,6 +48,16 @@
             </div>
           </div>
 
+			<div class="boxed-group">
+				<div class="title">Color Theme</div>
+
+				<div class="padded paragraphed">
+                    <no-ssr>
+					  <toggle-button v-bind:width="60" v-bind:height="25" v-model="toggleValue" v-bind:sync="true" v-bind:labels="{ checked: 'Dark', unchecked: 'Light' }" v-bind:color="{ checked: '#9b9b9b', unchecked: '#242424' }" v-on:change="updateTheme"></toggle-button>
+                    </no-ssr>
+				</div>
+			</div>
+
           <div class="boxed-group">
             <div class="title">Delete LifeScope Account</div>
 
@@ -112,11 +122,11 @@
                 <div class="flex-grow name">{{ connection.name }}</div>
                 <div class="disabled"></div>
               </div>
-              <div class="last-run">
-                <div v-if="connection.browser == null && connection.last_run != null" class="updates">
+              <div v-if="connection.browser == null && connection.runnable !== false" class="last-run">
+                <div v-if="connection.last_run != null" class="updates">
                   {{ getUpdated(connection.last_run) }}
                 </div>
-                <div v-else-if="connection.browser == null || connection.runnable !== false" class="updates">
+                <div v-else class="updates">
                   <div>Initial index in progress</div>
                   <span></span>
                   <i class="fas fa-spinner fa-spin fa-2x"></i>
@@ -209,6 +219,7 @@
   import locationUploadedCount from '../../apollo/queries/location-uploaded-count.gql';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import uploadedLocationsDeleteModal from '../modals/uploaded-locations-delete';
+  import userThemeUpdate from '../../apollo/mutations/user-theme-update.gql';
   import patchConnection from '../../apollo/mutations/patch-connection.gql';
   import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
 
@@ -233,7 +244,8 @@
         activeConnection: null,
         locationFilesCount: null,
         locationTrackedCount: null,
-        locationUploadedCount: null
+        locationUploadedCount: null,
+	  	toggleValue: this.$store.getters.theme === 'dark' ? true : false
       }
     },
     methods: {
@@ -319,10 +331,6 @@
       }, 1000),
 
       updateName: async function(connection, e) {
-      	console.log(connection);
-      	console.log(e);
-      	console.log(e.srcElement.value);
-
       	if (e.srcElement && e.srcElement.value) {
 	        let result = await this.$apollo.mutate({
 		        mutation: patchConnection,
@@ -331,9 +339,19 @@
 			        name: e.srcElement.value
 		        }
 	        });
-
-	        console.log(result);
         }
+      },
+
+      updateTheme: async function() {
+        let response = await this.$apollo.mutate({
+            mutation: userThemeUpdate,
+            variables: {
+            	theme: this.$store.getters.theme === 'light' ? 'dark' : 'light'
+            }
+        });
+
+        this.$store.state.user = response.data.userThemeUpdate;
+        this.$store.state.userOne = response.data.userThemeUpdate;
       },
 
       generateApiKey: async function() {

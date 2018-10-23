@@ -39,3 +39,17 @@
     }
   }
 }
+
+div#body.dark {
+  .item.list {
+    background-color: $background-color-dark;
+
+    &:nth-child(even) {
+      background-color: $border-color-dark;
+    }
+
+    &:hover {
+      background-color: lighten($border-color-dark, 20%);
+    }
+  }
+}

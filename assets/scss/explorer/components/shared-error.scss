@@ -23,3 +23,9 @@
     }
   }
 }
+
+div#body.dark {
+  #shared-error {
+    background-color: $item-background-color-dark;
+  }
+}

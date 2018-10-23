@@ -5,6 +5,45 @@ div#body.settings {
     font-size: 1.5em;
   }
 
+  &.dark {
+    aside.mobile-type-selector {
+      #pages {
+        & > * {
+          &:not(:last-child) {
+            border-bottom: 1px solid $border-color-dark;
+          }
+        }
+      }
+    }
+
+    .settings-menu {
+      a {
+        color: $font-color-dark;
+      }
+    }
+
+    #settings-menu {
+      a {
+        color: $font-color-dark;
+      }
+    }
+
+    .tooltip {
+      color: lighten($font-color-dark, 30%);
+    }
+
+    &.connections {
+      #big-add {
+        border: 1px dashed lighten($border-color-dark, 25%);
+      }
+    }
+
+    main {
+      color: $font-color-dark;
+      background-color: $background-color-dark;
+    }
+  }
+
   header {
     @media #{$maxwidth768},#{$mobile}  {
       border-bottom-style: none;

@@ -20,3 +20,9 @@
     font-size: 1.2em;
   }
 }
+
+div#body.dark {
+  #results-error {
+    background-color: $item-background-color-dark;
+  }
+}

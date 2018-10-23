@@ -107,6 +107,20 @@ div#body {
       color: $font-color-dark;
       border-bottom: 1px solid $border-color-dark !important;
     }
+
+    .controls {
+      & > .views {
+        & > a {
+          &.disabled {
+            color: darken($border-color-dark, 20%);
+
+            &:hover {
+              color: darken($border-color-dark, 20%);
+            }
+          }
+        }
+      }
+    }
   }
 
   & > header {
@@ -186,7 +200,7 @@ div#body {
         color: $font-color;
 
         &.active {
-          color: $orange;
+          color: $orange !important;
         }
       }
 
@@ -224,7 +238,7 @@ div#body {
           }
 
           &.active {
-            color: $orange;
+            color: $orange !important;
           }
 
           & > div {
@@ -363,6 +377,20 @@ div#body {
     font-size: 1.1em;
     border-top: none;
     background-color: $background-color;
+  }
+}
+
+div#body.dark {
+  .boxed-group {
+    border: 1px solid lighten($border-color-dark, 20%);
+
+    & > * {
+      border-top: 1px solid lighten($border-color-dark, 20%);
+    }
+
+    & > :first-child {
+      background-color: lighten($background-color-dark, 10%);
+    }
   }
 }
 

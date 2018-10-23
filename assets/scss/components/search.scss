@@ -499,7 +499,6 @@ body {
   }
 
   #search-favorited {
-
     &.filled {
       i {
         color: $blue;
@@ -511,5 +510,142 @@ body {
     font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
     font-weight: 300;
     font-size: 1.8rem;
+  }
+}
+
+div#body.dark {
+  #search-bar {
+    #filter-controls {
+      @media #{$maxwidth768},#{$mobile} {
+        background-color: $item-background-color-dark;
+        border: 1px solid $input-border-color-dark;
+      }
+
+      & > div {
+        border: 1px solid $input-border-color-dark;
+        background-color: $item-background-color-dark;
+
+        @media #{$maxwidth768},#{$mobile} {
+          border: none;
+        }
+      }
+
+      #filter-editor {
+        #filter-buttons {
+          .control {
+            &:not([data-type='where']) {
+              &:hover {
+                &:after {
+                  background-color: $item-background-color-dark;
+                }
+              }
+            }
+          }
+        }
+
+        #filter-values {
+          &.who {
+            form.who {
+              .input-container {
+                border: 1px solid $border-color-dark;
+
+                & > label {
+                  &:not(:last-child) {
+                    border-right: 1px solid $border-color-dark;
+                  }
+                }
+              }
+            }
+          }
+
+          &.when {
+            form.when {
+              & > .input-container {
+                border: 1px solid $border-color-dark;
+
+                & > label {
+                  &:not(:last-child) {
+                    border-right: 1px solid $border-color-dark;
+                  }
+                }
+              }
+            }
+          }
+
+          &.where {
+            form.where {
+              & > .input-container {
+                border: 1px solid $border-color-dark;
+
+                & > label {
+                  &:not(:last-child) {
+                    border-right: 1px solid $border-color-dark;
+                  }
+                }
+              }
+            }
+          }
+
+          &.connector {
+            form.connector {
+              & > .input-container {
+                border: 1px solid $border-color-dark;
+
+                & > label {
+                  &:first-child {
+                    border-right: 1px solid $border-color-dark;
+                  }
+                }
+              }
+            }
+          }
+
+          #filter-name {
+            input {
+              color: lighten($font-color-dark, 35%);
+            }
+          }
+
+          .input-container {
+            .radio {
+              background-color: $background-color-dark;
+
+              &:not(.active) {
+                &:hover {
+                  background-color: lighten($background-color-dark, 10%);
+                }
+              }
+
+              &.active {
+                background-color: $orange;
+                color: $highlight-color;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    #filter-overflow-count {
+      div {
+        border: 1px solid $input-border-color-dark;
+        background-color: lighten($background-color-dark, 5%);
+      }
+    }
+
+    .filter {
+      border: 1px solid $input-border-color-dark;
+      background-color: lighten($background-color-dark, 5%);
+
+      &.active {
+        background-color: lighten($background-color-dark, 10%);
+      }
+    }
+
+    #filter-editor {
+      select {
+        background-color: $background-color-dark;
+      }
+    }
   }
 }

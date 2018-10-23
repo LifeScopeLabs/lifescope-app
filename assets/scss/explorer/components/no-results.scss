@@ -24,3 +24,9 @@
     }
   }
 }
+
+div#body.dark {
+  #no-results {
+    background-color: $item-background-color-dark;
+  }
+}

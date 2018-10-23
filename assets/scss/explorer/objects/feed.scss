@@ -49,3 +49,19 @@
     }
   }
 }
+
+div#body.dark {
+  .object.feed {
+    &:not(.modaled) {
+      border: 1px solid $border-color-dark;
+    }
+
+    .items {
+      & > .content {
+        & > *:not(:last-child) {
+          border-bottom: 1px solid $border-color-dark;
+        }
+      }
+    }
+  }
+}

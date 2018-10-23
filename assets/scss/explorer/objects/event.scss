@@ -149,3 +149,41 @@
 .modal .object.event .interactions .expand {
   display: none !important;
 }
+
+div#body.dark {
+  .object.event {
+    color: $font-color-dark;
+    background-color: $background-color-dark;
+
+    .items {
+      & > *:not(:last-child):not(.close-container) {
+        border-right: 1px solid $border-color-dark;
+
+        @media #{$maxwidth768},#{$mobile} {
+          border-right: none;
+          border-bottom: 1px solid $border-color-dark;
+        }
+      }
+
+      & > .details {
+        i:first-child {
+          color: $font-color-subdue-dark;
+        }
+
+        .type {
+          color: $font-color-subdue-dark;
+        }
+
+        .estimation {
+          color: $font-color-subdue-dark;
+        }
+      }
+
+      & > .interactions {
+        .expand {
+          background-color: $border-color-dark;
+        }
+      }
+    }
+  }
+}

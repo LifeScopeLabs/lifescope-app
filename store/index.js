@@ -90,15 +90,15 @@ const store = () => new Vuex.Store({
 	},
 
 	getters: {
-		authenticated (state) {
+		authenticated(state) {
 			return state.user != undefined;
 		},
 
-		theme (state) {
+		theme(state) {
 			return state.user && _.has(state.user, 'settings.theme') ? state.user.settings.theme : 'light';
 		},
 
-		dateJoined (state) {
+		dateJoined(state) {
 			return moment(state.user.joined).format('MMMM DD, YYYY')
 		}
 	},

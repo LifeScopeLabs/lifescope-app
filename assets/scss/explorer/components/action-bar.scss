@@ -43,3 +43,11 @@
     }
   }
 }
+
+div#body.dark {
+  .action-bar {
+    .share-menu {
+      background-color: $background-color-dark;
+    }
+  }
+}

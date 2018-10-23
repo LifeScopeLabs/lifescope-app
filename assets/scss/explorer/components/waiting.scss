@@ -24,3 +24,9 @@
     }
   }
 }
+
+div#body.dark {
+  #waiting {
+    background-color: $item-background-color-dark;
+  }
+}

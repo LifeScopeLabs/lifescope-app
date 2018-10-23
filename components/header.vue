@@ -18,7 +18,7 @@
 		<div v-if="$store.state.mode === 'app'" class="controls">
 			<div class="views">
 				<a data-view="feed" v-bind:class="{ active: $store.state.view === 'feed' }" v-on:click="setView('feed')"><i class="far fa-clone"></i> <span>Feed</span></a>
-        <a data-view="map" v-bind:class="{ active: $store.state.view === 'map', disabled: $store.state.facet !== 'events' }" v-on:click="setView('map')"><i class="far fa-map"></i> <span>Map</span></a>
+        		<a data-view="map" v-bind:class="{ active: $store.state.view === 'map', disabled: $store.state.facet !== 'events' }" v-on:click="setView('map')"><i class="far fa-map"></i> <span>Map</span></a>
 				<a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }" v-on:click="setView('grid')"><i class="fas fa-th"></i> <span>Grid</span></a>
 				<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }" v-on:click="setView('list')"><i class="fas fa-list"></i> <span>List</span></a>
 				<a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }" v-on:click="setView('xr')"><i class="fas fa-cubes"></i> <span>XR</span></a>
@@ -189,11 +189,11 @@
 				<button id="done" class="primary">Done</button>
 			</div>
 
-      <div v-if="$store.state.user != undefined" class="shortcuts">
-        <a href="/explore"><i class="fas fa-rocket"></i></a>
-        <a href="/providers"><i class="fas fa-plug"></i></a>
-        <a href="/settings"><i class="fas fa-cog"></i></a>
-      </div>
+		  	<div v-if="$store.state.user != undefined" class="shortcuts">
+				<a href="/explore"><i class="fas fa-rocket"></i></a>
+				<a href="/providers"><i class="fas fa-plug"></i></a>
+				<a href="/settings"><i class="fas fa-cog"></i></a>
+		  	</div>
 
 			<div v-if="$store.state.user != undefined" id="menu-button" v-on:click.stop="openMenu">
 				<div class="fas fa-bars"></div>
@@ -211,20 +211,20 @@
 			</div>
 		</nav>
 
-    <div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations'" class="mobile-selector" v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
-      <span class="placeholder-text">{{ $store.state.mode[0].toUpperCase() + $store.state.mode.slice(1) }}</span>
-      <i v-bind:class="{ 'fas fa-caret-down': $store.state.settingsSelectorOpen === false, 'fas fa-caret-up': $store.state.settingsSelectorOpen === true }"></i>
-    </div>
+		<div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations'" class="mobile-selector" v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
+		  <span class="placeholder-text">{{ $store.state.mode[0].toUpperCase() + $store.state.mode.slice(1) }}</span>
+		  <i v-bind:class="{ 'fas fa-caret-down': $store.state.settingsSelectorOpen === false, 'fas fa-caret-up': $store.state.settingsSelectorOpen === true }"></i>
+		</div>
 
-    <aside v-if="$store.state.mode === 'connections' || $store.state.mode === 'account'" class="mobile-type-selector" v-bind:class="{ open: $store.state.settingsSelectorOpen === true }">
-      <div class="scroller">
-        <div id="pages">
-          <a href="/settings/account">Account</a>
-		  <a href="/settings/locations">Locations</a>
-          <a href="/settings/connections">Connections</a>
-        </div>
-      </div>
-    </aside>
+		<aside v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations'" class="mobile-type-selector" v-bind:class="{ open: $store.state.settingsSelectorOpen === true }">
+		  <div class="scroller">
+			<div id="pages">
+			  <a href="/settings/account">Account</a>
+			  <a href="/settings/locations">Locations</a>
+			  <a href="/settings/connections">Connections</a>
+			</div>
+		  </div>
+		</aside>
 	</header>
 </template>
 

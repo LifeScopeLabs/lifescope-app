@@ -129,7 +129,7 @@ div#body.explorer {
         }
 
         .active {
-          color: $orange;
+          color: $orange !important;
         }
 
         & > div {
@@ -224,6 +224,50 @@ div#body.explorer {
 
           span.spacer {
             margin: 0 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+div#body.dark {
+  #menu {
+    background-color: $item-background-color-dark;
+    color: $font-color-dark;
+
+    border-left: 1px solid $input-border-color-dark;
+
+    .menu {
+      & > header {
+        border-bottom: 1px solid $input-border-color-dark;
+        background-color: $background-color-dark;
+      }
+
+      & > section {
+        & > * {
+          border-bottom: 1px solid $border-color-dark;
+        }
+
+        a {
+          color: lighten($font-color-dark, 5%);
+
+          &:hover {
+            color: $blue;
+          }
+        }
+
+        .views, .sort, .facets {
+          & > div {
+            &:first-child {
+              & > .count {
+                color: $font-color-dark;
+              }
+            }
+
+            &:last-child {
+              color: $font-color-dark;
+            }
           }
         }
       }

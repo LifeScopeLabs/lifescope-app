@@ -5,6 +5,9 @@ query userOne {
         api_key_string,
         joined,
         last_login,
-        location_tracking_enabled
+        location_tracking_enabled,
+		settings {
+			theme
+		}
     }
 }

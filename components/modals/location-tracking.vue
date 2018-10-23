@@ -49,8 +49,6 @@
 
         this.$store.state.userOne = response.data.userLocationTrackingUpdate;
 
-        console.log(this.$store.state.userOne);
-
         this.$emit('close');
       }
     }

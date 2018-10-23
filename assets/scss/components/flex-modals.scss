@@ -41,3 +41,10 @@
     }
   }
 }
+
+div#body.dark {
+  .v--modal {
+    color: $font-color-dark;
+    background-color: $background-color-dark;
+  }
+}
