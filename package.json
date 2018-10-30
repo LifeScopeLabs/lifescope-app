@@ -72,7 +72,7 @@
     "prettier": "^1.10.2",
     "request": "^2.83.0",
     "run-sequence": "^2.2.1",
-    "webrtc-adapter": "^6.2.1"
+    "webrtc-adapter": "^6.4.0"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.0.9",
@@ -126,6 +126,7 @@
     "mongodb": "^3.0.7",
     "mongoose": "^5.0.11",
     "mongoose-uuid2": "^2.1.0",
+    "naf-janus-adapter": "^0.12.0",
     "networked-aframe": "git+https://github.com/lifescopelabs/networked-aframe",
     "nipplejs": "^0.7.1",
     "node-sass": "^4.9.0",

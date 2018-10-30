@@ -1,5 +1,5 @@
 <template>
-  <a-scene embedded :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-app; room: '+ roomName + '; audio: true; adapter: easyrtc; connectOnLoad: true;'">
+  <a-scene embedded :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-app; room: '+ roomName + '; audio: true; adapter: janus; connectOnLoad: true;'">
 
     <a-assets class="aframe-assets">
       <img id="sky" src="../../static/images/nightsky.jpg">

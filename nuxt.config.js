@@ -145,6 +145,8 @@ module.exports = {
       'aframe',
       'aframe-layout-component',
       'networked-aframe',
+      '~/lib/webrtc/adapter.js',
+      'naf-janus-adapter',
       'aframe-animation-component',
       'aframe-src-fit-component',
       'aframe-input-mapping-component',
