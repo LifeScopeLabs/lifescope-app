@@ -18,21 +18,46 @@
 
       <div class="divider"></div>
 
-      <div class="stats">
-        <a class="connections" href="/settings/connections">
-          <div class="count" v-model="connectionCount">{{ connectionCount }}</div>
-          <div class="label">Connections</div>
-        </a>
+      <div id="stats-container">
+        <div class="scroller">
+          <div class="stats">
+            <a class="connections" href="/settings/connections">
+              <div class="count" v-model="connectionCount">Connections: {{ connectionCount }}</div>
+            </a>
 
-        <a class="events" href="/explore">
-          <div class="count" v-model="eventCount">{{ eventCount }}</div>
-          <div class="label">Events</div>
-        </a>
+            <a class="events" href="/explore">
+              <div class="count" v-model="eventCount">Events: {{ eventCount }}</div>
+            </a>
 
-        <a class="searches" href="/explore">
-          <div class="count" v-model="$store.state.searchCount">{{ $store.state.searchCount }}</div>
-          <div class="label">Searches</div>
-        </a>
+            <a class="content" href="/explore?facet=content">
+              <div class="count" v-model="contentCount">Content: {{ contentCount }}</div>
+            </a>
+
+            <a class="contacts" href="/explore?facet=contacts">
+              <div class="count" v-model="contactCount">Contacts: {{ contactCount }}</div>
+            </a>
+
+            <div class="locations">
+              <div class="count" v-model="locationCount">Locations: {{ locationCount }}</div>
+            </div>
+
+            <div class="searches clickable" v-on:click="selectTab('recent')">
+              <div class="count" v-model="$store.state.searchCount">Searches: {{ $store.state.searchCount }}</div>
+            </div>
+
+            <div class="favorites clickable" v-on:click="selectTab('favorites')">
+              <div class="count" v-model="favoriteCount">Favorited Searches: {{ favoriteCount }}</div>
+            </div>
+
+            <div class="tags clickable" v-on:click="selectTab('tags')">
+              <div class="count" v-model="tagCount">Tags: {{ tagCount }}</div>
+            </div>
+
+            <div class="shared-tags clickable" v-on:click="selectTab('tags')">
+              <div class="count" v-model="sharedTagCount">Shared Tags: {{ sharedTagCount }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
 
@@ -107,9 +132,13 @@
   import moment from 'moment';
 
   import connectionCount from '../../apollo/queries/connection-count.gql';
+  import contactCount from '../../apollo/queries/contact-count.gql';
+  import contentCount from '../../apollo/queries/content-count.gql';
   import eventCount from '../../apollo/queries/event-count.gql';
+  import locationCount from '../../apollo/queries/location-count.gql';
   import searchCount from '../../apollo/queries/search-count.gql';
   import searchMany from '../../apollo/queries/search-many.gql';
+  import tagCount from '../../apollo/queries/tag-count.gql';
   import tagMany from '../../apollo/queries/tag-many.gql';
 
   import UserEvent from '../objects/event.vue';
@@ -120,9 +149,15 @@
     data: function() {
       return {
         connectionCount: null,
+        contactCount: null,
+        contentCount: null,
         eventCount: null,
+        favoriteCount: null,
+        locationCount: null,
         searchCount: null,
         searches: null,
+        tagCount: null,
+        sharedTagCount: null,
         tab: 'favorites',
         sort: 'favorites',
         type: 'searches',
@@ -240,12 +275,19 @@
         });
 
         matched.favorited = false;
+        this.$data.favoriteCount--;
       },
 
       searchDeleted(search) {
         this.$data.searchMany = _.remove(this.$data.searchMany, function(item) {
           return item.id === search.id;
         });
+
+        this.$data.searchCount--;
+
+        if (search.favorited) {
+        	this.$data.favoriteCount--;
+        }
       },
 
       searchSaved(search) {
@@ -257,6 +299,13 @@
         matched.icon_color = this.$store.state.tempSearch.icon_color;
         matched.name = this.$store.state.tempSearch.name;
         matched.favorited = true;
+
+        this.$data.favoriteCount++;
+      },
+
+      selectTab(tab) {
+        this.tab = tab;
+        this.fetchData(true, tab);
       },
 
       handleScroll: _.debounce(async function(e) {
@@ -284,12 +333,48 @@
           query: eventCount
       });
 
+      let contentCountResult = await this.$apollo.query({
+          query: contentCount
+      });
+
+      let contactCountResult = await this.$apollo.query({
+          query: contactCount
+      });
+
+      let locationCountResult = await this.$apollo.query({
+          query: locationCount
+      });
+
       let searchCountResult = await this.$apollo.query({
           query: searchCount
       });
 
+      let favoriteCountResult = await this.$apollo.query({
+          query: searchCount,
+          variables: {
+            favorited: true
+          }
+      });
+
+      let tagCountResult = await this.$apollo.query({
+          query: tagCount
+      });
+
+      let sharedTagCountResult = await this.$apollo.query({
+          query: tagCount,
+          variables: {
+            share: 'public'
+          }
+      });
+
       this.$data.connectionCount = connectionCountResult.data.connectionCount;
       this.$data.eventCount = eventCountResult.data.eventCount;
+      this.$data.contactCount = contactCountResult.data.contactCount;
+      this.$data.contentCount = contentCountResult.data.contentCount;
+      this.$data.locationCount = locationCountResult.data.locationCount;
+      this.$data.favoriteCount = favoriteCountResult.data.searchCount;
+      this.$data.tagCount = tagCountResult.data.tagCount;
+      this.$data.sharedTagCount = sharedTagCountResult.data.tagCount;
       this.$store.state.searchCount = searchCountResult.data.searchCount;
 
       this.$data.offset = 0;

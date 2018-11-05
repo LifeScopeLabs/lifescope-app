@@ -14,8 +14,8 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'LIFESCOPE',
-    description: 'LIFESCOPE',
+    title: 'LifeScope',
+    description: 'LifeScope',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width' },

@@ -1,0 +1,3 @@
+query tagCount($share: String){
+    tagCount (filter: { share: $share })
+}

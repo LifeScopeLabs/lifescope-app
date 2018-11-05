@@ -1,3 +1,3 @@
-{
-    searchCount
+query searchCount($favorited: Boolean) {
+    searchCount(filter: { favorited: $favorited })
 }

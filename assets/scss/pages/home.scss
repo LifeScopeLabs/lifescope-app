@@ -47,15 +47,49 @@ div#body.home {
       background-color: $background-color-dark !important;
       color: $text-color-dark !important;
 
+      #profile {
+        border-right: 1px solid $border-color-dark !important;
+
+        #stats-container {
+          .scroller {
+            .stats {
+              & > * {
+                &:not(:last-child) {
+                  border-bottom-color: $border-color-dark !important;
+                }
+              }
+
+              & > div {
+                color: $font-color-dark;
+              }
+
+              & > a,
+              & > div.clickable {
+                &:hover,
+                &:active,
+                &.active {
+                  background-color: lighten($background-color-dark, 10%) !important;
+                }
+              }
+            }
+          }
+        }
+      }
+
       #content {
         #tabs {
           border-bottom-color: $border-color-dark !important;
 
           & > * {
             &.selected {
-              border: 1px solid $input-border-color-dark;
+              border: 2px solid $input-border-color-dark !important;
+              border-bottom: none !important;
 
               background-color: $item-background-color-dark !important;
+
+              @media #{$maxwidth768},#{$mobile} {
+                border-width: 2px;
+              }
             }
           }
         }
@@ -143,6 +177,8 @@ div#body.home {
         @include flex-column;
         @include flex-x-center;
         @include flex-grow;
+
+        border-right: 1px solid $border-color;
 
         @media #{$maxwidth768},#{$mobile} {
           @include flex-row;
@@ -237,41 +273,58 @@ div#body.home {
           }
         }
 
-        .stats {
-          @include flexbox;
-          @include flex-center;
+        #stats-container {
+          @include flex-grow-scrollable;
 
-          margin-top: 0.5em;
+          width: 100%;
 
-          & > a {
-            padding: 0.5em;
-            text-decoration: none;
+          overflow-y: auto;
 
-            .count {
-              font-size: 1.35em;
-              font-weight: 700;
-            }
+          .stats {
+            @include flexbox;
+            @include flex-column;
 
-            .label {
-              font-size: 0.75em;
-              color: $font-color-subdue;
-            }
+            font-size: 1.2em;
 
-            &:hover {
-              .label,
+            margin-top: 0.5em;
+
+            & > * {
+              @include flexbox;
+
+              padding: 0.5em;
+              text-decoration: none;
+              border: 1px solid transparent;
+              position: relative;
+
+              &:not(:last-child) {
+                border-bottom-color: $border-color;
+              }
+
               .count {
-                color: $blue;
+                font-size: 1.35em;
+                font-weight: 700;
+              }
+            }
+
+            & > a,
+            & > div.clickable {
+              cursor: pointer;
+
+              &:hover,
+              &:active,
+              &.active {
+                background-color: $background-color;
+
+                .count {
+                  color: $blue;
+                }
               }
             }
           }
+        }
 
-          @media #{$maxwidth768},#{$mobile} {
-            display: none;
-          }
-
-          .searches {
-            cursor: default;
-          }
+        @media #{$maxwidth768},#{$mobile} {
+          display: none;
         }
       }
 
@@ -317,8 +370,13 @@ div#body.home {
 
               background-color: $item-background-color;
 
+              &:first-child {
+                border-left-style: hidden;
+              }
+
               @media #{$maxwidth768},#{$mobile} {
                 border-width: 2px;
+                border-left-style: solid !important;
               }
             }
           }
