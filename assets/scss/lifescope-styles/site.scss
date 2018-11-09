@@ -106,6 +106,10 @@ div#body {
       background-color: $background-color-dark;
       color: $font-color-dark;
       border-bottom: 1px solid $border-color-dark !important;
+
+      .shortcuts > a {
+        color: $font-color-dark;
+      }
     }
 
     .controls {

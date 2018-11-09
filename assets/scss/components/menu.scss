@@ -186,8 +186,10 @@ div#body.explorer {
       a {
         text-decoration: none;
 
+        color: $blue !important;
+
         &:hover {
-          color: $blue;
+          color: lighten($blue, 25%) !important;
         }
       }
 
