@@ -62,7 +62,7 @@ module.exports = {
       { rel: 'icon', sizes: '512x512', type: 'image/png', href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/android-chrome-512x512.png' },
       { rel: 'mask-icon', color: '#5bbad5', href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/safari-pinned-tab.svg' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700|PT+Sans:400,400italic,700,700italic|Quicksand:400,300|Raleway:400|Roboto:300,400,700|Source+Sans+Pro:300,400,700' },
-      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.4.1/css/all.css', integrity: "sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz", crossorigin: "anonymous" },
+      { rel: 'stylesheet', href: 'https://pro.fontawesome.com/releases/v5.5.0/css/all.css', integrity: "sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt", crossorigin: "anonymous" },
       { rel: 'stylesheet', href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' },
     ]
   },
