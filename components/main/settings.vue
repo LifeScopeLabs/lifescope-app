@@ -16,6 +16,10 @@
           <div>
             <a href="/settings/connections">Connections</a>
           </div>
+
+          <div>
+            <a href="/settings/developer">Developer</a>
+          </div>
         </div>
       </aside>
 
@@ -193,6 +197,164 @@
             <i class="fas fa-plus"></i>
           </a>
         </section>
+        <section id="developer" v-if="$store.state.mode === 'developer'">
+          <div class="boxed-group">
+            <div class="title">LifeScope Developer API Platform</div>
+
+            <div class="padded paragraphed">
+              <p>
+                LifeScope is an open data platform you can build on. Learn more by reading our <a href="https://lifescopelabs.github.io">Documentation on GitHub</a>.
+              </p>
+              <p>
+                Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiAL</a>.
+              </p>
+              <p>
+                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization' Value 'Bearer: &lt;your_api_key&gt;'.
+              </p>
+              <div class="flexbox">
+                <p style="margin-right:0.5em;">Your Personal LifeScope API key is:</p>
+                <span style="word-break: break-all">{{ $store.state.userOne.api_key_string }}</span>
+              </div>
+
+              <div class="mobile-flex-center">
+                <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New API Key</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="boxed-group">
+            <div class="title">OAuth2 Apps</div>
+
+            <div class="padded paragraphed">
+              <p>You can build apps on top of users' data via OAuth2.</p>
+              <p>Please see <a href="https://lifescope.io/documentation/oauth2">the documentation</a> for more information.</p>
+
+              <div class="mobile-flex-center">
+                <button id="new-oauth-app" class="primary" v-on:click="initializeNewApp">Generate New OAuth App</button>
+              </div>
+
+              <div v-for="app in orderBy($data.oauthAppMany, 'name')" class="flexbox app" v-on:click="editApp(app.id)">
+                  <div class="name">{{ app.name }}</div>
+                  <div class="description">{{ app.description | shorten }}</div>
+              </div>
+            </div>
+          </div>
+
+          <modals-container/>
+        </section>
+        <section id="app-create" v-if="$store.state.mode === 'app-create'">
+          <div class="boxed-group oauth-app">
+            <div class="title">New OAuth2 App</div>
+
+            <div class="padded paragraphed form">
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Name</div>
+                  <div class="error" v-if="$store.state.app.name.error === true">This app must have a name</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="name" v-model="$store.state.app.name.value" placeholder="Enter app name">
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Description</div>
+                  <div class="error" v-if="$store.state.app.description.error === true">This app must have a description</div>
+                </div>
+                <textarea v-model="$store.state.app.description.value" class="shrink"></textarea>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Homepage URL</div>
+                  <div class="error" v-if="$store.state.app.homepage.error === true">This app must have a valid homepage URL</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="homepage" v-model="$store.state.app.homepage.value" placeholder="Enter app homepage URL">
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Privacy Policy URL</div>
+                  <div class="error" v-if="$store.state.app.privacyPolicy.error === true">This app must have a valid privacy policy URL</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="privacy-policy" v-model="$store.state.app.privacyPolicy.value" placeholder="Enter app privacy policy URL">
+                </div>
+              </div>
+
+              <button class="primary" v-on:click="createNewApp">Create App</button>
+            </div>
+          </div>
+        </section>
+        <section id="app-edit" v-if="$store.state.mode === 'app-edit'">
+          <div class="boxed-group oauth-app">
+            <div class="title">{{ $store.state.app.name.value }}</div>
+
+            <div class="padded paragraphed form">
+              <div class="client-keys">
+                <div class="flexbox flex-column">
+                  <div class="title">Client ID</div>
+                  <div>{{ $store.state.app.clientId.value }}</div>
+                </div>
+
+                <div class="flexbox flex-column">
+                  <div class="title">Client Secret</div>
+                  <button v-if="$store.state.app.clientSecret.value == null" v-on:click="showClientSecret">Show</button>
+                  <div v-else>
+                    <div>{{ $store.state.app.clientSecret.value }}</div>
+                    <button v-on:click="showSecretResetModal">Generate new secret</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Name</div>
+                  <div class="error" v-if="$store.state.app.name.error === true">This app must have a name</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="name" v-model="$store.state.app.name.value" placeholder="Enter app name">
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Description</div>
+                  <div class="error" v-if="$store.state.app.description.error === true">This app must have a description</div>
+                </div>
+                <textarea v-model="$store.state.app.description.value"></textarea>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Homepage URL</div>
+                  <div class="error" v-if="$store.state.app.homepage.error === true">This app must have a valid homepage URL</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="homepage" v-model="$store.state.app.homepage.value" placeholder="Enter app homepage URL">
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="flexbox">
+                  <div class="title">Privacy Policy URL</div>
+                  <div class="error" v-if="$store.state.app.privacyPolicy.error === true">This app must have a valid privacy policy URL</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="privacy-policy" v-model="$store.state.app.privacyPolicy.value" placeholder="Enter app privacy policy URL">
+                </div>
+              </div>
+
+              <div class="mobile-buttons flexbox flex-space-between">
+                <button class="primary left-button" v-on:click="updateApp">Save App</button>
+                <button class="danger" v-on:click="showAppDeleteModal">Delete App</button>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <modals-container/>
       </section>
@@ -217,6 +379,13 @@
   import locationFileCount from '../../apollo/queries/location-file-count.gql';
   import locationTrackedCount from '../../apollo/queries/location-tracked-count.gql';
   import locationUploadedCount from '../../apollo/queries/location-uploaded-count.gql';
+  import oauthAppGetClientSecret from '../../apollo/queries/oauth-app-get-client-secret.gql';
+  import oauthAppInitialize from '../../apollo/mutations/oauth-app-initialize.gql';
+  import oauthAppMany from '../../apollo/queries/oauth-app-many.gql';
+  import oauthAppOne from '../../apollo/queries/oauth-app-one.gql';
+  import oauthAppUpdate from '../../apollo/mutations/oauth-app-update.gql';
+  import oauthAppDeleteModal from '../modals/oauth-app-delete';
+  import oauthSecretResetModal from '../modals/client-secret-reset';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import uploadedLocationsDeleteModal from '../modals/uploaded-locations-delete';
   import userThemeUpdate from '../../apollo/mutations/user-theme-update.gql';
@@ -238,6 +407,8 @@
     return moment(parsedValue).fromNow();
   }
 
+  let urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+
   export default {
     data: function() {
       return {
@@ -245,9 +416,18 @@
         locationFilesCount: null,
         locationTrackedCount: null,
         locationUploadedCount: null,
-	  	toggleValue: this.$store.getters.theme === 'dark' ? true : false
+	  	toggleValue: this.$store.getters.theme === 'dark' ? true : false,
+
+        oauthAppMany: []
       }
     },
+
+    filters: {
+    	shorten: function(value) {
+    		return value.length > 20 ? value.slice(0, 20) + '...' : value;
+        }
+    },
+
     methods: {
       getIcon: function(connection) {
         if (connection.browser) {
@@ -388,6 +568,128 @@
               height: 'auto',
               scrollable: true,
           });
+      },
+
+      initializeNewApp: async function() {
+        window.location.href = '/settings/apps/create';
+      },
+
+      createNewApp: async function() {
+      	let error = false;
+
+      	this.$store.state.app.name.error = false;
+      	this.$store.state.app.description.error = false;
+      	this.$store.state.app.homepage.error = false;
+      	this.$store.state.app.privacyPolicy.error = false;
+
+      	if (this.$store.state.app.name.value == null || this.$store.state.app.name.value.length === 0) {
+      		this.$store.state.app.name.error = true;
+      		error = true;
+        }
+
+        if (this.$store.state.app.description.value == null || this.$store.state.app.description.value.length === 0) {
+            this.$store.state.app.description.error = true;
+            error = true;
+        }
+
+        if (urlRegex.test(this.$store.state.app.homepage.value) !== true) {
+            this.$store.state.app.homepage.error = true;
+            error = true;
+        }
+
+        if (urlRegex.test(this.$store.state.app.privacyPolicy.value) !== true) {
+            this.$store.state.app.privacyPolicy.error = true;
+            error = true;
+        }
+
+        if (error === false) {
+      		let result = await this.$apollo.mutate({
+                mutation: oauthAppInitialize,
+                variables: {
+                	name: this.$store.state.app.name.value,
+                    description: this.$store.state.app.description.value,
+                    homepage_url: this.$store.state.app.homepage.value,
+                    privacy_policy_url: this.$store.state.app.privacyPolicy.value
+                }
+            });
+
+      		window.location.href = '/settings/apps/' + result.data.oauthAppInitialize.id;
+        }
+      },
+
+      editApp: async function(id) {
+      	window.location.href = '/settings/apps/' + id
+      },
+
+      updateApp: async function() {
+	      let error = false;
+
+	      this.$store.state.app.name.error = false;
+	      this.$store.state.app.description.error = false;
+	      this.$store.state.app.homepage.error = false;
+	      this.$store.state.app.privacyPolicy.error = false;
+
+	      if (this.$store.state.app.name.value == null || this.$store.state.app.name.value.length === 0) {
+		      this.$store.state.app.name.error = true;
+		      error = true;
+	      }
+
+	      if (this.$store.state.app.description.value == null || this.$store.state.app.description.value.length === 0) {
+		      this.$store.state.app.description.error = true;
+		      error = true;
+	      }
+
+	      if (urlRegex.test(this.$store.state.app.homepage.value) !== true) {
+		      this.$store.state.app.homepage.error = true;
+		      error = true;
+	      }
+
+	      if (urlRegex.test(this.$store.state.app.privacyPolicy.value) !== true) {
+		      this.$store.state.app.privacyPolicy.error = true;
+		      error = true;
+	      }
+
+	      if (error === false) {
+		      await this.$apollo.mutate({
+			      mutation: oauthAppUpdate,
+			      variables: {
+			      	  id: this.$store.state.app.id,
+				      name: this.$store.state.app.name.value,
+				      description: this.$store.state.app.description.value,
+				      homepage_url: this.$store.state.app.homepage.value,
+				      privacy_policy_url: this.$store.state.app.privacyPolicy.value
+			      }
+		      });
+
+		      window.location.href = '/settings/developer';
+	      }
+      },
+
+      showClientSecret: async function() {
+      	let self = this;
+
+      	let result = await this.$apollo.query({
+            query: oauthAppGetClientSecret,
+            variables: {
+              id: self.$store.state.app.id
+            }
+        });
+
+      	this.$store.state.app.clientSecret.value = result.data.oauthAppOne.client_secret;
+      },
+
+      showSecretResetModal: async function() {
+	      this.$modal.show(oauthSecretResetModal, {}, {
+		      height: 'auto',
+		      scrollable: true
+	      });
+      },
+
+      showAppDeleteModal: async function() {
+	      this.$modal.show(oauthAppDeleteModal, {}, {
+		      height: 'auto',
+		      scrollable: true
+	      });
       }
     },
 
@@ -398,17 +700,23 @@
         query: connectionMany
       });
 
-      let locationFilesResult = await this.$apollo.query({
-          query: locationFileCount
-      });
+      if (self.$store.state.mode === 'locations') {
+	      let locationFilesResult = await this.$apollo.query({
+		      query: locationFileCount
+	      });
 
-      let locationTrackedResult = await this.$apollo.query({
-          query: locationTrackedCount
-      });
+	      let locationTrackedResult = await this.$apollo.query({
+		      query: locationTrackedCount
+	      });
 
-      let locationUploadedResult = await this.$apollo.query({
-          query: locationUploadedCount
-      });
+	      let locationUploadedResult = await this.$apollo.query({
+		      query: locationUploadedCount
+	      });
+
+	      this.$data.locationFilesCount = locationFilesResult.data.locationFileCount;
+	      this.$data.locationTrackedCount = locationTrackedResult.data.locationCount;
+	      this.$data.locationUploadedCount = locationUploadedResult.data.locationCount;
+      }
 
       let connectionUpdatedObserver = this.$apollo.subscribe({
         query: connectionUpdated,
@@ -417,6 +725,33 @@
       let connectionDeletedObserver = this.$apollo.subscribe({
         query: connectionDeleted,
       });
+
+      if (this.$store.state.mode === 'developer') {
+      	let oauthAppResult = await this.$apollo.query({
+            query: oauthAppMany
+        });
+
+      	self.$data.oauthAppMany = oauthAppResult.data.oauthAppMany;
+      }
+
+      if (this.$store.state.mode === 'app-edit') {
+      	let appResult = await this.$apollo.query({
+            query: oauthAppOne,
+            variables: {
+            	id: self.$route.params.id
+            }
+        });
+
+      	let app = appResult.data.oauthAppOne;
+
+      	self.$store.state.app.id = app.id;
+      	self.$store.state.app.name.value = app.name;
+      	self.$store.state.app.description.value = app.description;
+      	self.$store.state.app.homepage.value = app.homepage_url;
+      	self.$store.state.app.privacyPolicy.value = app.privacy_policy_url;
+      	self.$store.state.app.redirects.value = app.redirect_urls;
+      	self.$store.state.app.clientId.value = app.client_id;
+      }
 
       connectionUpdatedObserver.subscribe({
         next(data) {
@@ -462,9 +797,6 @@
         });
       });
 
-      this.$data.locationFilesCount = locationFilesResult.data.locationFileCount;
-      this.$data.locationTrackedCount = locationTrackedResult.data.locationCount;
-      this.$data.locationUploadedCount = locationUploadedResult.data.locationCount;
       this.$store.state.connectionMany = connections;
     },
   }

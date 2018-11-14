@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="mobile-modal-buttons">
+      <div class="mobile-buttons">
         <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
         <span class="flex-grow"></span>
         <button v-if="$store.state.userOne.location_tracking_enabled === true" class="primary confirm" v-on:click="updateTracking">Yes, Disable</button>

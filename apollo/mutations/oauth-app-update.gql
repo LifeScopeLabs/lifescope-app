@@ -1,0 +1,12 @@
+mutation oauthAppUpdate($id: String!, $name: String, $description: String, $homepage_url: String, $privacy_policy_url: String){
+    oauthAppPatch(id: $id, name: $name, description: $description, homepage_url: $homepage_url, privacy_policy_url: $privacy_policy_url) {
+        id,
+        client_id,
+        name,
+        description,
+        homepage_url,
+        privacy_policy_url,
+        user_id,
+        user_id_string
+    }
+}

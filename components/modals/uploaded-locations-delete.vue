@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <div class="mobile-modal-buttons">
+      <div class="mobile-buttons">
         <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
         <button class="danger confirm" v-bind:class="{ hidden: $data.deleting === true }" v-on:click="deleteUploadedLocations">Yes, Delete</button>
         <i class="fas fa-spin fa-spinner" v-bind:class="{ hidden: $data.deleting === false }"></i>

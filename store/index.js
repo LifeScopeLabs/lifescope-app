@@ -16,77 +16,109 @@ const store = () => new Vuex.Store({
 			open: false
 		},
 
-    searchBar: {
-		  filters: [],
-      query: null
-    },
+		searchBar: {
+			filters: [],
+			query: null
+		},
 
-    currentSearch: {
-      id: null,
-      count: 0,
-      query: null,
-      filters: [],
-      favorited: null,
-      icon: null,
-      icon_color: null,
-      name: null
-    },
+		currentSearch: {
+			id: null,
+			count: 0,
+			query: null,
+			filters: [],
+			favorited: null,
+			icon: null,
+			icon_color: null,
+			name: null
+		},
 
-    tempSearch: {
-      id: null,
-      count: 0,
-      query: null,
-      filters: [],
-      favorited: null,
-      icon: null,
-      icon_color: null,
-      name: null
-    },
+		tempSearch: {
+			id: null,
+			count: 0,
+			query: null,
+			filters: [],
+			favorited: null,
+			icon: null,
+			icon_color: null,
+			name: null
+		},
 
-    searchMany: [],
-    searchCount: null,
-    tagMany: [],
-    pageSize: 100,
-    pageOffset: 0,
-    searchEnded: false,
-    view: null,
+		searchMany: [],
+		searchCount: null,
+		tagMany: [],
+		pageSize: 100,
+		pageOffset: 0,
+		searchEnded: false,
+		view: null,
 
-    sortField: 'datetime',
-    sortOrder: 'desc',
+		sortField: 'datetime',
+		sortOrder: 'desc',
 
-    hide_advanced: false,
-    hide_filters: false,
-    hide_favorite_star: false,
+		hide_advanced: false,
+		hide_filters: false,
+		hide_favorite_star: false,
 
-    searching: false,
-    spinner: true,
-    facetSelectOpen: false,
+		searching: false,
+		spinner: true,
+		facetSelectOpen: false,
 
-    objects: {
-		  events: [],
-      contacts: [],
-      content: []
-    },
+		objects: {
+			events: [],
+			contacts: [],
+			content: []
+		},
 
-    connectionMany: [],
-    providerHydratedMany: [],
-    permissions: {},
-    userOne: {},
+		connectionMany: [],
+		providerHydratedMany: [],
+		permissions: {},
+		userOne: {},
 
-    connectionsLoaded: false,
-    providersLoaded: false,
+		connectionsLoaded: false,
+		providersLoaded: false,
 
-    facet: null,
+		facet: null,
 
-    mobileViewSelectorOpen: false,
-    mobileSortSelectorOpen: false,
-    mobileFacetSelectorOpen: false,
+		mobileViewSelectorOpen: false,
+		mobileSortSelectorOpen: false,
+		mobileFacetSelectorOpen: false,
 
-    settingsType: null,
-    settingsSelectorOpen: false,
+		settingsType: null,
+		settingsSelectorOpen: false,
 
-    mapbox: {},
-    mapInitialized: false,
+		mapbox: {},
+		mapInitialized: false,
+
+		app: {
+			id: null,
+			clientId: {
+				value: null,
+				error: false
+			},
+			clientSecret: {
+				value: null,
+				error: false
+			},
+			redirects: {
+				value: [],
+				error: false,
+			},
+			name: {
+				value: null,
+				error: false
+			},
+			description: {
+				value: null,
+				error: false
+			},
+			homepage: {
+				value: null,
+				error: false
+			},
+			privacyPolicy: {
+				value: null,
+				error: false
+			}
+		}
 	},
 
 	getters: {
@@ -112,7 +144,7 @@ const store = () => new Vuex.Store({
 	},
 
 	actions: {
-		async nuxtServerInit({ commit }, { req }) {
+		async nuxtServerInit({commit}, {req}) {
 			await commit('SET_REQ', req);
 		}
 	}

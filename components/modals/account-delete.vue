@@ -12,7 +12,7 @@
                 <p>Once you delete your account, your LifeScope index will be deleted.</p>
                 <p>LifeScope will not keep your data and we never share any data without your consent.</p>
             </div>
-            <div class="mobile-modal-buttons">
+            <div class="mobile-buttons">
                 <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
                 <button class="danger confirm" v-on:click="deleteAccount">Yolo, Delete</button>
             </div>

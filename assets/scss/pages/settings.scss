@@ -42,6 +42,17 @@ div#body.settings {
       color: $font-color-dark;
       background-color: $background-color-dark;
     }
+
+    #developer {
+      .app {
+        background-color: $background-color-dark;
+        border: 1px solid $border-color-dark;
+
+        &:hover {
+          background-color: lighten($background-color, 10%);
+        }
+      }
+    }
   }
 
   header {
@@ -446,6 +457,57 @@ div#body.settings {
 
       @media #{$maxwidth400} {
         font-size: 0.8em;
+      }
+    }
+  }
+
+  .oauth-app {
+    .form {
+      & > div {
+        margin-bottom: 1em;
+
+        .title {
+          margin-right: 1em;
+          font-weight: bold;
+        }
+      }
+
+      .client-keys {
+        @include flexbox;
+        @include flex-space-between;
+
+        word-break: break-word;
+
+        & > :first-child {
+          margin-right: 1em;
+        }
+
+        @media #{$maxwidth768},#{$mobile} {
+          @include flex-column;
+        }
+      }
+    }
+  }
+
+  #developer {
+    .app {
+      background-color: $background-color;
+      border: 1px solid $border-color;
+      padding: 0.5em 1em;
+
+      margin-top: 1em;
+
+      font-size: 1.2em;
+
+      &:hover {
+        background-color: darken($background-color, 10%);
+        cursor: pointer;
+      }
+
+      .name {
+        margin-right: 1em;
+        font-weight: bold;
+        color: $blue;
       }
     }
   }

@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="mobile-modal-buttons">
+            <div class="mobile-buttons">
                 <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
                 <button class="danger confirm" v-on:click="deleteConnection(connection)">Yolo, Delete</button>
             </div>

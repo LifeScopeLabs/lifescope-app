@@ -17,6 +17,11 @@ input {
   }
 }
 
+textarea {
+  outline: none;
+  background-color: transparent;
+}
+
 button {
   cursor: pointer;
   position: relative;

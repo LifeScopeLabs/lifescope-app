@@ -1,0 +1,13 @@
+query oauthAppOne($id: String!) {
+    oauthAppOne(filter: { id: $id }) {
+        id,
+		client_id,
+		description,
+		homepage_url,
+		name,
+		privacy_policy_url,
+		redirect_uris,
+		user_id,
+		user_id_string
+    }
+}
