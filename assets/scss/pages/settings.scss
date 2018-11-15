@@ -230,7 +230,7 @@ div#body.settings {
   }
 
   .shrink {
-    width: 250px;
+    width: 400px;
 
     @media #{$mobile-portrait} {
       width: 100%;
@@ -484,6 +484,45 @@ div#body.settings {
 
         @media #{$maxwidth768},#{$mobile} {
           @include flex-column;
+        }
+      }
+
+      .redirects {
+        .redirect {
+          margin: 0.25em 0;
+
+          & > :first-child {
+            margin-right: 0.25em;
+          }
+
+          i {
+            color: $red;
+            cursor: pointer;
+
+            &:hover {
+              color: $orange;
+            }
+          }
+        }
+
+        .new-redirect {
+          & > :first-child {
+            margin-right: 0.25em;
+          }
+
+          & > :last-child {
+            margin-left: 0.25em;
+          }
+
+          i {
+            color: $green;
+
+            cursor: pointer;
+
+            &:hover {
+              color: $blue
+            }
+          }
         }
       }
     }

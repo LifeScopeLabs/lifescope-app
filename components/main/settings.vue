@@ -310,6 +310,23 @@
                 </div>
               </div>
 
+				<div class="redirects">
+                  <div class="title">Redirect URLS</div>
+
+					<div v-for="redirect in $store.state.app.redirects.value" class="flexbox flex-x-center redirect">
+						<div>{{ redirect }}</div>
+						<i class="delete fas fa-times" v-on:click="removeRedirect(redirect)"></i>
+					</div>
+
+					<div class="flexbox flex-x-center new-redirect">
+                        <div class="text-box shrink">
+                          <input type="text" placeholder="https://yourapp.com/redirect_path" v-model="$data.tempRedirect.value">
+                        </div>
+						<i class="add fas fa-plus" v-on:click="addRedirect"></i>
+                        <div class="error" v-if="$data.tempRedirect.error === true">Invalid URL</div>
+					</div>
+				</div>
+
               <div class="flexbox flex-column">
                 <div class="flexbox">
                   <div class="title">Name</div>
@@ -418,7 +435,11 @@
         locationUploadedCount: null,
 	  	toggleValue: this.$store.getters.theme === 'dark' ? true : false,
 
-        oauthAppMany: []
+        oauthAppMany: [],
+        tempRedirect: {
+        	value: null,
+            error: false
+        }
       }
     },
 
@@ -657,7 +678,8 @@
 				      name: this.$store.state.app.name.value,
 				      description: this.$store.state.app.description.value,
 				      homepage_url: this.$store.state.app.homepage.value,
-				      privacy_policy_url: this.$store.state.app.privacyPolicy.value
+				      privacy_policy_url: this.$store.state.app.privacyPolicy.value,
+                      redirect_uris: this.$store.state.app.redirects.value
 			      }
 		      });
 
@@ -690,7 +712,28 @@
 		      height: 'auto',
 		      scrollable: true
 	      });
-      }
+      },
+
+        addRedirect: async function() {
+      	this.$data.tempRedirect.error = false;
+
+      	  let newRedirect = this.$data.tempRedirect.value;
+            let valid = urlRegex.test(newRedirect);
+
+            if (valid === true) {
+            	this.$store.state.app.redirects.value = _.uniq(this.$store.state.app.redirects.value.concat([newRedirect]));
+            	this.$data.tempRedirect.value = null;
+            }
+            else {
+            	this.$data.tempRedirect.error = true;
+            }
+        },
+
+        removeRedirect: async function(removed) {
+          this.$store.state.app.redirects.value = _.remove(this.$store.state.app.redirects.value, function(redirect) {
+          	return redirect !== removed;
+          });
+        }
     },
 
     mounted: async function() {
@@ -749,7 +792,7 @@
       	self.$store.state.app.description.value = app.description;
       	self.$store.state.app.homepage.value = app.homepage_url;
       	self.$store.state.app.privacyPolicy.value = app.privacy_policy_url;
-      	self.$store.state.app.redirects.value = app.redirect_urls;
+      	self.$store.state.app.redirects.value = app.redirect_uris || [];
       	self.$store.state.app.clientId.value = app.client_id;
       }
 
