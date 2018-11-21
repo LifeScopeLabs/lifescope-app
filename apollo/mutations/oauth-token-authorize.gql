@@ -1,0 +1,6 @@
+mutation oauthTokenAuthorize($response_type: String!, $client_id: String!, $redirect_uri: String!, $scope: String, $state: String) {
+  oauthTokenAuthorization(response_type: $response_type, client_id: $client_id, redirect_uri: $redirect_uri, scope: $scope, state: $state) {
+    code,
+    state
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "lifescope-app",
-  "version": "1.14.6",
+  "version": "2.0.0",
   "description": "Search and Explore the internet of you. lifescope.io",
   "author": "LifeScope Labs (https://lifescope.io)",
   "repository": {
@@ -103,6 +103,7 @@
     "bowser": "^1.9.3",
     "config": "^1.30.0",
     "cookie-parser": "^1.4.3",
+    "cookie-universal-nuxt": "^2.0.5",
     "cors": "^2.8.4",
     "cross-env": "^5.1.5",
     "debug": "^3.1.0",

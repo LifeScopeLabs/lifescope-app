@@ -1,0 +1,112 @@
+div#body.auth {
+  overflow: auto;
+
+  @media #{$maxwidth768},#{$mobile} {
+    font-size: 1.5em;
+  }
+
+  header {
+    @media #{$maxwidth768},#{$mobile}  {
+      border-bottom-style: none;
+
+      .mobile-selector {
+        display: block !important;
+
+        & > i {
+          margin-left: 0.5em;
+        }
+      }
+    }
+
+    & > nav {
+      @include lock-width;
+    }
+
+    .mobile-selector {
+      @include no-select;
+
+      display: none;
+      cursor: pointer;
+      margin-top: 0.5em;
+      text-align: center;
+      font-size: 1.5em;
+    }
+  }
+
+  main {
+    display: block;
+    overflow: visible;
+    padding: 1em;
+
+    & > section {
+      @include flexbox;
+      @include lock-width;
+
+      @media #{$maxwidth768},#{$mobile}  {
+        @include flex-column;
+      }
+
+      & > #left {
+        @media #{$maxwidth768},#{$mobile}  {
+          display: none;
+        }
+      }
+
+      & > #settings {
+        @include flex-grow;
+      }
+    }
+  }
+
+  .modal {
+    text-align: center;
+  }
+
+  .table {
+    & > * > * {
+      padding: 0.3em;
+    }
+  }
+
+  .text-box {
+    margin: 0;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 0.3em;
+
+    @media #{$maxwidth768},#{$mobile} {
+      font-size: 1.2em;
+    }
+
+    &:not(:first-child) {
+      margin-top: 1.5em;
+    }
+  }
+
+  .shrink {
+    width: 400px;
+
+    @media #{$mobile-portrait} {
+      width: 100%;
+    }
+  }
+
+  .tooltip {
+    margin-left: 3em;
+    color: lighten($font-color, 30%);
+  }
+
+  .mobile-flex-center {
+    @media #{$maxwidth768},#{$mobile} {
+      @include flexbox;
+      @include flex-center;
+
+      @media #{$maxwidth400} {
+        font-size: 0.8em;
+      }
+    }
+  }
+}

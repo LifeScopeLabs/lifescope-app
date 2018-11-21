@@ -6,8 +6,6 @@ query oauthAppMany($skip: Int, $limit: Int) {
         homepage_url,
         name,
         privacy_policy_url,
-        redirect_uris,
-        user_id,
-        user_id_string
+        redirect_uris
     }
 }

@@ -88,6 +88,11 @@ const store = () => new Vuex.Store({
 		mapbox: {},
 		mapInitialized: false,
 
+		auth: {
+			app: {},
+			scopes: []
+		},
+
 		app: {
 			id: null,
 			clientId: {

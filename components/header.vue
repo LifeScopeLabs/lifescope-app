@@ -199,7 +199,7 @@
 				<div class="fas fa-bars"></div>
 			</div>
 
-			<div v-if="$store.state.user == undefined && ($store.state.mode === 'provider' || $store.state.mode === 'home')">
+			<div v-if="$store.state.user == undefined && ($store.state.mode === 'provider' || $store.state.mode === 'home' || $store.state.mode === 'auth')">
 				<span class="flex-grow"></span>
 
 				<div class="login flexbox flex-x-center">

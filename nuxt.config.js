@@ -196,6 +196,7 @@ module.exports = {
 	modules: [
 		'@nuxtjs/apollo',
 		'@nuxtjs/google-analytics',
+		'cookie-universal-nuxt',
 		[
 			'nuxt-sass-resources-loader', [
 			'./assets/scss/lifescope-styles/themes/default.scss',

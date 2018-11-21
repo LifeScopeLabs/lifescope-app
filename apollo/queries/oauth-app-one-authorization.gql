@@ -1,0 +1,9 @@
+query oauthAppOneAuthorization($client_id: String!) {
+    oauthAppOneAuthorization(client_id: $client_id ) {
+		client_id,
+		description,
+		homepage_url,
+		name,
+		privacy_policy_url
+    }
+}
