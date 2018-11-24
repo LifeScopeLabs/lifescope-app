@@ -53,7 +53,6 @@
     methods: {
       allowAuth: async function() {
       	try {
-      		console.log('PANTS');
 	        let result = await this.$apollo.mutate({
                 mutation: oauthTokenAuthorize,
                 variables: {
@@ -65,7 +64,6 @@
                 }
 	        });
 
-	        console.log(result);
 			let obj = result.data.oauthTokenAuthorization;
 			let parsed = url.parse(this.$route.query.redirect_uri);
 			let queryParsed = querystring.parse(parsed.query);
@@ -74,7 +72,6 @@
 			queryParsed.state = obj.state;
 			parsed.query = queryParsed;
 
-			console.log(parsed);
 			window.location.href = url.format(parsed);
         } catch(err) {
 	        let errorMessage = _.get(err, 'graphQLErrors[0].message') || _.get(err, 'data.errors[0].message');

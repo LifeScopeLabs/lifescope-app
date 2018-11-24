@@ -8,10 +8,10 @@
 	import moment from 'moment';
 
 	let allowedScopes = {
-		basic: true,
-		events: true,
-		content: true,
-		contacts: true
+		'events:read': true,
+		'content:read': true,
+		'contacts:read': true,
+		'locations:read': true
 	};
 
 	export default {

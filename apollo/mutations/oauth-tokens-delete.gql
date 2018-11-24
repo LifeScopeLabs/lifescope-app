@@ -1,0 +1,5 @@
+mutation oauthTokensDelete($id: String!){
+    oauthAppTokensDelete(id: $id) {
+        id
+    }
+}

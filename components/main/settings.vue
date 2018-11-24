@@ -36,7 +36,7 @@
                 Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiAL</a>.
               </p>
               <p>
-                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization' Value 'Bearer: &lt;your_api_key&gt;'.
+                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization' Value 'Key: &lt;your_api_key&gt;'.
               </p>
               <p>
                 Coming Soon! Social sign in provider support using OAuth 2.
@@ -305,9 +305,15 @@
                   <button v-if="$store.state.app.clientSecret.value == null" v-on:click="showClientSecret">Show</button>
                   <div v-else>
                     <div>{{ $store.state.app.clientSecret.value }}</div>
-                    <button v-on:click="showSecretResetModal">Generate new secret</button>
+                    <div class="flexbox flex-end">
+                      <button class="danger" v-on:click="showSecretResetModal">Generate new secret</button>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="revoke-tokens">
+                <button class="danger" v-on:click="showTokenRevokeModal">Revoke user access tokens</button>
               </div>
 
 				<div class="redirects">
@@ -403,6 +409,7 @@
   import oauthAppUpdate from '../../apollo/mutations/oauth-app-update.gql';
   import oauthAppDeleteModal from '../modals/oauth-app-delete';
   import oauthSecretResetModal from '../modals/client-secret-reset';
+  import oauthTokenRevokeModal from '../modals/oauth-tokens-delete';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import uploadedLocationsDeleteModal from '../modals/uploaded-locations-delete';
   import userThemeUpdate from '../../apollo/mutations/user-theme-update.gql';
@@ -705,6 +712,13 @@
 		      height: 'auto',
 		      scrollable: true
 	      });
+      },
+
+      showTokenRevokeModal: async function() {
+          this.$modal.show(oauthTokenRevokeModal, {}, {
+              height: 'auto',
+              scrollable: true
+          });
       },
 
       showAppDeleteModal: async function() {
