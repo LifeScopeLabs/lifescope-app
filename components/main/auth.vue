@@ -2,15 +2,17 @@
   <main>
     <section v-if="$store.state.user != undefined" id="content">
       <div class="boxed-group" v-if="$data.error == null">
-        <div class="align-center">{{ $store.state.auth.app.name }} would like to connect to your LifeScope account.</div>
+        <div class="align-center"><a v-bind:href="$store.state.auth.app.homepage_url">{{ $store.state.auth.app.name }}</a> would like to connect to your LifeScope account.</div>
         <div class="align-center padded paragraphed">
-          <div class="padded">{{ $store.state.auth.app.description}}</div>
+          <div>{{ $store.state.auth.app.description}}</div>
 
           <div class="scopes padded align-center">
-            <div><a v-bind:href="$store.state.auth.app.homepage_url">{{ $store.state.auth.app.name }}</a> is requesting access to the following information:</div>
+            <div style="margin-bottom: 0.5em">{{ $store.state.auth.app.name }} is requesting access to the following information:</div>
             <div class="flexbox flex-column">
-              <div v-for="scope in $store.state.auth.scopes">{{ scope }}</div>
+              <li v-for="scope in $store.state.auth.scopes">{{ translateScope(scope) }}</li>
             </div>
+            <div style="margin-top: 0.5em">
+              This app will have access to this information indefinitely. Their privacy policy can be found <a v-bind:href="$store.state.auth.app.privacy_policy_url">here</a>.</div>
           </div>
 
           <div class="mobile-buttons flex-center">
@@ -31,6 +33,14 @@
 
   import {oauthAppOneAuthorization} from '../../apollo/queries/oauth-app-one-authorization.gql';
   import {oauthTokenAuthorize} from '../../apollo/mutations/oauth-token-authorize.gql';
+
+  let scopeTranslation = {
+  	basic: 'Basic user information like LifeScope ID (Read-only)',
+    'contacts:read': 'LifeScope Contacts (Read-only)',
+    'content:read': 'LifeScope Content (Read-only)',
+    'locations:read': 'LifeScope Locations (Read-only)',
+    'events:read': 'LifeScope Events (also includes Contacts, Content, and Locations; Read-only)'
+  };
 
   function returnError(errorObj) {
 	  let parsed = url.parse(errorObj.route.query.redirect_uri);
@@ -123,6 +133,10 @@
             error: 'access_denied',
             description: 'The user denied the request'
         });
+      },
+
+      translateScope: function(scope) {
+        return scopeTranslation[scope];
       }
     },
 

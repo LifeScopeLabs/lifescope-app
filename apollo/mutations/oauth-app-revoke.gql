@@ -1,0 +1,5 @@
+mutation oauthAppRevokeTokens($id: String!) {
+    oauthAppRevokeTokens(id: $id) {
+        id
+    }
+}

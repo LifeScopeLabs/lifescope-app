@@ -1,0 +1,8 @@
+query oauthAppAuthorizedMany {
+    oauthAppAuthorizedMany {
+        id,
+        description,
+        name,
+        scopes
+    }
+}

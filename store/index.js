@@ -123,7 +123,9 @@ const store = () => new Vuex.Store({
 				value: null,
 				error: false
 			}
-		}
+		},
+
+		oauthAppAuthorizedMany: []
 	},
 
 	getters: {

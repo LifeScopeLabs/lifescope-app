@@ -222,6 +222,8 @@
 			  <a href="/settings/account">Account</a>
 			  <a href="/settings/locations">Locations</a>
 			  <a href="/settings/connections">Connections</a>
+				<a href="/settings/authorized-apps">Authorized Apps</a>
+				<a href="/settings/developer">Developer</a>
 			</div>
 		  </div>
 		</aside>

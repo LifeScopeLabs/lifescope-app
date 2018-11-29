@@ -53,6 +53,12 @@ div#body.settings {
         }
       }
     }
+
+    #authorized-apps {
+      .app {
+        background-color: $background-color-dark;
+      }
+    }
   }
 
   header {
@@ -547,6 +553,32 @@ div#body.settings {
         margin-right: 1em;
         font-weight: bold;
         color: $blue;
+      }
+    }
+  }
+
+  #authorized-apps {
+    .app {
+      @include flexbox;
+      @include flex-space-between;
+      @include flex-x-center;
+
+      border: 1px solid $border-color;
+      background-color: $background-color;
+      padding: 0.25em;
+
+      @media #{$maxwidth768},#{$mobile} {
+        @include flex-column;
+
+        & > * {
+          margin-bottom: 0.5em;
+        }
+      }
+
+      & > :first-child {
+        & > :first-child {
+          margin-right: 0.5em;
+        }
       }
     }
   }

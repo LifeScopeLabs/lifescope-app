@@ -18,6 +18,10 @@
           </div>
 
           <div>
+            <a href="/settings/authorized-apps">Authorized Apps</a>
+          </div>
+
+          <div>
             <a href="/settings/developer">Developer</a>
           </div>
         </div>
@@ -378,8 +382,32 @@
             </div>
           </div>
         </section>
+        <section id="authorized-apps" v-if="$store.state.mode === 'authorized-apps'">
+          <div class="boxed-group">
+            <div class="title">Authorized apps</div>
 
-        <modals-container/>
+            <div class="padded paragraphed">
+              <p>Below are all of the apps which you have granted access to your LifeScope data.</p>
+              <p>You can revoke access to any of them by clicking on the 'Revoke Access' button.</p>
+
+              <div v-for="app in orderBy($store.state.oauthAppAuthorizedMany, 'name')" class="app">
+                <div class="flexbox">
+                  <div class="bold name">{{ app.name }}</div>
+                  <div class="description">{{ app.description | shorten }}</div>
+                </div>
+                <div class="flexbox flex-column">
+                  <div class="title bold">Permissions</div>
+                  <div v-for="scope in app.scopes">{{ scope }}</div>
+                </div>
+                <div>
+                  <button class="danger" v-on:click="showAppRevokeModal(app)">Revoke Access</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <modals-container/>
+        </section>
       </section>
     </section>
   </main>
@@ -402,10 +430,12 @@
   import locationFileCount from '../../apollo/queries/location-file-count.gql';
   import locationTrackedCount from '../../apollo/queries/location-tracked-count.gql';
   import locationUploadedCount from '../../apollo/queries/location-uploaded-count.gql';
+  import oauthAppAuthorizedMany from '../../apollo/queries/oauth-app-authorized-many.gql';
   import oauthAppGetClientSecret from '../../apollo/queries/oauth-app-get-client-secret.gql';
   import oauthAppInitialize from '../../apollo/mutations/oauth-app-initialize.gql';
   import oauthAppMany from '../../apollo/queries/oauth-app-many.gql';
   import oauthAppOne from '../../apollo/queries/oauth-app-one.gql';
+  import oauthAppRevoke from '../modals/oauth-app-revoke';
   import oauthAppUpdate from '../../apollo/mutations/oauth-app-update.gql';
   import oauthAppDeleteModal from '../modals/oauth-app-delete';
   import oauthSecretResetModal from '../modals/client-secret-reset';
@@ -721,6 +751,15 @@
           });
       },
 
+	    showAppRevokeModal: async function(app) {
+		    this.$modal.show(oauthAppRevoke, {
+		    	app: app
+            }, {
+			    height: 'auto',
+			    scrollable: true
+		    });
+	    },
+
       showAppDeleteModal: async function() {
 	      this.$modal.show(oauthAppDeleteModal, {}, {
 		      height: 'auto',
@@ -808,6 +847,14 @@
       	self.$store.state.app.privacyPolicy.value = app.privacy_policy_url;
       	self.$store.state.app.redirects.value = app.redirect_uris || [];
       	self.$store.state.app.clientId.value = app.client_id;
+      }
+
+      if (this.$store.state.mode === 'authorized-apps') {
+      	let authorizedAppResult = await this.$apollo.query({
+            query: oauthAppAuthorizedMany
+        });
+
+      	self.$store.state.oauthAppAuthorizedMany = authorizedAppResult.data.oauthAppAuthorizedMany;
       }
 
       connectionUpdatedObserver.subscribe({
