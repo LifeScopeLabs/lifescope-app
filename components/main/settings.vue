@@ -40,10 +40,7 @@
                 Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiAL</a>.
               </p>
               <p>
-                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization' Value 'Key: &lt;your_api_key&gt;'.
-              </p>
-              <p>
-                Coming Soon! Social sign in provider support using OAuth 2.
+                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization', Value: 'Key: &lt;your_api_key&gt;'.
               </p>
               <div class="flexbox">
                 <p style="margin-right:0.5em;">Your Personal LifeScope API key is:</p>
@@ -200,6 +197,8 @@
           <a id="big-add" class="flexbox flex-center" href="https://app.lifescope.io/providers">
             <i class="fas fa-plus"></i>
           </a>
+
+          <modals-container/>
         </section>
         <section id="developer" v-if="$store.state.mode === 'developer'">
           <div class="boxed-group">

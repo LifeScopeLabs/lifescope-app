@@ -17,13 +17,34 @@ module.exports = {
 		title: 'LifeScope',
 		description: 'LifeScope',
 		meta: [
-			{charset: 'utf-8'},
-			{name: 'viewport', content: 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width'},
-			{hid: 'description', name: 'description', content: '{{escape description }}'},
-			{name: 'apple-mobile-web-app-capable', content: 'no'},
-			{name: 'apple-mobile-web-app-title', content: 'LifeScope'},
-			{name: 'application-name', content: 'LifeScope'},
-			{name: 'msapplication-TileColor', content: '#2ac1de'},
+			{
+				charset: 'utf-8'
+			},
+			{
+				name: 'viewport',
+				content: 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width'
+			},
+			{
+				hid: 'description',
+				name: 'description',
+				content: '{{escape description }}'
+			},
+			{
+				name: 'apple-mobile-web-app-capable',
+				content: 'no'
+			},
+			{
+				name: 'apple-mobile-web-app-title',
+				content: 'LifeScope'
+			},
+			{
+				name: 'application-name',
+				content: 'LifeScope'
+			},
+			{
+				name: 'msapplication-TileColor',
+				content: '#2ac1de'
+			},
 			{
 				name: 'msapplication-TileImage',
 				content: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/mstile-144x144.png'
@@ -44,17 +65,53 @@ module.exports = {
 				name: 'msapplication-square310x310logo',
 				content: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/mstile-310x310.png'
 			},
-			{name: 'theme-color', content: '#ffffff'},
-			{name: 'google-site-verification', content: 'b8zInA5OFENnwrupGy0EPeJDeWvtY4e_R4SZDXZF6xI'},
-			{name: 'keywords', content: 'small data, search, data discovery, social media, LifeScope, life scope'},
-			{property: 'og:title', content: 'LifeScope'},
-			{property: 'og:type', content: 'website'},
-			{property: 'og:url', content: 'https://app.lifescope.io'},
-			{property: 'og:site_name', content: 'LifeScope'},
-			{property: 'og:description', content: 'Search & Discover the Internet of You!'},
+			{
+				name: 'theme-color',
+				content: '#ffffff'
+			},
+			{
+				name: 'google-site-verification',
+				content: 'b8zInA5OFENnwrupGy0EPeJDeWvtY4e_R4SZDXZF6xI'
+			},
+			{
+				name: 'keywords',
+				content: 'small data, search, data discovery, social media, LifeScope, life scope'
+			},
+			{
+				property: 'og:title',
+				content: 'LifeScope'
+			},
+			{
+				property: 'og:type',
+				content: 'website'
+			},
+			{
+				property: 'og:url',
+				content: 'https://app.lifescope.io'
+			},
+			{
+				property: 'og:site_name',
+				content: 'LifeScope'
+			},
+			{
+				property: 'og:description',
+				content: 'Lifescope lets you search the internet of you using passive automatic life logging. Connect accounts for events, people, places, things, and digital content in one lifelogger.'
+			},
+			{
+				property: 'og:image',
+				content: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/android-chrome-512x512.png/og-image.jpg'
+			},
 			{
 				property: 'og:image:secure_url',
-				content: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/apple-touch-icon-180x180.png'
+				content: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/android-chrome-512x512.png/og-image.jpg'
+			},
+			{
+				property: 'og:image:width',
+				content: '279'
+			},
+			{
+				property: 'og:image:height',
+				content: '279'
 			}
 		],
 		link: [
@@ -101,7 +158,7 @@ module.exports = {
 			{
 				rel: 'apple-touch-icon',
 				sizes: '180x180',
-				href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/apple-touch-icon-180x180.png'
+				href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/apple-touch-icon.png'
 			},
 			{
 				rel: 'icon',
@@ -184,7 +241,14 @@ module.exports = {
 				integrity: "sha384-j8y0ITrvFafF4EkV1mPW0BKm6dp3c+J9Fky22Man50Ofxo2wNe5pT1oZejDH9/Dt",
 				crossorigin: "anonymous"
 			},
-			{rel: 'stylesheet', href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css'},
+			{
+				rel: 'stylesheet',
+				href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css'
+			},
+			{
+				rel: 'manifest',
+				href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/site.webmanifest'
+			}
 		]
 	},
 

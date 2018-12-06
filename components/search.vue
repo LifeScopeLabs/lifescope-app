@@ -912,7 +912,7 @@
           name: null,
           type: 'where',
           data: {
-            coordinates: coordinates.slice(0, (coordinates.length - 1)),
+            coordinates: coordinates,
             where_type: 'inside',
             object_id: feature.id
           }

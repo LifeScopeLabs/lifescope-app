@@ -418,7 +418,11 @@
           newFilters.push(newFilter);
         });
 
-        this.$store.state.searchBar.filters = newFilters;
+        let nonWhereFilters = _.filter(this.$store.state.searchBar.filters, function(filter) {
+        	return filter.type !== 'where';
+        });
+
+        this.$store.state.searchBar.filters = nonWhereFilters.concat(newFilters);
 
         this.$store.state.redrawPolygons = false;
       },

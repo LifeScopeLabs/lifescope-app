@@ -1,7 +1,10 @@
 <template>
 	<header v-if="$store.state.user != undefined && ($store.state.mode === 'app' || $store.state.mode === 'home')">
 		<nav>
-			<a id="home" href="/"><img class="logo" src="~/assets/images/logo.png" /></a>
+			<a id="home" href="/">
+				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg" />
+				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg" />
+			</a>
 			<search-bar ref="searchBar"></search-bar>
 
 			<div class="shortcuts">
@@ -93,7 +96,10 @@
 
   <header v-else-if="$store.state.mode === 'shared'">
     <nav>
-      <a id="home" href="/"><img class="logo" src="~/assets/images/logo.png" /></a>
+      <a id="home" href="/">
+		  <img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg" />
+		  <img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg" />
+	  </a>
       <search-bar ref="searchBar"></search-bar>
 
       <span class="flex-grow"></span>
@@ -181,7 +187,10 @@
 
 	<header v-else>
 		<nav>
-			<a v-if="$store.state.user != undefined" id="home" href="/"><img class="logo" src="~/assets/images/logo.png" /></a>
+			<a v-if="$store.state.user != undefined" id="home" href="/">
+				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg" />
+				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg" />
+			</a>
 
 			<span v-if="$store.state.user != undefined" class="flex-grow"></span>
 
