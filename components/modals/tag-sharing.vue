@@ -139,7 +139,7 @@
       },
 
       linkedInUrl: function(tag) {
-        return 'http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(this.shareUrl(tag)) + '&title=' + encodeURIComponent('#' + tag.tag + ' shared from lifescope.io') + '&summary=' + encodeURIComponent('Lifescope search results for #' + tag.tag) + '&source=' + encodeURIComponent(this.shareUrl(tag));
+        return 'http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(this.shareUrl(tag)) + '&title=' + encodeURIComponent('#' + tag.tag + ' shared from lifescope.io') + '&summary=' + encodeURIComponent('LifeScope search results for #' + tag.tag) + '&source=' + encodeURIComponent(this.shareUrl(tag));
       },
 
       pinterestUrl: function(tag) {

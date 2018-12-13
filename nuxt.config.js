@@ -95,7 +95,7 @@ module.exports = {
 			},
 			{
 				property: 'og:description',
-				content: 'Lifescope lets you search the internet of you using passive automatic life logging. Connect accounts for events, people, places, things, and digital content in one lifelogger.'
+				content: 'LifeScope lets you search the internet of you using passive automatic life logging. Connect accounts for events, people, places, things, and digital content in one lifelogger.'
 			},
 			{
 				property: 'og:image',

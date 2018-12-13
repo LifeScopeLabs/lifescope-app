@@ -4,7 +4,7 @@ breadcrumbs:
   - '[Connections and Providers](/connections)'
 ---
 
-# In Lifescope terms, what's a Connection, and what's a Provider?
+# In LifeScope terms, what's a Connection, and what's a Provider?
 
 We call a third-party service from which you want to retrieve data a Provider.
 Facebook, Twitter, GitHub, and Spotify are all Providers to us.
@@ -30,7 +30,7 @@ Yes, but only if you have more than one account with that Provider.
 If you try to make a second Connection to the exact same account, the new one will be deleted, as will whatever Permissions you selected.
 If you have multiple accounts with a service, though, you may make a Connection to each of them.
 
-For example, let's say you signed up using your personal Google account, and gave Lifescope Permissions for Gmail and your Drive history.
+For example, let's say you signed up using your personal Google account, and gave LifeScope Permissions for Gmail and your Drive history.
 If you tried to make another Connection to your personal Google account and only selected the Drive permission, this second Connection would be discarded and your original Connection would still have the Gmail and Drive Permissions.
 If you start a Connection with just the Drive permission, but selected your work Google account, a Connection to that other Google account would be made, and it would only be able to access your work Google's Drive history.
 The personal Google Connection would still have access to both Gmail and Drive.
@@ -39,11 +39,11 @@ The personal Google Connection would still have access to both Gmail and Drive.
 
 Most Providers only let you be logged in to one account at once.
 If you want to make Connections to more than one, you need to make a Connection to the first one and authorize it, then log out of that Provider's account and log into another one, then make a Connection to that Provider.
-Don't log out of Lifescope unless you want those Connections to be in separate Lifescope accounts.
+Don't log out of LifeScope unless you want those Connections to be in separate LifeScope accounts.
 
 For example, you have two Instagram accounts; one for all of your followers, and a private one just for friends and family.
 You're currently logged into your public Instagram account.
-When you're logged into Lifescope, you make a Connection to Instagram; finishing that process will make a Connection to your public Instagram account.
+When you're logged into LifeScope, you make a Connection to Instagram; finishing that process will make a Connection to your public Instagram account.
 You would then log out of the public Instagram account, log into your friends and family Instagram account, then make another Connection to Instagram.
 This time through the Connection process will result in a Connection to your friends and family Instagram account, resulting in two Connections to Instagram.
 
@@ -70,7 +70,7 @@ If you later want to retrieve data from Gmail and enable that Permission, we nee
 
 Note that some Providers don't automatically devolve these data 'scopes' as explicitly as others.
 If you initially requested Facebook Posts and Events, then later disabled the Posts Permission and reauthorize your Facebook Connection, Facebook may still grant us access to your Posts because you'd previously allowed it.
-The most foolproof way to reduce the data Lifescope has access to is to delete the Connection, then go to that service and remove Lifescope from your 'Connected Apps' (this process is different for each Provider), then make a new Connection with just the Permissions you want.
+The most foolproof way to reduce the data LifeScope has access to is to delete the Connection, then go to that service and remove LifeScope from your 'Connected Apps' (this process is different for each Provider), then make a new Connection with just the Permissions you want.
 
 ## Enabling and Disabling a Connection.
 
@@ -85,7 +85,7 @@ If you have more than one Connection to a Provider, other Connections and their 
 
 # Why can't I delete my last Connection?
 
-Because Lifescope's account management runs entirely off of your Connections, deleting all of your Connections would leave you with no way to log in.
+Because LifeScope's account management runs entirely off of your Connections, deleting all of your Connections would leave you with no way to log in.
 For that reason, we don't let you delete your last Connection.
 At that point, you'd probably just want to delete your account altogether, which can be done one the [Account Settings page](/settings/account).
 If you do want to keep your account but don't want any new data, just disable all of your Connections.

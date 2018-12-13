@@ -115,7 +115,7 @@ See 'Searching via tags' above to learn more.
 
 Every time you perform a search with a unique combination of query and filters, we save a record of it so that you can easily run that search again in the future.
 We also record how many times a search has been run.
-Saved Searches also allow Lifescope to easily transfer searches between pages; if you construct a search on the home page and run it, we save it as a Saved Search, then redirect you to the Explorer with a query parameter 'qid=<search ID>' that can be used to retrieve the search parameters.
+Saved Searches also allow LifeScope to easily transfer searches between pages; if you construct a search on the home page and run it, we save it as a Saved Search, then redirect you to the Explorer with a query parameter 'qid=<search ID>' that can be used to retrieve the search parameters.
 
 ## Viewing your Saved Searches
 

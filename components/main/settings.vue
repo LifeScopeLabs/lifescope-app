@@ -230,7 +230,7 @@
 
             <div class="padded paragraphed">
               <p>You can build apps on top of users' data via OAuth2.</p>
-              <p>Please see <a href="https://lifescope.io/documentation/oauth2">the documentation</a> for more information.</p>
+              <p>Please see <a href="https://lifescope.io/oauth2">the documentation</a> for more information.</p>
 
               <div class="mobile-flex-center">
                 <button id="new-oauth-app" class="primary" v-on:click="initializeNewApp">Generate New OAuth App</button>
