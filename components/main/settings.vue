@@ -29,37 +29,13 @@
 
       <section class="flexbox flex-column flex-grow">
         <section id="account" v-if="$store.state.mode === 'account'">
-          <div class="boxed-group">
-            <div class="title">LifeScope Developer API Platform</div>
-
-            <div class="padded paragraphed">
-              <p>
-                LifeScope is an open data platform you can build on. Learn more by reading our <a href="https://lifescopelabs.github.io">Documentation on GitHub</a>.
-              </p>
-              <p>
-                Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiAL</a>.
-              </p>
-              <p>
-                The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization', Value: 'Key: &lt;your_api_key&gt;'.
-              </p>
-              <div class="flexbox">
-                <p style="margin-right:0.5em;">Your Personal LifeScope API key is:</p>
-                <span style="word-break: break-all">{{ $store.state.userOne.api_key_string }}</span>
-              </div>
-
-              <div class="mobile-flex-center">
-                <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New API Key</button>
-              </div>
-            </div>
-          </div>
-
 			<div class="boxed-group">
 				<div class="title">Color Theme</div>
 
 				<div class="padded paragraphed">
-                    <no-ssr>
+					<no-ssr>
 					  <toggle-button v-bind:width="60" v-bind:height="25" v-model="toggleValue" v-bind:sync="true" v-bind:labels="{ checked: 'Dark', unchecked: 'Light' }" v-bind:color="{ checked: '#9b9b9b', unchecked: '#242424' }" v-on:change="updateTheme"></toggle-button>
-                    </no-ssr>
+					</no-ssr>
 				</div>
 			</div>
 
@@ -76,8 +52,6 @@
               </div>
             </div>
           </div>
-
-          <modals-container/>
         </section>
         <section id="locations" v-if="$store.state.mode === 'locations'">
           <div class="boxed-group">
@@ -197,8 +171,6 @@
           <a id="big-add" class="flexbox flex-center" href="https://app.lifescope.io/providers">
             <i class="fas fa-plus"></i>
           </a>
-
-          <modals-container/>
         </section>
         <section id="developer" v-if="$store.state.mode === 'developer'">
           <div class="boxed-group">
@@ -242,8 +214,6 @@
               </div>
             </div>
           </div>
-
-          <modals-container/>
         </section>
         <section id="app-create" v-if="$store.state.mode === 'app-create'">
           <div class="boxed-group oauth-app">
@@ -404,9 +374,9 @@
               </div>
             </div>
           </div>
-
-          <modals-container/>
         </section>
+
+	  	<modals-container/>
       </section>
     </section>
   </main>
