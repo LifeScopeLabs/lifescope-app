@@ -6,6 +6,7 @@
 
       border: 1px solid $input-border-color;
       border-radius: 1px;
+      max-height: 60%;
 
       & > i {
         @include align-center;
