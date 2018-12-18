@@ -8,6 +8,11 @@
       border-radius: 1px;
       max-height: 60%;
 
+      @media #{$maxwidth768},#{$mobile} {
+        max-height: 200px;
+        overflow: auto;
+      }
+
       & > i {
         @include align-center;
         @include pointer;
