@@ -25,6 +25,10 @@
               <div class="count" v-model="connectionCount">Connections: {{ connectionCount }}</div>
             </a>
 
+            <a class="people" href="/settings/people">
+              <div class="count" v-model="peopleCount">People: {{ peopleCount }}</div>
+            </a>
+
             <a class="events" href="/explore">
               <div class="count" v-model="eventCount">Events: {{ eventCount }}</div>
             </a>
@@ -37,9 +41,9 @@
               <div class="count" v-model="contactCount">Contacts: {{ contactCount }}</div>
             </a>
 
-            <div class="locations">
+            <a class="locations" href="/settings/locations">
               <div class="count" v-model="locationCount">Locations: {{ locationCount }}</div>
-            </div>
+            </a>
 
             <div class="searches clickable" v-on:click="selectTab('recent')">
               <div class="count" v-model="$store.state.searchCount">Searches: {{ $store.state.searchCount }}</div>
@@ -136,6 +140,7 @@
   import contentCount from '../../apollo/queries/content-count.gql';
   import eventCount from '../../apollo/queries/event-count.gql';
   import locationCount from '../../apollo/queries/location-count.gql';
+  import peopleCount from '../../apollo/queries/people-count.gql';
   import searchCount from '../../apollo/queries/search-count.gql';
   import searchMany from '../../apollo/queries/search-many.gql';
   import tagCount from '../../apollo/queries/tag-count.gql';
@@ -154,6 +159,7 @@
         eventCount: null,
         favoriteCount: null,
         locationCount: null,
+        peopleCount: null,
         searchCount: null,
         searches: null,
         tagCount: null,
@@ -345,6 +351,10 @@
           query: locationCount
       });
 
+      let peopleCountResult = await this.$apollo.query({
+          query: peopleCount
+      });
+
       let searchCountResult = await this.$apollo.query({
           query: searchCount
       });
@@ -373,6 +383,7 @@
       this.$data.contentCount = contentCountResult.data.contentCount;
       this.$data.locationCount = locationCountResult.data.locationCount;
       this.$data.favoriteCount = favoriteCountResult.data.searchCount;
+      this.$data.peopleCount = peopleCountResult.data.peopleCount;
       this.$data.tagCount = tagCountResult.data.tagCount;
       this.$data.sharedTagCount = sharedTagCountResult.data.tagCount;
       this.$store.state.searchCount = searchCountResult.data.searchCount;

@@ -1,0 +1,17 @@
+query peopleMany($id: String!) {
+    peopleOne(filter: { id: $id }) {
+        id,
+        avatar_url,
+        first_name,
+        middle_name,
+        last_name,
+        contact_ids,
+        contact_id_strings,
+        hydratedContacts {
+        	id,
+			avatar_url,
+			handle,
+			name
+        }
+    }
+}

@@ -10,6 +10,10 @@
           </div>
 
           <div>
+            <a href="/settings/people">People</a>
+          </div>
+
+          <div>
             <a href="/settings/locations">Locations</a>
           </div>
 
@@ -215,6 +219,35 @@
             </div>
           </div>
         </section>
+        <section id="people" v-if="$store.state.mode === 'people'">
+          <div class="boxed-group">
+            <div class="title">LifeScope People</div>
+
+            <div class="padded paragraphed">
+              <p>You can associate multiple Contacts with a single Person, e.g. @liz_doing_biz on Twitter and elizabeth.doe@gmail.com can be grouped under a single Person 'Elizabeth Doe'.</p>
+              <p>People will show up in search results instead of Contacts whenever possible, and Who Filters can be created to search People instead of Contacts.</p>
+
+              <div class="mobile-flex-center">
+                <button id="new-person" class="primary" v-on:click="initializeNewPerson">Create new Person</button>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div v-for="person in orderBy($store.state.peopleMany, 'first_name')" class="flexbox person" v-on:click="editPerson(person.id)">
+                  <div class="flexbox flex-column">
+                    <div class="flexbox top-line">
+                      <div class="avatar">
+                        <img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
+                        <div class="default" v-else-if="person.avatar_url == null || person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor(person) }">{{ defaultLetter(person) }}</div>
+                      </div>
+                      <div class="name">{{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</div>
+                    </div>
+                    <div class="contacts" v-if="person.hydratedContacts.length > 0">{{ assembleContacts(person.hydratedContacts) }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <section id="app-create" v-if="$store.state.mode === 'app-create'">
           <div class="boxed-group oauth-app">
             <div class="title">New OAuth2 App</div>
@@ -375,6 +408,173 @@
             </div>
           </div>
         </section>
+        <section id="people-create" v-if="$store.state.mode === 'people-create'">
+          <div class="boxed-group person">
+            <div class="title">New Person</div>
+
+            <div class="padded paragraphed form">
+              <div class="flexbox flex-column names">
+                <div class="flexbox flex-column">
+                <div class="flexbox">
+                    <div class="title">First Name</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.first_name" placeholder="Enter first name">
+                  </div>
+                </div>
+                <div class="flexbox flex-column">
+                  <div class="flexbox">
+                    <div class="title">Middle Name</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.middle_name" placeholder="Enter middle name">
+                  </div>
+                </div>
+                <div class="flexbox flex-column">
+                  <div class="flexbox">
+                    <div class="title">Last Name</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.last_name" placeholder="Enter last name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="title">Contacts</div>
+                <div class="flexbox flex-column">
+                  <div v-for="contact in $store.state.person.hydratedContacts" class="flexbox hydrated-contact">
+                    <div class="flexbox flex-grow">
+                      <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
+                      <div v-if="contact.name != null">{{ contact.name }}</div>
+                      <div>{{ contact.handle }}</div>
+                    </div>
+                    <i class="delete fas fa-times" v-on:click="removeContact(contact)"></i>
+                  </div>
+                </div>
+                <div class="contact-search">
+                  <div class="text-box">
+                    <input type="text" v-model="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
+                  </div>
+                  <div class="flexbox flex-column flex-grow temp-contacts">
+                    <div class="scroller">
+                      <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
+                        <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
+                        <div v-if="contact.name != null">{{ contact.name }}</div>
+                        <div>{{ contact.handle }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="title">Avatar</div>
+                <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+                  <i class="fas fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                  <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
+                  <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+                  <i class="fas fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                </div>
+              </div>
+
+              <div class="flex-mobile">
+                <button class="primary" v-on:click="createNewPerson">Create Person</button>
+                <div class="error" v-if="$data.error === true">There was an error creating this Person. If this issue persists, please contact us.</div>
+
+                <span class="flex-grow"></span>
+
+                <button v-on:click.prevent="cancelEdit">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="people-edit" v-if="$store.state.mode === 'people-edit'">
+          <div class="boxed-group person">
+            <div>Update Person</div>
+
+            <div class="padded paragraphed form">
+              <div class="flexbox flex-column names">
+                <div class="flexbox flex-column">
+                  <div class="flexbox">
+                    <div class="title">First Name</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.first_name" placeholder="Enter first name">
+                  </div>
+                </div>
+                <div class="flexbox flex-column">
+                  <div class="flexbox">
+                    <div class="title">Middle Name</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.middle_name" placeholder="Enter middle name">
+                  </div>
+                </div>
+                <div class="flexbox flex-column">
+                  <div class="flexbox">
+                    <div class="title">Last Name</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.last_name" placeholder="Enter last name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="title">Contacts</div>
+                <div class="flexbox flex-column">
+                  <div v-for="contact in $store.state.person.hydratedContacts" class="flexbox hydrated-contact">
+                    <div class="flexbox flex-grow">
+                      <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
+                      <div v-if="contact.name != null">{{ contact.name }}</div>
+                      <div>{{ contact.handle }}</div>
+                    </div>
+                    <i class="delete fas fa-times" v-on:click="removeContact(contact)"></i>
+                  </div>
+                </div>
+                <div class="contact-search">
+                  <div class="text-box">
+                    <input type="text" v-model="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
+                  </div>
+                  <div class="flexbox flex-column flex-grow temp-contacts">
+                    <div class="scroller">
+                      <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
+                        <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
+                        <div v-if="contact.name != null">{{ contact.name }}</div>
+                        <div>{{ contact.handle }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flexbox flex-column">
+                <div class="title">Avatar</div>
+                <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+                  <i class="fas fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                  <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
+                  <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+                  <i class="fas fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                </div>
+              </div>
+
+              <div class="flex-mobile">
+                <button class="primary" v-on:click="updatePerson">Update Person</button>
+
+                <span class="flex-grow"></span>
+
+                <button v-on:click.prevent="cancelEdit">Cancel</button>
+
+                <span class="flex-grow"></span>
+
+                <button class="danger delete mobile-flex-center" v-on:click.prevent="showDeletePersonModal">Delete Person</button>
+              </div>
+
+              <div class="error" v-if="$data.error === true">There was an error updating this Person. If this issue persists, please contact us.</div>
+            </div>
+          </div>
+        </section>
 
 	  	<modals-container/>
       </section>
@@ -391,6 +591,8 @@
   import connectionMany from '../../apollo/queries/connection-many.gql';
   import connectionDeleted from '../../apollo/subscriptions/connection-deleted.gql';
   import connectionUpdated from '../../apollo/subscriptions/connection-updated.gql';
+  import contactSearch from '../../apollo/mutations/contact-search.gql';
+  import { defaultColor, defaultLetter } from '../util/default-icon';
   import deleteAccountModal from '../modals/account-delete';
   import deleteConnectionModal from '../modals/connection-delete';
   import disableConnectionModal from '../modals/connection-disable';
@@ -409,6 +611,11 @@
   import oauthAppDeleteModal from '../modals/oauth-app-delete';
   import oauthSecretResetModal from '../modals/client-secret-reset';
   import oauthTokenRevokeModal from '../modals/oauth-tokens-delete';
+  import peopleCreate from '../../apollo/mutations/people-create.gql';
+  import peopleDeleteModal from '../modals/person-delete';
+  import peopleMany from '../../apollo/queries/people-many.gql';
+  import peopleOne from '../../apollo/queries/people-one.gql';
+  import peopleUpdate from '../../apollo/mutations/people-update.gql';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import uploadedLocationsDeleteModal from '../modals/uploaded-locations-delete';
   import userThemeUpdate from '../../apollo/mutations/user-theme-update.gql';
@@ -445,7 +652,11 @@
         tempRedirect: {
         	value: null,
             error: false
-        }
+        },
+
+        query: null,
+
+        error: false
       }
     },
 
@@ -497,6 +708,13 @@
           height: 'auto',
           scrollable: true
         });
+      },
+
+      showDeletePersonModal: function() {
+          this.$modal.show(peopleDeleteModal, {}, {
+              height: 'auto',
+              scrollable: true
+          })
       },
 
       enableConnection: async function(connection) {
@@ -601,6 +819,10 @@
         window.location.href = '/settings/apps/create';
       },
 
+      initializeNewPerson: async function() {
+          window.location.href = '/settings/people/create';
+      },
+
       createNewApp: async function() {
       	let error = false;
 
@@ -646,6 +868,10 @@
 
       editApp: async function(id) {
       	window.location.href = '/settings/apps/' + id
+      },
+
+      editPerson: async function(id) {
+          window.location.href = '/settings/people/' + id
       },
 
       updateApp: async function() {
@@ -755,6 +981,190 @@
           this.$store.state.app.redirects.value = _.remove(this.$store.state.app.redirects.value, function(redirect) {
           	return redirect !== removed;
           });
+        },
+
+        updateSearch: _.debounce(async function() {
+          let self = this;
+
+      	  let results = await this.$apollo.mutate({
+              mutation: contactSearch,
+              variables: {
+              	q: this.$data.query
+              }
+          });
+
+      	  let data = results.data.contactSearch;
+
+      	  let stripped = _.remove(data, function(item) {
+      	  	return self.$store.state.person.contact_id_strings.indexOf(item.id) < 0;
+          });
+
+      	  this.$store.state.objects.contacts = stripped;
+        }, 1000),
+
+        addContact: async function(contact) {
+      	  let clonedPerson = _.cloneDeep(this.$store.state.person);
+
+      	  clonedPerson.hydratedContacts.push(contact);
+      	  clonedPerson.contact_id_strings.push(contact.id);
+
+      	  this.$store.state.person = clonedPerson;
+
+      	  _.remove(this.$store.state.objects.contacts, function(objContact) {
+      	  	return contact.id === objContact.id;
+          });
+
+      	  if (contact.avatar_url) {
+            this.$store.state.person.available_avatars = _.uniq(_.concat(this.$store.state.person.available_avatars, contact.avatar_url));
+
+      	  	if (this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0) {
+		        this.$store.state.person.avatar_url = contact.avatar_url;
+		        this.$store.state.person.avatar_index = 0;
+	        }
+          }
+        },
+
+        removeContact: async function(contact) {
+      	  let clonedContacts = _.cloneDeep(this.$store.state.objects.contacts);
+          let clonedHydrated = _.cloneDeep(this.$store.state.person.hydratedContacts);
+          let clonedIdStrings = _.cloneDeep(this.$store.state.person.contact_id_strings);
+
+      	  clonedContacts.push(contact);
+
+      	  this.$store.state.objects.contacts = clonedContacts;
+
+          _.remove(clonedHydrated, function(hydratedContact) {
+              return contact.id === hydratedContact.id;
+          });
+
+          this.$store.state.person.hydratedContacts = clonedHydrated;
+
+          _.remove(clonedIdStrings, function(contactId) {
+          	return contactId === contact.id;
+          });
+
+          this.$store.state.person.contact_id_strings = clonedIdStrings;
+
+          if (contact.avatar_url) {
+          	this.$store.state.person.available_avatars = _.pull(this.$store.state.person.available_avatars, contact.avatar_url);
+
+            if (contact.avatar_url === this.$store.state.person.avatar_url) {
+	            if (this.$store.state.person.available_avatars.length > 0) {
+		            this.$store.state.person.avatar_url = this.$store.state.person.available_avatars[0];
+		            this.$store.state.person.avatar_index = 0;
+	            }
+	            else {
+		            this.$store.state.person.avatar_url = '';
+		            this.$store.state.person.avatar_index = -1;
+	            }
+            }
+          }
+        },
+
+        createNewPerson: async function() {
+      	  let result;
+      	  let self = this;
+
+      	  let person = this.$store.state.person;
+
+      	  try {
+	          result = await this.$apollo.mutate({
+		          mutation: peopleCreate,
+		          variables: {
+			          first_name: person.first_name,
+			          middle_name: person.middle_name,
+			          last_name: person.last_name,
+			          contact_id_strings: person.contact_id_strings
+		          }
+	          });
+          } catch(err) {
+      	  	this.$data.error = true;
+
+      	  	setTimeout(function() {
+      	  		self.$data.error = false;
+            }, 2000)
+          }
+
+      	  window.location.href = '/settings/people';
+        },
+
+	    updatePerson: async function() {
+		    let result;
+		    let self = this;
+
+		    let person = this.$store.state.person;
+
+		    try {
+			    result = await this.$apollo.mutate({
+				    mutation: peopleUpdate,
+				    variables: {
+				    	id: person.id,
+					    first_name: person.first_name,
+					    middle_name: person.middle_name,
+					    last_name: person.last_name,
+					    contact_id_strings: person.contact_id_strings,
+                        avatar_url: person.avatar_url
+				    }
+			    });
+
+			    window.location.href = '/settings/people';
+		    } catch(err) {
+			    this.$data.error = true;
+
+			    setTimeout(function() {
+				    self.$data.error = false;
+			    }, 2000)
+		    }
+	    },
+
+        assembleContacts: function(contacts) {
+      	  let returned = '(';
+
+      	  _.each(contacts, function(contact) {
+      	  	returned += contact.handle + ', ';
+          });
+
+      	  returned = returned.slice(0, returned.length - 2);
+
+      	  returned += ')';
+
+      	  return returned;
+        },
+
+        cancelEdit: function() {
+	        window.location.href = '/settings/people';
+        },
+
+        hasAvatars: function() {
+      	  let avatarFound = _.find(this.$store.state.person.hydratedContacts, function(contact) {
+      	  	return contact.avatar_url != null && contact.avatar_url.length > 0;
+          });
+
+      	  return avatarFound != null;
+        },
+
+        defaultLetter: function(person) {
+      	  return defaultLetter(person);
+        },
+
+        defaultColor: function(person) {
+      	  return defaultColor(person);
+        },
+
+        changeAvatar: function(change) {
+      	  let person = this.$store.state.person;
+
+      	  person.avatar_index = change < 0 ? person.avatar_index - 1 : person.avatar_index + 1;
+
+      	  if (person.avatar_index < -1) {
+      	  	person.avatar_index = person.available_avatars.length - 1;
+          }
+
+          if (person.avatar_index >= person.available_avatars.length) {
+      	  	person.avatar_index = -1;
+          }
+
+          person.avatar_url = person.avatar_index > -1 ? person.available_avatars[person.avatar_index] : '';
         }
     },
 
@@ -826,51 +1236,89 @@
       	self.$store.state.oauthAppAuthorizedMany = authorizedAppResult.data.oauthAppAuthorizedMany;
       }
 
-      connectionUpdatedObserver.subscribe({
-        next(data) {
-          let newData = data.data.connectionUpdated;
-
-          if (newData) {
-            let id = newData.id;
-
-            let clone = _.clone(self.$store.state.connectionMany);
-
-            let index = _.findIndex(clone, function(item) {
-              return item.id === id;
-            });
-
-            clone.splice(index, 1, newData);
-
-            self.$store.state.connectionMany = clone;
-          }
-        }
-      });
-
-      connectionDeletedObserver.subscribe({
-        next(data) {
-          let newData = data.data.connectionDeleted;
-
-          if (newData) {
-            let id = newData.id;
-
-            let clone = _.clone(self.$store.state.connectionMany);
-
-            clone = clone.filter(item => item.id !== id);
-
-            self.$store.state.connectionMany = clone;
-          }
-        }
-      });
-
-      let connections = connectionResult.data.connectionMany;
-
-      _.each(connections, function(connection) {
-        self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function(source, name) {
-          return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
+      if (this.$store.state.mode === 'people') {
+      	let peopleResult = await this.$apollo.query({
+            query: peopleMany
         });
-      });
 
-      this.$store.state.connectionMany = connections;
+      	self.$store.state.peopleMany = peopleResult.data.peopleMany;
+      }
+
+      if (this.$store.state.mode === 'people-edit') {
+        let personResult = await this.$apollo.query({
+            query: peopleOne,
+            variables: {
+                id: self.$route.params.id,
+            }
+        });
+
+        let person = personResult.data.peopleOne;
+
+        self.$store.state.person.id = person.id;
+        self.$store.state.person.avatar_url = person.avatar_url;
+        self.$store.state.person.first_name = person.first_name;
+        self.$store.state.person.middle_name = person.middle_name;
+        self.$store.state.person.last_name = person.last_name;
+        self.$store.state.person.contact_id_strings = person.contact_id_strings;
+        self.$store.state.person.hydratedContacts = person.hydratedContacts;
+        self.$store.state.person.available_avatars = _.compact(_.map(person.hydratedContacts, function(contact) {
+        	return contact.avatar_url;
+        }));
+
+        self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
+      }
+
+      if (this.$store.state.mode === 'people-create') {
+      	self.$store.state.person.avatar_index = -1;
+      }
+
+      if (this.$store.state.mode === 'connections') {
+	      connectionUpdatedObserver.subscribe({
+		      next(data) {
+			      let newData = data.data.connectionUpdated;
+
+			      if (newData) {
+				      let id = newData.id;
+
+				      let clone = _.clone(self.$store.state.connectionMany);
+
+				      let index = _.findIndex(clone, function(item) {
+					      return item.id === id;
+				      });
+
+				      clone.splice(index, 1, newData);
+
+				      self.$store.state.connectionMany = clone;
+			      }
+		      }
+	      });
+
+	      connectionDeletedObserver.subscribe({
+		      next(data) {
+			      let newData = data.data.connectionDeleted;
+
+			      if (newData) {
+				      let id = newData.id;
+
+				      let clone = _.clone(self.$store.state.connectionMany);
+
+				      clone = clone.filter(item => item.id !== id);
+
+				      self.$store.state.connectionMany = clone;
+			      }
+		      }
+	      });
+
+	      let connections = connectionResult.data.connectionMany;
+
+	      _.each(connections, function(connection) {
+		      self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function(source, name) {
+			      return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
+		      });
+	      });
+
+	      this.$store.state.connectionMany = connections;
+      }
     },
   }
 </script>

@@ -10,7 +10,6 @@
       <div style="background-color: #b2ad7f" v-on:click="updateColor('#b2ad7f')"></div>
       <div style="background-color: #878f99" v-on:click="updateColor('#878f99')"></div>
       <div style="background-color: #6b5b95" v-on:click="updateColor('#6b5b95')"></div>
-      <div style="background-color: #6b5b95" v-on:click="updateColor('#6b5b95')"></div>
       <div style="background-color: #feb236" v-on:click="updateColor('#feb236')"></div>
       <div style="background-color: #d64161" v-on:click="updateColor('#d64161')"></div>
       <div style="background-color: #ff7b25" v-on:click="updateColor('#ff7b25')"></div>

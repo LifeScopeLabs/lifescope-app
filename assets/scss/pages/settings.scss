@@ -269,16 +269,14 @@ div#body.settings {
     }
   }
 
-  &.locations {
-    .flex-mobile {
-      @include flexbox;
+  .flex-mobile {
+    @include flexbox;
 
-      @media #{$maxwidth768},#{$mobile} {
-        @include flex-column;
+    @media #{$maxwidth768},#{$mobile} {
+      @include flex-column;
 
-        span {
-          height: 1em;
-        }
+      span {
+        height: 1em;
       }
     }
   }
@@ -556,6 +554,161 @@ div#body.settings {
       & > :first-child {
         & > :first-child {
           margin-right: 0.5em;
+        }
+      }
+    }
+  }
+
+  #people-create,
+  #people-edit {
+    .title {
+      font-size: 1.8rem;
+    }
+
+    .names {
+      & > * {
+        margin-bottom: 1em;
+      }
+    }
+
+    .contact-search {
+      @include flexbox;
+
+      @media #{$maxwidth768},#{$mobile} {
+        @include flex-column;
+
+        & > * {
+          margin-bottom: 0.5em;
+        }
+      }
+
+      .text-box {
+        height: 44.25px;
+
+        @media #{$maxwidth768},#{$mobile} {
+          height: inherit;
+        }
+      }
+
+      .temp-contacts {
+        @include flex-grow-scrollable(false);
+
+        overflow-x: hidden;
+
+        margin-left: 0.5em;
+        border: 1px solid $border-color;
+
+        height: 200px;
+
+        @media #{$maxwidth768},#{$mobile} {
+          margin-left: 0;
+        }
+
+        .temp-contact {
+          padding: 0.5em;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid $border-color;
+          }
+
+          &:hover {
+            background-color: $background-color;
+            cursor: pointer;
+          }
+
+          & > *:not(img) {
+            @include flex-grow;
+
+            word-break: break-all;
+          }
+
+          & > img {
+            margin-right: 0.25em;
+          }
+        }
+      }
+    }
+
+    .hydrated-contact {
+      padding: 0.5em;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $border-color;
+      }
+
+      & > :first-child {
+        & > *:not(img) {
+          @include flex-grow;
+
+          word-break: break-all;
+        }
+
+        & > img {
+          margin-right: 0.25em;
+        }
+      }
+
+      .delete {
+        &:hover {
+          color: red;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  #people {
+    .person {
+      padding: 0.5em;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $border-color;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: $background-color;
+      }
+
+      .top-line {
+        margin-bottom: 0.25em;
+
+        img {
+          margin-right: 0.25em;
+        }
+      }
+    }
+  }
+
+
+
+  .avatar {
+    @include flexbox;
+    @include flex-x-center;
+
+    font-size: 2.25em;
+
+    & > .default {
+      color: white;
+      width: 50px;
+      height: 50px;
+
+      border-radius: 30px;
+
+      text-align: center;
+    }
+
+    i {
+      margin: 0 0.25em;
+
+      color: gray;
+    }
+
+    &:not(.default-only) {
+      i {
+        &:hover {
+          cursor: pointer;
+          color: $blue;
         }
       }
     }

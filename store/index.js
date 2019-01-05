@@ -125,6 +125,20 @@ const store = () => new Vuex.Store({
 			}
 		},
 
+		person: {
+			id: null,
+			avatar_url: null,
+			first_name: null,
+			middle_name: null,
+			last_name: null,
+			contact_id_strings: [],
+			hydratedContacts: [],
+			available_avatars: [],
+			avatar_index: null
+		},
+
+		peopleMany: [],
+
 		oauthAppAuthorizedMany: []
 	},
 

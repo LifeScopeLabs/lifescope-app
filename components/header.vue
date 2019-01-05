@@ -229,6 +229,7 @@
 		  <div class="scroller">
 			<div id="pages">
 			  <a href="/settings/account">Account</a>
+				<a href="/settings/people">People</a>
 			  <a href="/settings/locations">Locations</a>
 			  <a href="/settings/connections">Connections</a>
 				<a href="/settings/authorized-apps">Authorized Apps</a>
