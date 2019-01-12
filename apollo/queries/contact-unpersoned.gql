@@ -1,0 +1,17 @@
+query contactUnpersoned($q: String) {
+    contactUnpersoned(q: $q) {
+        id,
+        avatar_url,
+        connection_id,
+        connection_id_string,
+        handle,
+        name,
+        provider_id,
+        provider_id_string,
+        tagMasks {
+            added,
+            removed,
+            source
+        }
+    }
+}

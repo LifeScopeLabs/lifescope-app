@@ -1,0 +1,22 @@
+mutation personSearch($q: String, $offset: Int, $limit: Int, $filters: String, $sortField: String, $sortOrder: String) {
+    personSearch(q: $q, offset: $offset, limit: $limit, filters: $filters, sortField: $sortField, sortOrder: $sortOrder) {
+        id,
+        avatar_url,
+        first_name,
+        middle_name,
+        last_name,
+        contact_ids,
+        contact_id_strings,
+        hydratedContacts {
+        	id,
+			avatar_url,
+			handle,
+			name
+        },
+		tagMasks {
+		added,
+		removed,
+		source
+		}
+    }
+}

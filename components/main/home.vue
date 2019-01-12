@@ -25,7 +25,7 @@
               <div class="count" v-model="connectionCount">Connections: {{ connectionCount }}</div>
             </a>
 
-            <a class="people" href="/settings/people">
+            <a class="people clickable" v-on:click="selectTab('people')">
               <div class="count" v-model="peopleCount">People: {{ peopleCount }}</div>
             </a>
 
@@ -67,7 +67,8 @@
 
     <section v-if="$store.state.user != undefined" id="content">
       <nav id="tabs">
-        <div class="tab" v-bind:class="{selected: tab === 'favorites'}" name="favorites" v-on:click="fetchData(true, 'favorites')">Favorites</div>
+        <div class="tab" name="people" v-bind:class="{selected: tab === 'people'}" v-on:click="fetchData(true, 'people')">People</div>
+        <div class="tab" name="favorites" v-bind:class="{selected: tab === 'favorites'}" v-on:click="fetchData(true, 'favorites')">Favorites</div>
         <div class="tab" name="recent" v-bind:class="{selected: tab === 'recent'}" v-on:click="fetchData(true, 'recent')">Recent</div>
         <div class="tab" name="top" v-bind:class="{selected: tab === 'top'}" v-on:click="fetchData(true, 'top')">Top</div>
         <div class="tab" name="tags" v-bind:class="{selected: tab === 'tags'}" v-on:click="fetchData(true, 'tags')">Tags</div>
@@ -122,6 +123,18 @@
 
               <div class="tag-share" v-on:click.stop.prevent="showSharingModal(tag)"></div>
             </a>
+
+            <a v-if="type === 'people'" v-for="person in orderBy($store.state.personMany, 'first_name')" class="person" v-on:click="searchForPerson(person)">
+              <div>
+                <div class="avatar">
+                  <img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
+                  <div class="default" v-else-if="person.avatar_url == null || person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor(person) }">{{ defaultLetter(person) }}</div>
+                </div>
+                <span class="name">{{ concatNames(person) }}</span>
+              </div>
+            </a>
+
+            <a v-if="type === 'people' && $store.state.personMany.length === 0" v-on:click="redirectToPeople">No People yet; make some!</a>
           </div>
         </div>
       </div>
@@ -140,13 +153,14 @@
   import contentCount from '../../apollo/queries/content-count.gql';
   import eventCount from '../../apollo/queries/event-count.gql';
   import locationCount from '../../apollo/queries/location-count.gql';
-  import peopleCount from '../../apollo/queries/people-count.gql';
+  import peopleCount from '../../apollo/queries/person-count.gql';
+  import personMany from '../../apollo/queries/person-many.gql';
   import searchCount from '../../apollo/queries/search-count.gql';
   import searchMany from '../../apollo/queries/search-many.gql';
   import tagCount from '../../apollo/queries/tag-count.gql';
   import tagMany from '../../apollo/queries/tag-many.gql';
 
-  import UserEvent from '../objects/event.vue';
+  import { defaultColor, defaultLetter } from '../../lib/util/default-icon';
   import favoriteModal from '../modals/favorite';
   import sharingModal from '../modals/tag-sharing';
 
@@ -164,22 +178,18 @@
         searches: null,
         tagCount: null,
         sharedTagCount: null,
-        tab: 'favorites',
-        sort: 'favorites',
-        type: 'searches',
+        tab: 'people',
+        sort: 'first_name',
+        type: 'people',
         dataEnd: false,
         offset: 0,
         pageSize: 20
       };
     },
 
-    components: {
-      UserEvent
-    },
-
     methods: {
       fetchData: async function(init, tab) {
-        this.$data.type = tab === 'tags' ? 'tags' : 'searches';
+        this.$data.type = tab === 'tags' ? 'tags' : tab === 'people' ? 'people' : 'searches';
         this.$data.tab = tab;
 
         if (init === true) {
@@ -197,6 +207,10 @@
             variables.sort = this.$data.tab;
           }
 
+          if (tab === 'people') {
+          	variables.sort = 'first_name';
+          }
+
           if (tab === 'favorites') {
             variables.filter = {
               favorited: true
@@ -204,13 +218,13 @@
           }
 
           let result = await this.$apollo.query({
-            query: tab === 'tags' ? tagMany : searchMany,
+            query: tab === 'tags' ? tagMany : tab === 'people' ? personMany : searchMany,
             variables: variables
           });
 
-          let data = tab === 'tags' ? result.data.tagMany : result.data.searchMany;
+          let data = tab === 'tags' ? result.data.tagMany : tab === 'people' ? result.data.personMany : result.data.searchMany;
 
-          let storeName = tab === 'tags' ? 'tagMany' : 'searchMany';
+          let storeName = tab === 'tags' ? 'tagMany' : tab === 'people' ? 'personMany' : 'searchMany';
 
           this.$store.state[storeName] = init ? data : this.$store.state[storeName].concat(data);
 
@@ -327,6 +341,52 @@
       searchForTag: function(tag) {
         this.$store.state.searchBar.query = '#' + tag;
         this.$root.$emit('check-and-search', true);
+      },
+
+      searchForPerson: function(person) {
+      	this.$store.state.searchBar.filters = [{
+            type: 'who',
+            data: {
+            	type: 'person_id',
+                person_id: person.id
+            }
+        }];
+
+      	this.$root.$emit('check-and-search', true);
+      },
+
+      redirectToPeople: function() {
+      	window.location.href = '/settings/people';
+      },
+
+      concatNames: function(item) {
+          let returned = '';
+
+          if (item.first_name || item.middle_name || item.last_name) {
+              if (item.first_name) {
+                  returned += item.first_name + ' ';
+              }
+
+              if (item.middle_name) {
+                  returned += item.middle_name + ' ';
+              }
+
+              if (item.last_name) {
+                  returned += item.last_name + ' ';
+              }
+
+              returned = _.trim(returned);
+          }
+
+          return returned;
+      },
+
+      defaultColor: function(person) {
+        return defaultColor(person);
+      },
+
+      defaultLetter: function(person) {
+      	return defaultLetter(person);
       }
     },
 
@@ -389,8 +449,8 @@
       this.$store.state.searchCount = searchCountResult.data.searchCount;
 
       this.$data.offset = 0;
-      this.$data.tab = 'favorites';
-      this.$data.type = 'searches';
+      this.$data.tab = 'people';
+      this.$data.type = 'people';
       this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
       await this.fetchData(true, this.$data.tab);

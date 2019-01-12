@@ -39,7 +39,8 @@
     'contacts:read': 'LifeScope Contacts (Read-only)',
     'content:read': 'LifeScope Content (Read-only)',
     'locations:read': 'LifeScope Locations (Read-only)',
-    'events:read': 'LifeScope Events (also includes Contacts, Content, and Locations; Read-only)'
+    'events:read': 'LifeScope Events (also includes Contacts, Content, and Locations; Read-only)',
+    'people:read': 'LifeScope People (Read-only)'
   };
 
   function returnError(errorObj) {

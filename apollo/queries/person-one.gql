@@ -1,5 +1,5 @@
-query peopleMany($id: String!) {
-    peopleOne(filter: { id: $id }) {
+query personMany($id: String!) {
+    personOne(filter: { id: $id }) {
         id,
         avatar_url,
         first_name,

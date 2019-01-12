@@ -41,11 +41,24 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
             avatar_url,
             handle,
             name,
+            people_id,
             tagMasks {
                 added,
                 removed,
                 source
-            }
+            },
+		    hydratedPerson {
+			  id,
+			  first_name,
+			  middle_name,
+			  last_name,
+			  avatar_url,
+			  tagMasks {
+			  	added,
+			  	removed,
+			  	source
+			  }
+		    }
         }
     }
 }

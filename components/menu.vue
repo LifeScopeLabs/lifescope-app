@@ -105,6 +105,28 @@
 									<span>Type</span>
 								</a>
 							</div>
+
+							<div v-if="$store.state.facet === 'people'" class="sort">
+								<a data-sort="first_name" v-bind:class="{ active: $store.state.sortField === 'first_name' }"
+								   v-on:click="setSort('first_name')">
+									<i v-if="$store.state.sortField === 'first_name'" class="sort-arrow"
+									   v-bind:class="{ 'fas fa-chevron-up' : $store.state.sortOrder === 'asc', 'fas fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
+									<span>First Name</span>
+								</a>
+								<a data-sort="middle_name"
+								   v-bind:class="{ active: $store.state.sortField === 'middle_name' }"
+								   v-on:click="setSort('middle_name')">
+									<i v-if="$store.state.sortField === 'middle_name'" class="sort-arrow"
+									   v-bind:class="{ 'fas fa-chevron-up' : $store.state.sortOrder === 'asc', 'fas fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
+									<span>Middle Name</span>
+								</a>
+								<a data-sort="last_name" v-bind:class="{ active: $store.state.sortField === 'last_name' }"
+								   v-on:click="setSort('last_name')">
+									<i v-if="$store.state.sortField === 'last_name'" class="sort-arrow"
+									   v-bind:class="{ 'fas fa-chevron-up' : $store.state.sortOrder === 'asc', 'fas fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
+									<span>Last Name</span>
+								</a>
+							</div>
 						</div>
 					</div>
 
@@ -126,6 +148,9 @@
 							<a v-if="$store.state.view !== 'map'"
 							   v-bind:class="{ active: $store.state.facet === 'contacts' }"
 							   v-on:click="setFacet('contacts')">Contacts</a>
+							<a v-if="$store.state.view !== 'map'"
+							   v-bind:class="{ active: $store.state.facet === 'people' }"
+							   v-on:click="setFacet('people')">People</a>
 						</div>
 					</div>
 

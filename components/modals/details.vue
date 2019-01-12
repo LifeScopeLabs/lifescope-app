@@ -77,6 +77,14 @@
       <user-contact v-bind:key="item.id" v-bind:contact="item" v-bind:connection="item.connection"></user-contact>
     </div>
   </div>
+  <div v-else-if="type === 'person'" class="object person modaled flex-column" v-bind:id="item.id">
+    <div class="flexbox flex-end close-container">
+      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+    </div>
+    <div class="objects">
+      <user-person v-bind:key="item.id" v-bind:person="item"></user-person>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -87,11 +95,13 @@
   import safeFilter from '../filters/safe';
   import UserContact from '../objects/contact-child';
   import UserContent from '../objects/content-child';
+  import UserPerson from '../objects/person-child';
 
   export default {
     components: {
       UserContact,
       UserContent,
+      UserPerson
     },
     data: function() {
       return {

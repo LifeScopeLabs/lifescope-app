@@ -30,7 +30,8 @@
       }
     }
 
-    & > .contact {
+    & > .contact,
+    & > .person {
       @include flexbox;
       @include flex-grow;
       @include flex-column;

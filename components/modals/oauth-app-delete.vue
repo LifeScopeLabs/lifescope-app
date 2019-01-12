@@ -46,7 +46,7 @@
 			            }
 		            });
 
-		            window.location.href = '/settings/developer'
+		            window.location.href = '/settings/developer';
 	            } catch(err) {
             		self.$data.tryAgain = true;
 

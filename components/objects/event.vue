@@ -80,7 +80,12 @@
 				</div>
 				<!-- contact -->
 				<div class="objects">
-					<user-contact v-for="contact in event.contacts"
+					<user-person v-for="contact in personableContacts(event.contacts)"
+								 v-bind:key="contact.person.id"
+								 v-bind:person="contact.person"
+								 v-bind:connection="event.connection"></user-person>
+
+					<user-contact v-for="contact in personlessContacts(event.contacts)"
 								  v-bind:key="contact.id"
 								  v-bind:contact="contact"
 								  v-bind:connection="event.connection"></user-contact>
@@ -158,11 +163,13 @@
 	import safeFilter from '../filters/safe';
 	import UserContact from './contact-child';
 	import UserContent from './content-child';
+	import UserPerson from './person-child';
 
 	export default {
 		components: {
 			UserContact,
-			UserContent
+			UserContent,
+			UserPerson
 		},
 		data: function() {
 			return {}
@@ -278,6 +285,22 @@
 					height: 'auto',
 					scrollable: true
 				});
+			},
+
+			personlessContacts: function(contacts) {
+				return _.filter(contacts, function(contact) {
+					return Object.keys(contact.person).length === 0;
+				});
+			},
+
+			personableContacts: function(contacts) {
+				let people = _.filter(contacts, function(contact) {
+					return Object.keys(contact.person).length > 0;
+				});
+
+				console.log(people);
+
+				return people;
 			}
 		}
 	}

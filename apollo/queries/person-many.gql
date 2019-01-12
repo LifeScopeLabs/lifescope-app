@@ -1,5 +1,5 @@
-query peopleMany($skip: Int, $limit: Int) {
-    peopleMany(skip: $skip, limit: $limit) {
+query personMany($skip: Int, $limit: Int) {
+    personMany(skip: $skip, limit: $limit) {
         id,
         avatar_url,
         first_name,

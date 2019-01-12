@@ -48,7 +48,7 @@
 				tags: function() {
 					let tags = [];
 
-					if (this.content.tagMasks) {
+					if (this.tagMasks) {
 						_.forEach(this.tagMasks.source, function(tag) {
 							if (tags.indexOf(tag) === -1) {
 								tags.push(tag);
@@ -80,10 +80,6 @@
 			}
 		},
 		methods: {
-			getContentTypeIcon: function(type) {
-				return icons('content', type)
-			},
-
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
 			},

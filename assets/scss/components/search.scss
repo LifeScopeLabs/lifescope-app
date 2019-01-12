@@ -169,8 +169,6 @@ body {
               border-radius: 3px;
 
               & > label {
-                width: 25%;
-
                 &:first-child {
                   border-radius: 3px 0 0 3px;
                 }
@@ -181,6 +179,18 @@ body {
 
                 &:not(:last-child) {
                   border-right: 1px solid $border-color;
+                }
+              }
+
+              &.who-type {
+                & > label {
+                  width: 50%;
+                }
+              }
+
+              &.interaction-type {
+                & > label {
+                  width: 25%;
                 }
               }
             }

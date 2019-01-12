@@ -36,7 +36,7 @@
           </div>
 
           <form v-if="$data.activeFilter && $data.activeFilter.type === 'who'" class="who" v-on:submit.self.prevent="saveFilter">
-            <div class="input-container">
+            <div class="input-container interaction-type">
               <label v-bind:class="{active: ['to', 'from', 'with'].includes($data.activeFilter.data.interaction) === false}" class="radio" for="who-type-1">
                 <input id="who-type-1" type="radio" name="interaction" value="" v-model="activeFilter.data.interaction"/>
                 <span>Any</span>
@@ -58,8 +58,28 @@
               </label>
             </div>
 
-            <div class="text-box">
-              <input type="text" name="contact" placeholder="Contact Name" v-model="activeFilter.data.contact"/>
+            <div class="input-container who-type">
+              <label v-bind:class="{ active: $data.activeFilter.data.type === 'person_id' }" class="radio" for="person-id" v-on:click="$data.activeFilter.data.text = ''">
+                <input id="person-id" type="radio" name="type" value="person_id" v-model="activeFilter.data.type"/>
+                Person
+              </label>
+              <label v-bind:class="{ active: $data.activeFilter.data.type === 'text' }" class="radio" for="who-text" v-on:click="$data.activeFilter.data.person_id = ''">
+                <input id="who-text" type="radio" name="type" value="text" v-model="activeFilter.data.type"/>
+                Text search
+              </label>
+            </div>
+
+            <div v-if="$data.activeFilter.data.type === 'text'" class="text-box">
+              <input type="text" name="contact" placeholder="Contact or Person Name" v-model="activeFilter.data.text"/>
+            </div>
+
+            <div v-if="$data.activeFilter.data.type === 'person_id'" class="person">
+              <div class="input-container">
+                <select v-model="activeFilter.data.person_id" name="person">
+                  <option value=""></option>
+                  <option v-for="person in $store.state.personMany" v-bind:value="person.id">{{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</option>
+                </select>
+              </div>
             </div>
 
             <div id="filter-done">
@@ -271,12 +291,15 @@
   import contentSearch from '../apollo/mutations/content-search.gql';
   import eventSearch from '../apollo/mutations/event-search.gql';
   import locationManyById from '../apollo/queries/location-many-by-id.gql';
+  import personMany from '../apollo/queries/person-many.gql';
+  import personSearch from '../apollo/mutations/person-search.gql';
   import providerHydratedMany from '../apollo/queries/provider-hydrated-many.gql';
   import searchFind from '../apollo/mutations/search-find.gql';
   import searchUpsert from '../apollo/mutations/search-upsert.gql';
   import sharedTagContactSearch from '../apollo/mutations/shared-tag-contact-search.gql';
   import sharedTagContentSearch from '../apollo/mutations/shared-tag-content-search.gql';
   import sharedTagEventSearch from '../apollo/mutations/shared-tag-event-search.gql';
+  import sharedTagPersonSearch from '../apollo/mutations/shared-tag-person-search.gql';
 
   import favoriteModal from './modals/favorite';
 
@@ -299,12 +322,14 @@
     contacts: contactSearch,
     content: contentSearch,
     events: eventSearch,
+    people: personSearch,
   };
 
   const gqlSharedTagMappings = {
     contacts: sharedTagContactSearch,
     content: sharedTagContentSearch,
-    events: sharedTagEventSearch
+    events: sharedTagEventSearch,
+    people: sharedTagPersonSearch,
   };
 
   export default {
@@ -363,7 +388,9 @@
           case 'who':
             this.$data.activeFilter.data = {
               interaction: '',
-              contact: ''
+              text: '',
+              type: 'person_id',
+              person_id: ''
             };
 
             break;
@@ -594,6 +621,7 @@
           this.$store.state.objects.events = [];
           this.$store.state.objects.contacts = [];
           this.$store.state.objects.content = [];
+          this.$store.state.objects.people = [];
           this.$store.state.searchEnded = false;
           this.$store.state.offset = 0;
         }
@@ -707,6 +735,7 @@
 
 	            let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
 
+	            console.log(data);
 	            _.each(data, function(event) {
 	            	if (event.location_id_string != null) {
 	            		ids.push(event.location_id_string)
@@ -803,6 +832,15 @@
               self.$store.state.objects.contacts.push(obj);
             });
           }
+          else if (facet === 'people') {
+	          data = sharedSearch === true ? result.data.sharedTagPersonSearch : result.data.personSearch;
+
+	          _.each(data, function(person) {
+		          let obj = new lifescopeObjects.Person(person);
+
+		          self.$store.state.objects.people.push(obj);
+	          });
+          }
 
           this.$store.state.offset += this.$store.state.pageSize;
           this.$store.state.searchEnded = data.length < this.$store.state.pageSize;
@@ -890,6 +928,15 @@
 
             return Promise.resolve();
           });
+
+        this.$store.state.peopleLoaded = this.$apollo.query({
+            query: personMany
+        })
+            .then(function(result) {
+                self.$store.state.personMany = result.data.personMany;
+
+                return Promise.resolve();
+            });
       }
     },
 

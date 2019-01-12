@@ -5,7 +5,7 @@
     </div>
 
     <div class="title">
-      Tag '{{ item.title || item.text || item.context || item.handle || item.type }}'
+      Tag '{{ item.title || item.text || item.context || item.handle || item.type || concatNames(item) }}'
     </div>
 
     <p>You can publicly share items tagged with a given tag through the 'Tags' tab on the <a href="app.lifescope.io">home page.</a></p>
@@ -42,21 +42,25 @@
   import tagContact from '../../apollo/mutations/tag-contact.gql';
   import tagContent from '../../apollo/mutations/tag-content.gql';
   import tagEvent from '../../apollo/mutations/tag-event.gql';
+  import tagPerson from '../../apollo/mutations/tag-person.gql';
   import untagContact from '../../apollo/mutations/untag-contact.gql';
   import untagContent from '../../apollo/mutations/untag-content.gql';
   import untagEvent from '../../apollo/mutations/untag-event.gql';
+  import untagPerson from '../../apollo/mutations/untag-person.gql';
 
 
   const tagMap = {
     contact: tagContact,
     content: tagContent,
     event: tagEvent,
+    person: tagPerson,
   };
 
   const untagMap = {
     contact: untagContact,
     content: untagContent,
     event: untagEvent,
+    person: untagPerson,
   };
 
   export default {
@@ -172,6 +176,28 @@
         if (data && data.id) {
           window.location.href = 'https://app.lifescope.io/explore?qid=' + data.id;
         }
+      },
+
+      concatNames(item) {
+      	let returned = '';
+
+        if (item.first_name || item.middle_name || item.last_name) {
+        	if (item.first_name) {
+        		returned += item.first_name + ' ';
+            }
+
+            if (item.middle_name) {
+        		returned += item.middle_name + ' ';
+            }
+
+            if (item.last_name) {
+        		returned += item.last_name + ' ';
+            }
+
+            returned = _.trim(returned);
+        }
+
+        return returned;
       }
     }
   }

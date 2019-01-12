@@ -1,0 +1,5 @@
+mutation tagPerson($id: String, $tags: [String]) {
+    tagPerson (id: $id, tags: $tags) {
+      id
+    }
+}

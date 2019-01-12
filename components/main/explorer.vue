@@ -12,7 +12,8 @@
       <!-- container -->
       <div v-if="$store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 ||
           $store.state.facet === 'content' && $store.state.objects.content.length > 0 ||
-          $store.state.facet === 'events' && $store.state.objects.events.length > 0" class="container">
+          $store.state.facet === 'events' && $store.state.objects.events.length > 0 ||
+          $store.state.facet === 'people' && $store.state.objects.people.length > 0" class="container">
         <div class="scroller">
           <div id="list" v-bind:class="$store.state.view" >
             <!-- facets -->
@@ -35,9 +36,14 @@
                 v-bind:event="event"
                 v-on:render-details="renderDetailsModal">
             </user-event>
+            <user-person v-if="$store.state.facet === 'people'"
+                v-for="person in $store.state.objects.people"
+                v-bind:key="person.id" v-bind:person="person"
+                v-on:render-details="renderDetailsModal">
+            </user-person>
           </div>
 
-          <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0) && $store.state.spinner === true" id="more-waiting">
+          <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0 || $store.state.facet === 'people' && $store.state.objects.events.length > 0) && $store.state.spinner === true" id="more-waiting">
             <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
             <div class="text blue">Loading more results</div>
           </div>
@@ -49,7 +55,8 @@
       <!-- Searching -->
       <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 ||
           $store.state.facet === 'content' && $store.state.objects.content.length === 0 ||
-          $store.state.facet === 'events' && $store.state.objects.events.length === 0) &&
+          $store.state.facet === 'events' && $store.state.objects.events.length === 0 ||
+          $store.state.facet === 'people' && $store.state.objects.people.length === 0) &&
           $store.state.spinner === true" id="waiting">
         <div>
           <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
@@ -74,7 +81,8 @@
       <!-- no resuts -->
       <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 ||
           $store.state.facet === 'content' && $store.state.objects.content.length === 0 ||
-          $store.state.facet === 'events' && $store.state.objects.events.length === 0) &&
+          $store.state.facet === 'events' && $store.state.objects.events.length === 0 ||
+          $store.state.facet === 'people' && $store.state.objects.people.length === 0) &&
           $store.state.spinner === false &&
           $store.state.searching === false &&
           $store.state.searchError === false" id="no-results">
@@ -102,6 +110,7 @@
   import UserContact from '../objects/contact.vue';
   import UserContent from '../objects/content.vue';
   import UserEvent from '../objects/event.vue';
+  import UserPerson from '../objects/person.vue';
 
   import MapView from '../views/map.vue';
   import galleryContainer from '../xr/gallery-container.vue'
@@ -118,6 +127,7 @@
       UserContact,
       UserContent,
       UserEvent,
+      UserPerson,
       galleryContainer
     },
     methods: {
@@ -240,6 +250,12 @@
 
         case 'contacts':
           this.$store.state.sortField = 'connection';
+          this.$store.state.sortOrder = 'asc';
+
+          break;
+
+        case 'people':
+          this.$store.state.sortField = 'first_name';
           this.$store.state.sortOrder = 'asc';
       }
 

@@ -673,7 +673,8 @@ div#body.settings {
       .top-line {
         margin-bottom: 0.25em;
 
-        img {
+        img,
+        div.default {
           margin-right: 0.25em;
         }
       }

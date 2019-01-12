@@ -65,7 +65,8 @@ const store = () => new Vuex.Store({
 		objects: {
 			events: [],
 			contacts: [],
-			content: []
+			content: [],
+			people: [],
 		},
 
 		connectionMany: [],
@@ -137,7 +138,7 @@ const store = () => new Vuex.Store({
 			avatar_index: null
 		},
 
-		peopleMany: [],
+		personMany: [],
 
 		oauthAppAuthorizedMany: []
 	},

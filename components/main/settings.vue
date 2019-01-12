@@ -232,7 +232,7 @@
               </div>
 
               <div class="flexbox flex-column">
-                <div v-for="person in orderBy($store.state.peopleMany, 'first_name')" class="flexbox person" v-on:click="editPerson(person.id)">
+                <div v-for="person in orderBy($store.state.personMany, 'first_name')" class="flexbox person" v-on:click="editPerson(person.id)">
                   <div class="flexbox flex-column">
                     <div class="flexbox top-line">
                       <div class="avatar">
@@ -591,8 +591,8 @@
   import connectionMany from '../../apollo/queries/connection-many.gql';
   import connectionDeleted from '../../apollo/subscriptions/connection-deleted.gql';
   import connectionUpdated from '../../apollo/subscriptions/connection-updated.gql';
-  import contactSearch from '../../apollo/mutations/contact-search.gql';
-  import { defaultColor, defaultLetter } from '../util/default-icon';
+  import contactUnpersoned from '../../apollo/queries/contact-unpersoned.gql';
+  import { defaultColor, defaultLetter } from '../../lib/util/default-icon';
   import deleteAccountModal from '../modals/account-delete';
   import deleteConnectionModal from '../modals/connection-delete';
   import disableConnectionModal from '../modals/connection-disable';
@@ -611,11 +611,11 @@
   import oauthAppDeleteModal from '../modals/oauth-app-delete';
   import oauthSecretResetModal from '../modals/client-secret-reset';
   import oauthTokenRevokeModal from '../modals/oauth-tokens-delete';
-  import peopleCreate from '../../apollo/mutations/people-create.gql';
-  import peopleDeleteModal from '../modals/person-delete';
-  import peopleMany from '../../apollo/queries/people-many.gql';
-  import peopleOne from '../../apollo/queries/people-one.gql';
-  import peopleUpdate from '../../apollo/mutations/people-update.gql';
+  import personCreate from '../../apollo/mutations/person-create.gql';
+  import personDeleteModal from '../modals/person-delete';
+  import personMany from '../../apollo/queries/person-many.gql';
+  import personOne from '../../apollo/queries/person-one.gql';
+  import personUpdate from '../../apollo/mutations/person-update.gql';
   import trackedLocationsDeleteModal from '../modals/tracked-locations-delete';
   import uploadedLocationsDeleteModal from '../modals/uploaded-locations-delete';
   import userThemeUpdate from '../../apollo/mutations/user-theme-update.gql';
@@ -711,7 +711,7 @@
       },
 
       showDeletePersonModal: function() {
-          this.$modal.show(peopleDeleteModal, {}, {
+          this.$modal.show(personDeleteModal, {}, {
               height: 'auto',
               scrollable: true
           })
@@ -986,16 +986,16 @@
         updateSearch: _.debounce(async function() {
           let self = this;
 
-      	  let results = await this.$apollo.mutate({
-              mutation: contactSearch,
+      	  let results = await this.$apollo.query({
+              query: contactUnpersoned,
               variables: {
               	q: this.$data.query
               }
           });
 
-      	  let data = results.data.contactSearch;
+      	  let data = results.data.contactUnpersoned;
 
-      	  let stripped = _.remove(data, function(item) {
+      	  let stripped = _.filter(data, function(item) {
       	  	return self.$store.state.person.contact_id_strings.indexOf(item.id) < 0;
           });
 
@@ -1069,12 +1069,13 @@
 
       	  try {
 	          result = await this.$apollo.mutate({
-		          mutation: peopleCreate,
+		          mutation: personCreate,
 		          variables: {
 			          first_name: person.first_name,
 			          middle_name: person.middle_name,
 			          last_name: person.last_name,
-			          contact_id_strings: person.contact_id_strings
+			          contact_id_strings: person.contact_id_strings,
+                      avatar_url: person.avatar_url
 		          }
 	          });
           } catch(err) {
@@ -1096,7 +1097,7 @@
 
 		    try {
 			    result = await this.$apollo.mutate({
-				    mutation: peopleUpdate,
+				    mutation: personUpdate,
 				    variables: {
 				    	id: person.id,
 					    first_name: person.first_name,
@@ -1238,21 +1239,21 @@
 
       if (this.$store.state.mode === 'people') {
       	let peopleResult = await this.$apollo.query({
-            query: peopleMany
+            query: personMany
         });
 
-      	self.$store.state.peopleMany = peopleResult.data.peopleMany;
+      	self.$store.state.personMany = peopleResult.data.personMany;
       }
 
       if (this.$store.state.mode === 'people-edit') {
         let personResult = await this.$apollo.query({
-            query: peopleOne,
+            query: personOne,
             variables: {
                 id: self.$route.params.id,
             }
         });
 
-        let person = personResult.data.peopleOne;
+        let person = personResult.data.personOne;
 
         self.$store.state.person.id = person.id;
         self.$store.state.person.avatar_url = person.avatar_url;

@@ -26,7 +26,7 @@
 
 
 <script>
-	import peopleDelete from '../../apollo/mutations/people-delete.gql';
+	import personDelete from '../../apollo/mutations/person-delete.gql';
 
 	export default {
 		data: function() {
@@ -40,13 +40,13 @@
 
             	try {
 		            await this.$apollo.mutate({
-			            mutation: peopleDelete,
+			            mutation: personDelete,
 			            variables: {
 				            id: self.$route.params.id
 			            }
 		            });
 
-		            this.$emit('close');
+		            window.location.href = '/settings/people';
 	            } catch(err) {
             		self.$data.tryAgain = true;
 

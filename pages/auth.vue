@@ -12,7 +12,8 @@
 		'events:read': true,
 		'content:read': true,
 		'contacts:read': true,
-		'locations:read': true
+		'locations:read': true,
+		'people:read': true
 	};
 
 	export default {

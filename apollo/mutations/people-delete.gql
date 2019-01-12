@@ -1,5 +1,0 @@
-mutation peopleDeleteOne($id: String!) {
-    peopleDeleteOne(id: $id) {
-        id
-    }
-}
