@@ -26,7 +26,7 @@
             </a>
 
             <a class="people clickable" v-on:click="selectTab('people')">
-              <div class="count" v-model="peopleCount">People: {{ peopleCount }}</div>
+              <div class="count" v-model="personCount">People: {{ personCount }}</div>
             </a>
 
             <a class="events" href="/explore">
@@ -153,7 +153,7 @@
   import contentCount from '../../apollo/queries/content-count.gql';
   import eventCount from '../../apollo/queries/event-count.gql';
   import locationCount from '../../apollo/queries/location-count.gql';
-  import peopleCount from '../../apollo/queries/person-count.gql';
+  import personCount from '../../apollo/queries/person-count.gql';
   import personMany from '../../apollo/queries/person-many.gql';
   import searchCount from '../../apollo/queries/search-count.gql';
   import searchMany from '../../apollo/queries/search-many.gql';
@@ -173,7 +173,7 @@
         eventCount: null,
         favoriteCount: null,
         locationCount: null,
-        peopleCount: null,
+        personCount: null,
         searchCount: null,
         searches: null,
         tagCount: null,
@@ -411,8 +411,8 @@
           query: locationCount
       });
 
-      let peopleCountResult = await this.$apollo.query({
-          query: peopleCount
+      let personCountResult = await this.$apollo.query({
+          query: personCount
       });
 
       let searchCountResult = await this.$apollo.query({
@@ -443,7 +443,7 @@
       this.$data.contentCount = contentCountResult.data.contentCount;
       this.$data.locationCount = locationCountResult.data.locationCount;
       this.$data.favoriteCount = favoriteCountResult.data.searchCount;
-      this.$data.peopleCount = peopleCountResult.data.peopleCount;
+      this.$data.personCount = personCountResult.data.personCount;
       this.$data.tagCount = tagCountResult.data.tagCount;
       this.$data.sharedTagCount = sharedTagCountResult.data.tagCount;
       this.$store.state.searchCount = searchCountResult.data.searchCount;
