@@ -27,6 +27,10 @@
           border-radius: 30px;
 
           text-align: center;
+
+          @media #{$maxwidth768},#{$mobile} {
+            font-size: 0.8em;
+          }
         }
 
         i {

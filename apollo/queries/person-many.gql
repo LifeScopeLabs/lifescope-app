@@ -11,7 +11,16 @@ query personMany($skip: Int, $limit: Int) {
         	id,
 			avatar_url,
 			handle,
-			name
+			name,
+			connection_id,
+			hydratedConnection {
+				id,
+				provider_id,
+				provider {
+					id,
+					name
+				},
+			}
         }
     }
 }

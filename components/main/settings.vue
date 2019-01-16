@@ -225,7 +225,7 @@
 
             <div class="padded paragraphed">
               <p>You can associate multiple Contacts with a single Person, e.g. @liz_doing_biz on Twitter and elizabeth.doe@gmail.com can be grouped under a single Person 'Elizabeth Doe'.</p>
-              <p>People will show up in search results instead of Contacts whenever possible, and Who Filters can be created to search People instead of Contacts.</p>
+              <p>People will show up in search results instead of Contacts whenever possible.</p>
 
               <div class="mobile-flex-center">
                 <button id="new-person" class="primary" v-on:click="initializeNewPerson">Create new Person</button>
@@ -445,6 +445,7 @@
                 <div class="flexbox flex-column">
                   <div v-for="contact in $store.state.person.hydratedContacts" class="flexbox hydrated-contact">
                     <div class="flexbox flex-grow">
+                      <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
                       <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
                       <div v-if="contact.name != null">{{ contact.name }}</div>
                       <div>{{ contact.handle }}</div>
@@ -454,11 +455,12 @@
                 </div>
                 <div class="contact-search">
                   <div class="text-box">
-                    <input type="text" v-model="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
+                    <input type="text" v-bind:value="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
                   </div>
                   <div class="flexbox flex-column flex-grow temp-contacts">
                     <div class="scroller">
                       <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
+                        <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
                         <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
                         <div v-if="contact.name != null">{{ contact.name }}</div>
                         <div>{{ contact.handle }}</div>
@@ -526,6 +528,7 @@
                 <div class="flexbox flex-column">
                   <div v-for="contact in $store.state.person.hydratedContacts" class="flexbox hydrated-contact">
                     <div class="flexbox flex-grow">
+                      <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
                       <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
                       <div v-if="contact.name != null">{{ contact.name }}</div>
                       <div>{{ contact.handle }}</div>
@@ -535,11 +538,12 @@
                 </div>
                 <div class="contact-search">
                   <div class="text-box">
-                    <input type="text" v-model="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
+                    <input type="text" v-bind:value="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
                   </div>
                   <div class="flexbox flex-column flex-grow temp-contacts">
                     <div class="scroller">
                       <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
+                        <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
                         <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
                         <div v-if="contact.name != null">{{ contact.name }}</div>
                         <div>{{ contact.handle }}</div>
@@ -568,7 +572,7 @@
 
                 <span class="flex-grow"></span>
 
-                <button class="danger delete mobile-flex-center" v-on:click.prevent="showDeletePersonModal">Delete Person</button>
+                <button class="danger delete" v-on:click.prevent="showDeletePersonModal">Delete Person</button>
               </div>
 
               <div class="error" v-if="$data.error === true">There was an error updating this Person. If this issue persists, please contact us.</div>
@@ -654,7 +658,7 @@
             error: false
         },
 
-        query: null,
+        query: '',
 
         error: false
       }
@@ -983,7 +987,9 @@
           });
         },
 
-        updateSearch: _.debounce(async function() {
+        updateSearch: _.debounce(async function(e) {
+          this.$data.query = e.target.value;
+
           let self = this;
 
       	  let results = await this.$apollo.query({
@@ -1122,7 +1128,7 @@
       	  let returned = '(';
 
       	  _.each(contacts, function(contact) {
-      	  	returned += contact.handle + ', ';
+      	  	returned += contact.handle ? contact.handle + ', ' : contact.name + ', ';
           });
 
       	  returned = returned.slice(0, returned.length - 2);

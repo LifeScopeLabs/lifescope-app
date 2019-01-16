@@ -12,6 +12,14 @@ query contactUnpersoned($q: String) {
             added,
             removed,
             source
+        },
+        hydratedConnection {
+        	id,
+        	provider_id,
+			provider {
+				id,
+				name
+			},
         }
     }
 }

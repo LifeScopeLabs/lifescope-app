@@ -317,14 +317,14 @@
 			</div>
 		</nav>
 
-		<div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations'"
+		<div v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations' || $store.state.mode === 'people' || $store.state.mode === 'authorized-apps' || $store.state.mode === 'developer'"
 			 class="mobile-selector"
 			 v-on:click="$store.state.settingsSelectorOpen = !$store.state.settingsSelectorOpen">
 			<span class="placeholder-text">{{ $store.state.mode[0].toUpperCase() + $store.state.mode.slice(1) }}</span>
 			<i v-bind:class="{ 'fas fa-caret-down': $store.state.settingsSelectorOpen === false, 'fas fa-caret-up': $store.state.settingsSelectorOpen === true }"></i>
 		</div>
 
-		<aside v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations'"
+		<aside v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations' || $store.state.mode === 'people' || $store.state.mode === 'authorized-apps' || $store.state.mode === 'developer'"
 			   class="mobile-type-selector" v-bind:class="{ open: $store.state.settingsSelectorOpen === true }">
 			<div class="scroller">
 				<div id="pages">

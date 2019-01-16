@@ -216,7 +216,7 @@ div#body.settings {
   .shrink {
     width: 400px;
 
-    @media #{$mobile-portrait} {
+    @media #{$maxwidth1080},#{$mobile} {
       width: 100%;
     }
   }
@@ -616,13 +616,14 @@ div#body.settings {
             cursor: pointer;
           }
 
-          & > *:not(img) {
+          & > *:not(img):not(i) {
             @include flex-grow;
 
             word-break: break-all;
           }
 
-          & > img {
+          & > img,
+          & > i {
             margin-right: 0.25em;
           }
         }
@@ -637,13 +638,14 @@ div#body.settings {
       }
 
       & > :first-child {
-        & > *:not(img) {
+        & > *:not(img):not(i) {
           @include flex-grow;
 
           word-break: break-all;
         }
 
-        & > img {
+        & > img,
+        & > i {
           margin-right: 0.25em;
         }
       }
@@ -687,8 +689,6 @@ div#body.settings {
     @include flexbox;
     @include flex-x-center;
 
-    font-size: 2.25em;
-
     & > .default {
       color: white;
       width: 50px;
@@ -697,6 +697,12 @@ div#body.settings {
       border-radius: 30px;
 
       text-align: center;
+
+      font-size: 2.25em;
+
+      @media #{$maxwidth768},#{$mobile} {
+        font-size: 0.8em;
+      }
     }
 
     i {

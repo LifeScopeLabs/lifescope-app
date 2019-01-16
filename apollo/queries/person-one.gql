@@ -11,7 +11,16 @@ query personMany($id: String!) {
         	id,
 			avatar_url,
 			handle,
-			name
+			name,
+			connection_id,
+			hydratedConnection {
+				id,
+				provider_id,
+				provider {
+					id,
+					name
+				},
+			}
         }
     }
 }
