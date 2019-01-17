@@ -65,10 +65,6 @@
       margin: auto;
 
       text-align: center;
-
-      @media #{$maxwidth768},#{$mobile} {
-        font-size: 0.8em;
-      }
     }
 
     @media #{$maxwidth768},#{$mobile} {
