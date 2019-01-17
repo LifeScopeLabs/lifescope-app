@@ -337,6 +337,7 @@ div#body.home {
 
         #tabs {
           @include flexbox;
+          @include flex-grow;
           @include no-select;
           @include pointer;
 
@@ -344,9 +345,10 @@ div#body.home {
 
           @media #{$maxwidth768},#{$mobile} {
             border-width: 2px;
+            @include flex-grow;
           }
 
-          & > * {
+          & > .tab {
             font-size: 1em;
             font-weight: 400;
             padding: 0.5em 1em;
@@ -359,6 +361,10 @@ div#body.home {
 
               text-align: center;
               top: 2px;
+            }
+
+            &:hover {
+              color: $blue;
             }
 
             &.selected {
@@ -378,6 +384,29 @@ div#body.home {
               }
             }
           }
+
+          #sort {
+            @media #{$maxwidth768},#{$mobile} {
+              display: none;
+            }
+
+            & > div {
+              @include flexbox;
+              @include flex-x-center;
+
+              cursor: pointer;
+
+              margin: 0 0.5em;
+
+              &.selected {
+                color: $orange;
+              }
+
+              &:hover {
+                color: $blue
+              }
+            }
+          }
         }
 
         #search-container,
@@ -389,7 +418,7 @@ div#body.home {
               @include flexbox;
               @include flex-column;
 
-              & > * {
+              & > a {
                 @include flexbox;
                 @include flex-column;
                 @include pointer;
@@ -432,10 +461,6 @@ div#body.home {
                       border-radius: 30px;
 
                       text-align: center;
-
-                      @media #{$maxwidth768},#{$mobile} {
-                        font-size: 0.8em;
-                      }
                     }
 
                     i {
@@ -444,7 +469,7 @@ div#body.home {
                       color: gray;
                     }
 
-                    margin-right: 0.25em;
+                    margin: 0 0.25em;
                   }
                 }
 
@@ -546,6 +571,21 @@ div#body.home {
                   small {
                     font-size: 0.85em;
                   }
+                }
+              }
+
+              #more-people {
+                @include flexbox;
+                @include flex-x-center;
+                @include flex-column;
+
+                margin: 1em 0;
+                font-size: 1.5em;
+
+                cursor: pointer;
+
+                &:hover {
+                  color: $blue;
                 }
               }
 

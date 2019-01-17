@@ -45,11 +45,11 @@
               <div class="count" v-model="locationCount">Locations: {{ locationCount }}</div>
             </a>
 
-            <div class="searches clickable" v-on:click="selectTab('recent')">
+            <div class="searches clickable" v-on:click="selectTab('searches', 'recent')">
               <div class="count" v-model="$store.state.searchCount">Searches: {{ $store.state.searchCount }}</div>
             </div>
 
-            <div class="favorites clickable" v-on:click="selectTab('favorites')">
+            <div class="favorited clickable" v-on:click="selectTab('searches', 'favorited')">
               <div class="count" v-model="favoriteCount">Favorited Searches: {{ favoriteCount }}</div>
             </div>
 
@@ -66,18 +66,24 @@
     </aside>
 
     <section v-if="$store.state.user != undefined" id="content">
-      <nav id="tabs">
-        <div class="tab" name="people" v-bind:class="{selected: tab === 'people'}" v-on:click="fetchData(true, 'people')">People</div>
-        <div class="tab" name="favorites" v-bind:class="{selected: tab === 'favorites'}" v-on:click="fetchData(true, 'favorites')">Favorites</div>
-        <div class="tab" name="recent" v-bind:class="{selected: tab === 'recent'}" v-on:click="fetchData(true, 'recent')">Recent</div>
-        <div class="tab" name="top" v-bind:class="{selected: tab === 'top'}" v-on:click="fetchData(true, 'top')">Top</div>
-        <div class="tab" name="tags" v-bind:class="{selected: tab === 'tags'}" v-on:click="fetchData(true, 'tags')">Tags</div>
-      </nav>
+      <div class="flexbox">
+        <nav id="tabs">
+          <div class="tab" name="people" v-bind:class="{selected: $store.state.home.tab === 'people'}" v-on:click="fetchData(true, 'people')">People</div>
+          <div class="tab" name="favorited" v-bind:class="{selected: $store.state.home.tab === 'searches'}" v-on:click="fetchData(true, 'searches', 'favorited')">Searches</div>
+          <div class="tab" name="tags" v-bind:class="{selected: $store.state.home.tab === 'tags'}" v-on:click="fetchData(true, 'tags')">Tags</div>
+
+          <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'searches'">
+            <div v-bind:class="{selected: $store.state.home.sort === 'favorited'}" v-on:click="fetchData(true, 'searches', 'favorited')">Favorited searches</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'top'}" v-on:click="fetchData(true, 'searches', 'top')">Top searches</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'recent'}" v-on:click="fetchData(true, 'searches', 'recent')">Recent searches</div>
+          </div>
+        </nav>
+      </div>
 
       <div id="search-container" v-on:scroll="handleScroll">
         <div class="scroller">
           <div id="searches">
-            <a v-if="type === 'searches'" v-for="search in $store.state.searchMany" v-bind:href="constructLink(search)"
+            <a v-if="$store.state.home.tab === 'searches'" v-for="search in $store.state.searchMany" v-bind:href="constructLink(search)"
                class="saved-search"
                v-bind:data-id="search.id"
                v-bind:data-favorited="search.favorited"
@@ -110,7 +116,7 @@
               <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
             </a>
 
-            <a v-if="type === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">
+            <a v-if="$store.state.home.tab === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">
               <div>
                 <span class="name">#{{ tag.tag }}</span>
 
@@ -124,7 +130,7 @@
               <div class="tag-share" v-on:click.stop.prevent="showSharingModal(tag)"></div>
             </a>
 
-            <a v-if="type === 'people'" v-for="person in orderBy($store.state.personMany, 'first_name')" class="person" v-on:click="searchForPerson(person)">
+            <a v-if="$store.state.home.tab === 'people'" v-for="person in orderBy($store.state.personMany, 'first_name')" class="person" v-on:click="searchForPerson(person)">
               <div>
                 <div class="avatar">
                   <img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
@@ -134,7 +140,10 @@
               </div>
             </a>
 
-            <a v-if="type === 'people' && $store.state.personMany.length === 0" v-on:click="redirectToPeople">No People yet; make some!</a>
+            <div id="more-people" v-if="$store.state.home.tab === 'people'" v-on:click="redirectToPeople">
+              <div>Make some more People!</div>
+              <i class="fas fa-plus"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -178,9 +187,6 @@
         searches: null,
         tagCount: null,
         sharedTagCount: null,
-        tab: 'people',
-        sort: 'first_name',
-        type: 'people',
         dataEnd: false,
         offset: 0,
         pageSize: 20
@@ -188,9 +194,8 @@
     },
 
     methods: {
-      fetchData: async function(init, tab) {
-        this.$data.type = tab === 'tags' ? 'tags' : tab === 'people' ? 'people' : 'searches';
-        this.$data.tab = tab;
+      fetchData: async function(init, tab, sort) {
+        this.$store.state.home.tab = tab === 'tags' ? 'tags' : tab === 'people' ? 'people' : 'searches';
 
         if (init === true) {
           this.$data.offset = 0;
@@ -203,18 +208,24 @@
             skip: this.$data.offset
           };
 
-          if (tab !== 'tags') {
-            variables.sort = this.$data.tab;
-          }
-
           if (tab === 'people') {
           	variables.sort = 'first_name';
           }
 
-          if (tab === 'favorites') {
-            variables.filter = {
-              favorited: true
-            };
+          if (tab === 'searches') {
+          	this.$store.state.home.sort = sort;
+
+            if (sort === 'favorited') {
+                variables.filter = {
+                    favorited: true
+                };
+            }
+            else if (sort === 'top') {
+              variables.sort = 'top';
+            }
+            else if (sort === 'recent') {
+              variables.sort = 'recent';
+            }
           }
 
           let result = await this.$apollo.query({
@@ -323,9 +334,10 @@
         this.$data.favoriteCount++;
       },
 
-      selectTab(tab) {
-        this.tab = tab;
-        this.fetchData(true, tab);
+      selectTab(tab, sort) {
+        this.$store.state.home.tab = tab;
+
+        this.fetchData(true, tab, sort);
       },
 
       handleScroll: _.debounce(async function(e) {
@@ -334,7 +346,7 @@
         let scrollBottom = target.scrollTop + target.clientHeight;
 
         if (scrollBottom > 0.9 * target.scrollHeight) {
-          await this.fetchData(false, this.$data.tab);
+          await this.fetchData(false, this.$store.state.home.tab, this.$store.state.home.sort);
         }
       }, 500),
 
@@ -391,6 +403,8 @@
     },
 
     mounted: async function() {
+      let self = this;
+
       let connectionCountResult = await this.$apollo.query({
           query: connectionCount,
       });
@@ -449,11 +463,16 @@
       this.$store.state.searchCount = searchCountResult.data.searchCount;
 
       this.$data.offset = 0;
-      this.$data.tab = 'people';
-      this.$data.type = 'people';
+      this.$store.state.home.tab = 'people';
       this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
-      await this.fetchData(true, this.$data.tab);
+      await this.fetchData(true, this.$store.state.home.tab);
+
+      this.$root.$on('set-home-sort', function(sort) {
+          self.$store.state.home.sort = sort;
+
+          self.selectTab(self.$store.state.home.tab, sort);
+      });
     }
   }
 </script>

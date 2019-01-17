@@ -53,6 +53,44 @@ div#body.settings {
         background-color: $background-color-dark;
       }
     }
+
+    #people {
+      .person {
+        &:not(:last-child) {
+          border-bottom: 1px solid $border-color-dark;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: lighten($background-color-dark, 10%);
+        }
+      }
+    }
+
+    #people-create,
+    #people-edit {
+      .contact-search {
+        .temp-contacts {
+          border: 1px solid $border-color-dark;
+
+          .temp-contact {
+            &:not(:last-child) {
+              border-bottom: 1px solid $border-color-dark;
+            }
+
+            &:hover {
+              background-color: lighten($background-color-dark, 10%);
+            }
+          }
+        }
+      }
+
+      .hydrated-contact {
+        &:not(:last-child) {
+          border-bottom: 1px solid $border-color-dark;
+        }
+      }
+    }
   }
 
   header {
@@ -420,6 +458,7 @@ div#body.settings {
     #big-add {
       font-size: 2em;
 
+      text-decoration: none;
       padding: 8px;
       padding-bottom: 6px;
       border: 1px dashed darken($border-color, 25%);
@@ -679,11 +718,17 @@ div#body.settings {
         div.default {
           margin-right: 0.25em;
         }
+
+        .name {
+          word-break: break-word;
+        }
+      }
+
+      .contacts {
+        word-break: break-word;
       }
     }
   }
-
-
 
   .avatar {
     @include flexbox;
@@ -701,7 +746,7 @@ div#body.settings {
       font-size: 2.25em;
 
       @media #{$maxwidth768},#{$mobile} {
-        font-size: 0.8em;
+        font-size: 1.75em;
       }
     }
 

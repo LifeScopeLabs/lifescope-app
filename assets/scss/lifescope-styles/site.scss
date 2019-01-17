@@ -251,6 +251,38 @@ div#body {
         }
       }
 
+      & > .home-sort {
+        @include flexbox;
+        @include flex-center;
+        @include flex-x-center;
+
+        text-transform: capitalize;
+
+        & > a {
+          @include flexbox;
+          @include flex-space-around;
+
+          text-decoration: none;
+          cursor: pointer;
+
+          &:hover {
+            color: $green;
+          }
+
+          &:not(:last-child) {
+            margin-right: 0.5em;
+          }
+
+          &.active {
+            color: $orange !important;
+          }
+
+          & > div {
+            padding: 0 0.5em;
+          }
+        }
+      }
+
       & > .facets {
         @include flexbox;
         @include flex-x-center;

@@ -11,7 +11,7 @@
 					<div class="views">
 						<div class="current"
 							 v-on:click="$store.state.mobileViewSelectorOpen = !$store.state.mobileViewSelectorOpen">
-							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileViewSelectorOpen === true, 'fas fa-caret-down': $store.state.movileViewSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileViewSelectorOpen === true, 'fas fa-caret-down': $store.state.mobileViewSelectorOpen !== true }"></i>
 							<span class="drawer-label">View &ndash;</span>
 							<span class="name">{{ $store.state.view }}</span>
 						</div>
@@ -30,10 +30,37 @@
 						</div>
 					</div>
 
+					<div class="home-sort" v-if="$store.state.mode === 'home' && $store.state.home.tab === 'searches'">
+						<div class="current"
+							 v-on:click="$store.state.mobileSortSelectorOpen = !$store.state.mobileSortSelectorOpen">
+							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fas fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
+							<span class="drawer-label">Sort &ndash;</span>
+							<span class="name">{{ $store.state.home.sort[0].toUpperCase() + $store.state.home.sort.slice(1) }}</span>
+						</div>
+						<div class="fields drawer"
+							 v-bind:class="{ hidden: $store.state.mobileSortSelectorOpen !== true }">
+							<div>
+								<a data-sort="favorited"
+								   v-bind:class="{ active: $store.state.home.sort === 'favorited' }"
+								   v-on:click="setHomeSort('favorited')">
+									<span>Favorited</span>
+								</a>
+								<a data-sort="top" v-bind:class="{ active: $store.state.home.sort === 'top' }"
+								   v-on:click="setHomeSort('top')">
+									<span>Top</span>
+								</a>
+								<a data-sort="recent" v-bind:class="{ active: $store.state.home.sort === 'recent' }"
+								   v-on:click="setHomeSort('recent')">
+									<span>Recent</span>
+								</a>
+							</div>
+						</div>
+					</div>
+
 					<div class="sort">
 						<div class="current"
 							 v-on:click="$store.state.mobileSortSelectorOpen = !$store.state.mobileSortSelectorOpen">
-							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fas fa-caret-down': $store.state.movileSortSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fas fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
 							<span class="drawer-label">Sort &ndash;</span>
 							<span class="name">{{ $store.state.sortField[0].toUpperCase() + $store.state.sortField.slice(1) }}</span>
 							<i v-bind:class="{ 'fas fa-chevron-up': $store.state.sortOrder === 'asc', 'fas fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
@@ -133,7 +160,7 @@
 					<div class="facets">
 						<div class="current"
 							 v-on:click="$store.state.mobileFacetSelectorOpen = !$store.state.mobileFacetSelectorOpen">
-							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileFacetSelectorOpen === true, 'fas fa-caret-down': $store.state.movileFacetSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileFacetSelectorOpen === true, 'fas fa-caret-down': $store.state.mobileFacetSelectorOpen !== true }"></i>
 							<span class="drawer-label">Facet &ndash;</span>
 							<span class="name"></span>
 							<div class="flex-grow">{{ $store.state.facet }}</div>
@@ -155,7 +182,7 @@
 					</div>
 
 					<a v-if="$store.state.mode !== 'shared'" class="live"
-					   v-bind:class="{ active: $store.state.pageName === 'home' }" href="/explore"><i
+					   v-bind:class="{ active: $store.state.pageName === 'explorer' }" href="/explore"><i
 							class="fas fa-rocket blue"></i> Search</a>
 					<a v-if="$store.state.mode !== 'shared'" class="providers"
 					   v-bind:class="{ active: $store.state.pageName === 'providers' }" href="/providers"><i
@@ -203,6 +230,12 @@
 			setSort: function(sort) {
 				this.$store.state.menu.open = false;
 				this.$root.$emit('set-sort', sort);
+			},
+
+			setHomeSort: function(sort) {
+				this.$store.state.mobileSortSelectorOpen = false;
+				this.$store.state.menu.open = false;
+				this.$root.$emit('set-home-sort', sort);
 			},
 
 			setFacet: function(facet) {

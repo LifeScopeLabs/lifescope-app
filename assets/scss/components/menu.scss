@@ -15,6 +15,18 @@ div#body.explorer {
   }
 }
 
+div#body.home {
+  #menu {
+    .menu {
+      @media #{$maxwidth768},#{$mobile}  {
+        .home-sort {
+          @include flexbox;
+        }
+      }
+    }
+  }
+}
+
 #menu {
   @include flexbox;
   @include flex-grow-scrollable(false);
@@ -94,32 +106,7 @@ div#body.explorer {
         }
       }
 
-      .facets, .views, .sort {
-        //display: none;
-        //
-        //& > div:first-child {
-        //	text-transform: capitalize;
-        //}
-        //
-        //& > div:last-child {
-        //	@include flex-column;
-        //	@include flex-space-around;
-        //	@include flex-wrap;
-        //
-        //	text-transform: capitalize;
-        //	cursor: pointer;
-        //
-        //	a {
-        //		font-size: 1.3em;
-
-        //		&:not(:last-child) {
-        //			margin-bottom: 0.5em;
-        //		}
-        //	}
-        //}
-      }
-
-      .views, .sort, .facets {
+      .views, .sort, .home-sort, .facets {
         @include flex-column;
 
         display: none;
@@ -259,7 +246,7 @@ div#body.dark {
           }
         }
 
-        .views, .sort, .facets {
+        .views, .sort, .home-sort, .facets {
           & > div {
             &:first-child {
               & > .count {
