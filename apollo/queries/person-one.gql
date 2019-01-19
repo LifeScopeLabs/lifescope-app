@@ -7,6 +7,7 @@ query personMany($id: String!) {
         last_name,
         contact_ids,
         contact_id_strings,
+        hidden,
         hydratedContacts {
         	id,
 			avatar_url,

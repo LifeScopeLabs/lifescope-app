@@ -1,0 +1,5 @@
+mutation contactUnhide($id: String!) {
+	contactUnhide(id: $id) {
+		id
+	}
+}

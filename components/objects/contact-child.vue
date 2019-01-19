@@ -1,45 +1,52 @@
 <template>
-	<div class="object contact" v-bind:id="contact.id">
+	<div v-if="contact.hidden !== true" class="object contact" v-bind:id="contact.id">
 		<!-- contact -->
 		<div>
 			<!-- avatar -->
 			<div class="user-avatar">
 				<!-- avatar image -->
-				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url" />
+				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url"/>
 				<!-- else avatar icon -->
 				<i v-else class="fas fa-user"></i>
 			</div>
 
 			<!-- details -->
 			<div class="details flexbox flex-grow">
-        <div class="flexbox flex-column">
+				<div class="flexbox flex-column">
 					<!-- name -->
-          <div v-if="contact.name">{{ contact.name }}</div>
+					<div v-if="contact.name">{{ contact.name }}</div>
 					<!-- handle -->
-          <div v-if="contact.handle">{{ contact.handle }}</div>
-        </div>
+					<div v-if="contact.handle">{{ contact.handle }}</div>
+				</div>
 
 				<!-- Tag -->
-        <aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
-          <span>Tag</span><i class="fas fa-hashtag"></i>
-          <!--<span>Share</span><i class="fas fa-share"></i>-->
-        </aside>
+				<aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
+					<span>Tag</span><i class="fas fa-hashtag"></i>
+					<!--<span>Share</span><i class="fas fa-share"></i>-->
+				</aside>
 			</div>
 		</div>
 
 		<!-- tags -->
-		<div>
-			<div class="tagging">
-				<div class="tags">
-					<span v-for="tag in contact.tags" v-bind:key="tag">#{{ tag }}</span>
-				</div>
+		<div class="tagging">
+			<div class="tags">
+				<span v-for="tag in contact.tags" v-bind:key="tag">#{{ tag }}</span>
 			</div>
 		</div>
+
+		<div class=hide-button v-on:click="hideContact(contact)">Hide this Contact</div>
+	</div>
+
+	<div class="contact-hidden" v-else-if="contact.hidden === true">
+		This Contact is hidden.
+		<div class="unhide-button" v-on:click="unhideContact(contact)">Unhide this Contact</div>
 	</div>
 </template>
 
 <script>
-  import actionModal from '../modals/action-modal';
+	import actionModal from '../modals/action-modal';
+	import contactHide from '../../apollo/mutations/contact-hide.gql';
+	import contactUnhide from '../../apollo/mutations/contact-unhide.gql';
 	import icons from '../../lib/util/icons';
 
 	export default {
@@ -84,17 +91,47 @@
 				return icons('provider', provider.name);
 			},
 
-      openActionModal: function(item, type) {
-        this.$modal.show(actionModal, {
-          shareable: false,
-          item: item,
-          taggable: true,
-          type: type
-        }, {
-          height: 'auto',
-          scrollable: true
-        });
-      },
+			openActionModal: function(item, type) {
+				this.$modal.show(actionModal, {
+					shareable: false,
+					item: item,
+					taggable: true,
+					type: type
+				}, {
+					height: 'auto',
+					scrollable: true
+				});
+			},
+
+			hideContact: async function(contact) {
+				await this.$apollo.mutate({
+					mutation: contactHide,
+					variables: {
+						id: contact.id
+					}
+				});
+
+				let match = _.find(this.$store.state.objects.contacts, function(item) {
+					return item.id === contact.id;
+				});
+
+				match.hidden = true;
+			},
+
+			unhideContact: async function(contact) {
+				await this.$apollo.mutate({
+					mutation: contactUnhide,
+					variables: {
+						id: contact.id
+					}
+				});
+
+				let match = _.find(this.$store.state.objects.contacts, function(item) {
+					return item.id === contact.id;
+				});
+
+				match.hidden = false;
+			}
 		},
 		props: [
 			'connection',

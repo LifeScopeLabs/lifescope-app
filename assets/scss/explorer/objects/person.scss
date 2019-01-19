@@ -74,6 +74,34 @@
       }
     }
   }
+
+  & > .hide-button {
+    text-align: right;
+    cursor: pointer;
+    color: $blue;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+}
+
+.person-hidden {
+  @include flexbox;
+  @include flex-grow;
+  @include flex-column;
+  @include flex-x-center;
+
+  font-size: 1.2em;
+
+  .unhide-button {
+    cursor: pointer;
+    color: $blue;
+
+    &:hover {
+      color: $orange;
+    }
+  }
 }
 
 div#body.dark {

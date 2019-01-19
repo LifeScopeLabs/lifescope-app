@@ -81,6 +81,15 @@
         }
       }
 
+      & > .hide-button {
+        cursor: pointer;
+        color: $blue;
+
+        &:hover {
+          color: $orange;
+        }
+      }
+
       & > .date {
         @include flexbox;
         @include flex-x-center;
@@ -127,6 +136,15 @@
         .provider {
           display: none;
         }
+
+        &:not(:last-child) {
+          padding-bottom: 0.25em;
+          border-bottom: 1px solid $border-color-light;
+        }
+
+        &:not(:first-child) {
+          padding-top: 0.25em;
+        }
       }
 
       .expand {
@@ -142,6 +160,24 @@
         &:hover {
           color: $blue;
         }
+      }
+    }
+  }
+
+  .event-hidden {
+    @include flexbox;
+    @include flex-grow;
+    @include flex-column;
+    @include flex-x-center;
+
+    font-size: 1.2em;
+
+    .unhide-button {
+      cursor: pointer;
+      color: $blue;
+
+      &:hover {
+        color: $orange;
       }
     }
   }

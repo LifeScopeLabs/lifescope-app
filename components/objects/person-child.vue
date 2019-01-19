@@ -1,5 +1,5 @@
 <template>
-	<div class="object person" v-bind:id="person.id">
+	<div v-if="person.hidden !== true" class="object person" v-bind:id="person.id">
 		<!-- contact -->
 		<div>
 			<!-- avatar -->
@@ -31,18 +31,25 @@
 		</div>
 
 		<!-- tags -->
-		<div>
-			<div class="tagging">
-				<div class="tags">
-					<span v-for="tag in person.tags" v-bind:key="tag">#{{ tag }}</span>
-				</div>
+		<div class="tagging">
+			<div class="tags">
+				<span v-for="tag in person.tags" v-bind:key="tag">#{{ tag }}</span>
 			</div>
 		</div>
+
+		<div class=hide-button v-on:click="hidePerson(person)">Hide this Person</div>
+	</div>
+
+	<div class="person-hidden" v-else-if="person.hidden === true">
+		This Person is hidden.
+		<div class="unhide-button" v-on:click="unhidePerson(person)">Unhide this Person</div>
 	</div>
 </template>
 
 <script>
 	import actionModal from '../modals/action-modal';
+	import personHide from '../../apollo/mutations/person-hide.gql';
+	import personUnhide from '../../apollo/mutations/person-unhide.gql';
 	import icons from '../../lib/util/icons';
 	import { defaultColor, defaultLetter } from '../../lib/util/default-icon';
 
@@ -128,6 +135,37 @@
 
 			defaultLetter: function(person) {
 				return defaultLetter(person);
+			},
+
+			hidePerson: async function(person) {
+				await this.$apollo.mutate({
+					mutation: personHide,
+					variables: {
+						id: person.id
+					}
+				});
+
+				let match = _.find(this.$store.state.objects.people, function(item) {
+					return item.id === person.id;
+				});
+
+				match.hidden = true;
+			},
+
+			unhidePerson: async function(person) {
+				await this.$apollo.mutate({
+					mutation: personUnhide,
+					variables: {
+						id: person.id
+					}
+				});
+
+				let match = _.find(this.$store.state.objects.people, function(item) {
+					console.log(item.id);
+					return item.id === person.id;
+				});
+
+				match.hidden = false;
 			}
 		},
 		props: [

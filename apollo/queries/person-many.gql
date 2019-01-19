@@ -7,6 +7,7 @@ query personMany($skip: Int, $limit: Int) {
         last_name,
         contact_ids,
         contact_id_strings,
+        hidden,
         hydratedContacts {
         	id,
 			avatar_url,

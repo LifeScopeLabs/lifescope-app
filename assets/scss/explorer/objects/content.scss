@@ -86,6 +86,7 @@
     @include flexbox;
     @include flex-column;
     @include flex-center;
+    @include flex-x-center;
 
     pre {
       text-align: start;
@@ -110,6 +111,34 @@
       &:hover {
         color: $blue;
       }
+    }
+  }
+
+  & > .hide-button {
+    text-align: center;
+    cursor: pointer;
+    color: $blue;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+}
+
+.content-hidden {
+  @include flexbox;
+  @include flex-grow;
+  @include flex-column;
+  @include flex-x-center;
+
+  font-size: 1.2em;
+
+  .unhide-button {
+    cursor: pointer;
+    color: $blue;
+
+    &:hover {
+      color: $orange;
     }
   }
 }

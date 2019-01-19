@@ -1,0 +1,5 @@
+mutation personUnhide($id: String!) {
+	personUnhide(id: $id) {
+		id
+	}
+}

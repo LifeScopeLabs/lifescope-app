@@ -1,0 +1,5 @@
+mutation eventUnhide($id: String!) {
+	eventUnhide(id: $id) {
+		id
+	}
+}

@@ -1,0 +1,5 @@
+mutation contentHide($id: String!) {
+	contentHide(id: $id) {
+		id
+	}
+}

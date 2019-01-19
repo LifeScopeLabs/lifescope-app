@@ -1,7 +1,7 @@
 <template>
 	<!-- feed -->
 	<div v-if="$store.state.view === 'feed'" class="object event feed" v-bind:id="event.id">
-		<div class="items">
+		<div v-if="event.hidden !== true" class="items">
 			<!-- details -->
 			<aside class="details">
 				<!-- type -->
@@ -60,6 +60,8 @@
 						<span v-for="tag in event.tags" v-bind:key="tag">#{{ tag }}</span>
 					</div>
 				</div>
+
+				<div class=hide-button v-on:click="hideEvent(event)">Hide this Event</div>
 			</aside>
 
 			<!-- content -->
@@ -93,23 +95,31 @@
 				<!--<div v-if="event.contacts > 3 || event.people > 3 || event.organizations > 3" class="expand">More</div>-->
 			</aside>
 		</div>
+
+		<div class="event-hidden" v-else-if="event.hidden === true">
+			This Event is hidden.
+			<div class="unhide-button" v-on:click="unhideEvent(event)">Unhide this Event</div>
+		</div>
 	</div>
 
 	<!-- grid -->
 	<div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id"
 		 v-on:click="$emit('render-details', event, 'event')">
-		<div v-if="hasThumbnail() === true" class="mobile-thumbnail">
+		<div v-if="event.hidden === true" class="event-hidden">
+			This Event is hidden
+		</div>
+		<div v-else-if="hasThumbnail() === true" class="mobile-thumbnail">
 			<img v-bind:src="getGridThumbnail()"/>
 		</div>
 		<i v-else v-bind:class="getEventTypeIcon(event.type)" class="type-icon large-grid-icon"></i>
 
-		<div class="title-bar">
+		<div v-if="event.hidden !== true" class="title-bar">
 			<i v-bind:class="getEventTypeIcon(event.type)" class="bubble"></i>
 
 			<div v-if="hasTitle() === true" class="title">
 				{{ getGridTitle() | safe }}
 			</div>
-			<div v-else>
+			<div v-else class="title">
 				{{ contextOrType(event) }}
 			</div>
 			<!--<div v-else-if="event.datetime">-->
@@ -132,25 +142,28 @@
 	<div v-else-if="$store.state.view === 'list'" class="item list" v-bind:id="event.id"
 		 v-on:click="$emit('render-details', event, 'event')">
 		<div>
-			<span v-if="event.content && event.content.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
+			<span v-if="event.hidden === true">
+				This Event is hidden
+			</span>
+			<span v-else-if="event.content && event.content.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
 		</div>
 
 		<div class="icon-column">
-			<i v-bind:class="getEventTypeIcon(event.type)"></i>
-			<span class="mobile-hide">{{ contextOrType(event) | truncate(30) }}</span>
+			<i v-if="event.hidden !== true" v-bind:class="getEventTypeIcon(event.type)"></i>
+			<span v-if="event.hidden !== true" class="mobile-hide">{{ contextOrType(event) | truncate(30) }}</span>
 		</div>
 
 		<div class="icon-column">
-			<i v-bind:class="getProviderIcon(event.connection.provider)"></i>
-			<span class="mobile-hide">{{ event.connection.provider.name }}</span>
+			<i v-if="event.hidden !== true" v-bind:class="getProviderIcon(event.connection.provider)"></i>
+			<span v-if="event.hidden !== true" class="mobile-hide">{{ event.connection.provider.name }}</span>
 		</div>
 
 		<div class="mobile-hide">
-			<span v-if="event.contacts && event.contacts.length > 0">{{ getFirstContact(event) | truncate(30) }}</span>
+			<span v-if="event.hidden !== true && event.contacts && event.contacts.length > 0">{{ getFirstContact(event) | truncate(30) }}</span>
 		</div>
 
 		<div v-if="event.datetime">
-			<span>{{ event.datetime | dateTiny }}</span>
+			<span v-if="event.hidden !== true">{{ event.datetime | dateTiny }}</span>
 		</div>
 	</div>
 </template>
@@ -161,6 +174,8 @@
 	import actionModal from '../modals/action-modal';
 	import icons from '../../lib/util/icons';
 	import safeFilter from '../filters/safe';
+	import eventHide from '../../apollo/mutations/event-hide.gql';
+	import eventUnhide from '../../apollo/mutations/event-unhide.gql';
 	import UserContact from './contact-child';
 	import UserContent from './content-child';
 	import UserPerson from './person-child';
@@ -298,9 +313,37 @@
 					return Object.keys(contact.person).length > 0;
 				});
 
-				console.log(people);
-
 				return people;
+			},
+
+			hideEvent: async function(event) {
+				await this.$apollo.mutate({
+					mutation: eventHide,
+					variables: {
+						id: event.id
+					}
+				});
+
+				let match = _.find(this.$store.state.objects.events, function(item) {
+					return item.id === event.id;
+				});
+
+				match.hidden = true;
+			},
+
+			unhideEvent: async function(event) {
+				await this.$apollo.mutate({
+					mutation: eventUnhide,
+					variables: {
+						id: event.id
+					}
+				});
+
+				let match = _.find(this.$store.state.objects.events, function(item) {
+					return item.id === event.id;
+				});
+
+				match.hidden = false;
 			}
 		}
 	}

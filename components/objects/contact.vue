@@ -13,12 +13,15 @@
 
   <!-- grid -->
   <div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="contact.id" v-on:click="$emit('render-details', contact, 'contact')">
+	<div v-if="contact.hidden === true" class="contact-hidden">
+	  This Contact is hidden
+	</div>
     <div v-if="hasAvatar() === true" class="mobile-thumbnail">
       <img v-bind:src="contact.avatar_url" />
     </div>
     <i v-else class="type-icon large-grid-icon fas fa-user"></i>
 
-    <div class="title-bar">
+    <div v-if="contact.hidden !== true" class="title-bar">
       <i class="bubble hidden"></i>
 
       <div v-if="contact.name && contact.name.length > 0" class="title">
@@ -35,16 +38,19 @@
   <!-- list -->
   <div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="contact.id" v-on:click="$emit('render-details', contact, 'contact')">
     <div>
-      <span>{{ contact.name | truncate(30) }}</span>
+      <span v-if="contact.hidden === true">
+          This Contact is hidden
+      </span>
+      <span v-else>{{ contact.name | truncate(30) }}</span>
     </div>
 
     <div class="icon-column">
-      <i v-bind:class="getProviderIcon(contact.connection.provider)"></i>
-      <span class="mobile-hide">{{ contact.connection.provider.name }}</span>
+      <i v-if="contact.hidden !== true" v-bind:class="getProviderIcon(contact.connection.provider)"></i>
+      <span v-if="contact.hidden !== true" class="mobile-hide">{{ contact.connection.provider.name }}</span>
     </div>
 
     <div>
-      <span>{{ contact.handle }}</span>
+      <span v-if="contact.hidden !== true" >{{ contact.handle }}</span>
     </div>
   </div>
 </template>

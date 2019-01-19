@@ -17,14 +17,17 @@
       v-bind:id="content.id"
       v-on:click="$emit('render-details', content, 'content')">
 
-    <div v-if="hasThumbnail() === true" class="mobile-thumbnail">
+    <div v-if="content.hidden === true" class="content-hidden">
+      This Content is hidden
+    </div>
+    <div v-else-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
     </div>
     <i v-else
         v-bind:class="getContentTypeIcon(content.type)"
         class="type-icon large-grid-icon"></i>
 
-    <div class="title-bar">
+    <div v-if="content.hidden !== true" class="title-bar">
       <i v-bind:class="getContentTypeIcon(content.type)" class="bubble"></i>
 
       <div v-if="hasTitle" class="title">
@@ -44,21 +47,24 @@
       v-bind:id="content.id"
       v-on:click="$emit('render-details', content, 'content')">
     <div>
-      <span>{{ content.title | truncate(30) }}</span>
+      <span v-if="content.hidden === true">
+          This Content is hidden
+      </span>
+      <span v-else>{{ content.title | truncate(30) }}</span>
     </div>
 
     <div class="icon-column">
-      <i v-bind:class="getProviderIcon(content.connection.provider)"></i>
-      <span class="mobile-hide">{{ content.connection.provider.name }}</span>
+      <i v-if="content.hidden !== true" v-bind:class="getProviderIcon(content.connection.provider)"></i>
+      <span v-if="content.hidden !== true" class="mobile-hide">{{ content.connection.provider.name }}</span>
     </div>
 
     <div class="icon-column">
-      <i v-bind:class="getContentTypeIcon(content.type)"></i>
-      <span class="mobile-hide">{{ prettifyType(content.type) }}</span>
+      <i v-if="content.hidden !== true" v-bind:class="getContentTypeIcon(content.type)"></i>
+      <span v-if="content.hidden !== true" class="mobile-hide">{{ prettifyType(content.type) }}</span>
     </div>
 
     <div>
-      <span>{{ content.mimetype }}</span>
+      <span v-if="content.hidden !== true" >{{ content.mimetype }}</span>
     </div>
   </div>
 </template>

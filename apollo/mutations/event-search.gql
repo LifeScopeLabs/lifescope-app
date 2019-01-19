@@ -6,6 +6,7 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
         contact_interaction_type,
         context,
         datetime,
+        hidden,
         provider_id,
         provider_id_string,
         provider_name,
@@ -24,6 +25,7 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
             embed_content,
             embed_format,
             embed_thumbnail,
+            hidden,
             mimetype,
             price,
             tagMasks {
@@ -40,6 +42,7 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
             id,
             avatar_url,
             handle,
+            hidden,
             name,
             people_id,
             tagMasks {
@@ -49,6 +52,7 @@ mutation eventSearch($q: String, $offset: Int, $limit: Int, $filters: String, $s
             },
 		    hydratedPerson {
 			  id,
+			  hidden,
 			  first_name,
 			  middle_name,
 			  last_name,

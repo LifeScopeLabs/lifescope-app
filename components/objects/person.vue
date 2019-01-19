@@ -13,14 +13,17 @@
 	<!-- grid -->
 	<div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="person.id"
 		 v-on:click="$emit('render-details', person, 'person')">
-		<div class="mobile-thumbnail">
+		<div v-if="person.hidden === true" class="person-hidden">
+			This Person is hidden
+		</div>
+		<div v-else class="mobile-thumbnail">
 			<img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
 			<div class="default" v-else-if="person.avatar_url == null || person.avatar_url.length === 0"
 				 v-bind:style="{ 'background-color': defaultColor(person) }">{{ defaultLetter(person) }}
 			</div>
 		</div>
 
-		<div class="title-bar">
+		<div v-if="person.hidden !== true" class="title-bar">
 			<div class="title" style="width: 100%">{{ concatNames(person) }}</div>
 		</div>
 	</div>
@@ -29,15 +32,18 @@
 	<div v-else="if=$store.state.view === 'list'" class="item list" v-bind:id="person.id"
 		 v-on:click="$emit('render-details', person, 'person')">
 		<div>
-			<span>{{ person.first_name | truncate(30) }}</span>
+			<span v-if="person.hidden === true">
+				This Person is hidden
+			</span>
+			<span v-else>{{ person.first_name | truncate(30) }}</span>
 		</div>
 
 		<div>
-			<span>{{ person.middle_name | truncate(30) }}</span>
+			<span v-if="person.hidden !== true">{{ person.middle_name | truncate(30) }}</span>
 		</div>
 
 		<div>
-			<span>{{ person.last_name | truncate(30) }}</span>
+			<span v-if="person.hidden !== true">{{ person.last_name | truncate(30) }}</span>
 		</div>
 	</div>
 </template>

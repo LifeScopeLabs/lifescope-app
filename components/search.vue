@@ -735,7 +735,6 @@
 
 	            let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
 
-	            console.log(data);
 	            _.each(data, function(event) {
 	            	if (event.location_id_string != null) {
 	            		ids.push(event.location_id_string)
@@ -793,6 +792,13 @@
                 if (!match) {
                   self.$store.state.objects.content.push(content);
                 }
+                else {
+	                let index = _.findIndex(obj.content, function(item) {
+		                return item.id === content.id;
+	                });
+
+	                obj.content[index] = match;
+                }
               });
 
               _.each(obj.contacts, function(contact) {
@@ -800,8 +806,28 @@
                   return contact.id === item.id;
                 });
 
+				if (contact.person) {
+				  let personMatch = _.find(self.$store.state.objects.people, function(item) {
+					  return contact.person.id === item.id;
+				  });
+
+				  if (!personMatch) {
+					  self.$store.state.objects.people.push(contact.person);
+				  }
+				  else {
+					  contact.person = personMatch;
+				  }
+				}
+
                 if (!match) {
                   self.$store.state.objects.contacts.push(contact);
+                }
+                else {
+					let index = _.findIndex(obj.contacts, function(item) {
+						return item.id === contact.id;
+                    });
+
+					obj.contacts[index] = match;
                 }
               });
             });
@@ -830,6 +856,10 @@
               let obj = new lifescopeObjects.Contact(contact);
 
               self.$store.state.objects.contacts.push(obj);
+
+              if (obj.person) {
+              	self.$store.state.objects.person.push(obj.person);
+              }
             });
           }
           else if (facet === 'people') {

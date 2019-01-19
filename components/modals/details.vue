@@ -3,7 +3,7 @@
     <div class="flexbox flex-end close-container">
       <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
-    <div class="items">
+    <div v-if="item.hidden !== true" class="items">
       <aside class="details">
         <div class="type">
           <i v-bind:class="getEventTypeIcon(item.type)"></i>
@@ -47,6 +47,8 @@
             <span v-for="tag in tags">#{{ tag }}</span>
           </div>
         </div>
+
+        <div class=hide-button v-on:click="hideEvent(item)">Hide this Event</div>
       </aside>
       <section v-if="item.content && item.content.length > 0" class="content">
         <user-content v-for="content in item.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="item.connection"></user-content>
@@ -57,8 +59,13 @@
         <div class="objects">
           <user-contact v-for="contact in item.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="item.connection"></user-contact>
         </div>
-        <div v-if="item.contacts > 3 || item.people > 3 || item.organizations > 3" class="expand">More</div>
+        <!--<div v-if="item.contacts > 3 || item.people > 3 || item.organizations > 3" class="expand">More</div>-->
       </aside>
+    </div>
+
+    <div class="event-hidden" v-else-if="item.hidden === true">
+      This Event is hidden.
+      <div class="unhide-button" v-on:click="unhideEvent(item)">Unhide this Event</div>
     </div>
   </div>
   <div v-else-if="type === 'content'" class="object content modaled flex-column" v-bind:id="item.id">
@@ -93,6 +100,8 @@
   import actionModal from '../modals/action-modal';
   import icons from '../../lib/util/icons';
   import safeFilter from '../filters/safe';
+  import eventHide from '../../apollo/mutations/event-hide.gql';
+  import eventUnhide from '../../apollo/mutations/event-unhide.gql';
   import UserContact from '../objects/contact-child';
   import UserContent from '../objects/content-child';
   import UserPerson from '../objects/person-child';
@@ -168,6 +177,46 @@
           height: 'auto',
           scrollable: true
         });
+      },
+
+      hideEvent: async function(event) {
+          await this.$apollo.mutate({
+              mutation: eventHide,
+              variables: {
+                  id: event.id
+              }
+          });
+
+          let cloned = _.cloneDeep(this.$store.state.objects.events);
+
+          _.each(cloned, function(clonedEvent) {
+              if (clonedEvent.id === event.id) {
+                  clonedEvent.hidden = true;
+              }
+          });
+
+          this.$store.state.objects.events = cloned;
+          this.$props.item.hidden = true;
+      },
+
+      unhideEvent: async function(event) {
+          await this.$apollo.mutate({
+              mutation: eventUnhide,
+              variables: {
+                  id: event.id
+              }
+          });
+
+          let cloned = _.cloneDeep(this.$store.state.objects.events);
+
+          _.each(cloned, function(clonedEvent) {
+              if (clonedEvent.id === event.id) {
+                  clonedEvent.hidden = false;
+              }
+          });
+
+          this.$store.state.objects.events = cloned;
+          this.$props.item.hidden = false;
       }
     }
   }

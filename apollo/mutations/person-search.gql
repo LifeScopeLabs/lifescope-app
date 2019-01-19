@@ -7,10 +7,12 @@ mutation personSearch($q: String, $offset: Int, $limit: Int, $filters: String, $
         last_name,
         contact_ids,
         contact_id_strings,
+        hidden,
         hydratedContacts {
         	id,
 			avatar_url,
 			handle,
+			hidden,
 			name,
 			hydratedConnection {
 				id,
