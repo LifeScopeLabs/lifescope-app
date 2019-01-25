@@ -1,5 +1,5 @@
-query personMany($skip: Int, $limit: Int) {
-    personMany(skip: $skip, limit: $limit) {
+query personMany($skip: Int, $limit: Int, $sort: SortFindManyPeopleInput) {
+    personMany(skip: $skip, limit: $limit, sort: $sort) {
         id,
         avatar_url,
         first_name,

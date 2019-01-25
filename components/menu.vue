@@ -30,16 +30,16 @@
 						</div>
 					</div>
 
-					<div class="home-sort" v-if="$store.state.mode === 'home' && $store.state.home.tab === 'searches'">
+					<div class="home-sort" v-if="$store.state.mode === 'home'">
 						<div class="current"
 							 v-on:click="$store.state.mobileSortSelectorOpen = !$store.state.mobileSortSelectorOpen">
 							<i v-bind:class="{ 'fas fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fas fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
 							<span class="drawer-label">Sort &ndash;</span>
-							<span class="name">{{ $store.state.home.sort[0].toUpperCase() + $store.state.home.sort.slice(1) }}</span>
+							<span class="name">{{ displaySort() }}</span>
 						</div>
 						<div class="fields drawer"
 							 v-bind:class="{ hidden: $store.state.mobileSortSelectorOpen !== true }">
-							<div>
+							<div v-if="$store.state.home.tab === 'searches'">
 								<a data-sort="favorited"
 								   v-bind:class="{ active: $store.state.home.sort === 'favorited' }"
 								   v-on:click="setHomeSort('favorited')">
@@ -52,6 +52,32 @@
 								<a data-sort="recent" v-bind:class="{ active: $store.state.home.sort === 'recent' }"
 								   v-on:click="setHomeSort('recent')">
 									<span>Recent</span>
+								</a>
+							</div>
+							<div v-if="$store.state.home.tab === 'people'">
+								<a data-sort="first_name"
+								   v-bind:class="{ active: $store.state.home.sort === 'first_name' }"
+								   v-on:click="setHomeSort('first_name')">
+									<span>First Name</span>
+								</a>
+								<a data-sort="middle_name" v-bind:class="{ active: $store.state.home.sort === 'middle_name' }"
+								   v-on:click="setHomeSort('middle_name')">
+									<span>Middle Name</span>
+								</a>
+								<a data-sort="last_name" v-bind:class="{ active: $store.state.home.sort === 'last_name' }"
+								   v-on:click="setHomeSort('last_name')">
+									<span>Last Name</span>
+								</a>
+							</div>
+							<div v-if="$store.state.home.tab === 'tags'">
+								<a data-sort="tag"
+								   v-bind:class="{ active: $store.state.home.sort === 'tag' }"
+								   v-on:click="setHomeSort('tag')">
+									<span>Alphabetical</span>
+								</a>
+								<a data-sort="shared" v-bind:class="{ active: $store.state.home.sort === 'shared' }"
+								   v-on:click="setHomeSort('shared')">
+									<span>Shared</span>
 								</a>
 							</div>
 						</div>
@@ -215,6 +241,17 @@
 <script>
 	import {mixin as clickaway} from 'vue-clickaway';
 
+	let displayDict = {
+		favorited: 'Favorited',
+		top: 'Top',
+		recent: 'Recent',
+		first_name: 'First Name',
+		middle_name: 'Middle Name',
+		last_name: 'Last Name',
+		tag: 'Alphabetical',
+		shared: 'Shared'
+	};
+
 	export default {
 		mixins: [clickaway],
 		methods: {
@@ -245,6 +282,10 @@
 
 			isSettingsPage: function() {
 				return /settings/.test(this.$store.state.pageName)
+			},
+
+			displaySort: function() {
+				return displayDict[this.$store.state.home.sort];
 			}
 		}
 	}

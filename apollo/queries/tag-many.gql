@@ -1,5 +1,5 @@
-query tagMany($skip: Int, $limit: Int) {
-    tagMany(skip: $skip, limit: $limit) {
+query tagMany($skip: Int, $limit: Int, $sort: SortFindManyTagsInput, $filter: FilterFindManyTagsInput) {
+    tagMany(skip: $skip, limit: $limit, sort: $sort, filter: $filter) {
         id,
         tag,
         share,

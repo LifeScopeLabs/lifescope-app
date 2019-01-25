@@ -68,14 +68,25 @@
     <section v-if="$store.state.user != undefined" id="content">
       <div class="flexbox">
         <nav id="tabs">
-          <div class="tab" name="people" v-bind:class="{selected: $store.state.home.tab === 'people'}" v-on:click="fetchData(true, 'people')">People</div>
+          <div class="tab" name="people" v-bind:class="{selected: $store.state.home.tab === 'people'}" v-on:click="fetchData(true, 'people', 'first_name')">People</div>
           <div class="tab" name="favorited" v-bind:class="{selected: $store.state.home.tab === 'searches'}" v-on:click="fetchData(true, 'searches', 'favorited')">Searches</div>
-          <div class="tab" name="tags" v-bind:class="{selected: $store.state.home.tab === 'tags'}" v-on:click="fetchData(true, 'tags')">Tags</div>
+          <div class="tab" name="tags" v-bind:class="{selected: $store.state.home.tab === 'tags'}" v-on:click="fetchData(true, 'tags', 'tag')">Tags</div>
+
+          <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'people'">
+            <div v-bind:class="{selected: $store.state.home.sort === 'first_name'}" v-on:click="fetchData(true, 'people', 'first_name')">First Name</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'middle_name'}" v-on:click="fetchData(true, 'people', 'middle_name')">Middle Name</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'last_name'}" v-on:click="fetchData(true, 'people', 'last_name')">Last Name</div>
+          </div>
 
           <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'searches'">
             <div v-bind:class="{selected: $store.state.home.sort === 'favorited'}" v-on:click="fetchData(true, 'searches', 'favorited')">Favorited searches</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'top'}" v-on:click="fetchData(true, 'searches', 'top')">Top searches</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'recent'}" v-on:click="fetchData(true, 'searches', 'recent')">Recent searches</div>
+          </div>
+
+          <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'tags'">
+            <div v-bind:class="{selected: $store.state.home.sort === 'tag'}" v-on:click="fetchData(true, 'tags', 'tag')">Alphabetical</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'shared'}" v-on:click="fetchData(true, 'tags', 'shared')">Shared</div>
           </div>
         </nav>
       </div>
@@ -116,7 +127,7 @@
               <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
             </a>
 
-            <a v-if="$store.state.home.tab === 'tags'" v-for="tag in orderBy($store.state.tagMany, 'tag')" class="tag" v-on:click="searchForTag(tag.tag)">
+            <a v-if="$store.state.home.tab === 'tags'" v-for="tag in $store.state.tagMany" class="tag" v-on:click="searchForTag(tag.tag)">
               <div>
                 <span class="name">#{{ tag.tag }}</span>
 
@@ -130,7 +141,7 @@
               <div class="tag-share" v-on:click.stop.prevent="showSharingModal(tag)"></div>
             </a>
 
-            <a v-if="$store.state.home.tab === 'people'" v-for="person in orderBy($store.state.personMany, 'first_name')" class="person" v-on:click="searchForPerson(person)">
+            <a v-if="$store.state.home.tab === 'people'" v-for="person in $store.state.personMany" class="person" v-on:click="searchForPerson(person)">
               <div>
                 <div class="avatar">
                   <img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
@@ -209,7 +220,7 @@
           };
 
           if (tab === 'people') {
-          	variables.sort = 'first_name';
+          	this.$store.state.home.sort = variables.sort = sort;
           }
 
           if (tab === 'searches') {
@@ -225,6 +236,18 @@
             }
             else if (sort === 'recent') {
               variables.sort = 'recent';
+            }
+          }
+
+          if (tab === 'tags') {
+          	this.$store.state.home.sort = sort;
+
+          	variables.sort = 'tag';
+
+          	if (sort === 'shared') {
+          		variables.filter = {
+          			share: true
+                };
             }
           }
 
@@ -464,9 +487,10 @@
 
       this.$data.offset = 0;
       this.$store.state.home.tab = 'people';
+      this.$store.state.home.sort = 'first_name';
       this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
-      await this.fetchData(true, this.$store.state.home.tab);
+      await this.fetchData(true, this.$store.state.home.tab, this.$store.state.home.sort);
 
       this.$root.$on('set-home-sort', function(sort) {
           self.$store.state.home.sort = sort;
