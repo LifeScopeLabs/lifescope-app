@@ -109,6 +109,9 @@
                 <div v-if="connection.last_run != null" class="updates">
                   {{ getUpdated(connection.last_run) }}
                 </div>
+                <div v-else-if="connection.status === 'failed'" class="updates">
+                  <div>Issue with initial index</div>
+                </div>
                 <div v-else class="updates">
                   <div>Initial index in progress</div>
                   <span></span>
@@ -159,6 +162,12 @@
                     connection.provider.name }}.
                   </div>
                   <div>Retrieval of your data may not work properly until you re-authorize.</div>
+                </div>
+
+                <div v-if="(connection.provider.auth_type === 'oauth2' && connection.auth.status.authorized === true && oldConnection(connection) === true) || (connection.status === 'failed')"
+                     class="reauthorize">
+                  <button class="primary" v-on:click="forceReauthorization(connection)">Reauthorize</button>
+                  <div>It looks like we haven't been able to properly fetch data for this Connection in some time. Please try reauthorizing it by clicking the button above.</div>
                 </div>
 
                 <div class="delete-disable">
@@ -1172,6 +1181,38 @@
           }
 
           person.avatar_url = person.avatar_index > -1 ? person.available_avatars[person.avatar_index] : '';
+        },
+
+        forceReauthorization: async function(connection) {
+      	    let result = await this.$apollo.mutate({
+                mutation: patchConnection,
+                variables: {
+	                id: connection.id,
+                    forceUnauthorized: true
+                }
+            });
+
+	        let newData = result.data.connectionPatch.connection;
+
+	        if (newData) {
+		        let id = newData.id;
+
+		        let clone = _.cloneDeep(this.$store.state.connectionMany);
+
+		        let index = _.findIndex(clone, function(item) {
+			        return item.id === id;
+		        });
+
+		        clone[index].auth.redirectUrl = newData.auth.redirectUrl;
+
+		        this.$store.state.connectionMany = clone;
+	        }
+
+	        this.getConnectionReauthorization(this.$store.state.connectionMany[index]);
+        },
+
+        oldConnection: function(connection) {
+      	  return moment().subtract(3, 'days') > moment(connection.last_run);
         }
     },
 

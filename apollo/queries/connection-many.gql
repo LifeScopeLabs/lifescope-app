@@ -21,6 +21,7 @@
             sources
         },
         provider_name,
-        remote_connection_id
+        remote_connection_id,
+        status
     }
 }
