@@ -1204,11 +1204,12 @@
 		        });
 
 		        clone[index].auth.redirectUrl = newData.auth.redirectUrl;
+		        connection.auth.redirectUrl = newData.auth.redirectUrl;
 
 		        this.$store.state.connectionMany = clone;
 	        }
 
-	        this.getConnectionReauthorization(this.$store.state.connectionMany[index]);
+	        this.getConnectionReauthorization(connection);
         },
 
         oldConnection: function(connection) {
