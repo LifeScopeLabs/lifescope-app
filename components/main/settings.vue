@@ -1246,6 +1246,7 @@
         },
 
         forceReauthorization: async function(connection) {
+      	    let connectionClone = _.cloneDeep(connection);
       	    let result = await this.$apollo.mutate({
                 mutation: patchConnection,
                 variables: {
@@ -1266,12 +1267,12 @@
 		        });
 
 		        clone[index].auth.redirectUrl = newData.auth.redirectUrl;
-		        connection.auth.redirectUrl = newData.auth.redirectUrl;
+		        connectionClone.auth.redirectUrl = newData.auth.redirectUrl;
 
 		        this.$store.state.connectionMany = clone;
 	        }
 
-	        this.getConnectionReauthorization(connection);
+	        this.getConnectionReauthorization(connectionClone);
         },
 
         oldConnection: function(connection) {
