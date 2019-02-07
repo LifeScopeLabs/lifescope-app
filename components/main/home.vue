@@ -1,11 +1,14 @@
 <template>
   <main>
     <aside v-if="$store.state.user != undefined" id="profile">
-      <div class="avatar">
-        <a href="https://app.lifescope.io/settings/connections">
-          <i class="fas fa-user"></i>
-        </a>
-      </div>
+      <a href="https://app.lifescope.io/settings/connections">
+        <div class="avatar">
+          <img v-if="$store.state.person.avatar_url != null && $store.state.person.avatar_url.length > 0" v-bind:src="$store.state.person.avatar_url" style="max-height: 100px; max-width: 100px;">
+          <div class="default" v-else-if="$store.state.person.avatar_url == null || $store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+        </div>
+
+        <span class="name">{{ concatNames($store.state.person) }}</span>
+      </a>
 
       <div class="divider"></div>
 
@@ -175,6 +178,7 @@
   import locationCount from '../../apollo/queries/location-count.gql';
   import personCount from '../../apollo/queries/person-count.gql';
   import personMany from '../../apollo/queries/person-many.gql';
+  import personOne from '../../apollo/queries/person-one.gql';
   import searchCount from '../../apollo/queries/search-count.gql';
   import searchMany from '../../apollo/queries/search-many.gql';
   import tagCount from '../../apollo/queries/tag-count.gql';
@@ -221,6 +225,10 @@
 
           if (tab === 'people') {
           	this.$store.state.home.sort = variables.sort = sort;
+
+          	variables.filter = {
+          		self: false
+            }
           }
 
           if (tab === 'searches') {
@@ -473,6 +481,28 @@
             share: 'public'
           }
       });
+
+      let personResult = await this.$apollo.query({
+          query: personOne,
+          variables: {
+              self: true
+          }
+      });
+
+      let person = personResult.data.personOne;
+
+      self.$store.state.person.id = person.id;
+      self.$store.state.person.avatar_url = person.avatar_url;
+      self.$store.state.person.first_name = person.first_name;
+      self.$store.state.person.middle_name = person.middle_name;
+      self.$store.state.person.last_name = person.last_name;
+      self.$store.state.person.contact_id_strings = person.contact_id_strings;
+      self.$store.state.person.hydratedContacts = person.hydratedContacts;
+      self.$store.state.person.available_avatars = _.compact(_.map(person.hydratedContacts, function(contact) {
+          return contact.avatar_url;
+      }));
+
+      self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
 
       this.$data.connectionCount = connectionCountResult.data.connectionCount;
       this.$data.eventCount = eventCountResult.data.eventCount;

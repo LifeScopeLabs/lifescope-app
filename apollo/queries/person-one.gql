@@ -1,5 +1,5 @@
-query personMany($id: String!) {
-    personOne(filter: { id: $id }) {
+query personOne($id: String, $self: Boolean) {
+    personOne(filter: { id: $id, self: $self }) {
         id,
         avatar_url,
         first_name,
@@ -8,12 +8,14 @@ query personMany($id: String!) {
         contact_ids,
         contact_id_strings,
         hidden,
+        self,
         hydratedContacts {
         	id,
 			avatar_url,
 			handle,
 			name,
 			connection_id,
+			self,
 			hydratedConnection {
 				id,
 				provider_id,

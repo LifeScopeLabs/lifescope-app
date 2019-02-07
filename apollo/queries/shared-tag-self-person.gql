@@ -1,0 +1,8 @@
+query sharedTagSelfPerson($id: String!, $passcode: String!) {
+    sharedTagSelfPerson(id: $id, passcode: $passcode) {
+        avatar_url,
+        first_name,
+        middle_name,
+        last_name
+    }
+}

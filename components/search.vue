@@ -279,6 +279,16 @@
 
     <modals-container/>
   </div>
+  <div v-else id="shared-search">
+    <span v-if="$store.state.person.first_name != null || $store.state.middle_name != null || $store.state.last_name!= null">Shared by</span>
+
+    <div class="avatar">
+      <img v-if="$store.state.person && $store.state.person.avatar_url != null && $store.state.person.avatar_url.length > 0" v-bind:src="$store.state.person.avatar_url" style="max-height: 100px; max-width: 100px;">
+      <div class="default" v-else-if="$store.state.person && $store.state.person.avatar_url == null || $store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+    </div>
+
+    <span v-if="$store.state.person.first_name != null || $store.state.middle_name != null || $store.state.last_name != null" class="name">{{ concatNames($store.state.person) }}</span>
+  </div>
 </template>
 
 <script>
@@ -300,10 +310,12 @@
   import sharedTagContentSearch from '../apollo/mutations/shared-tag-content-search.gql';
   import sharedTagEventSearch from '../apollo/mutations/shared-tag-event-search.gql';
   import sharedTagPersonSearch from '../apollo/mutations/shared-tag-person-search.gql';
+  import sharedTagSelfPerson from '../apollo/queries/shared-tag-self-person.gql';
 
   import favoriteModal from './modals/favorite';
 
   import assembleFilters from '../lib/util/assemble-filters';
+  import { defaultColor, defaultLetter } from '../lib/util/default-icon';
   import uuid from '../lib/util/uuid';
 
   // import lifescopeObjects from 'lifescope-objects';
@@ -716,8 +728,38 @@
               mutation: sharedMapping,
               variables: variables
             });
+
+	          //Trying to populate Locations as part of the Event search is very slow for reasons I haven't been able to determine.
+	          //It's a lot faster to do a separate request for the Locations and attach them as appropriate.
+	          if (facet === 'events') {
+		          let ids = [];
+
+		          let data = sharedSearch === true ? result.data.sharedTagEventSearch : result.data.eventSearch;
+
+		          _.each(data, function(event) {
+			          if (event.location_id_string != null) {
+				          ids.push(event.location_id_string)
+			          }
+		          });
+
+		          let locations = await this.$apollo.query({
+			          query: locationManyById,
+			          variables: {
+				          ids: ids
+			          }
+		          });
+
+		          _.each(locations.data.locationFindManyById, function(location) {
+			          let eventMatch = _.find(data, function(event) {
+				          return event.location_id_string === location.id;
+			          });
+
+			          if (eventMatch != null) {
+				          eventMatch.hydratedLocation = location;
+			          }
+		          });
+	          }
           } catch(err) {
-            console.log(err);
             error = true;
           }
         }
@@ -934,7 +976,37 @@
         await this.checkNewSearch();
 
         await this.performSearch(true);
-      }
+      },
+
+      defaultColor: function(person) {
+          return defaultColor(person);
+      },
+
+      defaultLetter: function(person) {
+          return defaultLetter(person);
+      },
+
+      concatNames: function(item) {
+          let returned = '';
+
+          if (item.first_name || item.middle_name || item.last_name) {
+              if (item.first_name) {
+                  returned += item.first_name + ' ';
+              }
+
+              if (item.middle_name) {
+                  returned += item.middle_name + ' ';
+              }
+
+              if (item.last_name) {
+                  returned += item.last_name + ' ';
+              }
+
+              returned = _.trim(returned);
+          }
+
+          return returned;
+      },
     },
 
     created: async function() {
@@ -967,6 +1039,27 @@
 
                 return Promise.resolve();
             });
+
+        if (this.$store.state.mode === 'shared') {
+	        let params = qs.parse(history.location.search, {
+		        ignoreQueryPrefix: true
+	        });
+
+	        let personResult = await this.$apollo.query({
+		        query: sharedTagSelfPerson,
+		        variables: {
+			        id: params.id,
+                    passcode: params.passcode
+		        }
+	        });
+
+	        let person = personResult.data.sharedTagSelfPerson;
+
+	        self.$store.state.person.avatar_url = person.avatar_url;
+	        self.$store.state.person.first_name = person.first_name;
+	        self.$store.state.person.middle_name = person.middle_name;
+	        self.$store.state.person.last_name = person.last_name;
+        }
       }
     },
 

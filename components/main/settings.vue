@@ -33,6 +33,58 @@
 
       <section class="flexbox flex-column flex-grow">
         <section id="account" v-if="$store.state.mode === 'account'">
+            <div class="boxed-group person">
+              <div class="title">
+                Profile
+                <i v-bind:class="{ shown: $data.profileUpdated === true }" class="fas fa-check-circle flex-grow success-icon"></i>
+              </div>
+
+              <div class="padded paragraphed form">
+                <div class="flexbox flex-column names">
+                  <div class="flexbox flex-column">
+                    <div class="flexbox">
+                      <div class="title">First Name</div>
+                    </div>
+                    <div class="text-box shrink">
+                      <input type="text" title="name" v-model="$store.state.person.first_name" placeholder="Enter first name">
+                    </div>
+                  </div>
+                  <div class="flexbox flex-column">
+                    <div class="flexbox">
+                      <div class="title">Middle Name</div>
+                    </div>
+                    <div class="text-box shrink">
+                      <input type="text" title="name" v-model="$store.state.person.middle_name" placeholder="Enter middle name">
+                    </div>
+                  </div>
+                  <div class="flexbox flex-column">
+                    <div class="flexbox">
+                      <div class="title">Last Name</div>
+                    </div>
+                    <div class="text-box shrink">
+                      <input type="text" title="name" v-model="$store.state.person.last_name" placeholder="Enter last name">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flexbox flex-column">
+                  <div class="title">Avatar</div>
+                  <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+                    <i class="fas fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                    <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
+                    <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+                    <i class="fas fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                  </div>
+                </div>
+
+                <div class="flex-mobile">
+                  <button class="primary" v-on:click="updatePerson">Update Profile</button>
+                </div>
+
+                <div class="error" v-if="$data.error === true">There was an error updating your profile. If this issue persists, please contact us.</div>
+              </div>
+            </div>
+
 			<div class="boxed-group">
 				<div class="title">Color Theme</div>
 
@@ -669,7 +721,9 @@
 
         query: '',
 
-        error: false
+        error: false,
+
+        profileUpdated: false
       }
     },
 
@@ -1118,12 +1172,20 @@
 					    first_name: person.first_name,
 					    middle_name: person.middle_name,
 					    last_name: person.last_name,
-					    contact_id_strings: person.contact_id_strings,
                         avatar_url: person.avatar_url
 				    }
 			    });
 
-			    window.location.href = '/settings/people';
+			    if (this.$store.state.mode === 'people-edit') {
+				    window.location.href = '/settings/people';
+			    }
+			    else {
+				    self.$data.profileUpdated = true;
+
+			    	setTimeout(function() {
+			    		self.$data.profileUpdated = false;
+                    }, 2000)
+                }
 		    } catch(err) {
 			    this.$data.error = true;
 
@@ -1250,6 +1312,30 @@
         query: connectionDeleted,
       });
 
+      if (this.$store.state.mode === 'account') {
+        let personResult = await this.$apollo.query({
+            query: personOne,
+            variables: {
+                self: true
+            }
+        });
+
+        let person = personResult.data.personOne;
+
+        self.$store.state.person.id = person.id;
+        self.$store.state.person.avatar_url = person.avatar_url;
+        self.$store.state.person.first_name = person.first_name;
+        self.$store.state.person.middle_name = person.middle_name;
+        self.$store.state.person.last_name = person.last_name;
+        self.$store.state.person.contact_id_strings = person.contact_id_strings;
+        self.$store.state.person.hydratedContacts = person.hydratedContacts;
+        self.$store.state.person.available_avatars = _.compact(_.map(person.hydratedContacts, function(contact) {
+            return contact.avatar_url;
+        }));
+
+        self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
+      }
+
       if (this.$store.state.mode === 'developer') {
       	let oauthAppResult = await this.$apollo.query({
             query: oauthAppMany
@@ -1287,7 +1373,12 @@
 
       if (this.$store.state.mode === 'people') {
       	let peopleResult = await this.$apollo.query({
-            query: personMany
+            query: personMany,
+            variables: {
+	            filter: {
+		            self: false
+	            }
+            }
         });
 
       	self.$store.state.personMany = peopleResult.data.personMany;

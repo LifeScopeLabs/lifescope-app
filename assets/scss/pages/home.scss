@@ -207,6 +207,16 @@ div#body.home {
               display: none;
             }
           }
+
+          &:first-child {
+            text-decoration: none;
+
+            color: $blue;
+
+            &:hover {
+              color: darken($blue, 10%);
+            }
+          }
         }
 
         .avatar {
@@ -449,35 +459,6 @@ div#body.home {
                   }
                 }
 
-                &.person {
-                  .avatar {
-                    font-size: 2.25em;
-
-                    & > .default {
-                      color: white;
-                      width: 50px;
-                      height: 50px;
-
-                      border-radius: 30px;
-
-                      text-align: center;
-                    }
-
-                    & > img {
-                      width: 50px;
-                      height: 50px;
-                    }
-
-                    i {
-                      margin: 0 0.25em;
-
-                      color: gray;
-                    }
-
-                    margin: 0 0.25em;
-                  }
-                }
-
                 & > .favorite-create,
                 & > .favorite-edit,
                 & > .tag-share {
@@ -600,80 +581,80 @@ div#body.home {
             }
           }
         }
+      }
+    }
 
-        #sharing-options {
-          @include flexbox;
-          @include flex-column;
-          @include flex-x-center;
+    #sharing-options {
+      @include flexbox;
+      @include flex-column;
+      @include flex-x-center;
 
-          & > label {
-            width: 200px;
-          }
+      & > label {
+        width: 200px;
+      }
+    }
+
+    .share-link {
+      @include flexbox;
+      @include flex-column;
+      @include flex-x-center;
+
+      word-break: break-word;
+
+      margin-bottom: 0.5em;
+    }
+
+    #social-tag-shares {
+      @include flexbox;
+      @include flex-center;
+      @include flex-wrap;
+
+      max-width: 100%;
+
+      & > * {
+        font-size: 1.2em;
+        margin: 0.2em;
+
+
+        @media #{$maxwidth768},#{$mobile} {
+          font-size: 2em;
         }
+      }
+    }
 
-        .share-link {
-          @include flexbox;
-          @include flex-column;
-          @include flex-x-center;
+    #sharing {
+      @media #{$maxwidth768},#{$mobile} {
+        width: 100%;
+      }
+    }
 
-          word-break: break-word;
+    .clipboard-copy {
+      margin-left: 0.5em;
 
-          margin-bottom: 0.5em;
+      &:hover {
+        cursor: pointer;
+        color: $blue;
+
+        .tooltiptext {
+          visibility: visible;
         }
+      }
 
-        #social-tag-shares {
-          @include flexbox;
-          @include flex-center;
-          @include flex-wrap;
+      .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: $blue;
+        color: #fff;
+        text-align: center;
+        padding: 5px;
+        border-radius: 10px;
+        font-size: 0.8em;
 
-          max-width: 100%;
+        position: relative;
+        z-index: 1;
 
-          & > * {
-            font-size: 1.2em;
-            margin: 0.2em;
-
-
-            @media #{$maxwidth768},#{$mobile} {
-              font-size: 2em;
-            }
-          }
-        }
-
-        #sharing {
-          @media #{$maxwidth768},#{$mobile} {
-            width: 100%;
-          }
-        }
-
-        .clipboard-copy {
-          margin-left: 0.5em;
-
-          &:hover {
-            cursor: pointer;
-            color: $blue;
-
-            .tooltiptext {
-              visibility: visible;
-            }
-          }
-
-          .tooltiptext {
-            visibility: hidden;
-            width: 120px;
-            background-color: $blue;
-            color: #fff;
-            text-align: center;
-            padding: 5px;
-            border-radius: 10px;
-            font-size: 0.8em;
-
-            position: relative;
-            z-index: 1;
-
-            top: -25px;
-            left: -110px;
-          }
-        }
+        top: -25px;
+        left: -110px;
       }
     }
   }
@@ -762,5 +743,34 @@ div#body.home {
         }
       }
     }
+  }
+
+  .avatar {
+    @include flexbox;
+    @include flex-center;
+    font-size: 2.25em;
+
+    & > .default {
+      color: white;
+      width: 50px;
+      height: 50px;
+
+      border-radius: 30px;
+
+      text-align: center;
+    }
+
+    & > img {
+      width: 50px;
+      height: 50px;
+    }
+
+    i {
+      margin: 0 0.25em;
+
+      color: gray;
+    }
+
+    margin: 0 0.25em;
   }
 }

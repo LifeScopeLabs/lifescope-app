@@ -1,48 +1,68 @@
 mutation sharedTagEventSearch($id: String!, $passcode: String!, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
     sharedTagEventSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
         id,
-        connection_id,
-        connection_id_string,
-        contact_interaction_type,
-        context,
-        datetime,
-        provider_id,
-        provider_id_string,
-        provider_name,
-        type,
-        content,
-        contacts,
-        tagMasks {
-          added,
-          removed,
-          source
-        },
-        hydratedContent {
-            id,
-            embed_content,
-            embed_format,
-            embed_thumbnail,
-            mimetype,
-            tagMasks {
-                added,
-                removed,
-                source
-            },
-            text,
-            title,
-            type,
-            url
-        },
-        hydratedContacts {
-            id,
-            avatar_url,
-            handle,
-            name,
-            tagMasks {
-                added,
-                removed,
-                source
-            }
-        }
+		connection_id,
+		connection_id_string,
+		contact_interaction_type,
+		context,
+		datetime,
+		hidden,
+		provider_id,
+		provider_id_string,
+		provider_name,
+		type,
+		content_ids,
+		contact_ids,
+		location_id,
+		location_id_string,
+		tagMasks {
+		  added,
+		  removed,
+		  source
+		},
+		hydratedContent {
+			id,
+			embed_content,
+			embed_format,
+			embed_thumbnail,
+			hidden,
+			mimetype,
+			price,
+			tagMasks {
+				added,
+				removed,
+				source
+			},
+			text,
+			title,
+			type,
+			url
+		},
+		hydratedContacts {
+			id,
+			avatar_url,
+			handle,
+			hidden,
+			name,
+			people_id,
+			tagMasks {
+				added,
+				removed,
+				source
+			},
+			hydratedPerson {
+			  id,
+			  hidden,
+			  first_name,
+			  middle_name,
+			  last_name,
+			  avatar_url,
+			  tagMasks {
+				added,
+				removed,
+				source
+			  }
+			}
+		}
     }
 }

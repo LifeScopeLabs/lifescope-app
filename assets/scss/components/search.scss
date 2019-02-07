@@ -523,6 +523,46 @@ body {
   }
 }
 
+#shared-search {
+  @include flexbox;
+  @include flex-grow;
+  @include flex-x-center;
+  @include flex-center;
+
+  .avatar {
+    @include flexbox;
+    @include flex-center;
+    font-size: 2.25em;
+
+    & > .default {
+      color: white;
+      width: 50px;
+      height: 50px;
+
+      border-radius: 30px;
+
+      text-align: center;
+    }
+
+    & > img {
+      width: 50px;
+      height: 50px;
+    }
+
+    i {
+      margin: 0 0.25em;
+
+      color: gray;
+    }
+
+    margin: 0 0.25em;
+  }
+
+  span {
+    text-align: center;
+  }
+}
+
 div#body.dark {
   #search-bar {
     #filter-controls {

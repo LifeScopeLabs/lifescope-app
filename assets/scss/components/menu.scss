@@ -2,7 +2,8 @@ div#body.explorer {
   &.grid,
   &.list,
   &.feed,
-  &.map {
+  &.map,
+  &.xr {
     #menu {
       .menu {
         @media #{$maxwidth768},#{$mobile}  {

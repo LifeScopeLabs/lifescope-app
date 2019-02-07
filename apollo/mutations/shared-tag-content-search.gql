@@ -1,22 +1,24 @@
 mutation sharedTagContentSearch($id: String!, $passcode: String!, $offset: Int, $limit: Int, $sortField: String, $sortOrder: String) {
     sharedTagContentSearch(id: $id, passcode: $passcode, offset: $offset, limit: $limit, sortField: $sortField, sortOrder: $sortOrder) {
-        id,
-        connection_id,
-        connection_id_string,
-        embed_content,
-        embed_format,
-        embed_thumbnail,
-        mimetype,
-        provider_id,
-        provider_id_string,
-        tagMasks {
-            added,
-            removed,
-            source
-        },
-        text,
-        title,
-        type,
-        url
+       id,
+	   connection_id,
+	   connection_id_string,
+	   embed_content,
+	   embed_format,
+	   embed_thumbnail,
+	   hidden,
+	   mimetype,
+	   price,
+	   provider_id,
+	   provider_id_string,
+	   tagMasks {
+		   added,
+		   removed,
+		   source
+	   },
+	   text,
+	   title,
+	   type,
+	   url
     }
 }

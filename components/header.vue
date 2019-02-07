@@ -5,6 +5,7 @@
 				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg"/>
 				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg"/>
 			</a>
+
 			<search-bar ref="searchBar"></search-bar>
 
 			<div class="shortcuts">
@@ -148,9 +149,8 @@
 				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg"/>
 				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg"/>
 			</a>
-			<search-bar ref="searchBar"></search-bar>
 
-			<span class="flex-grow"></span>
+			<search-bar ref="searchBar"></search-bar>
 
 			<div id="menu-button" v-on:click.stop="openMenu">
 				<div class="fas fa-bars"></div>

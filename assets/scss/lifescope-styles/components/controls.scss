@@ -334,6 +334,10 @@ input.line-entry {
 
   transition: opacity 250ms ease;
 
+  &.profile {
+    font-size: 40px;
+  }
+
   &.shown {
     opacity: 1;
   }
