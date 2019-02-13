@@ -2,9 +2,9 @@
   <main>
     <aside v-if="$store.state.user != undefined" id="profile">
       <a href="https://app.lifescope.io/settings/connections">
-        <div class="avatar me">
-          <img v-if="$store.state.person.avatar_url != null && $store.state.person.avatar_url.length > 0" v-bind:src="$store.state.person.avatar_url" style="max-height: 100px; max-width: 100px;">
-          <div class="default" v-else-if="$store.state.person.avatar_url == null || $store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+        <div class="avatar">
+          <img class="me" v-if="$store.state.person.avatar_url != null && $store.state.person.avatar_url.length > 0" v-bind:src="$store.state.person.avatar_url" style="max-height: 100px; max-width: 100px;">
+          <div class="default me" v-else-if="$store.state.person.avatar_url == null || $store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
         </div>
 
         <span class="name">{{ concatNames($store.state.person) }}</span>
@@ -155,7 +155,7 @@
             </a>
 
             <div id="more-people" class="flexbox flex-center" v-if="$store.state.home.tab === 'people'" v-on:click="redirectToPeople">
-              <i class="fal fa-3x fa-plus"></i>
+              <i class="fal fa-3x glow fa-plus"></i>
             </div>
           </div>
         </div>

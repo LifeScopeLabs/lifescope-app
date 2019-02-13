@@ -26,7 +26,7 @@
 							<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }"
 							   v-on:click="setView('list')"><i class="fal fa-list"></i><span>List</span></a>
 							<a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }"
-							   v-on:click="setView('xr')"><i class="fal fa-cubes"></i><span>XR</span></a>
+							   v-on:click="setView('xr')"><i class="fal glow fa-cubes"></i><span>XR</span></a>
 						</div>
 					</div>
 

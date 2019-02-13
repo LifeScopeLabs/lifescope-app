@@ -1,14 +1,14 @@
 <template slot="search">
   <div v-if="$store.state.mode !== 'shared'" id="search-bar" class="input-group">
     <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
-      <i v-bind:class="$data.editorOpen ? 'fal expand-indicator fa-caret-up' : 'fal fa-caret-down'"></i>
+      <i v-bind:class="$data.editorOpen ? 'fal expand-indicator glow fa-caret-up' : 'fal glow fa-caret-down'"></i>
     </div>
 
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
       <div id="filter-editor">
         <div id="filter-buttons">
           <div class="control" data-type="who" v-on:click="createBlankFilter('who')" v-bind:class="{ active: $data.activeFilter.type === 'who' }">
-            <i class="fa1 fa-user"></i>
+            <i class="fal fa-user"></i>
           </div>
 
           <div class="control" data-type="what" v-on:click="createBlankFilter('what')" v-bind:class="{ active: $data.activeFilter.type === 'what' }">

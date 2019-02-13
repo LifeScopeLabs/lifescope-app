@@ -10,7 +10,7 @@
 
 			<div class="shortcuts">
 				<a href="/explore"><i class="fal fa-rocket"></i></a>
-				<a href="/providers"><i class="fal fa-plug"></i></a>
+				<a href="/providers"><i class="fal glow fa-plug"></i></a>
 				<a href="/settings"><i class="fal fa-cog"></i></a>
 			</div>
 
@@ -31,7 +31,7 @@
 				<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }"
 				   v-on:click="setView('list')"><i class="fal fa-list"></i> <span>List</span></a>
 				<a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }" v-on:click="setView('xr')"><i
-						class="fal fa-cubes"></i> <span>XR</span></a>
+						class="fal glow fa-cubes"></i> <span>XR</span></a>
 			</div>
 
 			<div v-if="$store.state.facet === 'events'" class="sort">
@@ -168,7 +168,7 @@
 				<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }"
 				   v-on:click="setView('list')"><i class="fal fa-list"></i> <span>List</span></a>
 				<a data-view="xr" v-bind:class="{ active: $store.state.view === 'xr' }" v-on:click="setView('xr')"><i
-						class="fal fa-cubes"></i> <span>XR</span></a>
+						class="fal glow fa-cubes"></i> <span>XR</span></a>
 			</div>
 
 			<div v-if="$store.state.facet === 'events'" class="sort">
@@ -297,7 +297,7 @@
 
 			<div v-if="$store.state.user != undefined" class="shortcuts">
 				<a href="/explore"><i class="fal fa-rocket"></i></a>
-				<a href="/providers"><i class="fal fa-plug"></i></a>
+				<a href="/providers"><i class="fal glow fa-plug"></i></a>
 				<a href="/settings"><i class="fal fa-cog"></i></a>
 			</div>
 

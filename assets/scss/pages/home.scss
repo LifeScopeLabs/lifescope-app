@@ -431,7 +431,7 @@ div#body.home {
                 @include flex-column;
                 @include pointer;
 
-                padding: 0.75em 0.2em;
+                padding: 0.75em;
                 border: 1px solid transparent;
                 position: relative;
                 text-decoration: none;
@@ -747,15 +747,12 @@ div#body.home {
       height: 50px;
 
       border-radius: 50%;
-
       text-align: center;
-    }
 
-    .me {
-      & > .default {
-        width: 90px;
-        height: 90px;
-        font-size: 4em;
+      &.me {
+        width: 120px;
+        height: 120px;
+        font-size: 2.4em;
       }
     }
 
@@ -763,12 +760,10 @@ div#body.home {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-    }
-    
-    .me {
-      & > img {
-        width: 90px;
-        height: 90px;
+
+      &.me {
+          width: 120px;
+          height: 120px;
       }
     }
     

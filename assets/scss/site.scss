@@ -135,6 +135,20 @@ b, strong {
  }
 }
 
+.glow {
+  animation: glow 0.4s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 5px #FF9933, 0 0 10px #6CC644, 0 0 8px #BD2C00, 0 0 10px #2ac1de, 0 0 8px #6E5494, 0 0 14px #ffffff, 0 0 7px #BD2C00;
+  }
+  
+  to {
+    text-shadow: 0 0 10px #6E5494, 0 0 9px #2ac1de, 0 0 12px #6CC644, 0 0 6px #ff4da6, 0 0 12px #FF9933, 0 0 6px #2ac1de, 0 0 14px #6E5494;
+  }
+}
+
 div#body {
   position: absolute;
   width: 100%;
@@ -545,4 +559,8 @@ html.dark {
       margin-bottom: 1em;
     }
   }
+}
+
+i {
+  font-weight: 100;
 }
