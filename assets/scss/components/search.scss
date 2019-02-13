@@ -22,7 +22,7 @@ body {
   @include flex-grow;
 
   position: relative;
-  font-size: 1.6rem;
+  font-size: 2rem;
 
   @media #{$maxwidth768},#{$mobile} {
     margin: 0;
@@ -89,10 +89,6 @@ body {
       #filter-buttons {
         @include flexbox;
         @include flex-center;
-
-        @media #{$maxwidth768},#{$mobile} {
-          font-size: 1.4em;
-        }
 
         .control {
           font-size: 1.3em;

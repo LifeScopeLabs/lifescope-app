@@ -172,7 +172,7 @@
                 </div>
               </div>
 
-              <i class="fal fa-caret-down expand-indicator"></i>
+              <i class="fal fa-caret-down"></i>
             </div>
 
             <form class="auto" v-on:submit.prevent="">
@@ -258,7 +258,7 @@
               </div>
 
               <div class="mobile-flex-center">
-                <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New Key</button>
+                <button id="new-api-key" class="danger" v-on:click="generateApiKey">New Key</button>
               </div>
             </div>
           </div>
@@ -271,7 +271,7 @@
               <p>Please see the <a href="https://lifescope.io/platform">Developer Documentation</a>.</p>
 
               <div class="mobile-flex-center">
-                <button id="new-oauth-app" class="primary" v-on:click="initializeNewApp">Generate New App</button>
+                <button id="new-oauth-app" class="primary" v-on:click="initializeNewApp">New App</button>
               </div>
 
               <div v-for="app in orderBy($data.oauthAppMany, 'name')" class="flexbox app" v-on:click="editApp(app.id)">
