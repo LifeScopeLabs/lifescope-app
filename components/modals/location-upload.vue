@@ -6,20 +6,42 @@
 
 		<h3 class="align-center">Upload Location History</h3>
 
-		<h4 class="align-center">This operation may take a few minutes depending on your network speed and size of Location file. Please be patient.</h4>
+		<p class="align-center">This operation may take several minutes.</p>
 
 		<div class="body flexbox flex-column flex-x-center">
 			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-				<h3>Google</h3>
+				<h4>Google</h4>
 				<div>
 					<ol>
-						<li>Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a>. Unselect every product, then select 'Location History'. Make sure it's in 'JSON format', then click the Next button at the bottom.</li>
-						<li>Choose whatever file type and archive size you would like, as well as the delivery method of your choice, then click the Create Archive button.</li>
-						<li>When the archive is created, download it to your device. Open the .zip/.tgz file with some sort of archive management software, and inside that file navigate to Takeout -> Location History.</li>
-						<li>There should be one or more .json files in this folder. Extract these files to somewhere such as your Documents or Downloads folder.</li>
-						<li>Click on 'Choose File' below, then navigate to one of the files you just extracted and select that. Click the Submit button.</li>
-						<li>If there was more than one file with Location data, repeat the above step for each file.</li>
+						<li>Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a> and select 'Location History' with 'JSON format' and then click the 'Create Archive'.</li>
+						<li>Inside your archive navigate to Takeout -> Location History and extract these files.</li>
+						<li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
+						<li>If there was more than one file with Location data, repeat for each file.</li>
 					</ol>
+				</div>
+			</div>
+		</div>
+
+		<div class="body flexbox flex-column flex-x-center">
+			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
+				<h4>Facebook</h4>
+				<div>
+					<ol>
+						<li>Go to <a href="https://www.facebook.com/settings?tab=your_facebook_information" target="_blank">Facebook Information</a> and select 'Download Your Information'.</li>
+						<li>Select 'Location' with 'JSON format' and then click the 'Create File'.</li>
+						<li>Inside your archive navigate to Location History and extract these files.</li>
+						<li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
+						<li>If there was more than one file with Location data, repeat for each file.</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+
+		<div class="body flexbox flex-column flex-x-center">
+			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
+				<h4>Other GeoJSON Sources</h4>
+				<div>
+					<p>This uploader should work for any GeoJson files with '.json; extension.</p>
 				</div>
 			</div>
 		</div>

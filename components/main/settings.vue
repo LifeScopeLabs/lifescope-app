@@ -40,6 +40,17 @@
               </div>
 
               <div class="padded paragraphed form">
+
+                <div class="flexbox flex-column">
+                  <div class="title">Avatar</div>
+                  <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+                    <i class="fal fa-2x fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                    <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
+                    <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
+                    <i class="fal fa-2x fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                  </div>
+                </div>
+
                 <div class="flexbox flex-column names">
                   <div class="flexbox flex-column">
                     <div class="flexbox">
@@ -67,21 +78,11 @@
                   </div>
                 </div>
 
-                <div class="flexbox flex-column">
-                  <div class="title">Avatar</div>
-                  <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
-                    <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
-                    <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
-                    <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
-                    <i class="fal fa-chevron-right" v-on:click="changeAvatar(1)"></i>
-                  </div>
-                </div>
-
                 <div class="flex-mobile">
                   <button class="primary" v-on:click="updatePerson">Update Profile</button>
                 </div>
 
-                <div class="error" v-if="$data.error === true">There was an error updating your profile. If this issue persists, please contact us.</div>
+                <div class="error" v-if="$data.error === true">There was an error updating your profile. If this issue persists, please contact support.</div>
               </div>
             </div>
 
@@ -129,12 +130,12 @@
           </div>
 
           <div class="boxed-group">
-            <div class="title">Upload Location History</div>
+            <div class="title">Import Location History</div>
             <div class="padded paragraphed">
               <div>Number of uploaded Locations: {{ locationUploadedCount }}</div>
-              <div>Location files awaiting processing: {{ locationFilesCount }}</div>
+              <div>Location files processing: {{ locationFilesCount }}</div>
               <p>
-                LifeScope can accept Location history from services such as Google. This can greatly improve the estimation of Events' Locations.
+                LifeScope can import Location history from GeoJSON files. Export location data from Google, Facebook, and other GPS data.
               </p>
 
               <div class="flex-mobile">
@@ -142,7 +143,7 @@
 
                 <span class="flex-grow"></span>
 
-                <button class="danger delete mobile-flex-center" v-on:click.prevent="showUploadedLocationsDeleteModal">Delete Uploaded Locations</button>
+                <button class="danger delete mobile-flex-center" v-on:click.prevent="showUploadedLocationsDeleteModal">Delete Import Locations</button>
               </div>
             </div>
           </div>
@@ -151,7 +152,7 @@
           <div v-for="connection in orderBy($store.state.connectionMany, 'provider.name')"
                v-bind:class="{active : $data.activeConnection === connection.id}" class="connection boxed-group"
                v-bind:data-id="connection.id" v-bind:data-provider-id="connection.provider.id">
-            <div class="flexbox flex-x-center title" v-on:click="toggleActive(connection.id)">
+            <div class="flexbox flex-x-center flex-space-between title" v-on:click="toggleActive(connection.id)">
               <div class="icon-name">
                 <i v-bind:class="getIcon(connection)"></i>
                 <div class="flex-grow name">{{ connection.name }}</div>
@@ -162,12 +163,12 @@
                   {{ getUpdated(connection.last_run) }}
                 </div>
                 <div v-else-if="connection.status === 'failed'" class="updates">
-                  <div>Issue with initial index</div>
+                  <div>Issue with Initial Index</div>
                 </div>
                 <div v-else class="updates">
-                  <div>Initial index in progress</div>
+                  <div>Initial Index in Progress</div>
                   <span></span>
-                  <i class="fal fa-spinner fa-spin fa-2x"></i>
+                  <i class="fal fa-spinner fa-spin"></i>
                 </div>
               </div>
 
@@ -239,14 +240,14 @@
         </section>
         <section id="developer" v-if="$store.state.mode === 'developer'">
           <div class="boxed-group">
-            <div class="title">LifeScope Developer API Platform</div>
+            <div class="title">Developer</div>
 
             <div class="padded paragraphed">
               <p>
-                LifeScope is an open data platform you can build on. Learn more by reading our <a href="https://lifescopelabs.github.io">Documentation on GitHub</a>.
+                LifeScope is an open data platform you can build on. Learn more by reading our <a href="https://lifescope.io/platform">Documentation</a>.
               </p>
               <p>
-                Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiAL</a>.
+                Explore the LifeScope API using our <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a> or <a href="https://api.lifescope.io/gql-i">GraphiQL</a>.
               </p>
               <p>
                 The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the Authorization header with your API key. Key: 'Authorization' Value 'Bearer: &lt;your_api_key&gt;'.
@@ -257,20 +258,20 @@
               </div>
 
               <div class="mobile-flex-center">
-                <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New API Key</button>
+                <button id="new-api-key" class="danger" v-on:click="generateApiKey">Generate New Key</button>
               </div>
             </div>
           </div>
 
           <div class="boxed-group">
-            <div class="title">OAuth2 Apps</div>
+            <div class="title">Platform Apps</div>
 
             <div class="padded paragraphed">
-              <p>You can build apps on top of users' data via OAuth2.</p>
-              <p>Please see <a href="https://lifescope.io/oauth2">the documentation</a> for more information.</p>
+              <p>You can build apps on top of the LifeScope Platform.</p>
+              <p>Please see the <a href="https://lifescope.io/platform">Developer Documentation</a>.</p>
 
               <div class="mobile-flex-center">
-                <button id="new-oauth-app" class="primary" v-on:click="initializeNewApp">Generate New OAuth App</button>
+                <button id="new-oauth-app" class="primary" v-on:click="initializeNewApp">Generate New App</button>
               </div>
 
               <div v-for="app in orderBy($data.oauthAppMany, 'name')" class="flexbox app" v-on:click="editApp(app.id)">
@@ -282,14 +283,13 @@
         </section>
         <section id="people" v-if="$store.state.mode === 'people'">
           <div class="boxed-group">
-            <div class="title">LifeScope People</div>
+            <div class="title">People</div>
 
             <div class="padded paragraphed">
-              <p>You can associate multiple Contacts with a single Person, e.g. @liz_doing_biz on Twitter and elizabeth.doe@gmail.com can be grouped under a single Person 'Elizabeth Doe'.</p>
-              <p>People will show up in search results instead of Contacts whenever possible.</p>
+              <p>Manage People in your life easily in one place. Add a record for a person and associate all of their contacts a single Person.</p>
 
               <div class="mobile-flex-center">
-                <button id="new-person" class="primary" v-on:click="initializeNewPerson">Create new Person</button>
+                <button id="new-person" class="primary" v-on:click="initializeNewPerson">Add Person</button>
               </div>
 
               <div class="flexbox flex-column">
@@ -311,12 +311,12 @@
         </section>
         <section id="app-create" v-if="$store.state.mode === 'app-create'">
           <div class="boxed-group oauth-app">
-            <div class="title">New OAuth2 App</div>
+            <div class="title">Create Platform App</div>
 
             <div class="padded paragraphed form">
               <div class="flexbox flex-column">
                 <div class="flexbox">
-                  <div class="title">Name</div>
+                  <div class="title">App Name</div>
                   <div class="error" v-if="$store.state.app.name.error === true">This app must have a name</div>
                 </div>
                 <div class="text-box shrink">
@@ -373,14 +373,14 @@
                   <div v-else>
                     <div>{{ $store.state.app.clientSecret.value }}</div>
                     <div class="flexbox flex-end">
-                      <button class="danger" v-on:click="showSecretResetModal">Generate new secret</button>
+                      <button class="danger" v-on:click="showSecretResetModal">Generate Secret</button>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="revoke-tokens">
-                <button class="danger" v-on:click="showTokenRevokeModal">Revoke user access tokens</button>
+                <button class="danger" v-on:click="showTokenRevokeModal">Revoke User Access Tokens</button>
               </div>
 
 				<div class="redirects">
@@ -402,7 +402,7 @@
 
               <div class="flexbox flex-column">
                 <div class="flexbox">
-                  <div class="title">Name</div>
+                  <div class="title">App Name</div>
                   <div class="error" v-if="$store.state.app.name.error === true">This app must have a name</div>
                 </div>
                 <div class="text-box shrink">
@@ -447,11 +447,10 @@
         </section>
         <section id="authorized-apps" v-if="$store.state.mode === 'authorized-apps'">
           <div class="boxed-group">
-            <div class="title">Authorized apps</div>
+            <div class="title">Authorized Apps</div>
 
             <div class="padded paragraphed">
-              <p>Below are all of the apps which you have granted access to your LifeScope data.</p>
-              <p>You can revoke access to any of them by clicking on the 'Revoke Access' button.</p>
+              <p>Apps granted access to your LifeScope data:</p>
 
               <div v-for="app in orderBy($store.state.oauthAppAuthorizedMany, 'name')" class="app">
                 <div class="flexbox">
@@ -543,7 +542,7 @@
 
               <div class="flex-mobile">
                 <button class="primary" v-on:click="createNewPerson">Create Person</button>
-                <div class="error" v-if="$data.error === true">There was an error creating this Person. If this issue persists, please contact us.</div>
+                <div class="error" v-if="$data.error === true">There was an error creating this Person. If this issue persists, please contact support.</div>
 
                 <span class="flex-grow"></span>
 
@@ -636,7 +635,7 @@
                 <button class="danger delete" v-on:click.prevent="showDeletePersonModal">Delete Person</button>
               </div>
 
-              <div class="error" v-if="$data.error === true">There was an error updating this Person. If this issue persists, please contact us.</div>
+              <div class="error" v-if="$data.error === true">There was an error updating this Person. If this issue persists, please contact support.</div>
             </div>
           </div>
         </section>
@@ -736,10 +735,10 @@
     methods: {
       getIcon: function(connection) {
         if (connection.browser) {
-          return icons('browser', connection.browser.toLowerCase()) + ' fa-2x';
+          return icons('browser', connection.browser.toLowerCase());
         }
         else {
-          return icons('provider', connection.provider.name.toLowerCase()) + ' fa-2x';
+          return icons('provider', connection.provider.name.toLowerCase());
         }
       },
 

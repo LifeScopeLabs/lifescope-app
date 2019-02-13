@@ -97,6 +97,7 @@ div#body.settings {
 
         & > i {
           margin-left: 0.5em;
+          width: 1.5em;
         }
       }
     }
@@ -458,7 +459,7 @@ div#body.settings {
       border: 1px dashed darken($border-color, 25%);
 
       &:hover {
-        background-color: darken($background-color, 20%);
+        background-color: darken($background-color, 10%);
       }
     }
   }
@@ -655,6 +656,7 @@ div#body.settings {
           & > img,
           & > i {
             margin-right: 0.25em;
+            width: 1.5em;
           }
         }
       }
@@ -727,23 +729,17 @@ div#body.settings {
 
     & > .default {
       color: white;
-      width: 50px;
-      height: 50px;
+      width: 120px;
+      height: 120px;
 
       border-radius: 50%;
-
       text-align: center;
-
-      font-size: 2.25em;
-
-      @media #{$maxwidth768},#{$mobile} {
-        font-size: 1.75em;
-      }
+      font-size: 5.2em;
     }
 
     & > img {
-      width: 50px;
-      height: 50px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
     }
 
