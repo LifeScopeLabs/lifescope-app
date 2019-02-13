@@ -24,7 +24,6 @@ div#body.home {
       }
 
       .title {
-        font-weight: bold;
         margin-bottom: 1em;
       }
     }
@@ -83,6 +82,7 @@ div#body.home {
           & > * {
             &.selected {
               border: 2px solid $input-border-color-dark !important;
+              box-shadow: 0 -5px 5px 3px rgba(0,0,0,.15);
               border-bottom: none !important;
 
               background-color: $item-background-color-dark !important;
@@ -95,6 +95,7 @@ div#body.home {
         }
 
         #search-container {
+
           .scroller {
             #searches {
               & > * {
@@ -163,7 +164,7 @@ div#body.home {
     overflow: hidden;
 
     main {
-      padding: 1em 0 0 1em;
+      padding-top: 1em;
       overflow: hidden;
 
       @media #{$maxwidth768},#{$mobile} {
@@ -249,7 +250,6 @@ div#body.home {
 
         .name {
           font-size: 1.5em;
-          font-weight: 700;
 
           @media #{$maxwidth768},#{$mobile} {
             font-size: 1em;
@@ -267,9 +267,7 @@ div#body.home {
 
           i {
             @include align-center;
-
-            margin-right: 0.5em;
-            min-width: 1em;
+            width: 1.5em;
           }
 
           & > * {
@@ -296,7 +294,7 @@ div#body.home {
 
             font-size: 1.2em;
 
-            margin-top: 0.5em;
+            padding: 0.5em 1em;
 
             & > * {
               @include flexbox;
@@ -312,7 +310,6 @@ div#body.home {
 
               .count {
                 font-size: 1em;
-                font-weight: 500;
 
                 color: $blue !important;
               }
@@ -360,7 +357,6 @@ div#body.home {
 
           & > .tab {
             font-size: 1em;
-            font-weight: 400;
             padding: 0.5em 1em;
 
             position: relative;
@@ -379,8 +375,9 @@ div#body.home {
 
             &.selected {
               border: 1px solid $input-border-color;
+              box-shadow: 0px -5px 10px 3px rgba(0,0,0,0.35);
               border-bottom: none;
-              border-radius: 4px 4px 0 0;
+              border-radius: 8px 8px 0 0;
 
               background-color: $item-background-color;
 
@@ -422,6 +419,7 @@ div#body.home {
         #search-container,
         #event-container {
           @include flex-grow-scrollable;
+          box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
           .scroller {
             #searches {
@@ -506,7 +504,7 @@ div#body.home {
 
                         border: 1px solid darken($border-color, 5%);
                         background-color: $background-color;
-                        border-radius: 4px;
+                        border-radius: 6px;
 
                         font-size: 0.7em;
 
@@ -561,18 +559,11 @@ div#body.home {
               }
 
               #more-people {
-                @include flexbox;
-                @include flex-x-center;
-                @include flex-column;
-
-                margin: 1em 0;
-                font-size: 1.5em;
-
-                cursor: pointer;
-
-                &:hover {
-                  color: $blue;
-                }
+                color: #2ac1de;
+                text-decoration: none;
+                padding: 10px;
+                margin: 25px;
+                border: 1px dashed darken($border-color, 25%);
               }
 
               .share-status {
@@ -755,16 +746,32 @@ div#body.home {
       width: 50px;
       height: 50px;
 
-      border-radius: 30px;
+      border-radius: 50%;
 
       text-align: center;
+    }
+
+    .me {
+      & > .default {
+        width: 90px;
+        height: 90px;
+        font-size: 4em;
+      }
     }
 
     & > img {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
     }
-
+    
+    .me {
+      & > img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+    
     i {
       margin: 0 0.25em;
 

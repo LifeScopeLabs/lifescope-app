@@ -50,7 +50,6 @@ a {
 }
 
 h1, h2, h3 {
-  font-weight: 700;
   margin: 1.5em 0 0.5em 0;
 }
 
@@ -96,6 +95,46 @@ b, strong {
   font-weight: 700 !important;
 }
 
+.expand-indicator {
+  transform: rotate(180deg);
+  top: -1px;
+
+   @media #{$maxwidth768},#{$mobile} {
+    top: 10px;
+  }
+}
+
+// Shadows
+@mixin box_shadow ($level) {
+
+  @if $level == 1 {
+     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+ } @else if $level == 2 {
+     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+ } @else if $level == 3 {
+     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+ } @else if $level == 4 {
+     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+ } @else if $level == 5 {
+     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+ }
+
+}
+@mixin box_shadow_dark ($level) {
+
+  @if $level == 1 {
+     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.12), 0 1px 2px rgba(255, 255, 255, 0.24);
+ } @else if $level == 2 {
+     box-shadow: 0 3px 6px rgba(255, 255, 255, 0.12), 0 3px 6px rgba(255, 255, 255, 0.24);
+ } @else if $level == 3 {
+     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.12), 0 6px 6px rgba(255, 255, 255, 0.24);
+ } @else if $level == 4 {
+     box-shadow: 0 14px 28px rgba(255, 255, 255, 0.12), 0 10px 10px rgba(255, 255, 255, 0.24);
+ } @else if $level == 5 {
+     box-shadow: 0 19px 38px rgba(255, 255, 255, 0.12), 0 15px 12px rgba(255, 255, 255, 0.24);
+ }
+}
+
 div#body {
   position: absolute;
   width: 100%;
@@ -131,7 +170,8 @@ div#body {
   }
 
   & > header {
-    $margin-width: 10px;
+    @include box_shadow(2);
+    $margin-width: 5px;
 
     @include no-select;
 
@@ -139,7 +179,11 @@ div#body {
     border-bottom: 1px solid $border-color;
 
     .logo {
-      height: 40px;
+      height: 70px;
+
+      @media #{$maxwidth768},#{$mobile} {
+        height: 40px;
+      }
     }
 
     nav {
@@ -156,8 +200,6 @@ div#body {
       }
 
       & > :first-child {
-        margin-left: $margin-width * 2;
-
         position: relative;
 
         & > span {
@@ -394,6 +436,8 @@ div#body {
 }
 
 .boxed-group {
+  @include box_shadow(4);
+
   $border-radius: 2px;
 
   border: 1px solid darken($border-color, 10%);
@@ -411,8 +455,7 @@ div#body {
 
   & > :first-child {
     padding: 0.2em 0.5em;
-    font-weight: 700;
-    font-size: 1.1em;
+    font-size: 1.4em;
     border-top: none;
     background-color: $background-color;
   }
@@ -444,9 +487,17 @@ html.dark {
     color: $font-color-dark;
   }
 
+  .header {
+    @include box_shadow_dark(4);
+  }
+
   .item {
     background-color: $item-background-color-dark;
     border-color: $border-color-dark;
+  }
+
+  .boxed-group{
+    @include box_shadow_dark(4);
   }
 
   .subdue {
@@ -494,8 +545,4 @@ html.dark {
       margin-bottom: 1em;
     }
   }
-}
-
-.fab {
-  font-weight: 100;
 }

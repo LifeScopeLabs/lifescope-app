@@ -13,7 +13,7 @@ div#body.auth {
         display: block !important;
 
         & > i {
-          margin-left: 0.5em;
+          width: 1.5em;
         }
       }
     }
@@ -73,7 +73,6 @@ div#body.auth {
   }
 
   .label {
-    font-weight: bold;
     font-size: 1em;
     margin-bottom: 0.3em;
 

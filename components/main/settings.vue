@@ -36,7 +36,7 @@
             <div class="boxed-group person">
               <div class="title">
                 Profile
-                <i v-bind:class="{ shown: $data.profileUpdated === true }" class="fas fa-check-circle flex-grow success-icon"></i>
+                <i v-bind:class="{ shown: $data.profileUpdated === true }" class="fal fa-check-circle flex-grow success-icon"></i>
               </div>
 
               <div class="padded paragraphed form">
@@ -70,10 +70,10 @@
                 <div class="flexbox flex-column">
                   <div class="title">Avatar</div>
                   <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
-                    <i class="fas fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                    <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
                     <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
                     <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
-                    <i class="fas fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                    <i class="fal fa-chevron-right" v-on:click="changeAvatar(1)"></i>
                   </div>
                 </div>
 
@@ -167,11 +167,11 @@
                 <div v-else class="updates">
                   <div>Initial index in progress</div>
                   <span></span>
-                  <i class="fas fa-spinner fa-spin fa-2x"></i>
+                  <i class="fal fa-spinner fa-spin fa-2x"></i>
                 </div>
               </div>
 
-              <i class="fas fa-caret-down expand-indicator"></i>
+              <i class="fal fa-caret-down expand-indicator"></i>
             </div>
 
             <form class="auto" v-on:submit.prevent="">
@@ -179,7 +179,7 @@
                 <div v-if="connection.browser == null">
                   <div class="flexbox flex-x-center label">
                     <div>Name</div>
-                    <i class="fas fa-check-circle flex-grow success-icon" data-for="name"
+                    <i class="fal fa-check-circle flex-grow success-icon" data-for="name"
                        v-bind:data-namespace="connection.name"></i>
                   </div>
                   <div class="text-box shrink">
@@ -197,7 +197,7 @@
                                       v-model="$store.state.permissions[connection.id]" v-on:change="updatePermissions(connection)"/>
                           {{ permission.$value.name }}
                         </label>
-                        <i class="fas fa-check-circle flex-grow success-icon" v-bind:data-for="name"
+                        <i class="fal fa-check-circle flex-grow success-icon" v-bind:data-for="name"
                            v-bind:data-namespace="connection.id"></i>
                       </div>
                       <div class="tooltip" data-for="">{{ permission.$value.description }}</div>
@@ -234,7 +234,7 @@
           </div>
 
           <a id="big-add" class="flexbox flex-center" href="https://app.lifescope.io/providers">
-            <i class="fas fa-plus"></i>
+            <i class="fal fa-3x fa-plus"></i>
           </a>
         </section>
         <section id="developer" v-if="$store.state.mode === 'developer'">
@@ -388,14 +388,14 @@
 
 					<div v-for="redirect in $store.state.app.redirects.value" class="flexbox flex-x-center redirect">
 						<div>{{ redirect }}</div>
-						<i class="delete fas fa-times" v-on:click="removeRedirect(redirect)"></i>
+						<i class="delete fal fa-times" v-on:click="removeRedirect(redirect)"></i>
 					</div>
 
 					<div class="flexbox flex-x-center new-redirect">
                         <div class="text-box shrink">
                           <input type="text" placeholder="https://yourapp.com/redirect_path" v-model="$data.tempRedirect.value">
                         </div>
-						<i class="add fas fa-plus" v-on:click="addRedirect"></i>
+						<i class="add fal fa-plus" v-on:click="addRedirect"></i>
                         <div class="error" v-if="$data.tempRedirect.error === true">Invalid URL</div>
 					</div>
 				</div>
@@ -511,7 +511,7 @@
                       <div v-if="contact.name != null">{{ contact.name }}</div>
                       <div>{{ contact.handle }}</div>
                     </div>
-                    <i class="delete fas fa-times" v-on:click="removeContact(contact)"></i>
+                    <i class="delete fal fa-times" v-on:click="removeContact(contact)"></i>
                   </div>
                 </div>
                 <div class="contact-search">
@@ -534,10 +534,10 @@
               <div class="flexbox flex-column">
                 <div class="title">Avatar</div>
                 <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
-                  <i class="fas fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                  <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
                   <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
                   <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
-                  <i class="fas fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                  <i class="fal fa-chevron-right" v-on:click="changeAvatar(1)"></i>
                 </div>
               </div>
 
@@ -594,7 +594,7 @@
                       <div v-if="contact.name != null">{{ contact.name }}</div>
                       <div>{{ contact.handle }}</div>
                     </div>
-                    <i class="delete fas fa-times" v-on:click="removeContact(contact)"></i>
+                    <i class="delete fal fa-times" v-on:click="removeContact(contact)"></i>
                   </div>
                 </div>
                 <div class="contact-search">
@@ -617,10 +617,10 @@
               <div class="flexbox flex-column">
                 <div class="title">Avatar</div>
                 <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
-                  <i class="fas fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
+                  <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
                   <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
                   <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
-                  <i class="fas fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                  <i class="fal fa-chevron-right" v-on:click="changeAvatar(1)"></i>
                 </div>
               </div>
 

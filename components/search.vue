@@ -1,30 +1,30 @@
 <template slot="search">
   <div v-if="$store.state.mode !== 'shared'" id="search-bar" class="input-group">
     <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
-      <i v-bind:class="$data.editorOpen ? 'fas fa-caret-up' : 'fas fa-caret-down'"></i>
+      <i v-bind:class="$data.editorOpen ? 'fal expand-indicator fa-caret-up' : 'fal fa-caret-down'"></i>
     </div>
 
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
       <div id="filter-editor">
         <div id="filter-buttons">
           <div class="control" data-type="who" v-on:click="createBlankFilter('who')" v-bind:class="{ active: $data.activeFilter.type === 'who' }">
-            <i class="fas fa-user"></i>
+            <i class="fa1 fa-user"></i>
           </div>
 
           <div class="control" data-type="what" v-on:click="createBlankFilter('what')" v-bind:class="{ active: $data.activeFilter.type === 'what' }">
-            <i class="far fa-image"></i>
+            <i class="fal fa-image"></i>
           </div>
 
           <div class="control" data-type="when" v-on:click="createBlankFilter('when')" v-bind:class="{ active: $data.activeFilter.type === 'when' }">
-            <i class="far fa-calendar-alt"></i>
+            <i class="fal fa-calendar-alt"></i>
           </div>
 
           <div class="control" data-type="connector" v-on:click="createBlankFilter('connector')" v-bind:class="{ active: $data.activeFilter.type === 'connector' }">
-            <i class="fas fa-plug"></i>
+            <i class="fal fa-plug"></i>
           </div>
 
           <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map', active: $data.activeFilter.type === 'where' }">
-            <i class="fas fa-globe"></i>
+            <i class="fal fa-globe"></i>
           </div>
         </div>
 
@@ -232,7 +232,7 @@
             <div class="estimated">
               <label>
                 <input type="checkbox" name="estimated" v-model="activeFilter.data.estimated"/>
-                <span>Return Estimated Results</span>
+                <span>Estimated Results</span>
               </label>
             </div>
 
@@ -248,14 +248,14 @@
         <div class="filter" v-for="filter in $store.state.searchBar.filters">
           <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
           <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
-          <i class="fas fa-times" v-on:click="deleteFilter(filter)"></i>
+          <i class="fal fa-times" v-on:click="deleteFilter(filter)"></i>
         </div>
       </div>
     </div>
 
     <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="checkAndSearch">
       <div id="search-box" class="text-box">
-        <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Enter Search" v-on:change="updateQuery"/>
+        <input id="search-query" type="search" name="search" v-model="$store.state.searchBar.query" placeholder="Search" v-on:change="updateQuery"/>
       </div>
     </form>
 
@@ -263,18 +263,18 @@
       <div class="filter" v-for="filter in $store.state.searchBar.filters">
         <span v-if="filter && filter.name" v-on:click="openAndLoadFilter(filter)">{{ filter.name }}</span>
         <span v-else v-on:click="openAndLoadFilter(filter)">{{ filter.type | capitalize }}</span>
-        <i class="fas fa-times" v-on:click="deleteFilter(filter)"></i>
+        <i class="fal fa-times" v-on:click="deleteFilter(filter)"></i>
       </div>
     </div>
 
     <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count" v-on:click="toggleFilterEditor">+{{ $data.overflowCount }}</div>
 
     <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
-      <i v-bind:class="{ 'fas fa-star': $store.state.currentSearch.favorited === true, 'far fa-star': $store.state.currentSearch.favorited !== true }"></i>
+      <i v-bind:class="{ 'fal fa-star': $store.state.currentSearch.favorited === true, 'fal fa-star': $store.state.currentSearch.favorited !== true }"></i>
     </div>
 
     <div id="search-button" v-on:click="performSearch(true)">
-      <i class="fas fa-search"></i>
+      <i class="fal fa-search"></i>
     </div>
 
     <modals-container/>

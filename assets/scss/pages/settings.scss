@@ -26,11 +26,6 @@ div#body.settings {
       color: lighten($font-color-dark, 30%);
     }
 
-    &.connections {
-      #big-add {
-        border: 1px dashed lighten($border-color-dark, 25%);
-      }
-    }
 
     main {
       color: $font-color-dark;
@@ -213,7 +208,6 @@ div#body.settings {
   }
 
   .label {
-    font-weight: bold;
     font-size: 1em;
     margin-bottom: 0.3em;
 
@@ -355,10 +349,9 @@ div#body.settings {
         .updates {
           @include flexbox;
           @include flex-end;
-
-          font-weight: normal;
-          font-size: 0.8em;
-          opacity: 0.7;
+          font-size: 0.5em;
+          opacity: 0.7;	          
+          margin-right: 20px;
 
           & > * {
             padding-left: 5px;
@@ -387,7 +380,7 @@ div#body.settings {
 
         i {
           margin-right: 0.5em;
-
+          width: 1.5em;
         }
       }
 
@@ -456,18 +449,11 @@ div#body.settings {
     }
 
     #big-add {
-      font-size: 2em;
-
+      color: #2ac1de;
       text-decoration: none;
-      padding: 8px;
-      padding-bottom: 6px;
+      padding: 10px;
+      margin: 25;
       border: 1px dashed darken($border-color, 25%);
-      width: 70%;
-      @include position-center;
-
-      @media #{$maxwidth768},#{$mobile} {
-        margin-top: 1em;
-      }
     }
   }
 
@@ -489,7 +475,6 @@ div#body.settings {
 
         .title {
           margin-right: 1em;
-          font-weight: bold;
         }
       }
 
@@ -518,6 +503,7 @@ div#body.settings {
 
           i {
             color: $red;
+            width: 1.5em;
             cursor: pointer;
 
             &:hover {
@@ -566,7 +552,6 @@ div#body.settings {
 
       .name {
         margin-right: 1em;
-        font-weight: bold;
         color: $blue;
       }
     }
@@ -739,7 +724,7 @@ div#body.settings {
       width: 50px;
       height: 50px;
 
-      border-radius: 30px;
+      border-radius: 50%;
 
       text-align: center;
 
@@ -753,6 +738,7 @@ div#body.settings {
     & > img {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
     }
 
     i {

@@ -1,6 +1,6 @@
 {
   "name": "lifescope-app",
-  "version": "2.3.1",
+  "version": "2019.1.0",
   "description": "Search and Explore the internet of you. lifescope.io",
   "author": "LifeScope Labs (https://lifescope.io)",
   "repository": {
@@ -16,6 +16,7 @@
     "build": "nuxt build && backpack build",
     "seed": "./node_modules/.bin/babel-node ./scripts/seed.js",
     "dev": "NODE_ENV=dev babel-node server.js",
+    "dev-prod": "NODE_ENV=production babel-node server.js",
     "start": "cross-env NODE_ENV=production node build/main.js",
     "start-dev": "cross-env NODE_ENV=local node build/main.js",
     "start-seed": "npm run seed && babel-node server.js",

@@ -39,8 +39,7 @@ a {
 }
 
 h1, h2, h3 {
-  font-weight: 700;
-  margin: 1.5em 0 0.5em 0;
+  margin: 1.3em 0 0.5em 0;
 }
 
 h1, h2, h3, p {
@@ -136,7 +135,11 @@ div#body {
     border-bottom: 1px solid $border-color;
 
     .logo {
-      height: 40px;
+      height: 70px;
+
+      @media #{$maxwidth768},#{$mobile} {
+        height: 40px;
+      }
     }
 
     nav {
@@ -153,7 +156,6 @@ div#body {
       }
 
       & > :first-child {
-        margin-left: $margin-width * 2;
 
         position: relative;
 
@@ -409,7 +411,6 @@ div#body {
 
   & > :first-child {
     padding: 0.2em 0.5em;
-    font-weight: 700;
     font-size: 1.1em;
     border-top: none;
     background-color: $background-color;

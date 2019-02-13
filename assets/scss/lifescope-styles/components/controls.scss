@@ -28,7 +28,6 @@ button {
   display: inline-block;
   padding: 0.5em 1em;
   font-size: 1em;
-  font-weight: 700;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   //line-height: 20px;
@@ -379,7 +378,6 @@ input[type='radio'], input[type='checkbox'] {
     vertical-align: middle;
     padding: 6px 12px;
     font-size: 14px;
-    font-weight: normal;
     line-height: 1;
     color: #555;
     text-align: center;
@@ -440,7 +438,6 @@ input[type='radio'], input[type='checkbox'] {
       display: block;
       padding: 3px 20px;
       clear: both;
-      font-weight: normal;
       line-height: 1.42857143;
       color: #333;
       white-space: nowrap;
@@ -507,7 +504,6 @@ input[type='radio'], input[type='checkbox'] {
   padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
-  font-weight: normal;
   line-height: 1.42857143;
   text-align: center;
   white-space: nowrap;

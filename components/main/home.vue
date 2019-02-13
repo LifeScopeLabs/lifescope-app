@@ -2,7 +2,7 @@
   <main>
     <aside v-if="$store.state.user != undefined" id="profile">
       <a href="https://app.lifescope.io/settings/connections">
-        <div class="avatar">
+        <div class="avatar me">
           <img v-if="$store.state.person.avatar_url != null && $store.state.person.avatar_url.length > 0" v-bind:src="$store.state.person.avatar_url" style="max-height: 100px; max-width: 100px;">
           <div class="default" v-else-if="$store.state.person.avatar_url == null || $store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
         </div>
@@ -76,19 +76,19 @@
           <div class="tab" name="tags" v-bind:class="{selected: $store.state.home.tab === 'tags'}" v-on:click="fetchData(true, 'tags', 'tag')">Tags</div>
 
           <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'people'">
-            <div v-bind:class="{selected: $store.state.home.sort === 'first_name'}" v-on:click="fetchData(true, 'people', 'first_name')">First Name</div>
-            <div v-bind:class="{selected: $store.state.home.sort === 'middle_name'}" v-on:click="fetchData(true, 'people', 'middle_name')">Middle Name</div>
-            <div v-bind:class="{selected: $store.state.home.sort === 'last_name'}" v-on:click="fetchData(true, 'people', 'last_name')">Last Name</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'first_name'}" v-on:click="fetchData(true, 'people', 'first_name')">First</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'middle_name'}" v-on:click="fetchData(true, 'people', 'middle_name')">Middle</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'last_name'}" v-on:click="fetchData(true, 'people', 'last_name')">Last</div>
           </div>
 
           <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'searches'">
-            <div v-bind:class="{selected: $store.state.home.sort === 'favorited'}" v-on:click="fetchData(true, 'searches', 'favorited')">Favorited searches</div>
-            <div v-bind:class="{selected: $store.state.home.sort === 'top'}" v-on:click="fetchData(true, 'searches', 'top')">Top searches</div>
-            <div v-bind:class="{selected: $store.state.home.sort === 'recent'}" v-on:click="fetchData(true, 'searches', 'recent')">Recent searches</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'favorited'}" v-on:click="fetchData(true, 'searches', 'favorited')">Favorited</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'top'}" v-on:click="fetchData(true, 'searches', 'top')">Top</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'recent'}" v-on:click="fetchData(true, 'searches', 'recent')">Recent</div>
           </div>
 
           <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'tags'">
-            <div v-bind:class="{selected: $store.state.home.sort === 'tag'}" v-on:click="fetchData(true, 'tags', 'tag')">Alphabetical</div>
+            <div v-bind:class="{selected: $store.state.home.sort === 'tag'}" v-on:click="fetchData(true, 'tags', 'tag')">A-Z</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'shared'}" v-on:click="fetchData(true, 'tags', 'shared')">Shared</div>
           </div>
         </nav>
@@ -136,7 +136,7 @@
 
                 <span class="spacer"></span>
 
-                <span class="sharing">Share</span>
+                <!-- <span class="sharing">Share</span> -->
 
                 <i class="share-status" v-bind:class="shareStatus(tag)"></i>
               </div>
@@ -154,9 +154,8 @@
               </div>
             </a>
 
-            <div id="more-people" v-if="$store.state.home.tab === 'people'" v-on:click="redirectToPeople">
-              <div>Make some more People!</div>
-              <i class="fas fa-plus"></i>
+            <div id="more-people" class="flexbox flex-center" v-if="$store.state.home.tab === 'people'" v-on:click="redirectToPeople">
+              <i class="fal fa-3x fa-plus"></i>
             </div>
           </div>
         </div>
@@ -292,7 +291,7 @@
       },
 
       shareStatus: function(tag) {
-        return tag.share === 'public' ? 'fas fa-lock-open' : 'fas fa-lock';
+        return tag.share === 'public' ? 'fal fa-lock-open' : 'fal fa-lock';
       },
 
       lastRunRelative: function(search) {

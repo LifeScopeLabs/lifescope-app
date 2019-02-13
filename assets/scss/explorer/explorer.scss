@@ -125,7 +125,7 @@ div#body.explorer {
           position: relative;
           top: 50%;
           transform: translateY(-50%);
-          width: 18px;
+          width: 1.5em;
 
           @media #{$maxwidth768},#{$mobile} {
             top: 0;
