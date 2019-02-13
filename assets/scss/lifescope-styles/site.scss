@@ -136,9 +136,10 @@ div#body {
 
     .logo {
       height: 70px;
-
+      margin: 3px;
       @media #{$maxwidth768},#{$mobile} {
         height: 40px;
+        margin: 0px;
       }
     }
 

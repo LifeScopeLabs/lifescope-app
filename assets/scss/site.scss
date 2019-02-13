@@ -108,30 +108,30 @@ b, strong {
 @mixin box_shadow ($level) {
 
   @if $level == 1 {
-     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+     box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.15);
  } @else if $level == 2 {
-     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+     box-shadow: 0 3px 6px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.15);
  } @else if $level == 3 {
-     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+     box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 6px 6px rgba(0,0,0,0.15);
  } @else if $level == 4 {
-     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+     box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.15);
  } @else if $level == 5 {
-     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+     box-shadow: 0 19px 38px rgba(0,0,0,0.15), 0 15px 12px rgba(0,0,0,0.15);
  }
 
 }
 @mixin box_shadow_dark ($level) {
 
   @if $level == 1 {
-     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.12), 0 1px 2px rgba(255, 255, 255, 0.24);
+     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.15), 0 1px 2px rgba(255, 255, 255, 0.15);
  } @else if $level == 2 {
-     box-shadow: 0 3px 6px rgba(255, 255, 255, 0.12), 0 3px 6px rgba(255, 255, 255, 0.24);
+     box-shadow: 0 3px 6px rgba(255, 255, 255, 0.15), 0 3px 6px rgba(255, 255, 255, 0.15);
  } @else if $level == 3 {
-     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.12), 0 6px 6px rgba(255, 255, 255, 0.24);
+     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15), 0 6px 6px rgba(255, 255, 255, 0.15);
  } @else if $level == 4 {
-     box-shadow: 0 14px 28px rgba(255, 255, 255, 0.12), 0 10px 10px rgba(255, 255, 255, 0.24);
+     box-shadow: 0 14px 28px rgba(255, 255, 255, 0.15), 0 10px 10px rgba(255, 255, 255, 0.15);
  } @else if $level == 5 {
-     box-shadow: 0 19px 38px rgba(255, 255, 255, 0.12), 0 15px 12px rgba(255, 255, 255, 0.24);
+     box-shadow: 0 19px 38px rgba(255, 255, 255, 0.15), 0 15px 12px rgba(255, 255, 255, 0.15);
  }
 }
 
@@ -157,7 +157,6 @@ div#body {
   @include flexbox;
   @include flex-column;
 
-  font-size: 1.6rem;
   padding: 0;
   margin: 0;
   min-height: 100%;
@@ -190,13 +189,14 @@ div#body {
     @include no-select;
 
     padding: $margin-width / 2;
-    border-bottom: 1px solid $border-color;
 
     .logo {
       height: 70px;
+      margin: 3px;
 
       @media #{$maxwidth768},#{$mobile} {
         height: 40px;
+        margin: 0px;
       }
     }
 
@@ -450,7 +450,7 @@ div#body {
 }
 
 .boxed-group {
-  @include box_shadow(4);
+  @include box_shadow(2);
 
   $border-radius: 2px;
 
@@ -502,7 +502,7 @@ html.dark {
   }
 
   .header {
-    @include box_shadow_dark(4);
+    @include box_shadow_dark(3);
   }
 
   .item {
@@ -511,7 +511,7 @@ html.dark {
   }
 
   .boxed-group{
-    @include box_shadow_dark(4);
+    @include box_shadow_dark(3);
   }
 
   .subdue {

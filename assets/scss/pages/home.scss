@@ -47,7 +47,6 @@ div#body.home {
       color: $text-color-dark !important;
 
       #profile {
-        border-right: 1px solid $border-color-dark !important;
 
         #stats-container {
           .scroller {
@@ -106,7 +105,7 @@ div#body.home {
                 &:hover,
                 &:active,
                 &.active {
-                  background-color: $background-color-dark !important;
+                  background-color: lighten($background-color-dark, 10%) !important;
 
                   .favorite-create,
                   .favorite-edit,
@@ -126,7 +125,7 @@ div#body.home {
                 & > * {
                   &.search {
                     .query {
-                      color: lighten($font-color-subdue-dark, 10%) !important;
+                      background-color: lighten($background-color-dark, 10%) !important;
                     }
 
                     .filters {
@@ -140,6 +139,7 @@ div#body.home {
                   }
 
                   .name {
+                    margin: 0 8px;
                     color: $font-color-dark !important;
 
                     &:empty:after {
@@ -151,6 +151,12 @@ div#body.home {
                   .sharing {
                     color: $font-color-subdue-dark !important;
                   }
+                }
+              }
+
+              #more-people {
+                &:hover {
+                  background-color: lighten($background-color, 15%);
                 }
               }
             }
@@ -178,8 +184,6 @@ div#body.home {
         @include flex-column;
         @include flex-x-center;
         @include flex-grow;
-
-        border-right: 1px solid $border-color;
 
         @media #{$maxwidth768},#{$mobile} {
           @include flex-row;
@@ -292,8 +296,7 @@ div#body.home {
             @include flexbox;
             @include flex-column;
 
-            font-size: 1.2em;
-
+            cursor: pointer;
             padding: 0.5em 1em;
 
             & > * {
@@ -310,7 +313,11 @@ div#body.home {
 
               .count {
                 font-size: 1em;
+                color: $blue !important;
+              }
 
+              .count-val {
+                font-size: 1em;
                 color: $blue !important;
               }
             }
@@ -375,7 +382,7 @@ div#body.home {
 
             &.selected {
               border: 1px solid $input-border-color;
-              box-shadow: 0px -5px 10px 3px rgba(0,0,0,0.35);
+              box-shadow: 0px -5px 8px 3px rgba(0,0,0,0.15);
               border-bottom: none;
               border-radius: 8px 8px 0 0;
 
@@ -403,7 +410,7 @@ div#body.home {
 
               cursor: pointer;
 
-              margin: 0 0.5em;
+              margin: 0 0.75em;
 
               &.selected {
                 color: $orange;
@@ -419,7 +426,8 @@ div#body.home {
         #search-container,
         #event-container {
           @include flex-grow-scrollable;
-          box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+          box-shadow: 0 15px 20px rgba(0,0,0,0.15), 0 15px 12px rgba(0,0,0,0.15);
+          cursor: pointer;
 
           .scroller {
             #searches {
@@ -559,11 +567,18 @@ div#body.home {
               }
 
               #more-people {
-                color: #2ac1de;
+                color: #ffffff;
                 text-decoration: none;
                 padding: 10px;
                 margin: 25px;
+                border-radius: 5px;
+
+                cursor: pointer;
                 border: 1px dashed darken($border-color, 25%);
+
+                &:hover {
+                  background-color: darken($background-color, 5%);
+                }
               }
 
               .share-status {
@@ -603,7 +618,7 @@ div#body.home {
       max-width: 100%;
 
       & > * {
-        font-size: 1.2em;
+        font-size: 2em;
         margin: 0.2em;
 
 

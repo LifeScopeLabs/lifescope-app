@@ -33,6 +33,7 @@ div#body.home {
   @include flex-grow-scrollable(false);
 
   background-color: $item-background-color;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 15px 15px rgba(0, 0, 0, 0.5);
 
   position: fixed;
   top: 0;
@@ -65,8 +66,7 @@ div#body.home {
 
       position: relative;
       padding: 15.5px 15px;
-      font-size: 1.2em;
-      border-bottom: 1px solid $input-border-color;
+      font-size: 1.7em;
       background-color: $background-color-light;
 
       #close-menu {

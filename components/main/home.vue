@@ -14,7 +14,7 @@
 
       <div class="info">
         <div>
-          <i class="far fa-clock"></i>
+          <i class="fal fa-clock"></i>
           <span>Joined LifeScope {{ $store.getters.dateJoined }}</span>
         </div>
       </div>
@@ -24,44 +24,44 @@
       <div id="stats-container">
         <div class="scroller">
           <div class="stats">
-            <a class="connections" href="/settings/connections">
-              <div class="count" v-model="connectionCount">Connections: {{ connectionCount }}</div>
+            <a class="connections flexbox flex-space-between" href="/settings/connections">
+              <div class="count" v-model="connectionCount">Connections</div><div class="count-val"> {{ connectionCount }}</div>
             </a>
 
-            <a class="people clickable" v-on:click="selectTab('people')">
-              <div class="count" v-model="personCount">People: {{ personCount }}</div>
+            <a class="people clickable flexbox flex-space-between" v-on:click="selectTab('people')">
+              <div class="count" v-model="personCount">People</div><div class="count-val"> {{ personCount }}</div>
             </a>
 
-            <a class="events" href="/explore">
-              <div class="count" v-model="eventCount">Events: {{ eventCount }}</div>
+            <a class="events flexbox flex-space-between" href="/explore">
+              <div class="count" v-model="eventCount">Events</div><div class="count-val"> {{ eventCount }}</div>
             </a>
 
-            <a class="content" href="/explore?facet=content">
-              <div class="count" v-model="contentCount">Content: {{ contentCount }}</div>
+            <a class="content flexbox flex-space-between" href="/explore?facet=content">
+              <div class="count" v-model="contentCount">Content</div><div class="count-val"> {{ contentCount }}</div>
             </a>
 
-            <a class="contacts" href="/explore?facet=contacts">
-              <div class="count" v-model="contactCount">Contacts: {{ contactCount }}</div>
+            <a class="contacts flexbox flex-space-between" href="/explore?facet=contacts">
+              <div class="count" v-model="contactCount">Contacts</div><div class="count-val"> {{ contactCount }}</div>
             </a>
 
-            <a class="locations" href="/settings/locations">
-              <div class="count" v-model="locationCount">Locations: {{ locationCount }}</div>
+            <a class="locations flexbox flex-space-between" href="/settings/locations">
+              <div class="count" v-model="locationCount">Locations</div><div class="count-val"> {{ locationCount }}</div>
             </a>
 
-            <div class="searches clickable" v-on:click="selectTab('searches', 'recent')">
-              <div class="count" v-model="$store.state.searchCount">Searches: {{ $store.state.searchCount }}</div>
+            <div class="searches clickable flexbox flex-space-between" v-on:click="selectTab('searches', 'recent')">
+              <div class="count" v-model="$store.state.searchCount">Searches</div><div class="count-val"> {{ $store.state.searchCount }}</div>
             </div>
 
-            <div class="favorited clickable" v-on:click="selectTab('searches', 'favorited')">
-              <div class="count" v-model="favoriteCount">Favorited Searches: {{ favoriteCount }}</div>
+            <div class="favorited clickable flexbox flex-space-between" v-on:click="selectTab('searches', 'favorited')">
+              <div class="count" v-model="favoriteCount">Favorites</div><div class="count-val"> {{ favoriteCount }}</div>
             </div>
 
-            <div class="tags clickable" v-on:click="selectTab('tags')">
-              <div class="count" v-model="tagCount">Tags: {{ tagCount }}</div>
+            <div class="tags clickable flexbox flex-space-between" v-on:click="selectTab('tags')">
+              <div class="count" v-model="tagCount">Tags</div><div class="count-val"> {{ tagCount }}</div>
             </div>
 
-            <div class="shared-tags clickable" v-on:click="selectTab('tags')">
-              <div class="count" v-model="sharedTagCount">Shared Tags: {{ sharedTagCount }}</div>
+            <div class="shared-tags clickable flexbox flex-space-between" v-on:click="selectTab('tags')">
+              <div class="count" v-model="sharedTagCount">Shared Tags</div><div class="count-val"> {{ sharedTagCount }}</div>
             </div>
           </div>
         </div>
@@ -75,19 +75,19 @@
           <div class="tab" name="favorited" v-bind:class="{selected: $store.state.home.tab === 'searches'}" v-on:click="fetchData(true, 'searches', 'favorited')">Searches</div>
           <div class="tab" name="tags" v-bind:class="{selected: $store.state.home.tab === 'tags'}" v-on:click="fetchData(true, 'tags', 'tag')">Tags</div>
 
-          <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'people'">
+          <div id="sort" class="flexbox flex-grow flex-end" v-if="$store.state.home.tab === 'people'">
             <div v-bind:class="{selected: $store.state.home.sort === 'first_name'}" v-on:click="fetchData(true, 'people', 'first_name')">First</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'middle_name'}" v-on:click="fetchData(true, 'people', 'middle_name')">Middle</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'last_name'}" v-on:click="fetchData(true, 'people', 'last_name')">Last</div>
           </div>
 
-          <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'searches'">
+          <div id="sort" class="flexbox flex-grow flex-end" v-if="$store.state.home.tab === 'searches'">
             <div v-bind:class="{selected: $store.state.home.sort === 'favorited'}" v-on:click="fetchData(true, 'searches', 'favorited')">Favorited</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'top'}" v-on:click="fetchData(true, 'searches', 'top')">Top</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'recent'}" v-on:click="fetchData(true, 'searches', 'recent')">Recent</div>
           </div>
 
-          <div id="sort" class="flexbox flex-grow flex-center" v-if="$store.state.home.tab === 'tags'">
+          <div id="sort" class="flexbox flex-grow flex-end" v-if="$store.state.home.tab === 'tags'">
             <div v-bind:class="{selected: $store.state.home.sort === 'tag'}" v-on:click="fetchData(true, 'tags', 'tag')">A-Z</div>
             <div v-bind:class="{selected: $store.state.home.sort === 'shared'}" v-on:click="fetchData(true, 'tags', 'shared')">Shared</div>
           </div>
@@ -275,7 +275,7 @@
       },
 
       searchIcon: function(search) {
-        return search.favorited && search.icon ? search.icon : 'far fa-circle';
+        return search.favorited && search.icon ? search.icon : 'fal fa-circle';
       },
 
       searchColor: function(search) {
@@ -283,7 +283,7 @@
       },
 
       favoriteIcon: function(search) {
-        return search.favorited ? 'favorite-edit fas fa-star subdue' : 'favorite-create far fa-star subdue'
+        return search.favorited ? 'favorite-edit fal fa-star subdue' : 'favorite-create fal fa-star subdue'
       },
 
       favoriteButton: function(search) {
