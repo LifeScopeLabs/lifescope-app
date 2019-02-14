@@ -33,13 +33,6 @@
       text-align: left;
       word-break: initial;
 
-      i:first-child {
-        width: 1.2em;
-        text-align: center;
-        margin-right: 0.2em;
-        color: $font-color-subdue;
-      }
-
       .type {
         text-transform: uppercase;
         margin-bottom: 0.5em;
@@ -200,9 +193,6 @@ div#body.dark {
       }
 
       & > .details {
-        i:first-child {
-          color: $font-color-subdue-dark;
-        }
 
         .type {
           color: $font-color-subdue-dark;

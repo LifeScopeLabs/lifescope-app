@@ -13,8 +13,7 @@
     @include flexbox;
 
     text-transform: uppercase;
-    font-size: 0.85em;
-    margin-bottom: 1.2em !important;
+    margin-bottom: 1.2em;
     white-space: nowrap;
 
     @media #{$maxwidth768},#{$mobile} {
@@ -25,19 +24,19 @@
       @include flex-grow;
       color: $font-color-subdue;
     }
+  }
 
-    & > .tag-button {
-      margin: .25em 0;
+  & > .tag-button {
+    margin: .25em 0;
+    color: $blue;
+
+    & > i {
       color: $blue;
-
-      & > i {
-        color: $blue;
-      }
     }
+  }
 
-    & > .tags {
-      margin: .25em 0;
-    }
+  & > .tags {
+    margin: .25em 0;
   }
 
   .thumbnail {
@@ -71,6 +70,10 @@
         }
       }
     }
+  }
+
+  a {
+    color: $blue;
   }
 
   .title {
@@ -127,12 +130,6 @@
 }
 
 .content-hidden {
-  @include flexbox;
-  @include flex-grow;
-  @include flex-column;
-
-  font-size: 1.2em;
-
   .unhide-button {
     cursor: pointer;
     color: $green;

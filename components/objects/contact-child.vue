@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="flexbox flex-row flex-space-between">
-			<div class="flexbox flex-colun flex-start">
+			<div class="flexbox flex-column flex-start">
 				<!-- Tag -->
 				<div class="tag-button" v-on:click="openActionModal(contact, 'contact')">
 					<i class="fal fa-hashtag"></i><span>Tag</span>

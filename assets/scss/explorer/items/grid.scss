@@ -36,13 +36,6 @@
   .contact-hidden,
   .content-hidden,
   .person-hidden {
-      @include flexbox;
-      @include flex-column;
-      @include flex-grow;
-      @include flex-center;
-
-      text-align: center;
-      font-size: 1.2em;
       padding: 0.5em;
   }
 
