@@ -10,8 +10,8 @@
     </mapbox>
 
     <div v-if="$store.state.searching === true" class="map-corner flexbox">
-      <i class="fas fa-spinner fa-spin" style="margin-right: 0.2em"></i>
-      <div>Loading more results</div>
+      <i class="fal fa-spinner fa-2x fa-spin" style="margin-right: 0.2em"></i>
+      <div>Loading...</div>
     </div>
 
     <div v-if="$store.state.searchEnded === false && $store.state.searching !== true" class="map-corner clickable" v-on:click="$root.$emit('perform-search', false)">Get more results</div>
@@ -132,7 +132,7 @@
           let event = feature.event;
 
           pinElem.className = pinElem.className + ' map-marker fa-stack fa-lg';
-          pinElem.innerHTML = '<i class="circle-icon fas fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+          pinElem.innerHTML = '<i class="circle-icon fal fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
           pinElem.style.color = feature.color;
 
           $(pinElem)
@@ -305,7 +305,7 @@
                 let coordinates = symbol.geometry.coordinates;
 
                 pinElem.className = 'map-marker fa-stack fa-lg';
-                pinElem.innerHTML = '<i class="circle-icon fas fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+                pinElem.innerHTML = '<i class="circle-icon fal fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
                 pinElem.style.color = symbol.properties.color;
 
                 let marker = new mapboxgl.Marker(pinElem)

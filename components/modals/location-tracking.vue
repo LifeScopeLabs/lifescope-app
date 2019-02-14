@@ -1,11 +1,11 @@
 <template>
   <div class="content padded">
     <div class="flexbox flex-end">
-      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
 
     <div class="body flexbox flex-column flex-x-center">
-      <div v-if="$store.state.userOne.location_tracking_enabled === true" class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
+      <div v-if="$store.state.userOne.location_tracking_enabled === true" class="paragraph flexbox flex-column flex-x-center">
         <h3>Disable Location Tracking</h3>
         <div class="instructions">
           <p>Are you sure you'd like to disable location tracking?</p>
@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div v-if="$store.state.userOne.location_tracking_enabled !== true" class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
+      <div v-if="$store.state.userOne.location_tracking_enabled !== true" class="paragraph flexbox flex-column flex-x-center">
         <h3 >Enable Location Tracking</h3>
         <div class="instructions">
           <p>

@@ -1,15 +1,13 @@
 <template>
   <div class="content padded">
     <div class="flexbox flex-end">
-      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
 
     <div class="body flexbox flex-column flex-x-center">
-      <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-        <h3 >Delete Tracked Locations?</h3>
-        <div class="instructions">
-          <p>Are you sure you want to delete all locations tracked on LifeScope pages?</p>
-        </div>
+      <div class="paragraph flexbox flex-column flex-x-center">
+        <span class="instructions">Delete Tracked Locations?</span>
+        <p>Are you sure you want to delete all locations tracked on LifeScope pages?</p>
       </div>
 
       <div class="mobile-buttons">

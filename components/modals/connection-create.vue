@@ -5,7 +5,7 @@
         <div class="flexbox flex-x-center">
           <i v-bind:class="getProviderIcon(provider)"></i>
           <div class="header flex-grow">Workaround to get Instagram data</div>
-          <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+          <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
       </div>
       <div class="padded paragraphed">
@@ -31,7 +31,7 @@
         <div class="flexbox flex-x-center">
           <i v-bind:class="getProviderIcon(provider)"></i>
           <div class="header flex-grow">New {{ provider.name }} Connection</div>
-          <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+          <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
       </div>
 
@@ -60,9 +60,9 @@
 
         <form class="flexbox flex-column flex-x-center" id="financial-file" action="/financials/upload_file" method="POST" v-on:submit.self.prevent="uploadFinancialFile">
           <input type="file" name="spec" accept="text/csv"/>
-          <div class="errorlist hidden">Error uploading financial file. Check that this is a valid file of financial data and is in .csv format.</div>
+          <div class="errorlist hidden">Error uploading financial file. Check that financial data and is in .csv format.</div>
           <button class="primary" v-bind:class="{ hidden: $data.financial_uploading === true }" type="submit">Submit</button>
-          <i class="fas fa-spin fa-spinner" v-bind:class="{ hidden: $data.financial_uploading === false }"></i>
+          <i class="fal fa-spin fa-spinner" v-bind:class="{ hidden: $data.financial_uploading === false }"></i>
         </form>
       </div>
       <div v-else class="padded paragraphed">

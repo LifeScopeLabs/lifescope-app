@@ -29,7 +29,7 @@ div#body.home {
     }
 
     button {
-      width: 200px;
+      width: 120px;
     }
 
     img.main {
@@ -443,9 +443,12 @@ div#body.home {
                 border: 1px solid transparent;
                 position: relative;
                 text-decoration: none;
+                overflow-y: hidden;
+                word-wrap: break-word;
+                word-break: break-all;
 
                 @media #{$maxwidth768},#{$mobile} {
-                  padding: 0.75em 0;
+                  padding: 0.5em 0.25em;
                 }
 
                 &:not(:last-child) {
@@ -591,9 +594,7 @@ div#body.home {
     }
 
     #sharing-options {
-      @include flexbox;
-      @include flex-column;
-      @include flex-x-center;
+      margin-bottom: 1em;
 
       & > label {
         width: 200px;
@@ -601,13 +602,20 @@ div#body.home {
     }
 
     .share-link {
-      @include flexbox;
-      @include flex-column;
-      @include flex-x-center;
-
       word-break: break-word;
+      margin-bottom: 1em;
 
-      margin-bottom: 0.5em;
+      & > a {
+        font-size: 0.75em;
+      }
+    }
+
+    .public-link {
+      margin: 1em;
+    }
+
+    .iframe-code {
+      margin: 1em;
     }
 
     #social-tag-shares {
@@ -616,15 +624,11 @@ div#body.home {
       @include flex-wrap;
 
       max-width: 100%;
+      color:  #2ac1de;
 
       & > * {
         font-size: 2em;
         margin: 0.2em;
-
-
-        @media #{$maxwidth768},#{$mobile} {
-          font-size: 2em;
-        }
       }
     }
 
@@ -635,32 +639,11 @@ div#body.home {
     }
 
     .clipboard-copy {
-      margin-left: 0.5em;
+      margin: 1em;
 
       &:hover {
         cursor: pointer;
         color: $blue;
-
-        .tooltiptext {
-          visibility: visible;
-        }
-      }
-
-      .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: $blue;
-        color: #fff;
-        text-align: center;
-        padding: 5px;
-        border-radius: 10px;
-        font-size: 0.8em;
-
-        position: relative;
-        z-index: 1;
-
-        top: -25px;
-        left: -110px;
       }
     }
   }

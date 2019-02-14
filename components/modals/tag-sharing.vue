@@ -2,38 +2,33 @@
   <div id="sharing">
     <div class="content padded">
       <div class="flexbox flex-end">
-        <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+        <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
       </div>
 
-      <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-        <h2>Share #{{ tag.tag }}</h2>
+      <div class="paragraph flexbox flex-column flex-x-center">
+        <span class="instructions">
+            Share #{{ tag.tag }} Tag Stream
+        </span>
 
-        <div class="instructions">
-          <p>
-            Share #{{ tag.tag }} tag stream.
-          </p>
-        </div>
-
-        <div id="sharing-options">
-          <h3 style="margin-top:1em">Sharing status</h3>
+        <div id="sharing-options" class="flexbox flex-column flex-x-center">
           <label v-bind:class="{active: tag.share === 'none' || tag.share == null }" class="radio" for="share-none">
             <input id="share-none" type="radio" name="none" value="none" v-model="$data.share" v-on:change="updateSharing"/>
-            <span class="bold">Not Shared</span>
+            <span>Not Shared</span>
           </label>
 
           <label v-bind:class="{active: tag.share === 'public' }" class="radio" for="share-public">
             <input id="share-public" type="radio" name="public" value="public" v-model="$data.share" v-on:change="updateSharing"/>
-            <span class="bold">Public</span>
+            <span>Link Shared</span>
           </label>
         </div>
 
         <div class="flexbox flex-column flex-x-center" v-if="$data.share === 'public' && $data.passcode != null">
-          <h3 style="margin-top: 1em;">Share Link</h3>
+          <span class="instructions">Share Link</span>
           <div class="share-link">
-            <div class="flexbox">
+            <div class="flexbox flex-column flex-x-center">
               <a v-bind:href="shareUrl(tag)" style="word-break: break-all" class="public-link">https://app.lifescope.io/shared?id={{ tag.id }}&passcode={{ $data.passcode }}</a>
-              <i class="fas fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
-                <span class="tooltiptext">Copy to Clipboard</span>
+              <i class="fal fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.public-link')">
+                <span> Copy to Clipboard</span>
               </i>
             </div>
           </div>
@@ -49,12 +44,12 @@
               <a v-bind:href="linkedInUrl(tag)" target="_blank"><i class="fab fa-linkedin"></i></a>
             </div>
           </div>
-          <div class="share-link">
-            <span>Embed #{{ tag.tag }} tag stream into your site:</span>
-            <div class="flexbox">
+          <div class="share-link flexbox flex-column flex-x-center">
+            <span class="instructions">Embed #{{ tag.tag }} Tag Stream</span>
+            <div class="flexbox flex-column flex-x-center">
               <span class="iframe-code">{{ iframe(tag) }}</span>
-              <i class="fas fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.iframe-code')">
-                <span class="tooltiptext">Copy to Clipboard</span>
+              <i class="fal fa-clipboard clipboard-copy" v-on:click="copyToClipboard('.iframe-code')">
+                <span> Copy to Clipboard</span>
               </i>
             </div>
           </div>

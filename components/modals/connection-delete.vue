@@ -1,13 +1,13 @@
 <template>
     <div class="content padded">
         <div class="flexbox flex-end">
-            <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+            <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
 
         <div class="body flexbox flex-column flex-x-center">
-            <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-                <h3>Delete {{ connection.name }}?</h3>
-                <div class="instructions" v-if="$data.lastConnectionMessage === false">
+            <div class="paragraph flexbox flex-column flex-x-center">
+                <span class="instructions">Delete {{ connection.name }}?</span>
+                <div v-if="$data.lastConnectionMessage === false">
                     <p>Are you sure?</p>
                     <p>Once you delete your connection, all of your data indexed in LifeScope will be deleted.</p>
                     <p v-if="connection.browser != null">Please also remove the browser extension to stop LifeScope browser tracking.</p>

@@ -20,7 +20,7 @@
 
         <div v-if="$store.state.pageName === 'providers'" class="mobile-selector" v-on:click="$data.settingsSelectorOpen = !$data.settingsSelectorOpen">
             <span class="placeholder-text">{{ $data.activeFilter[0].toUpperCase() + $data.activeFilter.slice(1) }}</span>
-            <i v-bind:class="{ 'fas fa-caret-down': $data.settingsSelectorOpen === false, 'fas fa-caret-up': $data.settingsSelectorOpen === true }"></i>
+            <i v-bind:class="{ 'fal fa-caret-down': $data.settingsSelectorOpen === false, 'fal fa-caret-up': $data.settingsSelectorOpen === true }"></i>
         </div>
 
         <aside v-if="$store.state.pageName === 'providers'" class="mobile-type-selector" v-bind:class="{ open: $data.settingsSelectorOpen === true }">

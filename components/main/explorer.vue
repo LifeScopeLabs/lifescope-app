@@ -140,7 +140,7 @@
       },
 
       favoriteIcon: function(search) {
-        return search.favorited ? 'favorite-edit fas fa-star subdue' : 'favorite-create far fa-star subdue'
+        return search.favorited ? 'favorite-edit fal fa-star subdue' : 'favorite-create fal fa-star subdue'
       },
 
       favoriteButton: function(search) {

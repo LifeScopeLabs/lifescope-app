@@ -7,7 +7,7 @@
 				<!-- avatar image -->
 				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url"/>
 				<!-- else avatar icon -->
-				<i v-else class="fas fa-user"></i>
+				<i v-else class="fal fa-user"></i>
 			</div>
 
 			<!-- details -->
@@ -21,8 +21,8 @@
 
 				<!-- Tag -->
 				<aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
-					<span>Tag</span><i class="fas fa-hashtag"></i>
-					<!--<span>Share</span><i class="fas fa-share"></i>-->
+					<span>Tag</span><i class="fal fa-hashtag"></i>
+					<!--<span>Share</span><i class="fal fa-share"></i>-->
 				</aside>
 			</div>
 		</div>

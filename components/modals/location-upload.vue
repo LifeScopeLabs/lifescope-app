@@ -1,16 +1,16 @@
 <template>
-	<div class="content padded upload">
+	<div class="content padded flexbox flex-column flex-x-center upload">
 		<div class="flexbox flex-end">
-			<i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+			<i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
 		</div>
 
-		<h3 class="align-center">Upload Location History</h3>
+		<span class="instructions">Upload Location History</span>
 
 		<p class="align-center">This operation may take several minutes.</p>
 
 		<div class="body flexbox flex-column flex-x-center">
-			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-				<h4>Google</h4>
+			<div class="paragraph flexbox flex-column flex-x-center">
+				<span class="instructions">Google</span>
 				<div>
 					<ol>
 						<li>Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a> and select 'Location History' with 'JSON format' and then click the 'Create Archive'.</li>
@@ -23,8 +23,8 @@
 		</div>
 
 		<div class="body flexbox flex-column flex-x-center">
-			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-				<h4>Facebook</h4>
+			<div class="paragraph flexbox flex-column flex-x-center">
+				<span class="instructions">Facebook</span>
 				<div>
 					<ol>
 						<li>Go to <a href="https://www.facebook.com/settings?tab=your_facebook_information" target="_blank">Facebook Information</a> and select 'Download Your Information'.</li>
@@ -38,11 +38,9 @@
 		</div>
 
 		<div class="body flexbox flex-column flex-x-center">
-			<div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-				<h4>Other GeoJSON Sources</h4>
-				<div>
-					<p>This uploader should work for any GeoJson files with '.json; extension.</p>
-				</div>
+			<div class="paragraph flexbox flex-column flex-x-center">
+				<span class="instructions">Other GeoJSON Sources</span>
+				<p>This uploader should work for any GeoJson files with '.json; extension.</p>
 			</div>
 		</div>
 
@@ -50,7 +48,7 @@
 			<input type="file" name="spec" accept=".json"/>
 			<div class="errorlist hidden">Error uploading location file. Check that this is a valid file of location data and is in JSON format.</div>
 			<button class="primary" v-bind:class="{ hidden: $data.uploading === true }" type="submit">Submit</button>
-			<i class="fas fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
+			<i class="fal fa-2x fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
 		</form>
 	</div>
 </template>

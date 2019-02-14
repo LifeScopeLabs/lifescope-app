@@ -447,6 +447,8 @@ div#body {
 
 .instructions {
   text-align: center;
+  margin-bottom: 1em;
+  font-size: 1.4em;
 }
 
 .boxed-group {
@@ -539,7 +541,7 @@ html.dark {
   cursor: pointer;
 
   &:hover {
-    color: $green
+    color: $red
   }
 }
 

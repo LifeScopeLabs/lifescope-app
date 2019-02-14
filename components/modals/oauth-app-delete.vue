@@ -1,18 +1,18 @@
 <template>
     <div class="content padded">
         <div class="flexbox flex-end">
-            <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+            <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
 
         <div class="body flexbox flex-column flex-x-center">
-            <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-                <h3>Delete this app?</h3>
-                <div class="instructions" v-if="tryAgain === false">
+            <div class="paragraph flexbox flex-column flex-x-center">
+                <span class="instructions">Delete this app?</span>
+                <div v-if="tryAgain === false">
                     <p>Are you sure?</p>
                     <p>All of the existing tokens created with this app will be invalidated.</p>
                 </div>
-                <div class="instructions" v-if="tryAgain === true">
-                    <p>Something went wrong; please try again later, or contact us if this issue persists.</p>
+                <div v-if="tryAgain === true">
+                    <p>Something went wrong; please try again later, or contact support if this issue persists.</p>
                 </div>
             </div>
 

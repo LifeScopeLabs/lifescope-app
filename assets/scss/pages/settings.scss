@@ -209,10 +209,6 @@ div#body.settings {
     font-size: 1em;
     margin-bottom: 0.3em;
 
-    @media #{$maxwidth768},#{$mobile} {
-      font-size: 1.2em;
-    }
-
     &:not(:first-child) {
       margin-top: 1.5em;
     }

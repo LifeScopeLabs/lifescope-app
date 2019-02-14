@@ -648,7 +648,7 @@
     </div>
 
     <div id="clear-icon" v-on:click="$store.state.tempSearch.icon = ''">
-      <i class="far fa-times-circle" ></i> <span>Clear icon</span>
+      <i class="fal fa-times-circle" ></i><span> Clear Icon</span>
     </div>
   </div>
 </template>

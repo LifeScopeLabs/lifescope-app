@@ -280,8 +280,6 @@
     <modals-container/>
   </div>
   <div v-else id="shared-search">
-    <span v-if="$store.state.person.first_name != null || $store.state.middle_name != null || $store.state.last_name!= null">Shared by</span>
-
     <div class="avatar">
       <img v-if="$store.state.person && $store.state.person.avatar_url != null && $store.state.person.avatar_url.length > 0" v-bind:src="$store.state.person.avatar_url" style="max-height: 100px; max-width: 100px;">
       <div class="default" v-else-if="$store.state.person && $store.state.person.avatar_url == null || $store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>

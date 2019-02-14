@@ -1,14 +1,14 @@
 <template>
   <div class="content padded actions">
     <div class="flexbox flex-end width100">
-      <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+      <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
     </div>
 
     <div class="title">
       Tag '{{ item.title || item.text || item.context || item.handle || item.type || concatNames(item) }}'
     </div>
 
-    <p>You can publicly share items tagged with a given tag through the 'Tags' tab on the <a href="app.lifescope.io">home page.</a></p>
+    <p>Publicly share tagged items on the <a href="app.lifescope.io">home page.</a></p>
 
     <div v-if="item.embed_thumbnail != null" class="preview">
       <img v-bind:src="item.embed_thumbnail">
@@ -23,13 +23,13 @@
         <div>Tags</div>
         <div class="add-tag">
           <span>#</span>
-          <input type="text" placeholder="Add a tag" v-model="tagName">
-          <i class="fas fa-plus" v-on:click="addTag"></i>
+          <input type="text" placeholder="Add a Hashtag" v-model="tagName">
+          <i class="fal fa-plus" v-on:click="addTag"></i>
         </div>
         <div class="tags">
           <div v-for="tag in item.tags">
             <span v-on:click="searchTag(tag)">#{{ tag }}</span>
-            <i class="delete fas fa-times" v-on:click="removeTag(tag)"></i>
+            <i class="delete fal fa-times" v-on:click="removeTag(tag)"></i>
           </div>
         </div>
       </form>

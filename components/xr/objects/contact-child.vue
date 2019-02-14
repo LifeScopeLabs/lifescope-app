@@ -6,7 +6,7 @@
 			<a-entity class="user-avatar">
 				<!-- TODO : use avatar_url -->
 				<!-- <img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url" /> -->
-				<!-- <i v-else class="fas fa-user"></i> -->
+				<!-- <i v-else class="fal fa-user"></i> -->
 				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getContentTypeIcon('fa-user')))"
 					:size="size * iconSize"
 					textAlign="right"

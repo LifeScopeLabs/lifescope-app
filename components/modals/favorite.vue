@@ -2,9 +2,9 @@
   <div id="favorite">
     <div class="content padded">
       <div class="flexbox flex-end">
-        <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+        <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
       </div>
-      <h3 class="align-center">Favorite Your Search</h3>
+      <span class="align-center instructions">Favorite Your Search</span>
 
       <div class="data">
         <i v-bind:class="$store.state.tempSearch.icon" v-bind:style="{'color': $store.state.tempSearch.icon_color}"></i>

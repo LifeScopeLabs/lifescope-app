@@ -1,20 +1,20 @@
 <template>
     <div class="content padded">
         <div class="flexbox flex-end">
-            <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+            <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
 
         <div class="body flexbox flex-column flex-x-center">
-            <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
-                <h3>Revoke {{ app.name }}'s tokens?</h3>
-                <div class="instructions" v-if="tryAgain === false">
+            <div class="paragraph flexbox flex-column flex-x-center">
+                <span class="instructions">Revoke {{ app.name }}'s tokens?</span>
+                <div v-if="tryAgain === false">
                     <p>Are you sure?</p>
                     <p>Any tokens {{ app.name }} has acquired on your behalf will be deleted. Data {{ app.name }} has already collected using these keys will remain in their possession,
                         but they will be unable to collect any further information.
                     </p>
                 </div>
-                <div class="instructions" v-if="tryAgain === true">
-                    <p>Something went wrong; please try again later, or contact us if this issue persists.</p>
+                <div v-if="tryAgain === true">
+                    <p>Something went wrong; please try again later, or contact support if this issue persists.</p>
                 </div>
             </div>
 

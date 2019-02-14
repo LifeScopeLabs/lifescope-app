@@ -1,11 +1,11 @@
 <template>
     <div class="content padded">
         <div class="flexbox flex-end">
-            <i class="close-button fas fa-times-circle" v-on:click="$emit('close')"></i>
+            <i class="close-button fal fa-times-circle" v-on:click="$emit('close')"></i>
         </div>
 
         <div class="body flexbox flex-column flex-x-center">
-            <div class="paragraph flexbox flex-column flex-x-center" style="margin-bottom: 15px;">
+            <div class="paragraph flexbox flex-column flex-x-center">
                 <h3>Generate new client secret?</h3>
                 <div class="instructions" v-if="tryAgain === false">
                     <p>Are you sure?</p>

@@ -19,7 +19,7 @@
 
 					<!-- Tag -->
 					<aside class="action-bar" v-on:click="openActionModal(event, 'event')">
-						<span>Tag</span><i class="fas fa-hashtag"></i>
+						<span>Tag</span><i class="fal fa-hashtag"></i>
 					</aside>
 				</div>
 
@@ -43,7 +43,7 @@
 						<!-- estimated -->
 						<!-- ??? won't this never show? we alread checked that event.datetime exists -->
 						<div v-if="!event.datetime" class="estimation">
-							<i class="fas fa-flask"></i>
+							<i class="fal fa-flask"></i>
 							<span>Estimated</span>
 						</div>
 						<!-- time -->

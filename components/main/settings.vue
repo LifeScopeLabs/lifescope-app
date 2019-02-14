@@ -88,8 +88,8 @@
 
 			<div class="boxed-group">
 				<div class="title">Color Theme</div>
-
 				<div class="padded paragraphed">
+          <p>Turn the lights off.</p>
 					<no-ssr>
 					  <toggle-button v-bind:width="60" v-bind:height="25" v-model="toggleValue" v-bind:sync="true" v-bind:labels="{ checked: 'Dark', unchecked: 'Light' }" v-bind:color="{ checked: '#9b9b9b', unchecked: '#242424' }" v-on:change="updateTheme"></toggle-button>
 					</no-ssr>
@@ -515,7 +515,7 @@
                 </div>
                 <div class="contact-search">
                   <div class="text-box">
-                    <input type="text" v-bind:value="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
+                    <input type="text" v-bind:value="$data.query" placeholder="Name or Handle" v-on:input="updateSearch">
                   </div>
                   <div class="flexbox flex-column flex-grow temp-contacts">
                     <div class="scroller">
@@ -598,7 +598,7 @@
                 </div>
                 <div class="contact-search">
                   <div class="text-box">
-                    <input type="text" v-bind:value="$data.query" placeholder="Enter Contact name or handle" v-on:input="updateSearch">
+                    <input type="text" v-bind:value="$data.query" placeholder="Name or Handle" v-on:input="updateSearch">
                   </div>
                   <div class="flexbox flex-column flex-grow temp-contacts">
                     <div class="scroller">
@@ -614,8 +614,8 @@
               </div>
 
               <div class="flexbox flex-column">
-                <div class="title">Avatar</div>
-                <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+                <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">                
+                  <div class="title">Avatar</div>
                   <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
                   <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
                   <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
