@@ -13,7 +13,7 @@
     @include flexbox;
 
     text-transform: uppercase;
-    margin-bottom: 1.2em;
+    margin-bottom: 0.5em;
     white-space: nowrap;
 
     @media #{$maxwidth768},#{$mobile} {

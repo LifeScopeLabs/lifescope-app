@@ -2,120 +2,82 @@
   & > div {
     @include flexbox;
     @include flex-column;
+    @include no-select;
 
-    &:first-child {
-      @include flexbox;
-      @include flex-row;
-      @include no-select;
+    cursor: pointer;
 
-      cursor: pointer;
+    .user-avatar {
+      & > .default {
+        font-size: 2em;
 
-      .user-avatar {
-        & > :first-child {
-          height: 3em;
-          max-width: 3em;
-          margin-right: 0.5em;
-        }
+        color: white;
+        width: 50px;
+        height: 50px;
 
-        & > .default {
-          font-size: 2em;
+        border-radius: 50%;
 
-          color: white;
-          width: 50px;
-          height: 50px;
-
-          border-radius: 50%;
-
-          text-align: center;
-        }
-
-        & > img {
-          width: 50px;
-          height: 50px;
-        }
-
-        i {
-          color: $font-color-subdue;
-          width: 1.5em;
-          font-size: 2em;
-        }
+        text-align: center;
       }
 
-      .details {
-        @include flexbox;
-        @include flex-x-center;
-
-        align-items: flex-start;
+      & > img {
+        width: 50px;
+        height: 50px;
       }
 
-      .provider {
-        text-transform: uppercase;
+      i {
         color: $font-color-subdue;
-
-        i {
-          margin-right: 0.25em;
-        }
-      }
-
-      & > .tag-button {
-        margin: .25em 0;
-        color: $blue;
-
-        & > i {
-          color: $blue;
-        }
-      }
-
-      & > .tags {
-        margin: .25em 0;
-      }
-
-      &.share-menu-margin-bottom {
-        margin-bottom: 2em;
+        width: 1.5em;
+        font-size: 2em;
       }
     }
+
+    .provider {
+      text-transform: uppercase;
+      color: $font-color-subdue;
+
+      i {
+        margin-right: 0.25em;
+      }
+    }
+  }
+
+  & > .tag-button {
+    margin: .25em 0;
+    color: $blue;
+  }
+
+  & > .tags {
+    margin: .25em 0;
+  }
+
+  &.share-menu-margin-bottom {
+    margin-bottom: 2em;
   }
 
   & > .hide-button {
     cursor: pointer;
     color: $orange;
 
-    i {
-      color: $orange;
-    }
-
     &:hover {
       color: $blue;
-
-        i {
-          color: $blue;
-        }
     }
   }
 }
 
-.person-hidden {
-  @include flexbox;
-  @include flex-grow;
-  @include flex-column;
-  @include flex-x-center;
+.unhide-button {
+  cursor: pointer;
+  color: $green;
 
-
-  .unhide-button {
-    cursor: pointer;
+  i {
     color: $green;
+  }
 
-    i {
-      color: $green;
-    }
+  &:hover {
+    color: $blue;
 
-    &:hover {
-      color: $blue;
-
-        i {
-          color: $blue;
-        }
-    }
+      i {
+        color: $blue;
+      }
   }
 }
 

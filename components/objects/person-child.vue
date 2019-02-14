@@ -1,6 +1,6 @@
 <template>
 	<div v-if="person.hidden !== true" class="object person" v-bind:id="person.id">
-		<!-- contact -->
+		<!-- person -->
 		<div>
 			<!-- avatar -->
 			<div class="user-avatar">
@@ -9,8 +9,8 @@
 			</div>
 
 			<!-- details -->
-			<div class="details flexbox flex-grow">
-				<div class="flexbox flex-column">
+			<div class="details">
+				<div>
 					<!-- name -->
 					<div v-if="person.first_name || person.middle_name || person.last_name" style="margin-bottom: 0.5em;">{{ concatNames(person) }}</div>
 					<!-- contacts -->
@@ -22,22 +22,22 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="flexbox flex-row flex-space-between">
-				<div class="flexbox flex-colun flex-start">
-					<!-- Tag -->
-					<div class="tag-button" v-on:click="openActionModal(person, 'person')">
-						<i class="fal fa-hashtag"></i><span>Tag</span>
-					</div>
-
-					<!-- tags -->
-					<div class="tags">
-						<span v-for="tag in person.tags" v-bind:key="tag">#{{ tag }}</span>
-					</div>
+		<div class="flexbox flex-row flex-space-between">
+			<div class="flexbox flex-colun flex-start">
+				<!-- Tag -->
+				<div class="tag-button" v-on:click="openActionModal(person, 'person')">
+					<i class="fal fa-hashtag"></i><span>Tag</span>
 				</div>
 
-				<div class=hide-button v-on:click="hidePerson(person)"> <i class="fal fa-minus-hexagon"></i> Hide Person</div>
+				<!-- tags -->
+				<div class="tags">
+					<span v-for="tag in person.tags" v-bind:key="tag">#{{ tag }}</span>
+				</div>
 			</div>
+
+			<div class=hide-button v-on:click="hidePerson(person)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
 		</div>
 	</div>
 

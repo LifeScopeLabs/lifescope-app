@@ -23,7 +23,7 @@
 					<!-- provider icon -->
 					<i v-bind:class="getProviderIcon(event.connection.provider)"></i>
 					<!-- provider text -->
-					<span>{{ event.connection.name | truncate(30) }}</span>
+					<span> {{ event.connection.name | truncate(30) }}</span>
 				</div>
 
 				<!-- datetime -->
@@ -32,18 +32,18 @@
 						<!-- date -->
 						<div>
 							<i class="far fa-calendar-alt"></i>
-							<span>{{ event.datetime | dateShort }}</span>
+							<span> {{ event.datetime | dateShort }}</span>
 						</div>
 
 						<!-- estimated -->
 						<!-- ??? won't this never show? we alread checked that event.datetime exists -->
 						<div v-if="!event.datetime" class="estimation">
-							<span>Estimated</span>
+							<span> Estimated</span>
 						</div>
 						<!-- time -->
 						<div v-else>
 							<i class="far fa-clock"></i>
-							<span>{{ event.datetime | dateTime }}</span>
+							<span> {{ event.datetime | dateTime }}</span>
 						</div>
 					</div>
 				</div>

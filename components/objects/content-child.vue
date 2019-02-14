@@ -96,7 +96,7 @@
 
 		<!-- tags -->
 		<tag class="tag-button" v-on:click="openActionModal(content, 'content')">
-			<i class="fal fa-hashtag"></i> <span> Tag</span>
+			<i class="fal fa-hashtag"></i> <span>Tag</span>
 		</tag>
 
 		<!-- tags -->

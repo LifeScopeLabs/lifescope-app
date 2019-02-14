@@ -123,26 +123,12 @@
         }
 
         &:not(:last-child) {
-          padding-bottom: 0.25em;
-          border-bottom: 1px solid $border-color-light;
+          padding-bottom: 0.5em;
+          border-bottom: 1px solid $border-color;
         }
 
         &:not(:first-child) {
-          padding-top: 0.25em;
-        }
-      }
-
-      .expand {
-        display: block;
-        cursor: pointer;
-        width: 50px;
-        margin: 0.5em auto 0 auto;
-        padding: 0.2em;
-        text-transform: uppercase;
-        background-color: $border-color-light;
-
-        &:hover {
-          color: $blue;
+          padding-top: 0.5em;
         }
       }
     }
@@ -206,6 +192,15 @@ div#body.dark {
       & > .interactions {
         .expand {
           background-color: $border-color-dark;
+        }
+
+        .object.contact,
+        .object.person {
+  
+          &:not(:last-child) {
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid $border-color -dark;
+          }
         }
       }
     }

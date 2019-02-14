@@ -18,11 +18,10 @@
 
     <div v-if="taggable" class="tagging">
       <form v-on:submit.prevent="addTag">
-        <div>Tags</div>
         <div class="add-tag">
-          <span>#</span>
-          <input type="text" placeholder="Add a Hashtag" v-model="tagName">
-          <i class="fal fa-plus" v-on:click="addTag"></i>
+          <span># </span>
+          <input type="text" placeholder="Add a Tag" v-model="tagName">
+           <i class="fal fa-plus" v-on:click="addTag"></i>
         </div>
         <div class="tags">
           <div v-for="tag in item.tags">
