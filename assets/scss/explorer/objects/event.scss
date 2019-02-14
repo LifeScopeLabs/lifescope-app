@@ -1,5 +1,6 @@
 .object.event {
   @include flexbox;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.15);
 
   @media #{$maxwidth768},#{$mobile} {
     @include flex-column;
@@ -40,27 +41,15 @@
       }
 
       .type {
-        @include flexbox;
-        @include flex-x-center;
-
         text-transform: uppercase;
-        margin-bottom: 1.5em;
+        margin-bottom: 0.5em;
         color: $font-color-subdue;
 
         @media #{$maxwidth768},#{$mobile} {
           @include flex-center;
-
           text-align: center;
-          margin-bottom: 0.75em;
         }
 
-        span {
-          font-size: 0.85em;
-
-          @media #{$maxwidth768},#{$mobile} {
-            font-size: 1em;
-          }
-        }
       }
 
       .provider {
@@ -83,33 +72,36 @@
 
       & > .hide-button {
         cursor: pointer;
-        color: $blue;
+        color: $orange;
 
-        &:hover {
+        i {
           color: $orange;
         }
-      }
 
-      & > .date {
-        @include flexbox;
-        @include flex-x-center;
+        &:hover {
+          color: $blue;
 
-        & > :first-child {
-          & > :not(:last-child) {
-            margin-bottom: 0.5em;
+          i {
+            color: $blue;
           }
         }
       }
 
-      .action-bar {
-        @include flex-grow;
+      & > .date {
+        margin-bottom: 0.5em;
+      }
 
-        margin-left: 1em;
+      & > .tag-button {
+        margin: .25em 0;
         color: $blue;
 
-        & > *:not(:last-child) {
-          margin-right: 0.2em;
+        & > i {
+          color: $blue;
         }
+      }
+
+      & > .tags {
+        margin: .25em 0;
       }
     }
 
@@ -154,7 +146,6 @@
         margin: 0.5em auto 0 auto;
         padding: 0.2em;
         text-transform: uppercase;
-        font-size: 0.85em;
         background-color: $border-color-light;
 
         &:hover {
@@ -170,14 +161,20 @@
     @include flex-column;
     @include flex-x-center;
 
-    font-size: 1.2em;
-
     .unhide-button {
       cursor: pointer;
-      color: $blue;
+      color: $green;
 
+      i {
+        color: $green;
+      }
+  
       &:hover {
-        color: $orange;
+        color: $blue;
+  
+          i {
+            color: $blue;
+          }
       }
     }
   }

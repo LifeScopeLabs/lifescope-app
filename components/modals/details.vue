@@ -14,10 +14,6 @@
           <span v-else>
             {{ item.type }}
           </span>
-
-          <aside class="action-bar" v-on:click="openActionModal(event, 'event')">
-            <span>Tag</span><i class="fal fa-hashtag"></i>
-          </aside>
         </div>
 
         <div class="provider">
@@ -33,23 +29,26 @@
 
 
             <div v-if="!item.datetime" class="estimation">
-              <i class="fal fa-flask"></i> <span>Estimated</span>
+              <span>Estimated</span>
             </div>
 
             <div v-else>
               <i class="fal fa-clock"></i> <span>{{ item.datetime | dateTime }}</span>
             </div>
           </div>
+
+        <div class="tag-button" v-on:click="openActionModal(event, 'event')">
+          <i class="fal fa-hashtag"></i><span>Tag</span>
         </div>
 
-        <div class="tagging">
-          <div class="tags">
-            <span v-for="tag in tags">#{{ tag }}</span>
-          </div>
+        <div class="tags">
+          <span v-for="tag in tags"> #{{ tag }}</span>
         </div>
 
-        <div class=hide-button v-on:click="hideEvent(item)">Hide this Event</div>
+        <div class=hide-button v-on:click="hideEvent(item)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
+        </div>
       </aside>
+      
       <section v-if="item.content && item.content.length > 0" class="content">
         <user-content v-for="content in item.content" v-bind:key="content.id" v-bind:content="content" v-bind:connection="item.connection"></user-content>
       </section>
@@ -64,8 +63,7 @@
     </div>
 
     <div class="event-hidden" v-else-if="item.hidden === true">
-      This Event is hidden.
-      <div class="unhide-button" v-on:click="unhideEvent(item)">Unhide this Event</div>
+      <div class="unhide-button" v-on:click="unhideEvent(item)"> <i class="fal fa-plus-hexagon"></i>  Unhide Event</div>
     </div>
   </div>
   <div v-else-if="type === 'content'" class="object content modaled flex-column" v-bind:id="item.id">

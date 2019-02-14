@@ -6,12 +6,10 @@
 
     <div class="body flexbox flex-column flex-x-center">
       <div class="paragraph flexbox flex-column flex-x-center">
-        <span class="instructions">>Disable {{ connection.name }}?</span>
-        <div
-          <p>Are you sure?</p>
-          <p>Disabling this connection will stop data collection.</p>
-          <p>You can re-enable the connection at any time and data collection will restart.</p>
-        </div>
+        <span class="instructions">Disable {{ connection.name }}?</span>
+        <p>Are you sure?</p>
+        <p>Disabling this connection will stop data collection.</p>
+        <p>You can re-enable the connection at any time and data collection will restart.</p>
       </div>
 
       <div class="mobile-buttons">

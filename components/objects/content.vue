@@ -18,7 +18,7 @@
       v-on:click="$emit('render-details', content, 'content')">
 
     <div v-if="content.hidden === true" class="content-hidden">
-      This Content is hidden
+      Content Hidden
     </div>
     <div v-else-if="hasThumbnail() === true" class="mobile-thumbnail">
       <img v-bind:src="getGridThumbnail()" />
@@ -48,7 +48,7 @@
       v-on:click="$emit('render-details', content, 'content')">
     <div>
       <span v-if="content.hidden === true">
-          This Content is hidden
+        Content Hidden
       </span>
       <span v-else>{{ content.title | truncate(30) }}</span>
     </div>

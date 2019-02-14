@@ -26,20 +26,17 @@
       color: $font-color-subdue;
     }
 
-    .type {
-      text-align: left;
-    }
-
-    .provider {
-      text-align: center;
-    }
-
-    .action-bar {
+    & > .tag-button {
+      margin: .25em 0;
       color: $blue;
 
-      & > *:not(:last-child) {
-        margin-right: 0.2em;
+      & > i {
+        color: $blue;
       }
+    }
+
+    & > .tags {
+      margin: .25em 0;
     }
   }
 
@@ -79,14 +76,11 @@
   .title {
     color: $font-color-subdue;
     font-size: 1.1em;
-    text-align: center;
   }
 
   .text {
     @include flexbox;
     @include flex-column;
-    @include flex-center;
-    @include flex-x-center;
 
     pre {
       text-align: start;
@@ -115,12 +109,19 @@
   }
 
   & > .hide-button {
-    text-align: center;
     cursor: pointer;
-    color: $blue;
+    color: $orange;
+
+    i {
+      color: $orange;
+    }
 
     &:hover {
-      color: $orange;
+      color: $blue;
+
+        i {
+          color: $blue;
+        }
     }
   }
 }
@@ -129,16 +130,23 @@
   @include flexbox;
   @include flex-grow;
   @include flex-column;
-  @include flex-x-center;
 
   font-size: 1.2em;
 
   .unhide-button {
     cursor: pointer;
-    color: $blue;
+    color: $green;
+
+    i {
+      color: $green;
+    }
 
     &:hover {
-      color: $orange;
+      color: $blue;
+
+        i {
+          color: $blue;
+        }
     }
   }
 }

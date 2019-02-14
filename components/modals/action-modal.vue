@@ -8,8 +8,6 @@
       Tag '{{ item.title || item.text || item.context || item.handle || item.type || concatNames(item) }}'
     </div>
 
-    <p>Publicly share tagged items on the <a href="app.lifescope.io">home page.</a></p>
-
     <div v-if="item.embed_thumbnail != null" class="preview">
       <img v-bind:src="item.embed_thumbnail">
     </div>

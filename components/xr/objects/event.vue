@@ -86,17 +86,6 @@
 					</a-entity>
 				</a-entity>
 
-			<!-- tags -->
-			<!-- <a-entity class="tagging"
-				:position="'0 ' + (-4 * carouselDim.lineSeparation) + ' 0'">
-				<a-entity class="tags">
-					<a-entity v-for="tag in event.tags"
-						:key="tag"
-						scale="2 2 1"
-						:text="tag">
-					</a-entity>
-				</a-entity>
-			</a-entity> -->
 		</a-entity>
 
 

@@ -10,13 +10,11 @@
     </mapbox>
 
     <div v-if="$store.state.searching === true" class="map-corner flexbox">
-      <i class="fal fa-spinner fa-2x fa-spin" style="margin-right: 0.2em"></i>
-      <div>Loading...</div>
+      <i class="fal fa-spinner fa-spin" style="margin-right: 0.2em"></i>
+      <div>Loading</div>
     </div>
 
-    <div v-if="$store.state.searchEnded === false && $store.state.searching !== true" class="map-corner clickable" v-on:click="$root.$emit('perform-search', false)">Get more results</div>
-
-  	<div id="where-instructions">Draw a polygon and double-click the final point to initialize a Where filter.</div>
+    <div v-if="$store.state.searchEnded === false && $store.state.searching !== true" class="map-corner clickable" v-on:click="$root.$emit('perform-search', false)"> <i class="fal fa-shoe-prints"></i> More Results </div>
 
     <modals-container/>
   </div>
@@ -132,7 +130,7 @@
           let event = feature.event;
 
           pinElem.className = pinElem.className + ' map-marker fa-stack fa-lg';
-          pinElem.innerHTML = '<i class="circle-icon fal fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+          pinElem.innerHTML = '<i class="circle-icon fab fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
           pinElem.style.color = feature.color;
 
           $(pinElem)
@@ -305,7 +303,7 @@
                 let coordinates = symbol.geometry.coordinates;
 
                 pinElem.className = 'map-marker fa-stack fa-lg';
-                pinElem.innerHTML = '<i class="circle-icon fal fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+                pinElem.innerHTML = '<i class="circle-icon fab fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
                 pinElem.style.color = symbol.properties.color;
 
                 let marker = new mapboxgl.Marker(pinElem)

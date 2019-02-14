@@ -11,13 +11,12 @@ div#body.explorer.list {
 
       .icon-column {
         i {
-          margin-right: 0.2em;
+          margin-right: 0.25em;
           width: 1.5em;
         }
 
-
         @media #{$maxwidth768},#{$mobile} {
-        width: 1.7em;
+        width: 1.5em;
         padding: 0;
 
         & i > {

@@ -20,7 +20,7 @@
 							   v-on:click="setView('feed')"><i class="far fa-clone"></i><span>Feed</span></a>
 							<a data-view="map"
 							   v-bind:class="{ active: $store.state.view === 'map', disabled: $store.state.facet !== 'events' }"
-							   v-on:click="setView('map')"><i class="far fa-map"></i><span>Map</span></a>
+							   v-on:click="setView('map')"><i class="fas fa-map"></i><span>Map</span></a>
 							<a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }"
 							   v-on:click="setView('grid')"><i class="fal fa-th"></i><span>Grid</span></a>
 							<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }"

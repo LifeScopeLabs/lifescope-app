@@ -18,7 +18,7 @@
         }
 
         & > .default {
-          font-size: 2.25em;
+          font-size: 2em;
 
           color: white;
           width: 50px;
@@ -37,7 +37,7 @@
         i {
           color: $font-color-subdue;
           width: 1.5em;
-          font-size: 2.5em;
+          font-size: 2em;
         }
       }
 
@@ -46,21 +46,10 @@
         @include flex-x-center;
 
         align-items: flex-start;
-
-        & > div {
-          text-align: start;
-        }
-
-        .action-bar {
-          text-align: right;
-          color: $blue;
-          margin: 0 auto;
-        }
       }
 
       .provider {
         text-transform: uppercase;
-        font-size: 0.85em;
         color: $font-color-subdue;
 
         i {
@@ -68,10 +57,17 @@
         }
       }
 
-      & > .action-bar {
-        & > .share-menu {
-          bottom: -1.5em;
+      & > .tag-button {
+        margin: .25em 0;
+        color: $blue;
+
+        & > i {
+          color: $blue;
         }
+      }
+
+      & > .tags {
+        margin: .25em 0;
       }
 
       &.share-menu-margin-bottom {
@@ -81,12 +77,19 @@
   }
 
   & > .hide-button {
-    text-align: right;
     cursor: pointer;
-    color: $blue;
+    color: $orange;
+
+    i {
+      color: $orange;
+    }
 
     &:hover {
-      color: $orange;
+      color: $blue;
+
+        i {
+          color: $blue;
+        }
     }
   }
 }
@@ -97,14 +100,21 @@
   @include flex-column;
   @include flex-x-center;
 
-  font-size: 1.2em;
 
   .unhide-button {
     cursor: pointer;
-    color: $blue;
+    color: $green;
+
+    i {
+      color: $green;
+    }
 
     &:hover {
-      color: $orange;
+      color: $blue;
+
+        i {
+          color: $blue;
+        }
     }
   }
 }

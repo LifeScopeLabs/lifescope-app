@@ -11,16 +11,11 @@
 
 					<!-- type/context text -->
 					<span v-if="event.context">
-					{{ event.context }}
+						{{ event.context }}	
 				  </span>
 					<span v-else>
-					{{ event.type }}
+						{{ event.type }}
 				  </span>
-
-					<!-- Tag -->
-					<aside class="action-bar" v-on:click="openActionModal(event, 'event')">
-						<span>Tag</span><i class="fal fa-hashtag"></i>
-					</aside>
 				</div>
 
 				<!-- provider -->
@@ -43,7 +38,6 @@
 						<!-- estimated -->
 						<!-- ??? won't this never show? we alread checked that event.datetime exists -->
 						<div v-if="!event.datetime" class="estimation">
-							<i class="fal fa-flask"></i>
 							<span>Estimated</span>
 						</div>
 						<!-- time -->
@@ -54,14 +48,18 @@
 					</div>
 				</div>
 
-				<!-- tags -->
-				<div class="tagging">
-					<div class="tags">
-						<span v-for="tag in event.tags" v-bind:key="tag">#{{ tag }}</span>
-					</div>
+				<!-- Tag -->
+				<div class="tag-button" v-on:click="openActionModal(event, 'event')">
+					<i class="fal fa-hashtag"></i><span>Tag</span>
 				</div>
 
-				<div class=hide-button v-on:click="hideEvent(event)">Hide this Event</div>
+				<!-- tags -->
+				<div class="tags">
+					<span v-for="tag in event.tags" v-bind:key="tag">#{{ tag }}</span>
+				</div>
+
+				<div class=hide-button v-on:click="hideEvent(event)"><i class="fal fa-minus-hexagon"></i> Hide</div>
+
 			</aside>
 
 			<!-- content -->
@@ -97,8 +95,7 @@
 		</div>
 
 		<div class="event-hidden" v-else-if="event.hidden === true">
-			This Event is hidden.
-			<div class="unhide-button" v-on:click="unhideEvent(event)">Unhide this Event</div>
+			<div class="unhide-button" v-on:click="unhideEvent(event)"> <i class="fal fa-plus-hexagon"></i> Unhide Event</div>
 		</div>
 	</div>
 
@@ -106,7 +103,7 @@
 	<div v-else-if="$store.state.view === 'grid'" class="item grid" v-bind:id="event.id"
 		 v-on:click="$emit('render-details', event, 'event')">
 		<div v-if="event.hidden === true" class="event-hidden">
-			This Event is hidden
+			<div class="unhide-button" v-on:click="unhideEvent(event)"> <i class="fal fa-plus-hexagon"></i> Unhide Event </div>
 		</div>
 		<div v-else-if="hasThumbnail() === true" class="mobile-thumbnail">
 			<img v-bind:src="getGridThumbnail()"/>
@@ -122,17 +119,6 @@
 			<div v-else class="title">
 				{{ contextOrType(event) }}
 			</div>
-			<!--<div v-else-if="event.datetime">-->
-			<!--<div class="title">-->
-			<!--<div>-->
-			<!--<i class="far fa-calendar-alt"></i> <span>{{ event.datetime | dateShort }}</span>-->
-			<!--</div>-->
-
-			<!--<div>-->
-			<!--<i class="far fa-clock"></i> <span>{{ event.datetime | dateTime }}</span>-->
-			<!--</div>-->
-			<!--</div>-->
-			<!--</div>-->
 
 			<i v-bind:class="getProviderIcon(event.connection.provider)" class="bubble"></i>
 		</div>
@@ -143,7 +129,7 @@
 		 v-on:click="$emit('render-details', event, 'event')">
 		<div>
 			<span v-if="event.hidden === true">
-				This Event is hidden
+				<div class="unhide-button" v-on:click="unhideEvent(event)"> <i class="fal fa-plus-hexagon"></i> Unhide Event </div>
 			</span>
 			<span v-else-if="event.content && event.content.length > 0">{{ getFirstTitle(event) | truncate(30) }}</span>
 		</div>

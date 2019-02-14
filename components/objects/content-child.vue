@@ -12,14 +12,8 @@
 			<div class="provider">
 				<i v-bind:class="getProviderIcon(connection.provider)"></i> {{ connection.name | truncate(30) }}
 			</div>
-
-			<!-- tags -->
-			<aside class="action-bar" v-on:click="openActionModal(content, 'content')">
-				<span>Tag</span><i class="fal fa-hashtag"></i>
-				<!--<span>Share</span><i class="fal fa-share"></i>-->
-			</aside>
 		</div>
-
+			
 		<!-- embed content -->
 		<div class="content-embed"
 			 data-type="content"
@@ -73,7 +67,7 @@
 
 		<!-- amount -->
 		<div v-if="content.price && content.price > 0">
-			<div style="text-align: center">${{ content.price }}</div>
+			<div>${{ content.price }}</div>
 		</div>
 
 		<!-- text -->
@@ -101,18 +95,21 @@
 		</div>
 
 		<!-- tags -->
-		<div class="tagging">
-			<div class="tags">
-				<span v-for="tag in content.tags" v-bind:key="tag">#{{ tag }}</span>
-			</div>
+		<tag class="tag-button" v-on:click="openActionModal(content, 'content')">
+			<i class="fal fa-hashtag"></i> <span> Tag</span>
+		</tag>
+
+		<!-- tags -->
+		<div class="tags">
+			<span v-for="tag in content.tags" v-bind:key="tag"> #{{ tag }}</span>
 		</div>
 
-		<div class=hide-button v-on:click="hideContent(content)">Hide this Content</div>
+		<div class=hide-button v-on:click="hideContent(content)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
+
 	</div>
 
 	<div class="content-hidden" v-else-if="content.hidden === true">
-		This Content is hidden.
-		<div class="unhide-button" v-on:click="unhideContent(content)">Unhide this Content</div>
+		<div class="unhide-button" v-on:click="unhideContent(content)"> <i class="fal fa-plus-hexagon"></i> Unhide Content</div>
 	</div>
 </template>
 

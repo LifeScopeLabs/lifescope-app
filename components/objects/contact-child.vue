@@ -11,35 +11,35 @@
 			</div>
 
 			<!-- details -->
-			<div class="details flexbox flex-grow">
+			<div class="details flexbox flex-column">
 				<div class="flexbox flex-column">
 					<!-- name -->
 					<div v-if="contact.name">{{ contact.name }}</div>
 					<!-- handle -->
 					<div v-if="contact.handle">{{ contact.handle }}</div>
 				</div>
+			</div>
+		</div>
 
+		<div class="flexbox flex-row flex-space-between">
+			<div class="flexbox flex-colun flex-start">
 				<!-- Tag -->
-				<aside class="action-bar" v-on:click="openActionModal(contact, 'contact')">
-					<span>Tag</span><i class="fal fa-hashtag"></i>
-					<!--<span>Share</span><i class="fal fa-share"></i>-->
-				</aside>
-			</div>
-		</div>
+				<div class="tag-button" v-on:click="openActionModal(contact, 'contact')">
+					<i class="fal fa-hashtag"></i><span>Tag</span>
+				</div>
 
-		<!-- tags -->
-		<div class="tagging">
-			<div class="tags">
-				<span v-for="tag in contact.tags" v-bind:key="tag">#{{ tag }}</span>
+				<!-- tags -->
+				<div class="tags">
+					<span v-for="tag in contact.tags" v-bind:key="tag"> #{{ tag }}</span>
+				</div>
 			</div>
-		</div>
 
-		<div class=hide-button v-on:click="hideContact(contact)">Hide this Contact</div>
+			<div class=hide-button v-on:click="hideContact(contact)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
+		</div>
 	</div>
 
 	<div class="contact-hidden" v-else-if="contact.hidden === true">
-		This Contact is hidden.
-		<div class="unhide-button" v-on:click="unhideContact(contact)">Unhide this Contact</div>
+		<div class="unhide-button" v-on:click="unhideContact(contact)"><i class="fal fa-plus-hexagon"></i> Unhide Contact</div>
 	</div>
 </template>
 

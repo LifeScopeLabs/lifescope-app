@@ -29,20 +29,6 @@
 				/>
 			</a-entity>
 
-			<!-- tag-->
-			<!-- <a-entity class="action-bar"
-				:position="(2*layoutMargin/6) + ' 0 0'">
-				<a-entity :scale="textScale"
-                  :text="this.textString('Tag')"
-				/>
-				<a-ionicon :icon="getIoniconFromFA(stripFontAwesome(getProviderIcon('fal fa-hashtag')))"
-							:size="size * iconSize"
-							textAlign="right"
-							:position="(-columnWidth/2) + ' 0 0'"></a-ionicon>
-				
-			</a-entity> -->
-			<!--<span>Share</span><i class="fal fa-share"></i>-->
-
 		</a-entity>
 
 		<!-- embed content -->

@@ -34,11 +34,6 @@
           text-align: start;
         }
 
-        .action-bar {
-          text-align: right;
-          color: $blue;
-          margin: 0 auto;
-        }
       }
 
       .provider {
@@ -51,25 +46,35 @@
         }
       }
 
-      & > .action-bar {
-        & > .share-menu {
-          bottom: -1.5em;
+      & > .tag-button {
+        margin: .25em 0;
+        color: $blue;
+        
+        & > i {
+          color: $blue;
         }
       }
 
-      &.share-menu-margin-bottom {
-        margin-bottom: 2em;
+      & > .tags {
+        margin: .25em 0;
       }
-    }
-  }
 
-  & > .hide-button {
-    text-align: right;
-    cursor: pointer;
-    color: $blue;
+      & > .hide-button {
+        cursor: pointer;
+        color: $orange;
 
-    &:hover {
-      color: $orange;
+        i {
+          color: $orange;
+        }
+    
+        &:hover {
+          color: $blue;
+    
+            i {
+              color: $blue;
+            }
+        }
+      }
     }
   }
 }
@@ -84,10 +89,18 @@
 
   .unhide-button {
     cursor: pointer;
-    color: $blue;
+    color: $green;
+
+    i {
+      color: $green;
+    }
 
     &:hover {
-      color: $orange;
+      color: $blue;
+
+        i {
+          color: $blue;
+        }
     }
   }
 }

@@ -162,7 +162,7 @@
 				<a data-view="feed" v-bind:class="{ active: $store.state.view === 'feed' }"
 				   v-on:click="setView('feed')"><i class="far fa-clone"></i> <span>Feed</span></a>
 				<a data-view="map" v-bind:class="{ active: $store.state.view === 'map' }" v-on:click="setView('map')"><i
-						class="far fa-map"></i> <span>Map</span></a>
+						class="fas fa-map"></i> <span>Map</span></a>
 				<a data-view="grid" v-bind:class="{ active: $store.state.view === 'grid' }"
 				   v-on:click="setView('grid')"><i class="fal fa-th"></i> <span>Grid</span></a>
 				<a data-view="list" v-bind:class="{ active: $store.state.view === 'list' }"

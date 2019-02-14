@@ -6,21 +6,17 @@
 
     <div class="body flexbox flex-column flex-x-center">
       <div v-if="$store.state.userOne.location_tracking_enabled === true" class="paragraph flexbox flex-column flex-x-center">
-        <h3>Disable Location Tracking</h3>
-        <div class="instructions">
+        <span class="instructions">Disable Location Tracking</span>
           <p>Are you sure you'd like to disable location tracking?</p>
           <p>You can re-enable location tracking at any time.</p>
           <p>Locations already recorded will remain in LifeScope until you remove them.</p>
-        </div>
       </div>
 
       <div v-if="$store.state.userOne.location_tracking_enabled !== true" class="paragraph flexbox flex-column flex-x-center">
-        <h3 >Enable Location Tracking</h3>
-        <div class="instructions">
+        <span class="instructions">Enable Location Tracking</span>
           <p>
             LifeScope can record your location when you visit LifeScope pages. This can greatly improve search results over time.
           </p>
-        </div>
       </div>
 
       <div class="mobile-buttons">

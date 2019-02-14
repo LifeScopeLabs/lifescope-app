@@ -1,5 +1,5 @@
 <template>
-	<div class="content padded flexbox flex-column flex-x-center upload">
+	<div class="content padded upload">
 		<div class="flexbox flex-end">
 			<i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
 		</div>

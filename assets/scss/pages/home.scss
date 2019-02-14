@@ -604,18 +604,17 @@ div#body.home {
     .share-link {
       word-break: break-word;
       margin-bottom: 1em;
-
-      & > a {
-        font-size: 0.75em;
-      }
     }
 
     .public-link {
       margin: 1em;
+      font-size: 0.75em;
+      color:  #2ac1de;
     }
 
     .iframe-code {
       margin: 1em;
+      font-size: 0.75em;
     }
 
     #social-tag-shares {
@@ -624,11 +623,11 @@ div#body.home {
       @include flex-wrap;
 
       max-width: 100%;
-      color:  #2ac1de;
 
       & > * {
         font-size: 2em;
         margin: 0.2em;
+        color:  #2ac1de;
       }
     }
 

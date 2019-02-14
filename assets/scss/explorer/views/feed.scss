@@ -1,6 +1,5 @@
 div#body.explorer.feed {
   main {
-    background-color: $background-color;
 
     #list {
     @include flexbox;
@@ -8,11 +7,11 @@ div#body.explorer.feed {
     @include flex-space-around;
     @include flex-x-center;
 
-      padding: 1em;
+      padding: 1em 0.5em;
 
       @media #{$maxwidth768},#{$mobile} {
-      padding: 0.35em 0.45em;
-    }
+        padding: 0.5em;
+      }
     }
   }
 }

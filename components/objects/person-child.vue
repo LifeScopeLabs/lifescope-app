@@ -21,28 +21,28 @@
 						</div>
 					</div>
 				</div>
+			</div>
 
-				<!-- Tag -->
-				<aside class="action-bar" v-on:click="openActionModal(person, 'person')">
-					<span>Tag</span><i class="fal fa-hashtag"></i>
-					<!--<span>Share</span><i class="fal fa-share"></i>-->
-				</aside>
+			<div class="flexbox flex-row flex-space-between">
+				<div class="flexbox flex-colun flex-start">
+					<!-- Tag -->
+					<div class="tag-button" v-on:click="openActionModal(person, 'person')">
+						<i class="fal fa-hashtag"></i><span>Tag</span>
+					</div>
+
+					<!-- tags -->
+					<div class="tags">
+						<span v-for="tag in person.tags" v-bind:key="tag">#{{ tag }}</span>
+					</div>
+				</div>
+
+				<div class=hide-button v-on:click="hidePerson(person)"> <i class="fal fa-minus-hexagon"></i> Hide Person</div>
 			</div>
 		</div>
-
-		<!-- tags -->
-		<div class="tagging">
-			<div class="tags">
-				<span v-for="tag in person.tags" v-bind:key="tag">#{{ tag }}</span>
-			</div>
-		</div>
-
-		<div class=hide-button v-on:click="hidePerson(person)">Hide this Person</div>
 	</div>
 
 	<div class="person-hidden" v-else-if="person.hidden === true">
-		This Person is hidden.
-		<div class="unhide-button" v-on:click="unhidePerson(person)">Unhide this Person</div>
+		<div class="unhide-button" v-on:click="unhidePerson(person)"><i class="fal fa-plus-hexagon"></i>  Unhide Person</div>
 	</div>
 </template>
 
