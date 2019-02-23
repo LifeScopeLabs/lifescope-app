@@ -111,6 +111,8 @@
 </template>
 
 <script>
+  import qs from 'qs';
+
   import _ from 'lodash';
   import bowser from 'bowser';
   import icons from '../../lib/util/icons';
@@ -168,15 +170,23 @@
           permissions[source] = true;
         });
 
+        let variables = {
+	        name: form.name,
+	        provider_id_string: form.provider_id,
+	        permissions: permissions
+        };
+
+        let query = this.$route.query;
+
+		if (query.client && query.client === 'app') {
+			variables.app_session = true;
+		}
+
         let response = await this.$apollo.mutate({
           mutation: initializeConnection,
-          variables: {
-            name: form.name,
-            provider_id_string: form.provider_id,
-            permissions: permissions
-          }
+          variables: variables
         });
-        
+
         window.location = response.data.initializeConnection.redirectUrl;
       },
 

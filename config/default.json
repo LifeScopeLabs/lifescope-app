@@ -71,6 +71,10 @@
     }
   },
 
+  "mapbox": {
+    "access_token": null
+  },
+
   "validationSchemas": "schemas/**/*.json",
 
   "iceServers": [

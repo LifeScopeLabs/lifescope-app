@@ -1,18 +1,18 @@
 import https from 'https';
 
-import { ApolloLink, concat, split } from 'apollo-link';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { WebSocketLink } from 'apollo-link-ws';
-import { getMainDefinition } from 'apollo-utilities';
+import {ApolloLink, concat, split} from 'apollo-link';
+import {HttpLink} from 'apollo-link-http';
+import {InMemoryCache} from 'apollo-cache-inmemory';
+import {WebSocketLink} from 'apollo-link-ws';
+import {getMainDefinition} from 'apollo-utilities';
 import _ from 'lodash';
 
 export default (ctx) => {
-  let agentOptions = {};
+	let agentOptions = {};
 
-  if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'dev') {
-    agentOptions.rejectUnauthorized = false;
-  }
+	if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'dev') {
+		agentOptions.rejectUnauthorized = false;
+	}
 
 	const httpLink = new HttpLink({
 		fetchOptions: {
@@ -29,8 +29,8 @@ export default (ctx) => {
 		}
 	}) : '';
 
-	const link = process.server ? httpLink : split( ({ query }) => {
-			const { kind, operation } = getMainDefinition(query);
+	const link = process.server ? httpLink : split(({query}) => {
+			const {kind, operation} = getMainDefinition(query);
 
 			return kind === 'OperationDefinition' && operation === 'subscription';
 		},
@@ -47,7 +47,7 @@ export default (ctx) => {
 			});
 		}
 
-		return forward(operation)
+		return forward(operation);
 	});
 
 	return {
