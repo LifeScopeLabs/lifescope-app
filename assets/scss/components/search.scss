@@ -16,7 +16,7 @@ body {
 }
 
 #search-bar {
-  $padding: 0.6em;
+  $padding: 0.25em;
   border-radius: 5px;
 
   @include flex-grow;
