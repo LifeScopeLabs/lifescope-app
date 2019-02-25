@@ -98,6 +98,16 @@
       let mixitup = require('mixitup');
 
       this.$store.mixer = mixitup('#provider-grid', {});
+
+      let query = this.$route.query;
+
+      if (query.client && query.client === 'app' && this.$store.getters.authenticated !== true) {
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                window.location.reload();
+            }
+        });
+      }
     },
 
     updated() {
