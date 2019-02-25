@@ -75,7 +75,6 @@ button {
       background-color: rgba(229, 229, 229, 0.5);
       background-image: none;
       border-color: rgba(197, 197, 197, 0.5);
-      box-shadow: none;
     }
   }
 
@@ -418,8 +417,7 @@ input[type='radio'], input[type='checkbox'] {
   background-color: #fff;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 6px rgba(0,0,0,0.2);
 
   &.pull-right {
     right: 0;

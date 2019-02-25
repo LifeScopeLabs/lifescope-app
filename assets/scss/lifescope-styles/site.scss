@@ -39,7 +39,7 @@ a {
 }
 
 h1, h2, h3 {
-  margin: 1.3em 0 0.5em 0;
+  margin: 1.5em 0 0.5em 0;
 }
 
 h1, h2, h3, p {
@@ -59,11 +59,11 @@ pre {
 }
 
 h1 {
-  font-size: 1.8em;
+  font-size: 1.75em;
 }
 
 h2 {
-  font-size: 1.55em;
+  font-size: 1.5em;
 }
 
 h3 {
@@ -84,11 +84,68 @@ b, strong {
   font-weight: 700 !important;
 }
 
+.expand-indicator {
+  transform: rotate(180deg);
+  top: -1px;
+
+   @media #{$maxwidth768},#{$mobile} {
+    top: 10px;
+  }
+}
+
+// Shadows
+@mixin box_shadow ($level) {
+
+  @if $level == 1 {
+     box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.2);
+ } @else if $level == 2 {
+     box-shadow: 0 3px 6px rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.2);
+ } @else if $level == 3 {
+     box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 6px rgba(0,0,0,0.2);
+ } @else if $level == 4 {
+     box-shadow: 0 14px 28px rgba(0,0,0,0.2), 0 10px 10px rgba(0,0,0,0.2);
+ } @else if $level == 5 {
+     box-shadow: 0 19px 38px rgba(0,0,0,0.2), 0 15px 12px rgba(0,0,0,0.2);
+ }
+
+}
+@mixin box_shadow_dark ($level) {
+
+  @if $level == 1 {
+     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(255, 255, 255, 0.5);
+ } @else if $level == 2 {
+     box-shadow: 0 3px 6px rgba(255, 255, 255, 0.5), 0 3px 6px rgba(255, 255, 255, 0.5);
+ } @else if $level == 3 {
+     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.5), 0 6px 6px rgba(255, 255, 255, 0.5);
+ } @else if $level == 4 {
+     box-shadow: 0 14px 28px rgba(255, 255, 255, 0.5), 0 10px 10px rgba(255, 255, 255, 0.5);
+ } @else if $level == 5 {
+     box-shadow: 0 19px 38px rgba(255, 255, 255, 0.5), 0 15px 12px rgba(255, 255, 255, 0.5);
+ }
+}
+
+.glow {
+  animation: glow 0.4s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 5px rgb(255, 173, 90), 0 0 10px #6CC644, 0 0 8px rgb(252, 101, 55), 0 0 10px #2ac1de, 0 0 8px #6E5494, 0 0 14px #9eff86, 0 0 7px rgb(255, 89, 38);
+  }
+  
+  to {
+    text-shadow: 0 0 10px rgb(180, 137, 245), 0 0 9px #2ac1de, 0 0 12px rgb(147, 255, 100), 0 0 6px #ff4da6, 0 0 12px rgb(243, 178, 113), 0 0 6px #2ac1de, 0 0 14px rgb(186, 151, 240);
+  }
+}
+
+
 div#body {
   @include flexbox;
   @include flex-column;
 
-  font-size: 1.6rem;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
   min-height: 100%;
@@ -102,9 +159,10 @@ div#body {
 
   &.dark {
     header {
+      @include box_shadow_dark(2);
       background-color: $background-color-dark;
       color: $font-color-dark;
-      border-bottom: 1px solid $border-color-dark !important;
+      border-bottom: 1px solid $border-color-dark;
 
       .shortcuts > a {
         color: $font-color-dark;
@@ -127,7 +185,8 @@ div#body {
   }
 
   & > header {
-    $margin-width: 10px;
+    @include box_shadow(2);
+    $margin-width: 5px;
 
     @include no-select;
 
@@ -244,6 +303,19 @@ div#body {
             margin-right: 0.5em;
           }
 
+          & > i {
+            margin-right: 0.2em;
+          }
+
+          &.disabled {
+            color: $border-color-light;
+            cursor: initial;
+
+            &:hover {
+              color: $border-color-light;
+            }
+          }
+
           &.active {
             color: $orange !important;
           }
@@ -254,7 +326,7 @@ div#body {
         }
       }
 
-      & > .home-sort {
+      & > .home-sort .sort {
         @include flexbox;
         @include flex-center;
         @include flex-x-center;
@@ -291,6 +363,7 @@ div#body {
         @include flex-x-center;
 
         position: relative;
+        cursor: pointer;
 
         & > .current {
           i {
@@ -392,9 +465,16 @@ div#body {
       margin-bottom: 0.35em;
     }
   }
+
+  .instructions {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 1.4em;
+  }
 }
 
 .boxed-group {
+  @include box_shadow(2);
   $border-radius: 2px;
 
   border: 1px solid darken($border-color, 10%);
@@ -412,7 +492,7 @@ div#body {
 
   & > :first-child {
     padding: 0.2em 0.5em;
-    font-size: 1.1em;
+    font-size: 1.5em;
     border-top: none;
     background-color: $background-color;
   }
@@ -475,6 +555,10 @@ html.dark {
     color: $green-override !important;
   }
 
+  .boxed-group{
+    @include box_shadow_dark(2);
+  }
+
   a {
     color: $green-override;
 
@@ -482,4 +566,34 @@ html.dark {
       color: $blue;
     }
   }
+}
+
+.close-button {
+  cursor: pointer;
+
+  &:hover {
+    color: $red
+  }
+}
+
+.mobile-buttons {
+  @include flexbox;
+  @include flex-x-center;
+
+  @media #{$maxwidth768},#{$mobile} {
+    @include flex-column;
+  }
+
+  button.left-button {
+    margin-right: 2em;
+
+    @media #{$maxwidth768},#{$mobile} {
+      margin-right: 0;
+      margin-bottom: 1em;
+    }
+  }
+}
+
+i {
+  font-weight: 100;
 }

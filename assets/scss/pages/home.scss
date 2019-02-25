@@ -41,122 +41,127 @@ div#body.home {
     }
   }
 
-  &.dark {
-    main {
-      background-color: $background-color-dark !important;
-      color: $text-color-dark !important;
+  &.authenticated {
+    overflow: hidden;
 
-      #profile {
+    &.dark {
+      main {
+        background-color: $background-color-dark !important;
+        color: $text-color-dark !important;
 
-        #stats-container {
-          .scroller {
-            .stats {
-              & > * {
-                &:not(:last-child) {
-                  border-bottom-color: $border-color-dark !important;
-                }
-              }
+        #profile {
 
-              & > div {
-                color: $font-color-dark;
-              }
-
-              & > a,
-              & > div.clickable {
-                &:hover,
-                &:active,
-                &.active {
-                  background-color: lighten($background-color-dark, 10%) !important;
-                }
-              }
-            }
-          }
-        }
-      }
-
-      #content {
-        #tabs {
-          border-bottom-color: $border-color-dark !important;
-
-          & > * {
-            &.selected {
-              border: 2px solid $input-border-color-dark !important;
-              box-shadow: 0 -5px 5px 3px rgba(0,0,0,.15);
-              border-bottom: none !important;
-
-              background-color: $item-background-color-dark !important;
-
-              @media #{$maxwidth768},#{$mobile} {
-                border-width: 2px;
-              }
-            }
-          }
-        }
-
-        #search-container {
-
-          .scroller {
-            #searches {
-              & > * {
-                &:not(:last-child) {
-                  border-bottom-color: $border-color-dark !important;
-                }
-
-                &:hover,
-                &:active,
-                &.active {
-                  background-color: lighten($background-color-dark, 10%) !important;
-
-                  .favorite-create,
-                  .favorite-edit,
-                  .tag-share {
-                    background-color: lighten($background-color-dark, 20%) !important;
-                  }
-                }
-
-                & > .favorite-create,
-                & > .favorite-edit,
-                & > .tag-share {
-                  &:hover {
-                    background-color: lighten($background-color-dark, 30%) !important;
-                  }
-                }
-
+          #stats-container {
+            .scroller {
+              .stats {
                 & > * {
-                  &.search {
-                    .query {
-                      background-color: lighten($background-color-dark, 10%) !important;
+                  &:not(:last-child) {
+                    border-bottom-color: $border-color-dark !important;
+                  }
+                }
+
+                & > div {
+                  color: $font-color-dark;
+                }
+
+                & > a,
+                & > div.clickable {
+                  &:hover,
+                  &:active,
+                  &.active {
+                    background-color: lighten($background-color-dark, 10%) !important;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        #content {
+          #tabs {
+            border-bottom-color: $border-color-dark !important;
+
+            & > .tab {
+              &.selected {
+                border: 1px solid $input-border-color-dark !important;
+
+                box-shadow: 0px -5px 8px 3px rgba(255,255,255,0.5);
+                border-bottom: none !important;
+
+                background-color: $item-background-color-dark !important;
+
+                @media #{$maxwidth768},#{$mobile} {
+                  border-width: 2px;
+                }
+              }
+            }
+          }
+
+          #search-container {
+            box-shadow: 0 15px 20px rgba(255,255,255,0.5), 0 15px 12px rgba(255,255,255,0.5);
+            .scroller {
+              #searches {
+                & > * {
+                  &:not(:last-child) {
+                    border-bottom-color: $border-color-dark !important;
+                  }
+
+                  &:hover,
+                  &:active,
+                  &.active {
+                    background-color: lighten($background-color-dark, 10%) !important;
+
+                    .favorite-create,
+                    .favorite-edit,
+                    .tag-share {
+                      background-color: lighten($background-color-dark, 20%) !important;
                     }
+                  }
 
-                    .filters {
-                      .filter, .filter-overflow-count {
-                        border: 1px solid lighten($border-color-dark, 5%) !important;
-                        background-color: $background-color-dark !important;
+                  & > .favorite-create,
+                  & > .favorite-edit,
+                  & > .tag-share {
+                    &:hover {
+                      background-color: lighten($background-color-dark, 30%) !important;
+                    }
+                  }
 
-                        color: lighten($font-color-subdue-dark, 10%) !important;
+                  & > * {
+                    &.search {
+                      .query {
+                        background-color: lighten($background-color-dark, 10%) !important;
+                      }
+
+                      .filters {
+                        .filter, .filter-overflow-count {
+                          border: 1px solid lighten($border-color-dark, 5%) !important;
+                          background-color: $background-color-dark !important;
+
+                          color: lighten($font-color-subdue-dark, 10%) !important;
+                        }
                       }
                     }
-                  }
 
-                  .name {
-                    margin: 0 8px;
-                    color: $font-color-dark !important;
+                    .name {
+                      margin: 0 8px;
+                      color: $font-color-dark !important;
 
-                    &:empty:after {
+                      &:empty:after {
+                        color: $font-color-subdue-dark !important;
+                      }
+                    }
+
+                    .last-run,
+                    .sharing {
                       color: $font-color-subdue-dark !important;
                     }
                   }
-
-                  .last-run,
-                  .sharing {
-                    color: $font-color-subdue-dark !important;
-                  }
                 }
-              }
 
-              #more-people {
-                &:hover {
-                  background-color: lighten($background-color, 15%);
+                #more-people {
+                  &:hover {
+                    background-color: lighten($background-color, 15%);
+                  }
                 }
               }
             }
@@ -164,10 +169,6 @@ div#body.home {
         }
       }
     }
-  }
-
-  &.authenticated {
-    overflow: hidden;
 
     main {
       padding-top: 1em;
