@@ -59,7 +59,7 @@
         </p>
 
         <form class="flexbox flex-column flex-x-center" id="financial-file" action="/financials/upload_file" method="POST" v-on:submit.self.prevent="uploadFinancialFile">
-          <input type="file" name="spec" accept="text/csv"/>
+          <input type="file" name="spec" accept="text/csv" class="inputfile"/>
           <div class="errorlist hidden">Error uploading financial file. Check that financial data and is in .csv format.</div>
           <button class="primary" v-bind:class="{ hidden: $data.financial_uploading === true }" type="submit">Submit</button>
           <i class="fal fa-spin fa-spinner" v-bind:class="{ hidden: $data.financial_uploading === false }"></i>
@@ -154,7 +154,7 @@
 
     methods: {
       getProviderIcon: function(provider) {
-        return icons('provider', provider.name);
+        return icons('provider', provider.name) + " fa-2x";
       },
 
       getPlaceholder: function(provider) {

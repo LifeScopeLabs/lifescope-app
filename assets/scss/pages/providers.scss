@@ -26,10 +26,7 @@ div#body.providers {
         #filters {
           .filter {
             text-align: center;
-            width: 10em;
-            margin-bottom: 1em;
-
-            font-size: 1.2em;
+            font-size: 1.25em;
           }
         }
       }
@@ -128,9 +125,10 @@ div#body.providers {
       margin-top: 0.5em;
       text-align: center;
       font-size: 1.5em;
+      text-transform: uppercase;
 
-      .placeholder-text {
-        margin-right: 0.5em;
+      & > i {
+        width: 1.5em;
       }
     }
   }
@@ -142,14 +140,15 @@ div#body.providers {
       @include flex-center;
       @include flex-x-center;
 
+      margin-top: 1em;
+
       & > .filter {
         @include raleway;
         @include no-select;
         @include interactive;
 
         text-transform: uppercase;
-        padding: 0.25em 0.5em;
-        border-bottom: 2px solid transparent;
+        padding: 0.5em;
         cursor: pointer;
       }
     }

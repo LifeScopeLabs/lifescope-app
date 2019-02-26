@@ -79,13 +79,14 @@ div#body.home {
 
         #content {
           #tabs {
+            font-size: 1.25em;
             border-bottom-color: $border-color-dark !important;
 
             & > .tab {
               &.selected {
                 border: 1px solid $input-border-color-dark !important;
 
-                box-shadow: 0px -5px 8px 3px rgba(255,255,255,0.5);
+                box-shadow: 0px -5px 8px 3px rgba(255,255,255,0.25);
                 border-bottom: none !important;
 
                 background-color: $item-background-color-dark !important;
@@ -98,7 +99,7 @@ div#body.home {
           }
 
           #search-container {
-            box-shadow: 0 15px 20px rgba(255,255,255,0.5), 0 15px 12px rgba(255,255,255,0.5);
+            box-shadow: 0 15px 20px rgba(255,255,255,0.25), 0 15px 12px rgba(255,255,255,0.25);
             background-color: $item-background-color-dark;
             .scroller {
               #searches {
@@ -130,7 +131,7 @@ div#body.home {
                   & > * {
                     &.search {
                       .query {
-                        background-color: lighten($background-color-dark, 10%) !important;
+                        color: $orange;
                       }
 
                       .filters {
@@ -255,11 +256,7 @@ div#body.home {
         }
 
         .name {
-          font-size: 1.5em;
-
-          @media #{$maxwidth768},#{$mobile} {
-            font-size: 1em;
-          }
+          font-size: 1.75em;
         }
 
         .handle {
@@ -300,6 +297,7 @@ div#body.home {
 
             cursor: pointer;
             padding: 0.5em 1em;
+            font-size: 1.25em;
 
             & > * {
               @include flexbox;
@@ -314,12 +312,10 @@ div#body.home {
               }
 
               .count {
-                font-size: 1em;
                 color: $blue !important;
               }
 
               .count-val {
-                font-size: 1em;
                 color: $blue !important;
               }
             }
@@ -431,10 +427,15 @@ div#body.home {
           box-shadow: 0 15px 20px rgba(0,0,0,0.15), 0 15px 12px rgba(0,0,0,0.15);
           cursor: pointer;
 
+          @media #{$maxwidth768},#{$mobile} {
+            box-shadow: none !important;
+          }
+
           .scroller {
             #searches {
               @include flexbox;
               @include flex-column;
+              font-size: 1.25em;
 
               & > a {
                 @include flexbox;
@@ -501,7 +502,7 @@ div#body.home {
                     margin-left: 1em;
 
                     .query {
-                      color: darken($font-color-subdue, 10%);
+                      color: $orange;
                       padding-right: 0.5em;
                     }
 
@@ -690,55 +691,12 @@ div#body.home {
         }
       }
     }
-
-    footer {
-      #social {
-        font-size: 3.5em;
-
-        @media #{$maxwidth768},#{$mobile} {
-          font-size: 2em;
-        }
-
-        a {
-          color: $font-color-subdue;
-          padding: 0.5em;
-
-          &.facebook {
-            &:hover,
-            &:active {
-              color: #405E9B;
-            }
-          }
-
-          &.twitter {
-            &:hover,
-            &:active {
-              color: #6CADDE;
-            }
-          }
-
-          &.github {
-            &:hover,
-            &:active {
-              color: #85E065;
-            }
-          }
-
-          &.instagram {
-            &:hover,
-            &:active {
-              color: #E0412F;
-            }
-          }
-        }
-      }
-    }
   }
 
   .avatar {
     @include flexbox;
     @include flex-center;
-    font-size: 2.25em;
+    font-size: 2em;
 
     & > .default {
       color: white;
@@ -751,7 +709,7 @@ div#body.home {
       &.me {
         width: 120px;
         height: 120px;
-        font-size: 2.4em;
+        font-size: 3em;
       }
     }
 

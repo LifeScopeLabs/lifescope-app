@@ -9,6 +9,10 @@ div#body.explorer {
         @media #{$maxwidth768},#{$mobile}  {
           .views, .sort, .facets {
             @include flexbox;
+
+            & > i {
+              width: 1.5em;
+            }
           }
         }
       }
@@ -108,7 +112,6 @@ div#body.home {
 
       .views, .sort, .home-sort, .facets {
         @include flex-column;
-
         display: none;
 
         a {
@@ -124,14 +127,14 @@ div#body.home {
             @include flexbox;
             @include no-select;
             @include interactive;
+            align-items: center;
 
             cursor: pointer;
             font-size: 1.5em;
             padding: 0.5em;
             text-transform: capitalize;
 
-            i {
-              margin: 0 0.5em 0 0.25em;
+            & > i {
               width: 1.5em;
             }
 

@@ -12,16 +12,13 @@ div#body.settings {
       }
     }
 
-    .settings-menu {
-      a {
-        color: $font-color-dark;
-      }
+    a {
+      color: $blue;
     }
 
     .tooltip {
       color: lighten($font-color-dark, 30%);
     }
-
 
     main {
       color: $font-color-dark;
@@ -726,7 +723,7 @@ div#body.settings {
 
       border-radius: 50%;
       text-align: center;
-      font-size: 5.2em;
+      font-size: 6em;
     }
 
     & > img {

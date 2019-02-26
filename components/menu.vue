@@ -11,7 +11,7 @@
 					<div class="views">
 						<div class="current"
 							 v-on:click="$store.state.mobileViewSelectorOpen = !$store.state.mobileViewSelectorOpen">
-							<i v-bind:class="{ 'fal expand-indicator fa-caret-up': $store.state.mobileViewSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileViewSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fal fa-caret-up': $store.state.mobileViewSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileViewSelectorOpen !== true }"></i>
 							<span class="drawer-label">View &ndash;</span>
 							<span class="name">{{ $store.state.view }}</span>
 						</div>
@@ -33,7 +33,7 @@
 					<div class="home-sort" v-if="$store.state.mode === 'home'">
 						<div class="current"
 							 v-on:click="$store.state.mobileSortSelectorOpen = !$store.state.mobileSortSelectorOpen">
-							<i v-bind:class="{ 'fal expand-indicator fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fal fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
 							<span class="drawer-label">Sort &ndash;</span>
 							<span class="name">{{ displaySort() }}</span>
 						</div>
@@ -86,7 +86,7 @@
 					<div class="sort">
 						<div class="current"
 							 v-on:click="$store.state.mobileSortSelectorOpen = !$store.state.mobileSortSelectorOpen">
-							<i v-bind:class="{ 'fal expand-indicator fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fal fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
 							<span class="drawer-label">Sort &ndash;</span>
 							<span class="name">{{ $store.state.sortField[0].toUpperCase() + $store.state.sortField.slice(1) }}</span>
 							<i v-bind:class="{ 'fal fa-chevron-up': $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
@@ -186,7 +186,7 @@
 					<div class="facets">
 						<div class="current"
 							 v-on:click="$store.state.mobileFacetSelectorOpen = !$store.state.mobileFacetSelectorOpen">
-							<i v-bind:class="{ 'fal expand-indicator fa-caret-up': $store.state.mobileFacetSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileFacetSelectorOpen !== true }"></i>
+							<i v-bind:class="{ 'fal fa-caret-up': $store.state.mobileFacetSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileFacetSelectorOpen !== true }"></i>
 							<span class="drawer-label">Facet &ndash;</span>
 							<span class="name"></span>
 							<div class="flex-grow">{{ $store.state.facet }}</div>

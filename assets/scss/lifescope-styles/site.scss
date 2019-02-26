@@ -93,6 +93,14 @@ b, strong {
   }
 }
 
+.inputfile {
+  background-color: $blue;
+  border: 2px solid #fff;
+  border-radius: 3px;
+  color: #fff;
+  padding: 1em;
+}
+
 // Shadows
 @mixin box_shadow ($level) {
 
@@ -112,15 +120,15 @@ b, strong {
 @mixin box_shadow_dark ($level) {
 
   @if $level == 1 {
-     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(255, 255, 255, 0.5);
+     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(255, 255, 255, 0.25);
  } @else if $level == 2 {
-     box-shadow: 0 3px 6px rgba(255, 255, 255, 0.5), 0 3px 6px rgba(255, 255, 255, 0.5);
+     box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25), 0 3px 6px rgba(255, 255, 255, 0.25);
  } @else if $level == 3 {
-     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.5), 0 6px 6px rgba(255, 255, 255, 0.5);
+     box-shadow: 0 10px 20px rgba(255, 255, 255, 0.25), 0 6px 6px rgba(255, 255, 255, 0.25);
  } @else if $level == 4 {
-     box-shadow: 0 14px 28px rgba(255, 255, 255, 0.5), 0 10px 10px rgba(255, 255, 255, 0.5);
+     box-shadow: 0 14px 28px rgba(255, 255, 255, 0.25), 0 10px 10px rgba(255, 255, 255, 0.25);
  } @else if $level == 5 {
-     box-shadow: 0 19px 38px rgba(255, 255, 255, 0.5), 0 15px 12px rgba(255, 255, 255, 0.5);
+     box-shadow: 0 19px 38px rgba(255, 255, 255, 0.25), 0 15px 12px rgba(255, 255, 255, 0.25);
  }
 }
 
@@ -130,11 +138,11 @@ b, strong {
 
 @-webkit-keyframes glow {
   from {
-    text-shadow: 0 0 5px rgb(255, 173, 90), 0 0 10px #6CC644, 0 0 8px rgb(252, 101, 55), 0 0 10px #2ac1de, 0 0 8px #6E5494, 0 0 14px #9eff86, 0 0 7px rgb(255, 89, 38);
+    text-shadow: 0 0 4px rgb(255, 173, 90), 0 0 13px #6CC644, 0 0 8px rgb(252, 101, 55), 0 0 19px #2ac1de, 0 0 7px #6E5494, 0 0 14px #9eff86, 0 0 7px rgb(255, 89, 38);
   }
   
   to {
-    text-shadow: 0 0 10px rgb(180, 137, 245), 0 0 9px #2ac1de, 0 0 12px rgb(147, 255, 100), 0 0 6px #ff4da6, 0 0 12px rgb(243, 178, 113), 0 0 6px #2ac1de, 0 0 14px rgb(186, 151, 240);
+    text-shadow: 0 0 10px rgb(180, 137, 245), 0 0 9px #2ac1de, 0 0 19px rgb(147, 255, 100), 0 0 3px #ff4da6, 0 0 13px rgb(243, 178, 113), 0 0 5px #2ac1de, 0 0 14px rgb(186, 151, 240);
   }
 }
 
@@ -209,8 +217,6 @@ b, strong {
 i {
   font-weight: 100;
 }
-
-
 
 div#body {
   @include flexbox;
@@ -324,6 +330,14 @@ div#body {
             &:not(:last-child) {
               margin-right: 0.5em;
             }
+
+            & > i {
+              width: 1.5em;
+            }
+
+            &:hover {
+              color: $blue;
+            }
           }
         }
 
@@ -331,7 +345,7 @@ div#body {
           @include flexbox;
           @include flex-center;
           @include flex-x-center;
-
+          
           text-transform: capitalize;
 
           & > a {
@@ -342,7 +356,7 @@ div#body {
             cursor: pointer;
 
             &:hover {
-              color: $green;
+              color: $blue;
             }
 
             &:not(:last-child) {
@@ -350,7 +364,9 @@ div#body {
             }
 
             & > i {
-              margin-right: 0.2em;
+              width: 1.5em;
+              display: flex;
+              align-items: center;
             }
 
             &.disabled {
@@ -446,6 +462,7 @@ div#body {
               a {
                 @include flexbox;
                 @include flex-x-center;
+                text-decoration: none;
 
                 i {
                   margin-right: 0.5em;
@@ -453,6 +470,10 @@ div#body {
 
                 &:not(:last-child) {
                   margin-bottom: 0.5em;
+                }
+
+                &:hover {
+                  color: $blue;
                 }
               }
             }
@@ -540,11 +561,19 @@ div#body.dark {
   & > header {
     background-color: $item-background-color-dark;
     color: $font-color-dark;
-    border-bottom: 1px solid $border-color-dark;
+    border-bottom: none;
 
     .shortcuts > a {
       color: $font-color-dark;
     }
+  }
+
+  #filter-editor {
+    @include box_shadow_dark(2);
+  }
+
+  #filter-list {
+    @include box_shadow_dark(2);
   }
 
   .controls {
@@ -556,6 +585,10 @@ div#body.dark {
           &:hover {
             color: darken($border-color-dark, 20%);
           }
+        }
+
+        & > i {
+          width: 1.5em;
         }
       }
     }
@@ -584,13 +617,5 @@ div#body.dark {
 
   .boxed-group{
     @include box_shadow_dark(2);
-  }
-
-  a {
-    color: $green-override;
-
-    &:hover {
-      color: $blue;
-    }
   }
 }

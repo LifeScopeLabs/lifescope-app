@@ -1,7 +1,7 @@
 <template slot="search">
   <div v-if="$store.state.mode !== 'shared'" id="search-bar" class="input-group">
     <div v-if="!$store.state.hide_advanced" id="advanced" v-on:click="toggleFilterEditor">
-      <i v-bind:class="$data.editorOpen ? 'fal expand-indicator glow fa-caret-up' : 'fal glow fa-caret-down'"></i>
+      <i v-bind:class="$data.editorOpen ? 'fal glow fa-caret-up' : 'fal glow fa-caret-down'"></i>
     </div>
 
     <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
