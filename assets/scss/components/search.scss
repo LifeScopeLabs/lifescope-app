@@ -29,10 +29,11 @@ body {
   @include source-sans;
 
   #advanced {
-    padding: 0 $padding;
-
     @include flexbox;
     @include flex-x-center;
+
+    padding: 0 $padding;
+    margin-left: .25em;
   }
 
   #filter-controls {
@@ -493,6 +494,7 @@ body {
   #search-button,
   #search-favorited {
     padding: 0 $padding;
+    margin-right: 0.25em;
 
     @include flexbox;
     @include flex-x-center;
@@ -524,7 +526,7 @@ body {
       height: 50px;
 
       border-radius: 50%;
-      line-height: 1.35;
+      line-height: 1.5;
 
       text-align: center;
     }
