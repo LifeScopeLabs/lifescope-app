@@ -227,9 +227,9 @@ div#body.dark {
     color: $font-color-dark;
 
     border-left: 1px solid $input-border-color-dark;
+    box-shadow: 0 20px 30px rgba(255, 255, 255, 0.5), 0 15px 15px rgba(255, 255, 255, 0.5);
 
     .menu {
-      box-shadow: 0 20px 30px rgba(255, 255, 255, 0.5), 0 15px 15px rgba(255, 255, 255, 0.5);
       & > header {
         border-bottom: 1px solid $input-border-color-dark;
         background-color: $background-color-dark;

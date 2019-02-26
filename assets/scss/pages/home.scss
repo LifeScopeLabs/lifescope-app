@@ -99,6 +99,7 @@ div#body.home {
 
           #search-container {
             box-shadow: 0 15px 20px rgba(255,255,255,0.5), 0 15px 12px rgba(255,255,255,0.5);
+            background-color: $item-background-color-dark;
             .scroller {
               #searches {
                 & > * {
