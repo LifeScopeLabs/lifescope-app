@@ -94,18 +94,21 @@
 			<a v-bind:href="content.url" target="blank">{{ content.url | safe }}</a>
 		</div>
 
-		<!-- tags -->
-		<tag class="tag-button" v-on:click="openActionModal(content, 'content')">
-			<i class="fal fa-hashtag"></i> <span>Tag</span>
-		</tag>
+		<div class="flexbox flex-row flex-space-between tag-hide">
+			<div class="flexbox flex-column flex-start">
+				<!-- tags -->
+				<tag class="tag-button" v-on:click="openActionModal(content, 'content')">
+					<i class="fal fa-hashtag"></i> <span> Tag</span>
+				</tag>
 
-		<!-- tags -->
-		<div class="tags">
-			<span v-for="tag in content.tags" v-bind:key="tag"> #{{ tag }}</span>
+				<!-- tags -->
+				<div class="tags">
+					<span v-for="tag in content.tags" v-bind:key="tag"> #{{ tag }}</span>
+				</div>
+			</div>
+
+			<div class=hide-button v-on:click="hideContent(content)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
 		</div>
-
-		<div class=hide-button v-on:click="hideContent(content)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
-
 	</div>
 
 	<div class="content-hidden" v-else-if="content.hidden === true">

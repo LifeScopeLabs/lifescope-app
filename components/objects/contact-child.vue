@@ -21,11 +21,11 @@
 			</div>
 		</div>
 
-		<div class="flexbox flex-row flex-space-between">
+		<div class="flexbox flex-row flex-space-between tag-hide">
 			<div class="flexbox flex-column flex-start">
 				<!-- Tag -->
 				<div class="tag-button" v-on:click="openActionModal(contact, 'contact')">
-					<i class="fal fa-hashtag"></i><span>Tag</span>
+					<i class="fal fa-hashtag"></i><span> Tag</span>
 				</div>
 
 				<!-- tags -->

@@ -10,25 +10,23 @@
 
 			<!-- details -->
 			<div class="details">
-				<div>
-					<!-- name -->
-					<div v-if="person.first_name || person.middle_name || person.last_name" style="margin-bottom: 0.5em;">{{ concatNames(person) }}</div>
-					<!-- contacts -->
-
-					<div class="flexbox flex-column" style="font-size: 0.9em;">
-						<div v-for="contact in person.contacts">
-							<div>{{ contact.handle }}</div>
-						</div>
+				<!-- name -->
+				<div class="person-name" v-if="person.first_name || person.middle_name || person.last_name">{{ concatNames(person) }}</div>
+				
+				<!-- contacts -->
+				<div class="flexbox flex-column" style="font-size: 0.9em;">
+					<div v-for="contact in person.contacts">
+						<div>{{ contact.handle }}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="flexbox flex-row flex-space-between">
-			<div class="flexbox flex-colun flex-start">
+		<div class="flexbox flex-row flex-space-between tag-hide">
+			<div class="flexbox flex-column flex-start">
 				<!-- Tag -->
 				<div class="tag-button" v-on:click="openActionModal(person, 'person')">
-					<i class="fal fa-hashtag"></i><span>Tag</span>
+					<i class="fal fa-hashtag"></i><span> Tag</span>
 				</div>
 
 				<!-- tags -->

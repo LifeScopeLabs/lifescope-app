@@ -3,36 +3,6 @@
     @include flexbox;
     cursor: pointer;
 
-    .tag-button {
-      margin: .25em 0;
-      color: $blue;
-      
-      & > i {
-        color: $blue;
-      }
-    }
-
-    & > .tags {
-      margin: .25em 0;
-    }
-
-    & > .hide-button {
-      cursor: pointer;
-      color: $orange;
-
-      i {
-        color: $orange;
-      }
-  
-      &:hover {
-        color: $blue;
-  
-          i {
-            color: $blue;
-          }
-      }
-    }
-
     .user-avatar {
       .avatar {
         height: 3em;
@@ -65,7 +35,8 @@
       color: $font-color-subdue;
 
       i {
-        margin-right: 0.25em;
+        width: 1.5em;
+        text-align: center;
       }
     }
     
@@ -78,22 +49,6 @@
   @include flex-column;
   @include flex-x-center;
 
-  .unhide-button {
-    cursor: pointer;
-    color: $orange;
-
-    i {
-      color: $orange;
-    }
-
-    &:hover {
-      color: $blue;
-
-        i {
-          color: $blue;
-        }
-    }
-  }
 }
 
 div#body.dark {

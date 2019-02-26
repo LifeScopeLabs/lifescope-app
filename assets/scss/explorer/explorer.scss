@@ -126,6 +126,7 @@ div#body.explorer {
           top: 50%;
           transform: translateY(-50%);
           width: 1.5em;
+          text-align: center;
 
           @media #{$maxwidth768},#{$mobile} {
             top: 0;
@@ -345,7 +346,6 @@ div#body.explorer.grid {
   .tags {
     @include flexbox;
     @include flex-column;
-    margin: .25em 0;
 
     color: $blue;
 
@@ -365,6 +365,7 @@ div#body.explorer.grid {
 
       & > i {
         cursor: pointer;
+        text-align: center;
 
         &:hover {
           color: $red;

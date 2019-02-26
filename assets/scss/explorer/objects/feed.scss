@@ -34,35 +34,6 @@
 
       & > div:first-child {
         @include flex-grow;
-
-        & > .tag-button {
-          color: $blue;
-
-          & > i {
-            color: $blue;
-          }
-        }
-      }
-
-      & > .tags {
-        margin: .25em 0;
-      }
-
-      & > .hide-button {
-        text-align: right;
-        color: $orange;
-
-        i {
-          color: $orange;
-        }
-    
-        &:hover {
-          color: $blue;
-    
-            i {
-              color: $blue;
-            }
-        }
       }
     }
   }

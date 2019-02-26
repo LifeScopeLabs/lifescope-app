@@ -12,6 +12,7 @@ div#body.explorer {
 
             & > i {
               width: 1.5em;
+              text-align: center;
             }
           }
         }
@@ -123,6 +124,12 @@ div#body.home {
         }
 
         & > div {
+
+          & > i {
+            width: 1.5em;
+            text-align: center;
+          }
+
           &:first-child {
             @include flexbox;
             @include no-select;
@@ -133,10 +140,6 @@ div#body.home {
             font-size: 1.5em;
             padding: 0.5em;
             text-transform: capitalize;
-
-            & > i {
-              width: 1.5em;
-            }
 
             .drawer-label {
               margin-right: 0.25em;

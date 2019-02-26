@@ -451,7 +451,7 @@ div#body.home {
                 word-break: break-all;
 
                 @media #{$maxwidth768},#{$mobile} {
-                  padding: 0.5em 0.25em;
+                  padding: 0.5em 0em;
                 }
 
                 &:not(:last-child) {
@@ -545,7 +545,6 @@ div#body.home {
                   }
 
                   .name {
-                    font-size: 1.1em;
                     color: $font-color;
 
                     &:empty:after {
@@ -558,7 +557,7 @@ div#body.home {
                   .sharing {
                     @include no-wrap;
 
-                    font-size: 0.85em;
+                    font-size: 0.65em;
                     color: $font-color-subdue;
                   }
 
@@ -702,6 +701,7 @@ div#body.home {
       color: white;
       width: 50px;
       height: 50px;
+      line-height: 1.35;
 
       border-radius: 50%;
       text-align: center;
@@ -710,6 +710,7 @@ div#body.home {
         width: 120px;
         height: 120px;
         font-size: 3em;
+        line-height: 1.35;
       }
     }
 
@@ -726,7 +727,7 @@ div#body.home {
     
     i {
       margin: 0 0.25em;
-
+      text-align: center;
       color: gray;
     }
 

@@ -9,22 +9,22 @@
           <i v-bind:class="getEventTypeIcon(item.type)"></i>
 
           <span v-if="item.context">
-            {{ item.context }}
+             {{ item.context }}
           </span>
           <span v-else>
-            {{ item.type }}
+             {{ item.type }}
           </span>
         </div>
 
         <div class="provider">
           <i v-bind:class="getProviderIcon(item.connection.provider)"></i>
-          <span>{{ item.connection.name | truncate(30) }}</span>
+          <span> {{ item.connection.name | truncate(30) }}</span>
         </div>
 
         <div v-if="item.datetime" class="date">
           <div>
             <div>
-              <i class="fal fa-calendar-alt"></i> <span>{{ item.datetime | dateShort }}</span>
+              <i class="fal fa-calendar-alt"></i> <span> {{ item.datetime | dateShort }}</span>
             </div>
 
 
@@ -33,19 +33,22 @@
             </div>
 
             <div v-else>
-              <i class="fal fa-clock"></i> <span>{{ item.datetime | dateTime }}</span>
+              <i class="fal fa-clock"></i> <span> {{ item.datetime | dateTime }}</span>
             </div>
           </div>
 
-        <div class="tag-button" v-on:click="openActionModal(event, 'event')">
-          <i class="fal fa-hashtag"></i><span>Tag</span>
-        </div>
+        <div class="flexbox flex-row flex-space-between tag-hide">
+          <div class="flexbox flex-column flex-start">
+            <div class="tag-button" v-on:click="openActionModal(event, 'event')">
+              <i class="fal fa-hashtag"></i><span> Tag</span>
+            </div>
 
-        <div class="tags">
-          <span v-for="tag in tags"> #{{ tag }}</span>
-        </div>
-
-        <div class=hide-button v-on:click="hideEvent(item)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
+            <div class="tags">
+              <span v-for="tag in tags"> #{{ tag }}</span>
+            </div>
+          </div>
+            
+          <div class=hide-button v-on:click="hideEvent(item)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
         </div>
       </aside>
       
@@ -54,7 +57,7 @@
       </section>
 
       <aside v-if="(item.contacts && item.contacts.length > 0) || (item.people && item.people.length > 0) || (item.organizations && item.organizations.length > 0)" class="interactions">
-        <div v-if="item.contact_interaction_type">{{ item.content_interaction_type }}</div>
+        <div v-if="item.contact_interaction_type"> {{ item.content_interaction_type }}</div>
         <div class="objects">
           <user-contact v-for="contact in item.contacts" v-bind:key="contact.id" v-bind:contact="contact" v-bind:connection="item.connection"></user-contact>
         </div>
@@ -63,7 +66,7 @@
     </div>
 
     <div class="event-hidden" v-else-if="item.hidden === true">
-      <div class="unhide-button" v-on:click="unhideEvent(item)"> <i class="fal fa-plus-hexagon"></i>  Unhide Event</div>
+      <div class="unhide-button" v-on:click="unhideEvent(item)"> <i class="fal fa-plus-hexagon"></i> Unhide Event</div>
     </div>
   </div>
   <div v-else-if="type === 'content'" class="object content modaled flex-column" v-bind:id="item.id">

@@ -329,10 +329,10 @@ div#body.settings {
 
         .last-run {
           @include flex-grow;
+          font-size: 0.65em;
 
           @media #{$maxwidth768},#{$mobile} {
             margin: 0.5em;
-
             width: 4em;
           }
         }
@@ -501,6 +501,7 @@ div#body.settings {
             color: $red;
             width: 1.5em;
             cursor: pointer;
+            text-align: center;
 
             &:hover {
               color: $orange;
@@ -644,8 +645,8 @@ div#body.settings {
 
           & > img,
           & > i {
-            margin-right: 0.25em;
             width: 1.5em;
+            text-align: center;
           }
         }
       }
@@ -722,6 +723,7 @@ div#body.settings {
       height: 120px;
 
       border-radius: 50%;
+      line-height: 1.35;
       text-align: center;
       font-size: 6em;
     }
@@ -734,6 +736,7 @@ div#body.settings {
 
     i {
       margin: 0 0.25em;
+      text-align: center;
 
       color: gray;
     }

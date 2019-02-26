@@ -16,6 +16,7 @@ div#body.providers {
 
       & > i {
         width: 1.5em;
+        text-align: center;
       }
     }
 
@@ -129,6 +130,7 @@ div#body.providers {
 
       & > i {
         width: 1.5em;
+        text-align: center;
       }
     }
   }
@@ -265,6 +267,7 @@ div#body.providers {
     & > i {
       width: 1.5em;
       cursor: pointer;
+      text-align: center;
 
       &:hover {
         color: $blue;

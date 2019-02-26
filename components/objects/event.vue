@@ -48,18 +48,22 @@
 					</div>
 				</div>
 
-				<!-- Tag -->
-				<div class="tag-button" v-on:click="openActionModal(event, 'event')">
-					<i class="fal fa-hashtag"></i><span>Tag</span>
-				</div>
+			<div class="flexbox flex-row flex-space-between tag-hide">
+				<div class="flexbox flex-column flex-start">
+					<!-- Tag -->
+					<div class="tag-button" v-on:click="openActionModal(event, 'event')">
+						<i class="fal fa-hashtag"></i><span> Tag</span>
+					</div>
 
-				<!-- tags -->
-				<div class="tags">
-					<span v-for="tag in event.tags" v-bind:key="tag">#{{ tag }}</span>
+					<!-- tags -->
+					<div class="tags">
+						<span v-for="tag in event.tags" v-bind:key="tag">#{{ tag }}</span>
+					</div>
 				</div>
 
 				<div class=hide-button v-on:click="hideEvent(event)"><i class="fal fa-minus-hexagon"></i> Hide</div>
-
+			</div>
+			
 			</aside>
 
 			<!-- content -->

@@ -12,11 +12,12 @@ body {
 }
 
 html {
-  height: 100%;
-
   @include roboto(300);
-  font-size: 10px;
 
+  height: 100%;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.5em;
   color: $font-color-light;
 
   pre {
@@ -187,13 +188,66 @@ b, strong {
   }
 }
 
-
 .close-button {
   cursor: pointer;
 
   &:hover {
     color: $red
   }
+}
+
+.hide-button {
+  cursor: pointer;
+  color: $orange;
+
+  i {
+    color: $orange;
+  }
+
+  &:hover {
+    color: $blue;
+
+      i {
+        color: $blue;
+      }
+  }
+}
+
+.unhide-button {
+  cursor: pointer;
+  color: $green;
+
+  i {
+    color: $green;
+  }
+
+  &:hover {
+    color: $blue;
+
+      i {
+        color: $blue;
+      }
+  }
+}
+
+.tags {
+  @include flexbox;
+  @include flex-column;
+  cursor: pointer;
+}
+
+.tag-button {
+  color: $blue;
+  cursor: pointer;
+  
+  & > i {
+    color: $blue;
+  }
+}
+
+.tag-hide {
+  margin-top: .5em;
+  cursor: pointer;
 }
 
 .mobile-buttons {
@@ -367,6 +421,7 @@ div#body {
               width: 1.5em;
               display: flex;
               align-items: center;
+              justify-content: center
             }
 
             &.disabled {
@@ -444,13 +499,14 @@ div#body {
           }
 
           & > .container {
+            @include box_shadow(2);
+
             position: absolute;
             left: -10px;
             width: 8em;
             top: 1.7em;
             z-index: 5;
             background: $item-background-color;
-            border: 1px solid $border-color;
 
             & > .drawer {
               @include flexbox;
@@ -577,8 +633,10 @@ div#body.dark {
   }
 
   .controls {
+    color: $font-color-dark;
     & > .views {
       & > a {
+        color: $font-color-dark;
         &.disabled {
           color: darken($border-color-dark, 20%);
 
@@ -590,6 +648,30 @@ div#body.dark {
         & > i {
           width: 1.5em;
         }
+      }
+    }
+
+    & > .sort {
+      & > a {
+        color: $font-color-dark;
+      }
+    }
+
+    & > .facets {
+      color: $font-color-dark;
+      .container {
+        @include box_shadow_dark(2);
+
+        background-color: $item-background-color-dark;
+        .drawer {
+          background-color: $item-background-color-dark;
+          & > a {
+            color: $font-color-dark;
+          }
+        }
+      }
+      .count {
+        color: $font-color-dark !important;
       }
     }
   }

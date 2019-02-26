@@ -56,7 +56,7 @@
               <div class="count" v-model="favoriteCount">Favorites</div><div class="count-val"> {{ favoriteCount }}</div>
             </div>
 
-            <div class="tags clickable flexbox flex-space-between" v-on:click="selectTab('tags')">
+            <div class="clickable flexbox flex-space-between" v-on:click="selectTab('tags')">
               <div class="count" v-model="tagCount">Tags</div><div class="count-val"> {{ tagCount }}</div>
             </div>
 
