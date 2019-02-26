@@ -324,6 +324,7 @@ div#body {
         & > :first-child {
 
           position: relative;
+          display: flex;
 
           & > span {
             position: absolute;

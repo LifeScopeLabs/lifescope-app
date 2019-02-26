@@ -12,9 +12,19 @@ div#body.settings {
       }
     }
 
-    a {
-      color: $blue;
+    .settings-menu {
+      background-color: $item-background-color-dark;
+      a {
+        color: $font-color-dark;
+      }
     }
+
+    .text-box {
+      input {
+        color: $font-color-dark;
+      }
+    }
+
 
     .tooltip {
       color: lighten($font-color-dark, 30%);
@@ -23,6 +33,11 @@ div#body.settings {
     main {
       color: $font-color-dark;
       background-color: $background-color-dark;
+
+
+      & > section {
+        background-color: $item-background-color-dark;
+      }
     }
 
     #developer {
@@ -323,13 +338,13 @@ div#body.settings {
           @media #{$maxwidth768},#{$mobile} {
             & > .name {
               word-break: break-word;
+              font-size: 0.75em;
             }
           }
         }
 
         .last-run {
           @include flex-grow;
-          font-size: 0.65em;
 
           @media #{$maxwidth768},#{$mobile} {
             margin: 0.5em;
@@ -370,7 +385,6 @@ div#body.settings {
         }
 
         i {
-          margin-right: 0.5em;
           width: 1.5em;
         }
       }
@@ -582,9 +596,6 @@ div#body.settings {
 
   #people-create,
   #people-edit {
-    .title {
-      font-size: 1.8rem;
-    }
 
     .names {
       & > * {

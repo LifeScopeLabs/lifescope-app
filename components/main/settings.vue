@@ -4,6 +4,10 @@
       <aside id="left">
         <div class="boxed-group settings-menu">
           <div>Settings</div>
+          
+          <div>
+            <a href="/settings/connections">Connections</a>
+          </div>
 
           <div>
             <a href="/settings/account">Account</a>
@@ -15,10 +19,6 @@
 
           <div>
             <a href="/settings/locations">Locations</a>
-          </div>
-
-          <div>
-            <a href="/settings/connections">Connections</a>
           </div>
 
           <div>
@@ -530,9 +530,11 @@
                 </div>
               </div>
 
-              <div class="flexbox flex-column">
+              <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="flexbox flex-column">
                 <div class="title">Avatar</div>
-                <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+
+                <div class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
+                  
                   <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
                   <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
                   <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>

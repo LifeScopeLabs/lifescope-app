@@ -6,43 +6,27 @@
 
 		<span class="instructions">Upload Location History</span>
 
-		<p class="align-center">This operation may take several minutes.</p>
+		<p>This operation may take several minutes.</p>
 
-		<div class="body flexbox flex-column flex-x-center">
-			<div class="paragraph flexbox flex-column flex-x-center">
-				<span class="instructions">Google</span>
-				<div>
-					<ol>
-						<li>Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a> and select 'Location History' with 'JSON format' and then click the 'Create Archive'.</li>
-						<li>Inside your archive navigate to Takeout -> Location History and extract these files.</li>
-						<li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
-						<li>If there was more than one file with Location data, repeat for each file.</li>
-					</ol>
-				</div>
-			</div>
-		</div>
+		<span class="instructions">Google</span>
+		<ol>
+			<li>Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a> and select 'Location History' with 'JSON format' and then click the 'Create Archive'.</li>
+			<li>Inside your archive navigate to Takeout -> Location History and extract these files.</li>
+			<li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
+			<li>If there was more than one file with Location data, repeat for each file.</li>
+		</ol>
 
-		<div class="body flexbox flex-column flex-x-center">
-			<div class="paragraph flexbox flex-column flex-x-center">
-				<span class="instructions">Facebook</span>
-				<div>
-					<ol>
-						<li>Go to <a href="https://www.facebook.com/settings?tab=your_facebook_information" target="_blank">Facebook Information</a> and select 'Download Your Information'.</li>
-						<li>Select 'Location' with 'JSON format' and then click the 'Create File'.</li>
-						<li>Inside your archive navigate to Location History and extract these files.</li>
-						<li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
-						<li>If there was more than one file with Location data, repeat for each file.</li>
-					</ol>
-				</div>
-			</div>
-		</div>
+		<span class="instructions">Facebook</span>
+		<ol>
+			<li>Go to <a href="https://www.facebook.com/settings?tab=your_facebook_information" target="_blank">Facebook Information</a> and select 'Download Your Information'.</li>
+			<li>Select 'Location' with 'JSON format' and then click the 'Create File'.</li>
+			<li>Inside your archive navigate to Location History and extract these files.</li>
+			<li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
+			<li>If there was more than one file with Location data, repeat for each file.</li>
+		</ol>
 
-		<div class="body flexbox flex-column flex-x-center">
-			<div class="paragraph flexbox flex-column flex-x-center">
-				<span class="instructions">Other GeoJSON Sources</span>
-				<p>This uploader should work for any GeoJson files with '.json; extension.</p>
-			</div>
-		</div>
+		<span class="instructions">Other GeoJSON Sources</span>
+		<p>This uploader should work for any GeoJson files with '.json; extension.</p>
 
 		<form class="flexbox flex-column flex-x-center" id="location-file" action="/locations/upload_file" method="POST" v-on:submit.self.prevent="uploadFile">
 			<input type="file" name="spec" accept=".json" class="inputfile"/>
@@ -78,16 +62,16 @@
 					processData: false,
 					data: file
 				})
-					.done(function(data) {
-						self.$data.uploading = false;
+				.done(function(data) {
+					self.$data.uploading = false;
 
-						self.$emit('close');
-					})
-					.fail(function() {
-						self.$data.uploading = false;
+					self.$emit('close');
+				})
+				.fail(function() {
+					self.$data.uploading = false;
 
-						$formElem.find('.errorlist').removeClass('hidden');
-					});
+					$formElem.find('.errorlist').removeClass('hidden');
+				});
 			}
 		}
 	}

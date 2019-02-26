@@ -398,7 +398,7 @@
       },
 
       redirectToPeople: function() {
-      	window.location.href = '/settings/people';
+      	window.location.href = '/settings/people/create';
       },
 
       concatNames: function(item) {
