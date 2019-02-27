@@ -32,9 +32,6 @@ div#body.settings {
 
     main {
       color: $font-color-dark;
-      background-color: $background-color-dark;
-
-
       & > section {
         background-color: $item-background-color-dark;
       }
@@ -680,6 +677,8 @@ div#body.settings {
         & > img,
         & > i {
           margin-right: 0.25em;
+          display: flex;
+          align-items: center;
         }
       }
 
