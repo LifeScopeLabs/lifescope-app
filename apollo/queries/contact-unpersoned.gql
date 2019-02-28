@@ -1,5 +1,5 @@
-query contactUnpersoned($q: String) {
-    contactUnpersoned(q: $q) {
+query contactUnpersoned($q: String, $limit: Int, $offset: Int) {
+    contactUnpersoned(q: $q, limit: $limit, offset: $offset) {
         id,
         avatar_url,
         connection_id,

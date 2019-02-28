@@ -517,14 +517,20 @@
                   <div class="text-box">
                     <input type="text" v-bind:value="$data.query" placeholder="Name or Handle" v-on:input="updateSearch">
                   </div>
-                  <div class="flexbox flex-column flex-grow temp-contacts">
-                    <div class="scroller">
-                      <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
-                        <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
-                        <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
-                        <div v-if="contact.name != null">{{ contact.name }}</div>
-                        <div>{{ contact.handle }}</div>
+                  <div class="flexbox flex-column flex-grow">
+                    <div class="flexbox flex-column flex-grow temp-contacts">
+                      <div class="scroller">
+                        <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
+                          <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
+                          <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
+                          <div v-if="contact.name != null">{{ contact.name }}</div>
+                          <div>{{ contact.handle }}</div>
+                        </div>
                       </div>
+                    </div>
+                    <div class="flexbox page-buttons" v-bind:class="{ 'first-page': $data.unpersonedContactOffset === 0, 'last-page': $store.state.objects.contacts.length < $data.unpersonedContactLimit }">
+                      <i class="fas fa-chevron-left" v-on:click="pageUnpersonedContacts(-1)"></i>
+                      <i class="fas fa-chevron-right" v-on:click="pageUnpersonedContacts(1)"></i>
                     </div>
                   </div>
                 </div>
@@ -602,14 +608,20 @@
                   <div class="text-box">
                     <input type="text" v-bind:value="$data.query" placeholder="Name or Handle" v-on:input="updateSearch">
                   </div>
-                  <div class="flexbox flex-column flex-grow temp-contacts">
-                    <div class="scroller">
-                      <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
-                        <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
-                        <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
-                        <div v-if="contact.name != null">{{ contact.name }}</div>
-                        <div>{{ contact.handle }}</div>
+                  <div class="flexbox flex-column flex-grow">
+                    <div class="flexbox flex-column flex-grow temp-contacts">
+                      <div class="scroller">
+                        <div v-for="contact in $store.state.objects.contacts" class="flexbox flex-grow temp-contact" v-on:click="addContact(contact)">
+                          <i v-if="contact.hydratedConnection" v-bind:class="getIcon(contact.hydratedConnection)"></i>
+                          <img v-if="contact.avatar_url && contact.avatar_url.length > 0" v-bind:src="contact.avatar_url">
+                          <div v-if="contact.name != null">{{ contact.name }}</div>
+                          <div>{{ contact.handle }}</div>
+                        </div>
                       </div>
+                    </div>
+                    <div class="flexbox page-buttons" v-bind:class="{ 'first-page': $data.unpersonedContactOffset === 0, 'last-page': $store.state.objects.contacts.length < $data.unpersonedContactLimit }">
+                      <i class="fas fa-chevron-left" v-on:click="pageUnpersonedContacts(-1)"></i>
+                      <i class="fas fa-chevron-right" v-on:click="pageUnpersonedContacts(1)"></i>
                     </div>
                   </div>
                 </div>
@@ -724,7 +736,10 @@
 
         error: false,
 
-        profileUpdated: false
+        profileUpdated: false,
+
+        unpersonedContactOffset: 0,
+        unpersonedContactLimit: 20
       }
     },
 
@@ -1054,23 +1069,49 @@
         updateSearch: _.debounce(async function(e) {
           this.$data.query = e.target.value;
 
-          let self = this;
-
-      	  let results = await this.$apollo.query({
-              query: contactUnpersoned,
-              variables: {
-              	q: this.$data.query
-              }
-          });
-
-      	  let data = results.data.contactUnpersoned;
-
-      	  let stripped = _.filter(data, function(item) {
-      	  	return self.$store.state.person.contact_id_strings.indexOf(item.id) < 0;
-          });
-
-      	  this.$store.state.objects.contacts = stripped;
+          this.runUnpersonedContactSearch(e.target.value, true)
         }, 1000),
+
+        pageUnpersonedContacts: async function(direction) {
+      	  if (direction === -1) {
+      	  	if (this.$data.unpersonedContactOffset > 0) {
+		        this.runUnpersonedContactSearch(this.$data.query, false, 'dec');
+	        }
+          }
+          else if (direction === 1) {
+      	  	if (this.$store.state.objects.contacts.length === this.$data.unpersonedContactLimit) {
+		        this.runUnpersonedContactSearch(this.$data.query, false, 'inc');
+	        }
+          }
+        },
+
+        runUnpersonedContactSearch: async function (q, newSearch, incOrDec) {
+	        let self = this;
+
+	        if (newSearch === true) {
+		        this.$data.unpersonedContactOffset = 0;
+	        }
+	        else {
+		        this.$data.unpersonedContactOffset = incOrDec === 'inc' ? this.$data.unpersonedContactOffset + this.$data.unpersonedContactLimit : this.$data.unpersonedContactOffset - this.$data.unpersonedContactLimit;
+	        }
+
+	        let results = await this.$apollo.query({
+		        query: contactUnpersoned,
+		        variables: {
+			        q: q,
+			        limit: this.$data.unpersonedContactLimit,
+			        offset: this.$data.unpersonedContactOffset
+		        }
+	        });
+
+	        let data = results.data.contactUnpersoned;
+
+	        let stripped = _.filter(data, function(item) {
+		        return self.$store.state.person.contact_id_strings.indexOf(item.id) < 0;
+	        });
+
+	        this.$store.state.objects.contacts = stripped;
+        },
 
         addContact: async function(contact) {
       	  let clonedPerson = _.cloneDeep(this.$store.state.person);
@@ -1408,10 +1449,14 @@
         }));
 
         self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
+
+        self.runUnpersonedContactSearch('', true);
       }
 
       if (this.$store.state.mode === 'people-create') {
       	self.$store.state.person.avatar_index = -1;
+
+      	self.runUnpersonedContactSearch('', true);
       }
 
       if (this.$store.state.mode === 'connections') {
