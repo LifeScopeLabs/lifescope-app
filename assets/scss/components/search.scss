@@ -580,6 +580,10 @@ div#body.dark {
         }
       }
 
+      select {
+        color: $font-color-dark;
+      }
+
       #filter-editor {
         #filter-buttons {
           .control {

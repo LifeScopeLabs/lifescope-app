@@ -130,7 +130,7 @@
           let event = feature.event;
 
           pinElem.className = pinElem.className + ' map-marker fa-stack fa-lg';
-          pinElem.innerHTML = '<i class="circle-icon fab fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+          pinElem.innerHTML = '<i class="circle-icon fas fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
           pinElem.style.color = feature.color;
 
           $(pinElem)
@@ -303,7 +303,7 @@
                 let coordinates = symbol.geometry.coordinates;
 
                 pinElem.className = 'map-marker fa-stack fa-lg';
-                pinElem.innerHTML = '<i class="circle-icon fab fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
+                pinElem.innerHTML = '<i class="circle-icon fas fa-map-marker fa-stack-2_5x"></i>' + '<i class="type-icon ' + self.getEventTypeIcon(event.type) + ' fa-stack-1x"></i>';
                 pinElem.style.color = symbol.properties.color;
 
                 let marker = new mapboxgl.Marker(pinElem)

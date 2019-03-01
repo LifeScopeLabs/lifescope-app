@@ -1080,6 +1080,7 @@
           name: null,
           type: 'where',
           data: {
+          	estimated: true,
             coordinates: coordinates,
             where_type: 'inside',
             object_id: feature.id

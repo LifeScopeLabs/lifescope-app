@@ -1,4 +1,17 @@
 div#body.explorer.map {
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right {
+    .mapboxgl-ctrl {
+      display: none !important;
+    }
+  }
+
+  &.dark {
+    .map-corner {
+      color: #000000 !important;
+    }
+  }
+
   main {
     & > div {
       height: 100%;

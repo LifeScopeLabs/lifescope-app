@@ -97,9 +97,9 @@
 		<div class="flexbox flex-row flex-space-between tag-hide">
 			<div class="flexbox flex-column flex-start">
 				<!-- tags -->
-				<tag class="tag-button" v-on:click="openActionModal(content, 'content')">
+				<div class="tag-button" v-on:click="openActionModal(content, 'content')">
 					<i class="fal fa-hashtag"></i> <span> Tag</span>
-				</tag>
+				</div>
 
 				<!-- tags -->
 				<div class="tags">

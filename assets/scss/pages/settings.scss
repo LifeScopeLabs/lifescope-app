@@ -35,7 +35,7 @@ div#body.settings {
       color: $font-color-dark;
 
       & > section {
-        background-color: $item-background-color-dark;
+        background-color: $background-color-dark;
       }
     }
 
@@ -743,11 +743,13 @@ div#body.settings {
 
         img,
         div.default {
-          margin-right: 0.25em;
+          margin-right: 20px;
         }
 
         .name {
           word-break: break-word;
+
+          font-size: 1.5em;
         }
       }
 

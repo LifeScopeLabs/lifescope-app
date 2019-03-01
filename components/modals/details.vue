@@ -36,6 +36,7 @@
               <i class="fal fa-clock"></i> <span> {{ item.datetime | dateTime }}</span>
             </div>
           </div>
+        </div>
 
         <div class="flexbox flex-row flex-space-between tag-hide">
           <div class="flexbox flex-column flex-start">
