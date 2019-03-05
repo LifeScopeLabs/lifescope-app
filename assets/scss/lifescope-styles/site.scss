@@ -147,6 +147,19 @@ b, strong {
   }
 }
 
+
+.mapbox-logo {
+  display: none !important;
+}
+
+.mapbox-ctrl-logo {
+  display: none !important;
+}
+
+.mapbox-ctrl-attrib {
+  display: none !important;
+}
+
 .boxed-group {
   @include box_shadow(2);
   $border-radius: 2px;
