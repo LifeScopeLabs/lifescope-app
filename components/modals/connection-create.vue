@@ -115,6 +115,7 @@
 
   import _ from 'lodash';
   import bowser from 'bowser';
+
   import icons from '../../lib/util/icons';
   import initializeConnection from '../../apollo/mutations/initialize-connection.gql';
 
@@ -187,7 +188,20 @@
           variables: variables
         });
 
-        window.location = response.data.initializeConnection.redirectUrl;
+		if (typeof Windows !== 'undefined' && Windows != null && Windows.System && Windows.System.Launcher) {
+          Windows.System.Launcher.launchUriAsync(
+            new Windows.Foundation.Uri(response.data.initializeConnection.redirectUrl))
+            .then(function (success) {
+              if (success) {
+                console.log('opened ' + url);
+              } else {
+                console.log('failed opening ' + url);
+              }
+            });
+        }
+		else {
+          window.location = response.data.initializeConnection.redirectUrl;
+        }
       },
 
       openStore: function(browser) {
