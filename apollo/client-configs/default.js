@@ -1,6 +1,6 @@
 import https from 'https';
 
-import {ApolloLink, concat, split} from 'apollo-link';
+import {ApolloLink, from, concat, split} from 'apollo-link';
 import {HttpLink} from 'apollo-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {WebSocketLink} from 'apollo-link-ws';
@@ -39,8 +39,22 @@ export default (ctx) => {
 	);
 
 	const middlewareLink = new ApolloLink((operation, forward) => {
-		if (_.has(ctx, 'req.headers')) {
+		if (_.hasIn(ctx, 'req.headers')) {
 			const headers = ctx.req.headers;
+
+			operation.setContext({
+				headers: headers
+			});
+		}
+
+		if (_.hasIn(ctx, 'store.state.csrf_token')) {
+			let headers = operation.getContext().headers;
+
+			if (headers == null) {
+				headers = {};
+			}
+
+			headers['X-CSRF-Token'] = ctx.store.state.csrf_token;
 
 			operation.setContext({
 				headers: headers
@@ -51,7 +65,10 @@ export default (ctx) => {
 	});
 
 	return {
-		link: middlewareLink.concat(link),
+		link: from([
+			middlewareLink,
+			link,
+		]),
 		cache: new InMemoryCache()
 	}
 }

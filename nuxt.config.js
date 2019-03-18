@@ -5,6 +5,7 @@ const config = require('config');
 const cookieParser = require('cookie-parser');
 const webpack = require('webpack');
 
+const csrf = require('./lib/middleware/csrf');
 const cookieAuthorization = require('./lib/middleware/cookie-authorization');
 const initialSearches = require('./lib/middleware/initial-searches');
 const loadMapboxConfig = require('./lib/middleware/load-mapbox-config');
@@ -384,6 +385,7 @@ module.exports = {
 		bodyParser.json(),
 		cookieParser(),
 		cookieAuthorization,
+		csrf.create,
 		initialSearches,
 		loadMapboxConfig
 	]

@@ -167,12 +167,17 @@ const store = () => new Vuex.Store({
 			state.cookies = req.cookies;
 			state.user = req.user;
 			state.mapbox = req.mapbox;
+		},
+
+		SET_RES: function(state, res) {
+			state.csrf_token = res.context ? res.context.csrf_token : null;
 		}
 	},
 
 	actions: {
-		async nuxtServerInit({commit}, {req}) {
+		async nuxtServerInit({commit}, {req, res}) {
 			await commit('SET_REQ', req);
+			await commit('SET_RES', res);
 		}
 	}
 });

@@ -38,12 +38,11 @@
 
   "sessions": {
     "cookieName": "sessionid",
-    "expiration": 1209600
-  },
-
-  "csrf": {
-    "saltLength": 64,
-    "secretLength": 32
+    "expiration": 1209600,
+    "csrf": {
+      "saltLength": 64,
+      "secretLength": 32
+    }
   },
 
   "staticfiles": {

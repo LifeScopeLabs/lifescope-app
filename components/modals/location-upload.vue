@@ -26,7 +26,7 @@
 		</ol>
 
 		<span class="instructions">Other GeoJSON Sources</span>
-		<p>This uploader should work for any GeoJson files with '.json; extension.</p>
+		<p>This uploader should work for any GeoJson files with '.json' extension.</p>
 
 		<form class="flexbox flex-column flex-x-center" id="location-file" action="/locations/upload_file" method="POST" v-on:submit.self.prevent="uploadFile">
 			<input type="file" name="spec" accept=".json" class="inputfile"/>
@@ -60,7 +60,10 @@
 					contentType: false,
 					mimeType: 'multipart/form-data',
 					processData: false,
-					data: file
+					data: file,
+					headers: {
+						'X-CSRF-Token': self.$store.state.csrf_token
+					}
 				})
 				.done(function(data) {
 					self.$data.uploading = false;

@@ -235,7 +235,10 @@
               contentType: false,
               mimeType: 'multipart/form-data',
               processData: false,
-              data: file
+              data: file,
+              headers: {
+                'X-CSRF-Token': self.$store.state.csrf_token
+              }
           })
               .done(function(data) {
                   self.$data.financial_uploading = false;
