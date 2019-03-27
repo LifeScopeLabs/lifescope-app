@@ -40,7 +40,7 @@ input {
 }
 
 input[type=date], input[type=email], input[type=password], input[type=text] {
-    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif !important;
     font-weight: 300;
     font-size: 1.2em;
     margin: .25em;

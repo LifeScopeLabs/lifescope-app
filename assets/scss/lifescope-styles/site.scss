@@ -363,6 +363,22 @@ div#body {
         }
       }
 
+      #install-notification {
+        @include flexbox;
+        font-size: 1.2em;
+
+        #install-button {
+          color: $blue;
+          cursor: pointer;
+
+          margin-left: 1em;
+
+          &:hover {
+            color: $orange;
+          }
+        }
+      }
+
       & > .controls {
         @include flexbox;
         @include flex-space-between;

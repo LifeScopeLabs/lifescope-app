@@ -287,7 +287,7 @@
             <div class="title">People</div>
 
             <div class="padded paragraphed">
-              <p>Manage People in your life easily in one place. Add a record for a person and associate all of their contacts a single Person.</p>
+              <p>Manage People in your life easily in one place. Add a record for a person and associate all of their contacts with a single Person.</p>
 
               <div class="mobile-flex-center">
                 <button id="new-person" class="primary" v-on:click="initializeNewPerson">Add Person</button>

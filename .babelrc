@@ -1,12 +1,14 @@
 {
+  "sourceType": "unambiguous",
   "plugins": [
-    "transform-runtime",
-    "transform-object-rest-spread",
-    "transform-flow-strip-types"
+    "@babel/transform-runtime",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/transform-flow-strip-types",
+    "@babel/plugin-syntax-dynamic-import"
   ],
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
           "browsers": [

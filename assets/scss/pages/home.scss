@@ -425,7 +425,6 @@ div#body.home {
         #event-container {
           @include flex-grow-scrollable;
           box-shadow: 0 15px 20px rgba(0,0,0,0.15), 0 15px 12px rgba(0,0,0,0.15);
-          cursor: pointer;
 
           @media #{$maxwidth768},#{$mobile} {
             box-shadow: none !important;

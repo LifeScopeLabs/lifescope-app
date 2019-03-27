@@ -159,7 +159,6 @@
 				});
 
 				let match = _.find(this.$store.state.objects.people, function(item) {
-					console.log(item.id);
 					return item.id === person.id;
 				});
 

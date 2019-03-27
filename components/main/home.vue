@@ -456,7 +456,12 @@
       });
 
       let personCountResult = await this.$apollo.query({
-          query: personCount
+          query: personCount,
+          variables: {
+            filter: {
+              self: false
+            }
+          }
       });
 
       let searchCountResult = await this.$apollo.query({

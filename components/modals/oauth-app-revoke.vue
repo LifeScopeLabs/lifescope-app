@@ -50,7 +50,6 @@
 		            });
 
 		            self.$store.state.oauthAppAuthorizedMany = _.filter(self.$store.state.oauthAppAuthorizedMany, function(authorizedApp) {
-		            	console.log(authorizedApp !== authorizedApp.id);
 		            	return app.id !== authorizedApp.id;
                     });
 

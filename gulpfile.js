@@ -67,8 +67,16 @@ gulp.task('bundle:ebs', function() {
     '.ebextensions/**',
     '.nuxt/**',
     'apollo/**',
+    'assets/**',
     'build/**',
+    'components/**',
     'config/!(local).json',
+    'lib/**',
+    'layouts/**',
+    'pages/**',
+    'plugins/**',
+    'static/**',
+    'store/**',
     'fixtures/**',
     '.babelrc',
     '.npmrc',
@@ -306,7 +314,7 @@ gulp.task('uglify', function() {
 	])
 		.pipe(babel({
 			presets: ['es2015'],
-			plugins: ['transform-es2015-modules-amd']
+			plugins: ['@babel/plugin-transform-modules-amd']
 		}))
 		.pipe(addsrc([
 			'static/lib/requirejs/**/*.js'
@@ -335,7 +343,7 @@ gulp.task('uglify:devel', function() {
 	])
 		.pipe(babel({
 			presets: ['es2015'],
-			plugins: ['transform-es2015-modules-amd']
+			plugins: ['@babel/plugin-transform-modules-amd']
 		}))
 		.pipe(addsrc([
 			'static/lib/requirejs/**/*.js'
@@ -351,6 +359,7 @@ gulp.task('uglify:devel', function() {
 
 gulp.task('watch', function() {
 	gulp.watch([
+		'static/*.js',
 		'static/**/*.js'
 	], ['uglify:devel'])
 		.on('error', function() {

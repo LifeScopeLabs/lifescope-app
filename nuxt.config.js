@@ -1,16 +1,17 @@
-var path = require('path');
+import bodyParser from 'body-parser';
+import config from 'config';
+import cookieParser from 'cookie-parser';
+import jquery from 'jquery';
+import moment from 'moment';
+import webpack from 'webpack';
 
-const bodyParser = require('body-parser');
-const config = require('config');
-const cookieParser = require('cookie-parser');
-const webpack = require('webpack');
+import csrf from './lib/middleware/csrf';
+import cookieAuthorization from "./lib/middleware/cookie-authorization";
+import initialSearches from "./lib/middleware/initial-searches";
+import loadMapboxConfig from './lib/middleware/load-mapbox-config';
+import manifest from './manifest.json';
 
-const csrf = require('./lib/middleware/csrf');
-const cookieAuthorization = require('./lib/middleware/cookie-authorization');
-const initialSearches = require('./lib/middleware/initial-searches');
-const loadMapboxConfig = require('./lib/middleware/load-mapbox-config');
-
-module.exports = {
+export default {
 	/*
 	** Headers of the page
 	*/
@@ -245,10 +246,6 @@ module.exports = {
 			{
 				rel: 'stylesheet',
 				href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css'
-			},
-			{
-				rel: 'manifest',
-				href: 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/site.webmanifest'
 			}
 		]
 	},
@@ -261,16 +258,30 @@ module.exports = {
 	modules: [
 		'@nuxtjs/apollo',
 		'@nuxtjs/google-analytics',
-		'cookie-universal-nuxt',
+		'@nuxtjs/style-resources',
 		[
-			'nuxt-sass-resources-loader', [
-			'./assets/scss/lifescope-styles/themes/default.scss',
-			'./assets/scss/lifescope-styles/media/media.scss',
-			'./assets/scss/lifescope-styles/mixins/flexbox.scss',
-			'./assets/scss/lifescope-styles/mixins/generic.scss'
-		]
-		]
+			'@nuxtjs/pwa',
+			{
+				icon: false,
+				meta: false,
+				onesignal: false
+			}
+		],
+		'cookie-universal-nuxt'
 	],
+
+	styleResources: {
+		scss: [
+			'~assets/scss/lifescope-styles/*.scss',
+			'~assets/scss/lifescope-styles/*/*.scss',
+		]
+	},
+
+	manifest: manifest,
+
+	workbox: {
+		swTemplate: 'static/sw-template.js'
+	},
 
 	apollo: {
 		clientConfigs: {
@@ -286,7 +297,10 @@ module.exports = {
 	},
 
 	css: [
-		'./assets/scss/site.scss'
+		{
+			src: '@/assets/scss/site.scss',
+			lang: 'scss'
+		}
 	],
 
 	/*
@@ -316,9 +330,9 @@ module.exports = {
 		},
 
 		babel: {
-			presets: ['env', 'stage-2'],
+			presets: ['@babel/preset-env'],
 			plugins: [
-				'transform-runtime'
+				'@babel/transform-runtime'
 			],
 			babelrc: true
 		},
@@ -377,6 +391,10 @@ module.exports = {
 		},
 		{
 			src: './plugins/vue-toggle-button',
+			ssr: false
+		},
+		{
+			src: './plugins/sw.js',
 			ssr: false
 		}
 	],

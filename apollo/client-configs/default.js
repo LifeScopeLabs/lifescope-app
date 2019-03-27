@@ -1,6 +1,6 @@
 import https from 'https';
 
-import {ApolloLink, from, concat, split} from 'apollo-link';
+import {ApolloLink, from, split} from 'apollo-link';
 import {HttpLink} from 'apollo-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {WebSocketLink} from 'apollo-link-ws';
@@ -69,6 +69,7 @@ export default (ctx) => {
 			middlewareLink,
 			link,
 		]),
-		cache: new InMemoryCache()
+		cache: new InMemoryCache(),
+		defaultHttpLink: false
 	}
 }

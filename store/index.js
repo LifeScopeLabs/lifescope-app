@@ -1,185 +1,182 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
 import _ from 'lodash';
-import config from 'config';
 import moment from 'moment';
-
-Vue.use(Vuex);
 
 require('whatwg-fetch');
 
-const store = () => new Vuex.Store({
-	state: {
-		cookies: null,
-		user: null,
-		menu: {
-			open: false
-		},
+export const strict = false;
 
-		searchBar: {
-			filters: [],
-			query: null
-		},
+export const state = function () {
+    return {
+        cookies: null,
+        user: null,
+        menu: {
+            open: false
+        },
 
-		currentSearch: {
-			id: null,
-			count: 0,
-			query: null,
-			filters: [],
-			favorited: null,
-			icon: null,
-			icon_color: null,
-			name: null
-		},
+        searchBar: {
+            filters: [],
+            query: null
+        },
 
-		tempSearch: {
-			id: null,
-			count: 0,
-			query: null,
-			filters: [],
-			favorited: null,
-			icon: null,
-			icon_color: null,
-			name: null
-		},
+        currentSearch: {
+            id: null,
+            count: 0,
+            query: null,
+            filters: [],
+            favorited: null,
+            icon: null,
+            icon_color: null,
+            name: null
+        },
 
-		searchMany: [],
-		searchCount: null,
-		tagMany: [],
-		pageSize: 100,
-		pageOffset: 0,
-		searchEnded: false,
-		view: null,
+        tempSearch: {
+            id: null,
+            count: 0,
+            query: null,
+            filters: [],
+            favorited: null,
+            icon: null,
+            icon_color: null,
+            name: null
+        },
 
-		sortField: 'datetime',
-		sortOrder: 'desc',
+        searchMany: [],
+        searchCount: null,
+        tagMany: [],
+        pageSize: 100,
+        pageOffset: 0,
+        searchEnded: false,
+        view: null,
 
-		hide_advanced: false,
-		hide_filters: false,
-		hide_favorite_star: false,
+        sortField: 'datetime',
+        sortOrder: 'desc',
 
-		searching: false,
-		spinner: true,
-		facetSelectOpen: false,
+        hide_advanced: false,
+        hide_filters: false,
+        hide_favorite_star: false,
 
-		objects: {
-			events: [],
-			contacts: [],
-			content: [],
-			people: [],
-		},
+        searching: false,
+        spinner: true,
+        facetSelectOpen: false,
 
-		connectionMany: [],
-		providerHydratedMany: [],
-		permissions: {},
-		userOne: {},
+        objects: {
+            events: [],
+            contacts: [],
+            content: [],
+            people: [],
+        },
 
-		connectionsLoaded: false,
-		providersLoaded: false,
+        connectionMany: [],
+        providerHydratedMany: [],
+        permissions: {},
+        userOne: {},
 
-		facet: null,
+        connectionsLoaded: false,
+        providersLoaded: false,
 
-		mobileViewSelectorOpen: false,
-		mobileSortSelectorOpen: false,
-		mobileFacetSelectorOpen: false,
+        facet: null,
 
-		settingsType: null,
-		settingsSelectorOpen: false,
+        mobileViewSelectorOpen: false,
+        mobileSortSelectorOpen: false,
+        mobileFacetSelectorOpen: false,
 
-		mapbox: {},
-		mapInitialized: false,
+        settingsType: null,
+        settingsSelectorOpen: false,
 
-		home: {
-			tab: null,
-			sort: null
-		},
+        mapbox: {},
+        mapInitialized: false,
 
-		auth: {
-			app: {},
-			scopes: []
-		},
+        home: {
+            tab: null,
+            sort: null
+        },
 
-		app: {
-			id: null,
-			clientId: {
-				value: null,
-				error: false
-			},
-			clientSecret: {
-				value: null,
-				error: false
-			},
-			redirects: {
-				value: [],
-				error: false,
-			},
-			name: {
-				value: null,
-				error: false
-			},
-			description: {
-				value: null,
-				error: false
-			},
-			homepage: {
-				value: null,
-				error: false
-			},
-			privacyPolicy: {
-				value: null,
-				error: false
-			}
-		},
+        auth: {
+            app: {},
+            scopes: []
+        },
 
-		person: {
-			id: null,
-			avatar_url: null,
-			first_name: null,
-			middle_name: null,
-			last_name: null,
-			contact_id_strings: [],
-			hydratedContacts: [],
-			available_avatars: [],
-			avatar_index: null
-		},
+        app: {
+            id: null,
+            clientId: {
+                value: null,
+                error: false
+            },
+            clientSecret: {
+                value: null,
+                error: false
+            },
+            redirects: {
+                value: [],
+                error: false,
+            },
+            name: {
+                value: null,
+                error: false
+            },
+            description: {
+                value: null,
+                error: false
+            },
+            homepage: {
+                value: null,
+                error: false
+            },
+            privacyPolicy: {
+                value: null,
+                error: false
+            }
+        },
 
-		personMany: [],
+        person: {
+            id: null,
+            avatar_url: null,
+            first_name: null,
+            middle_name: null,
+            last_name: null,
+            contact_id_strings: [],
+            hydratedContacts: [],
+            available_avatars: [],
+            avatar_index: null
+        },
 
-		oauthAppAuthorizedMany: []
-	},
+        personMany: [],
 
-	getters: {
-		authenticated(state) {
-			return state.user != undefined;
-		},
+        oauthAppAuthorizedMany: [],
 
-		theme(state) {
-			return state.user && _.has(state.user, 'settings.theme') ? state.user.settings.theme : 'light';
-		},
+        show_native_notification: false
+    }
+};
 
-		dateJoined(state) {
-			return moment(state.user.joined).format('MMMM DD, YYYY')
-		}
-	},
+export const getters = {
+    authenticated(state) {
+        return state.user != undefined;
+    },
 
-	mutations: {
-		SET_REQ: function(state, req) {
-			state.cookies = req.cookies;
-			state.user = req.user;
-			state.mapbox = req.mapbox;
-		},
+    theme(state) {
+        return state.user && _.has(state.user, 'settings.theme') ? state.user.settings.theme : 'light';
+    },
 
-		SET_RES: function(state, res) {
-			state.csrf_token = res.context ? res.context.csrf_token : null;
-		}
-	},
+    dateJoined(state) {
+        return moment(state.user.joined).format('MMMM DD, YYYY')
+    }
+};
 
-	actions: {
-		async nuxtServerInit({commit}, {req, res}) {
-			await commit('SET_REQ', req);
-			await commit('SET_RES', res);
-		}
-	}
-});
+export const mutations = {
+    SET_REQ: function (state, req) {
+        state.cookies = req.cookies;
+        state.user = req.user;
+        state.mapbox = req.mapbox;
+    },
 
-export default store;
+    SET_RES: function (state, res) {
+        state.csrf_token = res.context ? res.context.csrf_token : null;
+    }
+};
+
+export const actions = {
+    async nuxtServerInit({commit}, {req, res}) {
+        await commit('SET_REQ', req);
+        await commit('SET_RES', res);
+    }
+};

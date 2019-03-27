@@ -46,8 +46,6 @@
 			            }
 		            });
 
-		            console.log(result);
-
 		            self.$store.state.app.clientSecret.value = result.data.oauthAppResetClientSecret.client_secret;
 
 		            this.$emit('close');

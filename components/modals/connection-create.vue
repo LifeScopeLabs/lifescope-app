@@ -190,14 +190,7 @@
 
 		if (typeof Windows !== 'undefined' && Windows != null && Windows.System && Windows.System.Launcher) {
           Windows.System.Launcher.launchUriAsync(
-            new Windows.Foundation.Uri(response.data.initializeConnection.redirectUrl))
-            .then(function (success) {
-              if (success) {
-                console.log('opened ' + url);
-              } else {
-                console.log('failed opening ' + url);
-              }
-            });
+            new Windows.Foundation.Uri(response.data.initializeConnection.redirectUrl));
         }
 		else {
           window.location = response.data.initializeConnection.redirectUrl;

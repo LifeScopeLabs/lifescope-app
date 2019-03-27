@@ -141,6 +141,11 @@
 				</div>
 			</div>
 		</div>
+
+		<div v-if="$store.state.show_native_notification === true" id="install-notification">
+			<div>LifeScope is available as a native app.</div>
+			<div id="install-button">Install</div>
+		</div>
 	</header>
 
 	<header v-else-if="$store.state.mode === 'shared'">
@@ -341,7 +346,7 @@
 </template>
 
 <script>
-	import History from 'history/createBrowserHistory';
+	import {createBrowserHistory as History } from 'history';
 	import qs from 'qs';
 
 
@@ -464,6 +469,7 @@
 		},
 
 		mounted: async function() {
+			let deferredPrompt;
 			let self = this;
 
 			this.$root.$on('set-view', function(view) {
@@ -476,6 +482,34 @@
 
 			this.$root.$on('set-facet', function(facet) {
 				self.setFacet(facet);
+			});
+
+			window.addEventListener('beforeinstallprompt', function(e) {
+				console.log('beforeinstallprompt fired');
+				e.preventDefault();
+
+				deferredPrompt = e;
+
+				self.$store.state.show_native_notification = true;
+			});
+
+			$(document).on('click', '#install-button', function(e) {
+				console.log('Clicked on install button');
+				self.$store.state.show_native_notification = false;
+
+				deferredPrompt.prompt();
+
+				deferredPrompt.userChoice
+					.then(function(choiceResult) {
+						if (choiceResult.outcome === 'accepted') {
+							console.log('User accepted the A2HS prompt');
+						}
+						else {
+							console.log('User dismissed the A2HS prompt');
+						}
+
+						deferredPrompt = null;
+					});
 			});
 		}
 	}

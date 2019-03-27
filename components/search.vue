@@ -77,7 +77,7 @@
               <div class="input-container">
                 <select v-model="activeFilter.data.person_id" name="person">
                   <option value=""></option>
-                  <option v-for="person in $store.state.personMany" v-bind:value="person.id">{{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</option>
+                  <option v-for="person in $store.state.searchPersonMany" v-bind:value="person.id">{{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</option>
                 </select>
               </div>
             </div>
@@ -290,7 +290,7 @@
 </template>
 
 <script>
-  import History from 'history/createBrowserHistory';
+  import {createBrowserHistory as History } from 'history';
   import _ from 'lodash';
   import qs from 'qs';
 
@@ -968,7 +968,8 @@
 
         await Promise.all([
           this.$store.state.connectionsLoaded,
-          this.$store.state.providersLoaded
+          this.$store.state.providersLoaded,
+          this.$store.state.peopleLoaded,
         ]);
 
         await this.checkNewSearch();
@@ -1030,10 +1031,15 @@
           });
 
         this.$store.state.peopleLoaded = this.$apollo.query({
-            query: personMany
+            query: personMany,
+            variables: {
+              filter: {
+                self: false
+              }
+            }
         })
             .then(function(result) {
-                self.$store.state.personMany = result.data.personMany;
+                self.$store.state.searchPersonMany = result.data.personMany;
 
                 return Promise.resolve();
             });
