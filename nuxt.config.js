@@ -298,6 +298,10 @@ export default {
 
 	css: [
 		{
+			src: '~node_modules/vue-js-modal/dist/styles.css',
+			lang: 'css'
+		},
+		{
 			src: '@/assets/scss/site.scss',
 			lang: 'scss'
 		}
