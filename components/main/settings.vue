@@ -41,13 +41,21 @@
 
               <div class="padded paragraphed form">
 
-                <div class="flexbox flex-column">
+                <div class="flexbox flex-column avatar-container">
                   <div class="title">Avatar</div>
                   <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
                     <i class="fal fa-2x fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
-                    <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
+                    <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url" v-on:error="changeAvatar(0)">
                     <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
                     <i class="fal fa-2x fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                  </div>
+
+                  <div class="flexbox external-avatar">
+                    <div class="title">External Avatar Link</div>
+                    <div class="error" v-if="$data.externalAvatarError === true">This URL is broken in some way, or the image is larger than 1MB</div>
+                  </div>
+                  <div class="text-box shrink">
+                    <input type="text" title="name" v-model="$store.state.person.external_avatar_url" placeholder="Paste a URL" v-on:change="checkExternalAvatar">
                   </div>
                 </div>
 
@@ -541,14 +549,22 @@
                 </div>
               </div>
 
-              <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="flexbox flex-column">
+              <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="flexbox flex-column avatar-container">
                 <div class="title">Avatar</div>
 
                 <div class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
                   <i class="fal fa-chevron-left" v-on:click="changeAvatar(-1)"></i>
-                  <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
+                  <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url" v-on:error="changeAvatar(0)">
                   <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
                   <i class="fal fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                </div>
+
+                <div class="flexbox external-avatar">
+                  <div class="title">External Avatar Link</div>
+                  <div class="error" v-if="$data.externalAvatarError === true">This URL is broken in some way, or the image is larger than 1MB</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="name" v-model="$store.state.person.external_avatar_url" placeholder="Paste a URL" v-on:change="checkExternalAvatar">
                 </div>
               </div>
 
@@ -631,7 +647,7 @@
                 </div>
               </div>
 
-              <div class="flexbox flex-column">
+              <div class="flexbox flex-column avatar-container">
                 <div class="title">Avatar</div>
 
                 <div v-if="this.$store.state.person.first_name != null || this.$store.state.person.last_name != null || this.$store.state.person.avatar_url != null" class="avatar" v-bind:class="{ 'default-only': hasAvatars() !== true }">
@@ -639,6 +655,14 @@
                   <img v-if="this.$store.state.person.avatar_url != null && this.$store.state.person.avatar_url.length > 0" v-bind:src="this.$store.state.person.avatar_url">
                   <div class="default" v-else-if="this.$store.state.person.avatar_url == null || this.$store.state.person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor($store.state.person) }">{{ defaultLetter($store.state.person) }}</div>
                   <i class="fal fa-chevron-right" v-on:click="changeAvatar(1)"></i>
+                </div>
+
+                <div class="flexbox external-avatar">
+                  <div class="title">External Avatar Link</div>
+                  <div class="error" v-if="$data.externalAvatarError === true">This URL is broken in some way, or the image is larger than 1MB</div>
+                </div>
+                <div class="text-box shrink">
+                  <input type="text" title="name" v-model="$store.state.person.external_avatar_url" placeholder="Paste a URL" v-on:change="checkExternalAvatar">
                 </div>
               </div>
 
@@ -722,6 +746,8 @@
 
   let urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
 
+  let externalImageTypes = ['image/png', 'image/jpeg', 'image/gif'];
+
   export default {
     data: function() {
       return {
@@ -744,7 +770,9 @@
         profileUpdated: false,
 
         unpersonedContactOffset: 0,
-        unpersonedContactLimit: 20
+        unpersonedContactLimit: 20,
+
+        externalAvatarError: false,
       }
     },
 
@@ -1178,21 +1206,26 @@
         },
 
         createNewPerson: async function() {
-      	  let result;
       	  let self = this;
 
       	  let person = this.$store.state.person;
 
       	  try {
-	          result = await this.$apollo.mutate({
+      	      let vars =  {
+                first_name: person.first_name,
+                middle_name: person.middle_name,
+                last_name: person.last_name,
+                contact_id_strings: person.contact_id_strings,
+                avatar_url: person.avatar_url
+              };
+
+              if (self.$data.externalAvatarError === false) {
+                vars.external_avatar_url = person.external_avatar_url
+              }
+
+	          await this.$apollo.mutate({
 		          mutation: personCreate,
-		          variables: {
-			          first_name: person.first_name,
-			          middle_name: person.middle_name,
-			          last_name: person.last_name,
-			          contact_id_strings: person.contact_id_strings,
-                      avatar_url: person.avatar_url
-		          }
+		          variables: vars
 	          });
           } catch(err) {
       	  	this.$data.error = true;
@@ -1206,22 +1239,27 @@
         },
 
 	    updatePerson: async function() {
-		    let result;
 		    let self = this;
 
 		    let person = this.$store.state.person;
 
 		    try {
-			    result = await this.$apollo.mutate({
+                let vars = {
+                  id: person.id,
+                  first_name: person.first_name,
+                  middle_name: person.middle_name,
+                  last_name: person.last_name,
+                  avatar_url: person.avatar_url,
+                  contact_id_strings: person.contact_id_strings
+                };
+
+                if (self.$data.externalAvatarError === false) {
+                  vars.external_avatar_url = person.external_avatar_url
+                }
+
+			    await this.$apollo.mutate({
 				    mutation: personUpdate,
-				    variables: {
-				    	id: person.id,
-					    first_name: person.first_name,
-					    middle_name: person.middle_name,
-					    last_name: person.last_name,
-                        avatar_url: person.avatar_url,
-                        contact_id_strings: person.contact_id_strings
-				    }
+				    variables: vars
 			    });
 
 			    if (this.$store.state.mode === 'people-edit') {
@@ -1266,6 +1304,10 @@
       	  	return contact.avatar_url != null && contact.avatar_url.length > 0;
           });
 
+      	  if (this.$store.state.person.external_avatar_url && this.$store.state.person.external_avatar_url.length > 0) {
+      	    avatarFound = true;
+          }
+
       	  return avatarFound != null;
         },
 
@@ -1280,17 +1322,50 @@
         changeAvatar: function(change) {
       	  let person = this.$store.state.person;
 
-      	  person.avatar_index = change < 0 ? person.avatar_index - 1 : person.avatar_index + 1;
+      	  person.avatar_index = change < 0 ? person.avatar_index - 1 : change === 0 ? -1 : person.avatar_index + 1;
 
       	  if (person.avatar_index < -1) {
-      	  	person.avatar_index = person.available_avatars.length - 1;
+      	  	person.avatar_index = person.external_avatar_url && person.external_avatar_url.length > 0 && this.$data.externalAvatarError === false ? person.available_avatars.length : person.available_avatars.length - 1;
           }
 
-          if (person.avatar_index >= person.available_avatars.length) {
+          if ((person.avatar_index > person.available_avatars.length) || (person.avatar_index === person.available_avatars.length && this.$data.externalAvatarError === true)) {
       	  	person.avatar_index = -1;
           }
 
-          person.avatar_url = person.avatar_index > -1 ? person.available_avatars[person.avatar_index] : '';
+          person.avatar_url = person.avatar_index === person.available_avatars.length ? person.external_avatar_url : person.avatar_index > -1 ? person.available_avatars[person.avatar_index] : '';
+        },
+
+        checkExternalAvatar: function() {
+          let self = this;
+
+          if (urlRegex.test(this.$store.state.person.external_avatar_url) !== true) {
+            this.$data.externalAvatarError = true;
+          }
+          else {
+            $.ajax({
+              url: this.$store.state.person.external_avatar_url,
+              method: 'GET'
+            })
+              .done(function(data, xhr, response) {
+                let contentType = response.getResponseHeader('content-type');
+
+                if (data.length > 5000000 || externalImageTypes.indexOf(contentType) < 0) {
+                  self.$data.externalAvatarError = true;
+                }
+                else {
+                  self.$data.externalAvatarError = false;
+
+                  if (self.$store.state.person.avatar_index === self.$store.state.person.available_avatars.length) {
+                    self.$store.state.person.avatar_url = self.$store.state.person.external_avatar_url;
+                  }
+                }
+              })
+              .fail(function(err) {
+                console.log('Content fetch invalid');
+                console.log(err);
+                self.$data.externalAvatarError = true;
+              });
+          }
         },
 
         forceReauthorization: async function(connection) {
@@ -1373,6 +1448,7 @@
 
         self.$store.state.person.id = person.id;
         self.$store.state.person.avatar_url = person.avatar_url;
+        self.$store.state.person.external_avatar_url = person.external_avatar_url;
         self.$store.state.person.first_name = person.first_name;
         self.$store.state.person.middle_name = person.middle_name;
         self.$store.state.person.last_name = person.last_name;
@@ -1383,6 +1459,10 @@
         }));
 
         self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
+
+        if (self.$store.state.person.avatar_index === -1 && self.$store.state.person.avatar_url === self.$store.state.person.external_avatar_url) {
+          self.$store.state.person.avatar_index = self.$store.state.person.available_avatars.length;
+        }
       }
 
       if (this.$store.state.mode === 'developer') {
@@ -1445,6 +1525,7 @@
 
         self.$store.state.person.id = person.id;
         self.$store.state.person.avatar_url = person.avatar_url;
+        self.$store.state.person.external_avatar_url = person.external_avatar_url;
         self.$store.state.person.first_name = person.first_name;
         self.$store.state.person.middle_name = person.middle_name;
         self.$store.state.person.last_name = person.last_name;

@@ -2,6 +2,7 @@ mutation personSearch($q: String, $offset: Int, $limit: Int, $filters: String, $
     personSearch(q: $q, offset: $offset, limit: $limit, filters: $filters, sortField: $sortField, sortOrder: $sortOrder) {
         id,
         avatar_url,
+        external_avatar_url,
         first_name,
         middle_name,
         last_name,

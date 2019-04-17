@@ -2,6 +2,7 @@ query personMany($skip: Int, $limit: Int, $sort: SortFindManyPeopleInput, $filte
     personMany(skip: $skip, limit: $limit, sort: $sort, filter: $filter) {
         id,
         avatar_url,
+        external_avatar_url,
         first_name,
         middle_name,
         last_name,

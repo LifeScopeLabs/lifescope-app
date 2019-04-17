@@ -131,6 +131,7 @@ export const state = function () {
         person: {
             id: null,
             avatar_url: null,
+            exernal_avatar_url: null,
             first_name: null,
             middle_name: null,
             last_name: null,

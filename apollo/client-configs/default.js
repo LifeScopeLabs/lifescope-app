@@ -10,7 +10,7 @@ import _ from 'lodash';
 export default (ctx) => {
 	let agentOptions = {};
 
-	if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'dev') {
+	if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development') {
 		agentOptions.rejectUnauthorized = false;
 	}
 

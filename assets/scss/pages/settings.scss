@@ -476,6 +476,16 @@ div#body.settings {
     }
   }
 
+  .avatar-container {
+    .title {
+      margin-right: 1em;
+    }
+  }
+
+  .external-avatar {
+    margin-top: 1em;
+  }
+
   .oauth-app {
     .form {
       & > div {
