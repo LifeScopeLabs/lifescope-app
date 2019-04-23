@@ -75,7 +75,7 @@
 			<!--{% if text_truncated %}-->
 			<!--<a v-if="content.url && content.title == null" class="truncated" href="{{ url }}" target="_blank">{{ text_truncated | safe }}</a>-->
 			<!--{% endif %}-->
-			<a v-if="content.url && content.title == null" class="full" v-bind:href="content.url" target="_blank">{{
+			<a v-if="content.url && (content.title == null || content.title.length === 0)" class="full" v-bind:href="content.url" target="_blank">{{
 				content.text | safe }}</a>
 
 			<!--{% if text_truncated %}-->
