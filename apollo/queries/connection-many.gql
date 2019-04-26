@@ -12,6 +12,7 @@
         name,
         enabled,
         last_run,
+        last_successful_run,
         permissions,
         provider_id,
         provider {

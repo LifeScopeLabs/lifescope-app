@@ -168,8 +168,8 @@
                 <div class="disabled"></div>
               </div>
               <div v-if="connection.browser == null && connection.runnable !== false" class="last-run">
-                <div v-if="connection.last_run != null" class="updates">
-                  {{ getUpdated(connection.last_run) }}
+                <div v-if="connection.last_successful_run != null" class="updates">
+                  {{ getUpdated(connection.last_successful_run) }}
                 </div>
                 <div v-else-if="connection.status === 'failed'" class="updates">
                   <div>Issue with Initial Index</div>
@@ -1399,7 +1399,7 @@
         },
 
         oldConnection: function(connection) {
-      	  return moment().subtract(3, 'days') > moment(connection.last_run);
+      	  return moment().subtract(3, 'days') > moment(connection.last_successful_run);
         }
     },
 
