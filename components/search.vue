@@ -270,7 +270,7 @@
     <div v-if="!$store.state.hide_filters && !$data.editorOpen && $data.overflowCount > 0" id="filter-overflow-count" v-on:click="toggleFilterEditor">+{{ $data.overflowCount }}</div>
 
     <div v-if="!$store.state.hide_favorite_star" id="search-favorited" v-bind:class="{filled: $store.state.currentSearch.favorited}" v-on:click="showFavoriteModal">
-      <i v-bind:class="{ 'fal fa-star': $store.state.currentSearch.favorited === true, 'fal fa-star': $store.state.currentSearch.favorited !== true }"></i>
+      <i v-bind:class="{ 'fas fa-star': $store.state.currentSearch.favorited === true, 'fal fa-star': $store.state.currentSearch.favorited !== true }"></i>
     </div>
 
     <div id="search-button" v-on:click="performSearch(true)">
@@ -372,7 +372,16 @@
 
     methods: {
       showFavoriteModal: function() {
-        this.$store.state.tempSearch = _.clone(this.$store.state.currentSearch);
+        let temp = _.clone(this.$store.state.currentSearch);
+
+        this.$store.state.tempSearch.id = temp.id;
+        this.$store.state.tempSearch.count = temp.count;
+        this.$store.state.tempSearch.query = temp.query;
+        this.$store.state.tempSearch.filters = temp.filters;
+        this.$store.state.tempSearch.favorited = temp.favorited;
+        this.$store.state.tempSearch.icon = temp.icon;
+        this.$store.state.tempSearch.icon_color = temp.icon_color;
+        this.$store.state.tempSearch.name = temp.name;
 
         this.$modal.show(favoriteModal, {}, {
           height: 'auto',
