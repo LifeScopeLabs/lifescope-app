@@ -1,0 +1,52 @@
+.paginator {
+    position: absolute;
+    top: 88%;
+    left: 46%;
+    width: 8%;
+    height: 10%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    border: 1px solid #7b7b7b;
+    border-radius: 24px;
+    background-color: #3c3c3c;
+
+    pointer-events: visible;
+}
+
+.mobile-menu {
+    font-size: 12px;
+}
+
+.pageLeft {
+    float: left;
+    align-self: center;
+    flex-grow: 1;
+
+    width: 0; 
+    height: 0; 
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent; 
+    
+    border-right: 25px solid #aeaeae; 
+}
+
+.pageRight {
+    float: right;
+    align-self: center;
+    flex-grow: 1;
+
+    width: 0; 
+    height: 0; 
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    
+    border-left: 25px solid #aeaeae;
+}
+
+.paginatorFill {
+    flex-grow: 2;
+}

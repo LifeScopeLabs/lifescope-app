@@ -1,0 +1,58 @@
+.loading {
+    z-index: 10010;
+}
+.xr-settings {
+    z-index: 10005;
+}
+
+.settings-toggle {
+    pointer-events: visible;
+
+    position: absolute;
+    top: 1%;
+    width: 5%;
+    height: 5%;
+
+    color:    #aeaeae;
+}
+
+.desktop-hud .settings-toggle {
+    left: 97.5%;
+}
+
+.mobile-hud .settings-toggle {
+    left: 92.5%;
+    font-size: 20px;
+}
+
+.help-settings {
+    z-index:10005;
+    pointer-events: visible;
+
+    border: 1px solid #7b7b7b;
+    border-radius: 12px;
+    background-color: #2A2A2A;
+    color:    #aeaeae;
+
+    padding: 15px;
+    position: absolute;
+    top: 6%;
+    left: 12.5%;
+    width: 75%;
+    height: 75%;
+    box-sizing: border-box;
+
+    column-count: 2;
+
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    line-height: 2em;
+    box-shadow: 0 0 5px 1px #edeeee;
+    overflow: scroll;
+}
+
+.help-settings h2 {
+    line-height: 1em;
+}

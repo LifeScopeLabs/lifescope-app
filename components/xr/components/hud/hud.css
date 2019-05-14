@@ -1,0 +1,22 @@
+.hud {
+    position:fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index:10000;
+    display: block;
+    pointer-events: none;
+    opacity: 0.6;
+
+    font-size: 1.25em;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    line-height: 1.5em;
+}
+
+.fakehidden {
+    -moz-opacity: 0;
+    /* filter:alpha(opacity: 0); */
+    opacity: 0;
+}

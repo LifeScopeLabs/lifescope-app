@@ -350,15 +350,14 @@ export default {
 			'vue-observe-visibility',
 			'~/vue.config.js',
 			'aframe',
-			'aframe-layout-component',
 			'networked-aframe',
 			'aframe-animation-component',
 			'aframe-src-fit-component',
-			'aframe-asset-on-demand-component',
 			'aframe-input-mapping-component',
 			'aframe-teleport-controls',
 			'aframe-extras',
 			'aframe-gui',
+			'aframe-sun-sky',
 			'aframe-geojson-component',
 			'~/lib/aframe/play-gaze.js',
 			'~/lib/aframe/dynamic-autoplay.js',
@@ -398,9 +397,14 @@ export default {
 			ssr: false
 		},
 		{
-			src: './plugins/sw.js',
+			src: './plugins/vue-aframe',
 			ssr: false
-		}
+		},
+		// './plugins/vue2-hammer'
+		// {
+		// 	src: './plugins/sw.js',
+		// 	ssr: false
+		// }
 	],
 
 	serverMiddleware: [
