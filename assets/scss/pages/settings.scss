@@ -639,6 +639,7 @@ div#body.settings {
         border: 1px solid $border-color;
 
         height: 200px;
+        min-height: 200px;
 
         @media #{$maxwidth768},#{$mobile} {
           margin-left: 0;

@@ -1227,15 +1227,17 @@
 		          mutation: personCreate,
 		          variables: vars
 	          });
+
+              window.location.href = '/settings/people';
           } catch(err) {
       	  	this.$data.error = true;
 
       	  	setTimeout(function() {
       	  		self.$data.error = false;
-            }, 2000)
-          }
 
-      	  window.location.href = '/settings/people';
+                window.location.href = '/settings/people';
+            }, 2000);
+          }
         },
 
 	    updatePerson: async function() {
