@@ -36,6 +36,13 @@ body {
     margin-left: .25em;
   }
 
+  .filter-controls-enter-active, .filter-controls-leave-active {
+    transition: all 0.5s;
+  }
+  .filter-controls-enter, .filter-controls-leave-to {
+    opacity: 0;
+  }
+
   #filter-controls {
     @include flexbox;
     @include flex-x-start;

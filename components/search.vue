@@ -4,254 +4,256 @@
       <i v-bind:class="$data.editorOpen ? 'fal glow fa-caret-up' : 'fal glow fa-caret-down'"></i>
     </div>
 
-    <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
-      <div id="filter-editor">
-        <div id="filter-buttons">
-          <div class="control" data-type="who" v-on:click="createBlankFilter('who')" v-bind:class="{ active: $data.activeFilter.type === 'who' }">
-            <i class="fal fa-user"></i>
-          </div>
+    <transition name="filter-controls">
+      <div v-if="!$store.state.hide_advanced && $data.editorOpen" id="filter-controls">
+        <div id="filter-editor">
+          <div id="filter-buttons">
+            <div class="control" data-type="who" v-on:click="createBlankFilter('who')" v-bind:class="{ active: $data.activeFilter.type === 'who' }">
+              <i class="fal fa-user"></i>
+            </div>
 
-          <div class="control" data-type="what" v-on:click="createBlankFilter('what')" v-bind:class="{ active: $data.activeFilter.type === 'what' }">
-            <i class="fal fa-image"></i>
-          </div>
+            <div class="control" data-type="what" v-on:click="createBlankFilter('what')" v-bind:class="{ active: $data.activeFilter.type === 'what' }">
+              <i class="fal fa-image"></i>
+            </div>
 
-          <div class="control" data-type="when" v-on:click="createBlankFilter('when')" v-bind:class="{ active: $data.activeFilter.type === 'when' }">
-            <i class="fal fa-calendar-alt"></i>
-          </div>
+            <div class="control" data-type="when" v-on:click="createBlankFilter('when')" v-bind:class="{ active: $data.activeFilter.type === 'when' }">
+              <i class="fal fa-calendar-alt"></i>
+            </div>
 
-          <div class="control" data-type="connector" v-on:click="createBlankFilter('connector')" v-bind:class="{ active: $data.activeFilter.type === 'connector' }">
-            <i class="fal fa-plug"></i>
-          </div>
+            <div class="control" data-type="connector" v-on:click="createBlankFilter('connector')" v-bind:class="{ active: $data.activeFilter.type === 'connector' }">
+              <i class="fal fa-plug"></i>
+            </div>
 
-          <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map', active: $data.activeFilter.type === 'where' }">
-            <i class="fal fa-globe"></i>
-          </div>
-        </div>
-
-        <div id="filter-values" v-bind:class="$data.activeFilter.type">
-          <div id="filter-name" v-if="$data.activeFilter.type != null">
-            <div class="text-box">
-              <input type="text" name="name" v-model="activeFilter.name" placeholder="Name this filter"/>
+            <div class="control" data-type="where" v-bind:class="{ disabled: $store.state.view !== 'map', active: $data.activeFilter.type === 'where' }">
+              <i class="fal fa-globe"></i>
             </div>
           </div>
 
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'who'" class="who" v-on:submit.self.prevent="saveFilter">
-            <div class="input-container interaction-type">
-              <label v-bind:class="{active: ['to', 'from', 'with'].includes($data.activeFilter.data.interaction) === false}" class="radio" for="who-type-1">
-                <input id="who-type-1" type="radio" name="interaction" value="" v-model="activeFilter.data.interaction"/>
-                <span>Any</span>
-              </label>
-
-              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'to' }" class="radio" for="who-type-2">
-                <input id="who-type-2" type="radio" name="interaction" value="to" v-model="activeFilter.data.interaction"/>
-                <span>To</span>
-              </label>
-
-              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'from' }" class="radio" for="who-type-3">
-                <input id="who-type-3" type="radio" name="interaction" value="from" v-model="activeFilter.data.interaction"/>
-                <span>From</span>
-              </label>
-
-              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'with' }" class="radio" for="who-type-4">
-                <input id="who-type-4" type="radio" name="interaction" value="with" v-model="activeFilter.data.interaction"/>
-                <span>With</span>
-              </label>
-            </div>
-
-            <div class="input-container who-type">
-              <label v-bind:class="{ active: $data.activeFilter.data.type === 'person_id' }" class="radio" for="person-id" v-on:click="$data.activeFilter.data.text = ''">
-                <input id="person-id" type="radio" name="type" value="person_id" v-model="activeFilter.data.type"/>
-                Person
-              </label>
-              <label v-bind:class="{ active: $data.activeFilter.data.type === 'text' }" class="radio" for="who-text" v-on:click="$data.activeFilter.data.person_id = ''">
-                <input id="who-text" type="radio" name="type" value="text" v-model="activeFilter.data.type"/>
-                Text search
-              </label>
-            </div>
-
-            <div v-if="$data.activeFilter.data.type === 'text'" class="text-box">
-              <input type="text" name="contact" placeholder="Contact or Person Name" v-model="activeFilter.data.text"/>
-            </div>
-
-            <div v-if="$data.activeFilter.data.type === 'person_id'" class="person">
-              <div class="input-container">
-                <select v-model="activeFilter.data.person_id" name="person">
-                  <option value=""></option>
-                  <option v-for="person in $store.state.searchPersonMany" v-bind:value="person.id">{{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</option>
-                </select>
-              </div>
-            </div>
-
-            <div id="filter-done">
-              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
-              <button v-else class="primary">Add Filter</button>
-            </div>
-          </form>
-
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'what'" class="what" v-on:submit.self.prevent="saveFilter">
-            <div class="input-container">
-              <select v-model="activeFilter.data.type" name="type">
-                <option value="" selected disabled></option>
-                <option value="achievement">Achievement</option>
-                <option value="audio">Audio</option>
-                <option value="code">Code</option>
-                <option value="file">File</option>
-                <option value="game">Game</option>
-                <option value="image">Image</option>
-                <option value="invite">Invite</option>
-                <option value="receipt">Receipt</option>
-                <option value="software">Software</option>
-                <option value="text">Text</option>
-                <option value="video">Video</option>
-                <option value="web-page">Web Page</option>
-              </select>
-            </div>
-
-            <div id="filter-done">
-              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
-              <button v-else class="primary">Add Filter</button>
-            </div>
-          </form>
-
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'when'" class="when" v-on:submit.self.prevent="saveFilter">
-            <div class="input-container">
-              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'exact'}" class="radio" for="when-exact">
-                <input id="when-exact" type="radio" name="interaction" value="exact" v-model="activeFilter.data.interaction" />
-                Exact dates
-              </label>
-
-              <label v-bind:class="{active: $data.activeFilter.data.interaction === 'relative'}" class="radio" for="when-relative">
-                <input id="when-relative" type="radio" name="interaction" value="relative" v-model="activeFilter.data.interaction" />
-                Relative dates
-              </label>
-            </div>
-
-            <div v-if="$data.activeFilter.data.interaction === 'exact'" class="exact-controls">
-              <div>
-                From:
-              </div>
-
-
-              <div class="input-group text-box" id="from">
-                <date-picker v-model="activeFilter.data.from" v-bind:config="fromConfig" @dp-change="updateFrom"></date-picker>
-              </div>
-
-              <div>
-                To:
-              </div>
-
-              <div class="input-group text-box" id="to">
-                <date-picker v-model="activeFilter.data.to" v-bind:config="toConfig" @dp-change="updateTo"></date-picker>
-              </div>
-            </div>
-
-            <div v-if="$data.activeFilter.data.interaction === 'relative'" class="relative-controls">
-              <div class="input-container">
-                <select v-model="activeFilter.data['since-exactly']" name="since-exactly">
-                  <option value="since" selected>Since</option>
-                  <option value="exactly">Exactly</option>
-                </select>
-              </div>
-
+          <div id="filter-values" v-bind:class="$data.activeFilter.type">
+            <div id="filter-name" v-if="$data.activeFilter.type != null">
               <div class="text-box">
-                <input v-model="activeFilter.data['relative-number']" type="number" name="relative-number" min="1">
+                <input type="text" name="name" v-model="activeFilter.name" placeholder="Name this filter"/>
+              </div>
+            </div>
+
+            <form v-if="$data.activeFilter && $data.activeFilter.type === 'who'" class="who" v-on:submit.self.prevent="saveFilter">
+              <div class="input-container interaction-type">
+                <label v-bind:class="{active: ['to', 'from', 'with'].includes($data.activeFilter.data.interaction) === false}" class="radio" for="who-type-1">
+                  <input id="who-type-1" type="radio" name="interaction" value="" v-model="activeFilter.data.interaction"/>
+                  <span>Any</span>
+                </label>
+
+                <label v-bind:class="{active: $data.activeFilter.data.interaction === 'to' }" class="radio" for="who-type-2">
+                  <input id="who-type-2" type="radio" name="interaction" value="to" v-model="activeFilter.data.interaction"/>
+                  <span>To</span>
+                </label>
+
+                <label v-bind:class="{active: $data.activeFilter.data.interaction === 'from' }" class="radio" for="who-type-3">
+                  <input id="who-type-3" type="radio" name="interaction" value="from" v-model="activeFilter.data.interaction"/>
+                  <span>From</span>
+                </label>
+
+                <label v-bind:class="{active: $data.activeFilter.data.interaction === 'with' }" class="radio" for="who-type-4">
+                  <input id="who-type-4" type="radio" name="interaction" value="with" v-model="activeFilter.data.interaction"/>
+                  <span>With</span>
+                </label>
               </div>
 
+              <div class="input-container who-type">
+                <label v-bind:class="{ active: $data.activeFilter.data.type === 'person_id' }" class="radio" for="person-id" v-on:click="$data.activeFilter.data.text = ''">
+                  <input id="person-id" type="radio" name="type" value="person_id" v-model="activeFilter.data.type"/>
+                  Person
+                </label>
+                <label v-bind:class="{ active: $data.activeFilter.data.type === 'text' }" class="radio" for="who-text" v-on:click="$data.activeFilter.data.person_id = ''">
+                  <input id="who-text" type="radio" name="type" value="text" v-model="activeFilter.data.type"/>
+                  Text search
+                </label>
+              </div>
+
+              <div v-if="$data.activeFilter.data.type === 'text'" class="text-box">
+                <input type="text" name="contact" placeholder="Contact or Person Name" v-model="activeFilter.data.text"/>
+              </div>
+
+              <div v-if="$data.activeFilter.data.type === 'person_id'" class="person">
+                <div class="input-container">
+                  <select v-model="activeFilter.data.person_id" name="person">
+                    <option value=""></option>
+                    <option v-for="person in $store.state.searchPersonMany" v-bind:value="person.id">{{ person.first_name }} {{ person.middle_name }} {{ person.last_name }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="filter-done">
+                <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
+                <button v-else class="primary">Add Filter</button>
+              </div>
+            </form>
+
+            <form v-if="$data.activeFilter && $data.activeFilter.type === 'what'" class="what" v-on:submit.self.prevent="saveFilter">
               <div class="input-container">
-                <select v-model="activeFilter.data.units" name="units">
-                  <option value="days" selected>Day(s) ago</option>
-                  <option value="weeks">Week(s) ago</option>
-                  <option value="months">Month(s) ago</option>
-                  <option value="years">Year(s) ago</option>
+                <select v-model="activeFilter.data.type" name="type">
+                  <option value="" selected disabled></option>
+                  <option value="achievement">Achievement</option>
+                  <option value="audio">Audio</option>
+                  <option value="code">Code</option>
+                  <option value="file">File</option>
+                  <option value="game">Game</option>
+                  <option value="image">Image</option>
+                  <option value="invite">Invite</option>
+                  <option value="receipt">Receipt</option>
+                  <option value="software">Software</option>
+                  <option value="text">Text</option>
+                  <option value="video">Video</option>
+                  <option value="web-page">Web Page</option>
                 </select>
               </div>
-            </div>
 
-            <!--<div class="estimated">-->
-              <!--<label>-->
-                <!--<input type="checkbox" name="estimated"/>-->
-                <!--<span>Return Estimated Results</span>-->
-              <!--</label>-->
-            <!--</div>-->
-
-            <div id="filter-done">
-              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
-              <button v-else class="primary">Add Filter</button>
-            </div>
-          </form>
-
-          <form v-if="$data.activeFilter && $data.activeFilter.type === 'connector'" class="connector" v-on:submit.self.prevent="saveFilter">
-            <div class="input-container">
-              <label v-bind:class="{ active: $data.activeFilter.data.type === 'provider' }" class="radio" for="provider" v-on:click="$data.activeFilter.data.connection = null">
-                <input id="provider" type="radio" name="type" value="provider" v-model="activeFilter.data.type"/>
-                Provider
-              </label>
-              <label v-bind:class="{ active: $data.activeFilter.data.type === 'connection' }" class="radio" for="connection" v-on:click="$data.activeFilter.data.provider = null">
-                <input id="connection" type="radio" name="type" value="connection" v-model="activeFilter.data.type"/>
-                Connection
-              </label>
-            </div>
-
-            <div v-if="$data.activeFilter.data.type === 'provider'" class="provider">
-              <div class="input-container">
-                <select v-model="activeFilter.data.provider" name="provider">
-                  <option value=""></option>
-                  <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.id | lowercase">{{ provider.name }}</option>
-                </select>
+              <div id="filter-done">
+                <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
+                <button v-else class="primary">Add Filter</button>
               </div>
-            </div>
+            </form>
 
-            <div v-if="$data.activeFilter.data.type === 'connection'" class="connection">
+            <form v-if="$data.activeFilter && $data.activeFilter.type === 'when'" class="when" v-on:submit.self.prevent="saveFilter">
               <div class="input-container">
-                <select v-model="activeFilter.data.connection" name="connection">
-                  <option value=""></option>
-                  <option v-for="connection in $store.state.connectionMany" v-bind:value="connection.id">{{ connection.name }} ({{ connection.provider.name }})</option>
-                </select>
+                <label v-bind:class="{active: $data.activeFilter.data.interaction === 'exact'}" class="radio" for="when-exact">
+                  <input id="when-exact" type="radio" name="interaction" value="exact" v-model="activeFilter.data.interaction" />
+                  Exact dates
+                </label>
+
+                <label v-bind:class="{active: $data.activeFilter.data.interaction === 'relative'}" class="radio" for="when-relative">
+                  <input id="when-relative" type="radio" name="interaction" value="relative" v-model="activeFilter.data.interaction" />
+                  Relative dates
+                </label>
               </div>
-            </div>
 
-            <div id="filter-done">
-              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
-              <button v-else class="primary">Add Filter</button>
-            </div>
-          </form>
+              <div v-if="$data.activeFilter.data.interaction === 'exact'" class="exact-controls">
+                <div>
+                  From:
+                </div>
 
-          <form v-if="$data.activeFilter && activeFilter.type === 'where'" class="where" v-on:submit.self.prevent="saveFilter">
-            <div class="input-container">
-              <label v-bind:class="{active: $data.activeFilter.data.where_type === 'inside' }" class="radio" for="where-type-inside">
-                <input id="where-type-inside" type="radio" name="inside-outside" value="inside" v-model="activeFilter.data.where_type"/>
-                <span>Inside</span>
-              </label>
 
-              <label v-bind:class="{active: $data.activeFilter.data.where_type === 'outside' }" class="radio" for="where-type-outside">
-                <input id="where-type-outside" type="radio" name="inside-outside" value="outside" v-model="activeFilter.data.where_type"/>
-                <span>Outside</span>
-              </label>
-            </div>
+                <div class="input-group text-box" id="from">
+                  <date-picker v-model="activeFilter.data.from" v-bind:config="fromConfig" @dp-change="updateFrom"></date-picker>
+                </div>
 
-            <div class="estimated">
-              <label>
-                <input type="checkbox" name="estimated" v-model="activeFilter.data.estimated"/>
-                <span>Estimated Results</span>
-              </label>
-            </div>
+                <div>
+                  To:
+                </div>
 
-            <div id="filter-done">
-              <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
-              <button v-else class="primary">Add Filter</button>
-            </div>
-          </form>
+                <div class="input-group text-box" id="to">
+                  <date-picker v-model="activeFilter.data.to" v-bind:config="toConfig" @dp-change="updateTo"></date-picker>
+                </div>
+              </div>
+
+              <div v-if="$data.activeFilter.data.interaction === 'relative'" class="relative-controls">
+                <div class="input-container">
+                  <select v-model="activeFilter.data['since-exactly']" name="since-exactly">
+                    <option value="since" selected>Since</option>
+                    <option value="exactly">Exactly</option>
+                  </select>
+                </div>
+
+                <div class="text-box">
+                  <input v-model="activeFilter.data['relative-number']" type="number" name="relative-number" min="1">
+                </div>
+
+                <div class="input-container">
+                  <select v-model="activeFilter.data.units" name="units">
+                    <option value="days" selected>Day(s) ago</option>
+                    <option value="weeks">Week(s) ago</option>
+                    <option value="months">Month(s) ago</option>
+                    <option value="years">Year(s) ago</option>
+                  </select>
+                </div>
+              </div>
+
+              <!--<div class="estimated">-->
+                <!--<label>-->
+                  <!--<input type="checkbox" name="estimated"/>-->
+                  <!--<span>Return Estimated Results</span>-->
+                <!--</label>-->
+              <!--</div>-->
+
+              <div id="filter-done">
+                <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
+                <button v-else class="primary">Add Filter</button>
+              </div>
+            </form>
+
+            <form v-if="$data.activeFilter && $data.activeFilter.type === 'connector'" class="connector" v-on:submit.self.prevent="saveFilter">
+              <div class="input-container">
+                <label v-bind:class="{ active: $data.activeFilter.data.type === 'provider' }" class="radio" for="provider" v-on:click="$data.activeFilter.data.connection = null">
+                  <input id="provider" type="radio" name="type" value="provider" v-model="activeFilter.data.type"/>
+                  Provider
+                </label>
+                <label v-bind:class="{ active: $data.activeFilter.data.type === 'connection' }" class="radio" for="connection" v-on:click="$data.activeFilter.data.provider = null">
+                  <input id="connection" type="radio" name="type" value="connection" v-model="activeFilter.data.type"/>
+                  Connection
+                </label>
+              </div>
+
+              <div v-if="$data.activeFilter.data.type === 'provider'" class="provider">
+                <div class="input-container">
+                  <select v-model="activeFilter.data.provider" name="provider">
+                    <option value=""></option>
+                    <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')" v-bind:value="provider.id | lowercase">{{ provider.name }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div v-if="$data.activeFilter.data.type === 'connection'" class="connection">
+                <div class="input-container">
+                  <select v-model="activeFilter.data.connection" name="connection">
+                    <option value=""></option>
+                    <option v-for="connection in $store.state.connectionMany" v-bind:value="connection.id">{{ connection.name }} ({{ connection.provider.name }})</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="filter-done">
+                <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
+                <button v-else class="primary">Add Filter</button>
+              </div>
+            </form>
+
+            <form v-if="$data.activeFilter && activeFilter.type === 'where'" class="where" v-on:submit.self.prevent="saveFilter">
+              <div class="input-container">
+                <label v-bind:class="{active: $data.activeFilter.data.where_type === 'inside' }" class="radio" for="where-type-inside">
+                  <input id="where-type-inside" type="radio" name="inside-outside" value="inside" v-model="activeFilter.data.where_type"/>
+                  <span>Inside</span>
+                </label>
+
+                <label v-bind:class="{active: $data.activeFilter.data.where_type === 'outside' }" class="radio" for="where-type-outside">
+                  <input id="where-type-outside" type="radio" name="inside-outside" value="outside" v-model="activeFilter.data.where_type"/>
+                  <span>Outside</span>
+                </label>
+              </div>
+
+              <div class="estimated">
+                <label>
+                  <input type="checkbox" name="estimated" v-model="activeFilter.data.estimated"/>
+                  <span>Estimated Results</span>
+                </label>
+              </div>
+
+              <div id="filter-done">
+                <button v-if="$data.activeFilter.id" class="primary">Save Filter</button>
+                <button v-else class="primary">Add Filter</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="filter-list" class="flex-grow">
+          <div class="filter" v-for="filter in $store.state.searchBar.filters">
+            <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
+            <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
+            <i class="fal fa-times" v-on:click="deleteFilter(filter)"></i>
+          </div>
         </div>
       </div>
-
-      <div id="filter-list" class="flex-grow">
-        <div class="filter" v-for="filter in $store.state.searchBar.filters">
-          <span v-if="filter && filter.name" v-on:click="loadFilter(filter)">{{ filter.name }}</span>
-          <span v-else v-on:click="loadFilter(filter)">{{ filter.type | capitalize }}</span>
-          <i class="fal fa-times" v-on:click="deleteFilter(filter)"></i>
-        </div>
-      </div>
-    </div>
+    </transition>
 
     <form id="query-form" method="POST" class="flex-grow" v-on:submit.self.prevent="checkAndSearch">
       <div id="search-box" class="text-box">
@@ -907,7 +909,7 @@
               self.$store.state.objects.contacts.push(obj);
 
               if (obj.person) {
-              	self.$store.state.objects.person.push(obj.person);
+              	self.$store.state.objects.people.push(obj.person);
               }
             });
           }

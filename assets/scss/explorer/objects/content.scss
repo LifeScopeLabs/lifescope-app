@@ -26,9 +26,7 @@
     }
   }
 
-  & > 
-
-  .thumbnail {
+  & > .thumbnail {
     @include align-center;
 
     img {
@@ -99,6 +97,14 @@
       }
     }
   }
+}
+
+.content-enter-active, .content-leave-active {
+  transition: all 1s ease-in-out;
+}
+
+.content-enter, .content-leave-to {
+  opacity: 0;
 }
 
 .modal .object.content .text {

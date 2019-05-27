@@ -1,6 +1,6 @@
 {
   "name": "lifescope-app",
-  "version": "2.6.5",
+  "version": "2.7.0",
   "description": "Search and Explore the internet of you. lifescope.io",
   "author": "LifeScope Labs (https://lifescope.io)",
   "repository": {
@@ -142,7 +142,7 @@
     "node-fetch": "^2.3.0",
     "node-sass": "^4.11.0",
     "node-uuid": "^1.4.8",
-    "nuxt": "^2.5.1",
+    "nuxt": "^2.7.1",
     "qs": "^6.5.2",
     "sass-loader": "^7.1.0",
     "socket.io": "^2.1.1",

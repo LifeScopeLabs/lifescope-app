@@ -97,62 +97,65 @@
       <div id="search-container" v-on:scroll="handleScroll">
         <div class="scroller">
           <div id="searches">
-            <a v-if="$store.state.home.tab === 'searches'" v-for="search in $store.state.searchMany" v-bind:href="constructLink(search)"
-               class="saved-search"
-               v-bind:data-id="search.id"
-               v-bind:data-favorited="search.favorited"
-               v-bind:data-icon-color="search.iconColor"
-               v-bind:data-icon="search.icon"
-               v-bind:data-name="search.name">
+            <transition-group name="search-item" tag="p">
+              <a v-if="$store.state.home.tab === 'searches'" v-for="search in $store.state.searchMany" v-bind:href="constructLink(search)"
+                 class="saved-search"
+                 v-bind:data-id="search.id"
+                 v-bind:data-favorited="search.favorited"
+                 v-bind:data-icon-color="search.iconColor"
+                 v-bind:data-icon="search.icon"
+                 v-bind:data-name="search.name"
+                  v-bind:key="search.id">
 
-              <div class="info">
-                <i v-bind:class="searchIcon(search)" v-bind:style="{ color: searchColor(search) }"></i>
-                <span class="name">{{ search.name }}</span>
+                <div class="info">
+                  <i v-bind:class="searchIcon(search)" v-bind:style="{ color: searchColor(search) }"></i>
+                  <span class="name">{{ search.name }}</span>
 
-                <span class="spacer"></span>
+                  <span class="spacer"></span>
 
-                <span class="last-run">{{ lastRunRelative(search) }}</span>
+                  <span class="last-run">{{ lastRunRelative(search) }}</span>
 
-                <i v-bind:class="favoriteIcon(search)"></i>
-              </div>
+                  <i v-bind:class="favoriteIcon(search)"></i>
+                </div>
 
-              <div v-if="search.query || (search.filters && search.filters.length > 0)" class="search">
-                <div v-if="search.query" class="query">&quot;{{ search.query }}&quot;</div>
+                <div v-if="search.query || (search.filters && search.filters.length > 0)" class="search">
+                  <div v-if="search.query" class="query">&quot;{{ search.query }}&quot;</div>
 
-                <div v-if="search.filters && search.filters.length > 0" class="filters">
-                  <div v-for="filter in search.filters" class="filter">{{ filter.name || filter.type }}
+                  <div v-if="search.filters && search.filters.length > 0" class="filters">
+                    <div v-for="filter in search.filters" class="filter">{{ filter.name || filter.type }}
+                    </div>
+
+                    <div class="filter-overflow-count"></div>
                   </div>
-
-                  <div class="filter-overflow-count"></div>
                 </div>
-              </div>
 
-              <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
-            </a>
+                <div v-bind:class="favoriteButton(search)" v-on:click.stop.prevent="showFavoriteModal(search)"></div>
+              </a>
 
-            <a v-if="$store.state.home.tab === 'tags'" v-for="tag in $store.state.tagMany" class="tag" v-on:click="searchForTag(tag.tag)">
-              <div>
-                <span class="name">#{{ tag.tag }}</span>
+              <a v-if="$store.state.home.tab === 'tags'" v-for="tag in $store.state.tagMany" class="tag" v-on:click="searchForTag(tag.tag)" v-bind:key="tag.id">
+                <div>
+                  <span class="name">#{{ tag.tag }}</span>
 
-                <span class="spacer"></span>
+                  <span class="spacer"></span>
 
-                <!-- <span class="sharing">Share</span> -->
+                  <!-- <span class="sharing">Share</span> -->
 
-                <i class="share-status" v-bind:class="shareStatus(tag)"></i>
-              </div>
-
-              <div class="tag-share" v-on:click.stop.prevent="showSharingModal(tag)"></div>
-            </a>
-
-            <a v-if="$store.state.home.tab === 'people'" v-for="person in $store.state.personMany" class="person" v-on:click="searchForPerson(person)">
-              <div>
-                <div class="avatar">
-                  <img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
-                  <div class="default" v-else-if="person.avatar_url == null || person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor(person) }">{{ defaultLetter(person) }}</div>
+                  <i class="share-status" v-bind:class="shareStatus(tag)"></i>
                 </div>
-                <span class="name">{{ concatNames(person) }}</span>
-              </div>
-            </a>
+
+                <div class="tag-share" v-on:click.stop.prevent="showSharingModal(tag)"></div>
+              </a>
+
+              <a v-if="$store.state.home.tab === 'people'" v-for="person in $store.state.personMany" class="person" v-on:click="searchForPerson(person)" v-bind:key="person.id">
+                <div>
+                  <div class="avatar">
+                    <img v-if="person.avatar_url != null && person.avatar_url.length > 0" v-bind:src="person.avatar_url">
+                    <div class="default" v-else-if="person.avatar_url == null || person.avatar_url.length === 0" v-bind:style="{ 'background-color': defaultColor(person) }">{{ defaultLetter(person) }}</div>
+                  </div>
+                  <span class="name">{{ concatNames(person) }}</span>
+                </div>
+              </a>
+            </transition-group>
 
             <div id="more-people" class="flexbox flex-center" v-if="$store.state.home.tab === 'people'" v-on:click="redirectToPeople">
               <i class="fal fa-3x glow fa-plus"></i>

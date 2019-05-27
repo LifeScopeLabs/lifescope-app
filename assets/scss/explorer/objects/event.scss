@@ -112,6 +112,14 @@
   }
 }
 
+.event-enter-active, .event-leave-active {
+  transition: all 1s ease-in-out;
+}
+
+.event-enter, .event-leave-to {
+  opacity: 0;
+}
+
 .modal .object.event .interactions .expand {
   display: none !important;
 }

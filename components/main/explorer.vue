@@ -15,33 +15,37 @@
           $store.state.facet === 'events' && $store.state.objects.events.length > 0 ||
           $store.state.facet === 'people' && $store.state.objects.people.length > 0" class="container">
         <div class="scroller">
-          <div id="list" v-bind:class="$store.state.view" >
+          <!--<div id="list" v-bind:class="$store.state.view" >-->
             <!-- facets -->
-            <user-contact v-if="$store.state.facet === 'contacts'"
-                v-for="contact in $store.state.objects.contacts"
-                v-bind:key="contact.id" v-bind:contact="contact"
-                v-bind:connection="contact.connection"
-                v-on:render-details="renderDetailsModal">
-            </user-contact>
-            <user-content v-if="$store.state.facet === 'content'"
-                v-for="content in $store.state.objects.content"
-                v-bind:key="content.id"
-                v-bind:content="content"
-                v-bind:connection="content.connection"
-                v-on:render-details="renderDetailsModal">
-            </user-content>
-            <user-event v-if="$store.state.facet === 'events'"
-                v-for="event in $store.state.objects.events"
-                v-bind:key="event.id"
-                v-bind:event="event"
-                v-on:render-details="renderDetailsModal">
-            </user-event>
-            <user-person v-if="$store.state.facet === 'people'"
-                v-for="person in $store.state.objects.people"
-                v-bind:key="person.id" v-bind:person="person"
-                v-on:render-details="renderDetailsModal">
-            </user-person>
-          </div>
+            <transition-group name="explorer-item" tag="div" id="list" v-bind:class="$store.state.view">
+              <user-contact v-if="$store.state.facet === 'contacts'"
+                  v-for="contact in $store.state.objects.contacts"
+                  v-bind:key="contact.id"
+                  v-bind:contact="contact"
+                  v-bind:connection="contact.connection"
+                  v-on:render-details="renderDetailsModal">
+              </user-contact>
+              <user-content v-if="$store.state.facet === 'content'"
+                  v-for="content in $store.state.objects.content"
+                  v-bind:key="content.id"
+                  v-bind:content="content"
+                  v-bind:connection="content.connection"
+                  v-on:render-details="renderDetailsModal">
+              </user-content>
+              <user-event v-if="$store.state.facet === 'events'"
+                  v-for="event in $store.state.objects.events"
+                  v-bind:key="event.id"
+                  v-bind:event="event"
+                  v-on:render-details="renderDetailsModal">
+              </user-event>
+              <user-person v-if="$store.state.facet === 'people'"
+                  v-for="person in $store.state.objects.people"
+                  v-bind:key="person.id"
+                  v-bind:person="person"
+                  v-on:render-details="renderDetailsModal">
+              </user-person>
+            </transition-group>
+          <!--</div>-->
 
           <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0 || $store.state.facet === 'people' && $store.state.objects.events.length > 0) && $store.state.spinner === true" id="more-waiting">
             <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />

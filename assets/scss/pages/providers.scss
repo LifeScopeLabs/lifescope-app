@@ -79,6 +79,13 @@ div#body.providers {
     font-size: 1.5em;
   }
 
+  .mobile-type-selector-enter-active, .mobile-type-selector-leave-active {
+    transition: all 0.5s;
+  }
+  .mobile-type-selector-enter, .mobile-type-selector-leave-to {
+    opacity: 0;
+  }
+
   aside.mobile-type-selector {
     display: none;
 

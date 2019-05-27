@@ -436,7 +436,14 @@ div#body.home {
               @include flex-column;
               font-size: 1.25em;
 
-              & > a {
+              .search-item-enter-active, .search-item-leave-active {
+                transition: all 0.5s;
+              }
+              .search-item-enter, .search-item-leave-to {
+                opacity: 0;
+              }
+
+              & > p > a {
                 @include flexbox;
                 @include flex-column;
                 @include pointer;
@@ -599,6 +606,16 @@ div#body.home {
 
       & > label {
         width: 120px;
+
+        @media #{$maxwidth768},#{$mobile} {
+          width: 100%;
+
+          margin-bottom: 1em;
+        }
+
+        input[type="radio"] {
+          vertical-align: middle;
+        }
       }
     }
 

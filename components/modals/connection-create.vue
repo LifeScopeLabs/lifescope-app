@@ -62,7 +62,7 @@
           <input type="file" name="spec" accept="text/csv" class="inputfile"/>
           <div class="errorlist hidden">Error uploading financial file. Check that financial data and is in .csv format.</div>
           <button class="primary" v-bind:class="{ hidden: $data.financial_uploading === true }" type="submit">Submit</button>
-          <i class="fal fa-spin fa-spinner" v-bind:class="{ hidden: $data.financial_uploading === false }"></i>
+          <i class="fal fa-spin fa-spinner" v-bind:class="{ hidden: $data.financial_uploading === false }" style="height: 1em; width: 1em; margin: 0.5em;"></i>
         </form>
       </div>
       <div v-else class="padded paragraphed">

@@ -10,7 +10,9 @@
     </mapbox>
 
     <div v-if="$store.state.searching === true" class="map-corner flexbox">
-      <i class="fal fa-spinner fa-spin" style="margin-right: 0.2em"></i>
+      <div>
+        <i class="fal fa-spinner fa-spin"></i>
+      </div>
       <div>Loading</div>
     </div>
 

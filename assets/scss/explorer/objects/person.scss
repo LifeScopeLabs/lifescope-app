@@ -61,6 +61,14 @@
 
 }
 
+.person-enter-active, .person-leave-active {
+  transition: all 1s ease-in-out;
+}
+
+.person-enter, .person-leave-to {
+  opacity: 0;
+}
+
 div#body.dark {
   .object.contact {
     & > div {

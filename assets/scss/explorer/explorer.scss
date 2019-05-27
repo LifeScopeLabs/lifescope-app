@@ -44,6 +44,16 @@ header {
 }
 
 div#body.explorer {
+  .container > .scroller {
+    .explorer-item-enter-active, .explorer-item-leave-active {
+      transition: all 1s ease-in-out;
+    }
+
+    .explorer-item-enter, .explorer-item-leave-to {
+      opacity: 0;
+    }
+  }
+
   #list {
     position: relative;
 

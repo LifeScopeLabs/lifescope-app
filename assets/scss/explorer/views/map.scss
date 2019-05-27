@@ -38,6 +38,15 @@ div#body.explorer.map {
         background-color: lighten($blue, 20%);
       }
     }
+
+    .fa-spin {
+      height: 1em;
+      width: 1em;
+    }
+
+    & > div:last-child {
+      margin-left: 0.5em;
+    }
   }
 
   #where-instructions {

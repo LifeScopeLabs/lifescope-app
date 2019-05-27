@@ -43,12 +43,19 @@
   }
 }
 
+.contact-enter-active, .contact-leave-active {
+  transition: all 1s ease-in-out;
+}
+
+.contact-enter, .contact-leave-to {
+  opacity: 0;
+}
+
 .contact-hidden {
   @include flexbox;
   @include flex-grow;
   @include flex-column;
   @include flex-x-center;
-
 }
 
 div#body.dark {

@@ -181,7 +181,8 @@
                 </div>
               </div>
 
-              <i class="fal fa-caret-down"></i>
+              <i v-if="$data.activeConnection === connection.id" class="fal fa-caret-up"></i>
+              <i v-else class="fal fa-caret-down"></i>
             </div>
 
             <form class="auto" v-on:submit.prevent="">

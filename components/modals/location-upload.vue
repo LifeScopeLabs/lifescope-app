@@ -32,7 +32,7 @@
 			<input type="file" name="spec" accept=".json" class="inputfile"/>
 			<div class="errorlist hidden">Error uploading location file. Check that this is a valid file of location data and is in JSON format.</div>
 			<button class="primary" v-bind:class="{ hidden: $data.uploading === true }" type="submit">Submit</button>
-			<i class="fal fa-2x fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading === false }"></i>
+			<i class="fal fa-2x fa-spin fa-spinner" v-bind:class="{ hidden: $data.uploading == false }"></i>
 		</form>
 	</div>
 </template>

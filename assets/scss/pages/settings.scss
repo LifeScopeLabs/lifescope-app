@@ -124,6 +124,13 @@ div#body.settings {
     }
   }
 
+  .mobile-type-selector-enter-active, .mobile-type-selector-leave-active {
+    transition: all 0.5s;
+  }
+  .mobile-type-selector-enter, .mobile-type-selector-leave-to {
+    opacity: 0;
+  }
+
   aside.mobile-type-selector {
     display: none;
 
@@ -313,6 +320,7 @@ div#body.settings {
 
       span {
         height: 1em;
+        min-height: 1em;
       }
     }
   }
@@ -384,6 +392,13 @@ div#body.settings {
 
         i {
           width: 1.5em;
+
+          &.fa-spin {
+            width: 2em;
+            height: 2em;
+
+            padding: 0.5em;
+          }
         }
       }
 
@@ -407,12 +422,22 @@ div#body.settings {
         }
       }
 
+      & > :not(:first-child) {
+        max-height: 2000px;
+
+        -webkit-transition: max-height 0.25s ease-in-out;
+        transition: max-height 0.25s ease-in-out;
+      }
+
       &:not(.active) {
         overflow: hidden;
 
         & > :not(:first-child) {
           max-height: 0;
           border: none;
+
+          -webkit-transition: max-height 0.25s ease-in-out;
+          transition: max-height 0.25s ease-in-out;
         }
       }
 

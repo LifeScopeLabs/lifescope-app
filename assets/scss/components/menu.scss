@@ -1,3 +1,22 @@
+div#body {
+  .menu-enter-active, .menu-leave-active {
+    transition: all 0.25s ease-in-out;
+  }
+
+  .menu-enter, .menu-leave-to {
+    max-width: 0;
+    min-width: 0;
+  }
+
+  .menu-drop-enter-active, .menu-drop-leave-active {
+    transition: all 0.5s ease-in-out;
+  }
+
+  .menu-drop-enter, .menu-drop-leave-to {
+    opacity: 0;
+  }
+}
+
 div#body.explorer {
   &.grid,
   &.list,
@@ -48,6 +67,7 @@ div#body.home {
   overflow-y: auto;
 
   width: 25%;
+  max-width: 25%;
   height: 100%;
   min-width: 300px;
 
@@ -124,7 +144,6 @@ div#body.home {
         }
 
         & > div {
-
           & > i {
             width: 1.5em;
             text-align: center;
@@ -150,7 +169,7 @@ div#body.home {
             }
           }
 
-          &:last-child {
+          &:last-child:not(:first-child) {
             @include flex-column;
             @include flex-grow;
             @include flex-start;

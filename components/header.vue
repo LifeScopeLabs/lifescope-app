@@ -329,19 +329,21 @@
 			<i v-bind:class="{ 'fal fa-caret-down': $store.state.settingsSelectorOpen === false, 'fal fa-caret-up': $store.state.settingsSelectorOpen === true }"></i>
 		</div>
 
-		<aside v-if="$store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations' || $store.state.mode === 'people' || $store.state.mode === 'authorized-apps' || $store.state.mode === 'developer'"
-			   class="mobile-type-selector" v-bind:class="{ open: $store.state.settingsSelectorOpen === true }">
-			<div class="scroller">
-				<div id="pages">
-					<a href="/settings/account">Account</a>
-					<a href="/settings/people">People</a>
-					<a href="/settings/locations">Locations</a>
-					<a href="/settings/connections">Connections</a>
-					<a href="/settings/authorized-apps">Authorized Apps</a>
-					<a href="/settings/developer">Developer</a>
+		<transition name="mobile-type-selector">
+			<aside v-if="$store.state.settingsSelectorOpen === true && ($store.state.mode === 'connections' || $store.state.mode === 'account' || $store.state.mode === 'locations' || $store.state.mode === 'people' || $store.state.mode === 'authorized-apps' || $store.state.mode === 'developer')"
+				   class="mobile-type-selector open">
+				<div class="scroller">
+					<div id="pages">
+						<a href="/settings/account">Account</a>
+						<a href="/settings/people">People</a>
+						<a href="/settings/locations">Locations</a>
+						<a href="/settings/connections">Connections</a>
+						<a href="/settings/authorized-apps">Authorized Apps</a>
+						<a href="/settings/developer">Developer</a>
+					</div>
 				</div>
-			</div>
-		</aside>
+			</aside>
+		</transition>
 	</header>
 </template>
 
