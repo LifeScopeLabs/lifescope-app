@@ -558,7 +558,8 @@
           variables: {
             filters: JSON.stringify(filters),
             query: query
-          }
+          },
+          fetchPolicy: 'no-cache'
         });
 
         let data = result.data.searchFind;
@@ -693,13 +694,15 @@
           });
 
           if (sharedSearch !== true) {
-            if (process.browser && history.location.pathname !== '/explore') {
+            if (process.browser && this.$route.path !== '/explore') {
               history.replace({
                 pathname: 'explore',
                 search: history.location.search
               });
 
-              window.location.reload();
+              this.$router.push('/explore' + history.location.search);
+
+              return;
             }
           }
         }
@@ -735,7 +738,8 @@
           try {
             result = await this.$apollo.mutate({
               mutation: sharedMapping,
-              variables: variables
+              variables: variables,
+              fetchPolicy: 'no-cache'
             });
 
 	          //Trying to populate Locations as part of the Event search is very slow for reasons I haven't been able to determine.
@@ -755,7 +759,8 @@
 			          query: locationManyById,
 			          variables: {
 				          ids: ids
-			          }
+			          },
+                      fetchPolicy: 'no-cache'
 		          });
 
 		          _.each(locations.data.locationFindManyById, function(location) {
@@ -776,7 +781,8 @@
           try {
             result = await this.$apollo.mutate({
               mutation: mapping,
-              variables: variables
+              variables: variables,
+              fetchPolicy: 'no-cache'
             });
 
             //Trying to populate Locations as part of the Event search is very slow for reasons I haven't been able to determine.
@@ -796,7 +802,8 @@
                     query: locationManyById,
                     variables: {
                     	ids: ids
-                    }
+                    },
+                    fetchPolicy: 'no-cache'
                 });
 
             	_.each(locations.data.locationFindManyById, function(location) {
@@ -1024,7 +1031,8 @@
 
       if (process.client) {
         this.$store.state.connectionsLoaded = this.$apollo.query({
-          query: connectionMany
+          query: connectionMany,
+          fetchPolicy: 'no-cache'
         })
           .then(function(result) {
             self.$store.state.connectionMany = result.data.connectionMany;
@@ -1033,7 +1041,8 @@
           });
 
         this.$store.state.providersLoaded = this.$apollo.query({
-          query: providerHydratedMany
+          query: providerHydratedMany,
+          fetchPolicy: 'no-cache'
         })
           .then(function(result) {
             self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
@@ -1047,7 +1056,8 @@
               filter: {
                 self: false
               }
-            }
+            },
+            fetchPolicy: 'no-cache'
         })
             .then(function(result) {
                 self.$store.state.searchPersonMany = result.data.personMany;
@@ -1065,7 +1075,8 @@
 		        variables: {
 			        id: params.id,
                     passcode: params.passcode
-		        }
+		        },
+                fetchPolicy: 'no-cache'
 	        });
 
 	        let person = personResult.data.sharedTagSelfPerson;

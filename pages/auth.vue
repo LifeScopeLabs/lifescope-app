@@ -18,7 +18,9 @@
 
 	export default {
 		layout: function(context) {
-			return context.req.user != undefined ? 'auth' : 'providers';
+            let user = _.get(context, 'req.user') ? context.req.user : _.get(context, 'nuxtState.state.user');
+
+            return user != undefined ? 'home' : 'providers';
 		},
 
 		asyncData: async function({ app, req, store, route, error}) {

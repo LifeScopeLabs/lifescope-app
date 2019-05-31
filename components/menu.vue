@@ -216,15 +216,15 @@
 							</transition>
 						</div>
 
-						<a v-if="$store.state.mode !== 'shared'" class="live"
-						   v-bind:class="{ active: $store.state.pageName === 'explorer' }" href="/explore"><i
-								class="fal fa-rocket blue"></i> Search</a>
-						<a v-if="$store.state.mode !== 'shared'" class="providers"
-						   v-bind:class="{ active: $store.state.pageName === 'providers' }" href="/providers"><i
-								class="fal fa-plug"></i> Add Connections</a>
-						<a v-if="$store.state.mode !== 'shared'" class="settings"
-						   v-bind:class="{ active: isSettingsPage() === true }" href="/settings"><i class="fal fa-cog"></i>
-							Settings</a>
+						<nuxt-link v-if="$store.state.mode !== 'shared'" class="live"
+						   v-bind:class="{ active: $store.state.pageName === 'explorer' }" to="/explore"><i
+								class="fal fa-rocket blue"></i> Search</nuxt-link>
+						<nuxt-link v-if="$store.state.mode !== 'shared'" class="providers"
+						   v-bind:class="{ active: $store.state.pageName === 'providers' }" to="/providers"><i
+								class="fal fa-plug"></i> Add Connections</nuxt-link>
+						<nuxt-link v-if="$store.state.mode !== 'shared'" class="settings"
+						   v-bind:class="{ active: isSettingsPage() === true }" to="/settings"><i class="fal fa-cog"></i>
+							Settings</nuxt-link>
 						<a class="learn" href="https://lifescope.io/learn" target="_blank"><i class="fal fa-book"></i> Learn</a>
 						<a class="support" href="http://bitscoop.com/support"><i class="fal fa-question-circle"></i> Support</a>
 					</section>

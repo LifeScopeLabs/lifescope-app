@@ -733,3 +733,17 @@ div#body.dark {
     @include box_shadow_dark(2);
   }
 }
+
+.page-load-enter-active, .page-load-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+.page-load-enter, .page-load-leave-to {
+  opacity: 0;
+}
+
+.opacity-enter-active, .opacity-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+.opacity-enter, .opacity-leave-to {
+  opacity: 0;
+}

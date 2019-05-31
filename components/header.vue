@@ -1,17 +1,17 @@
 <template>
 	<header v-if="$store.state.user != undefined && ($store.state.mode === 'app' || $store.state.mode === 'home')">
 		<nav>
-			<a id="home" href="/">
+			<nuxt-link id="home" to="/">
 				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg"/>
 				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg"/>
-			</a>
+			</nuxt-link>
 
 			<search-bar ref="searchBar"></search-bar>
 
 			<div class="shortcuts">
-				<a href="/explore"><i class="fal fa-rocket"></i></a>
-				<a href="/providers"><i class="fal glow fa-plug"></i></a>
-				<a href="/settings"><i class="fal fa-cog"></i></a>
+				<nuxt-link to="/explore"><i class="fal fa-rocket"></i></nuxt-link>
+				<nuxt-link to="/providers"><i class="fal glow fa-plug"></i></nuxt-link>
+				<nuxt-link to="/settings"><i class="fal fa-cog"></i></nuxt-link>
 			</div>
 
 			<div id="menu-button" v-on:click.stop="openMenu">
@@ -150,10 +150,10 @@
 
 	<header v-else-if="$store.state.mode === 'shared'">
 		<nav>
-			<a id="home" href="/">
+			<nuxt-link id="home" to="/">
 				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg"/>
 				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg"/>
-			</a>
+			</nuxt-link>
 
 			<search-bar ref="searchBar"></search-bar>
 
@@ -288,10 +288,10 @@
 
 	<header v-else>
 		<nav>
-			<a v-if="$store.state.user != undefined" id="home" href="/">
+			<nuxt-link v-if="$store.state.user != undefined" id="home" to="/">
 				<img v-if="$store.getters.theme === 'dark'" class="logo" src="~/assets/images/icons/white_LOGO.svg"/>
 				<img v-else class="logo" src="~/assets/images/icons/black_LOGO.svg"/>
-			</a>
+			</nuxt-link>
 
 			<span v-if="$store.state.user != undefined" class="flex-grow"></span>
 
@@ -301,9 +301,9 @@
 			</div>
 
 			<div v-if="$store.state.user != undefined" class="shortcuts">
-				<a href="/explore"><i class="fal fa-rocket"></i></a>
-				<a href="/providers"><i class="fal glow fa-plug"></i></a>
-				<a href="/settings"><i class="fal fa-cog"></i></a>
+				<nuxt-link to="/explore"><i class="fal fa-rocket"></i></nuxt-link>
+				<nuxt-link to="/providers"><i class="fal glow fa-plug"></i></nuxt-link>
+				<nuxt-link to="/settings"><i class="fal fa-cog"></i></nuxt-link>
 			</div>
 
 			<div v-if="$store.state.user != undefined" id="menu-button" v-on:click.stop="openMenu">
@@ -334,12 +334,12 @@
 				   class="mobile-type-selector open">
 				<div class="scroller">
 					<div id="pages">
-						<a href="/settings/account">Account</a>
-						<a href="/settings/people">People</a>
-						<a href="/settings/locations">Locations</a>
-						<a href="/settings/connections">Connections</a>
-						<a href="/settings/authorized-apps">Authorized Apps</a>
-						<a href="/settings/developer">Developer</a>
+						<nuxt-link to="/settings/account">Account</nuxt-link>
+						<nuxt-link to="/settings/people">People</nuxt-link>
+						<nuxt-link to="/settings/locations">Locations</nuxt-link>
+						<nuxt-link to="/settings/connections">Connections</nuxt-link>
+						<nuxt-link to="/settings/authorized-apps">Authorized Apps</nuxt-link>
+						<nuxt-link to="/settings/developer">Developer</nuxt-link>
 					</div>
 				</div>
 			</aside>
@@ -487,7 +487,6 @@
 			});
 
 			window.addEventListener('beforeinstallprompt', function(e) {
-				console.log('beforeinstallprompt fired');
 				e.preventDefault();
 
 				deferredPrompt = e;
@@ -496,20 +495,12 @@
 			});
 
 			$(document).on('click', '#install-button', function(e) {
-				console.log('Clicked on install button');
 				self.$store.state.show_native_notification = false;
 
 				deferredPrompt.prompt();
 
 				deferredPrompt.userChoice
 					.then(function(choiceResult) {
-						if (choiceResult.outcome === 'accepted') {
-							console.log('User accepted the A2HS prompt');
-						}
-						else {
-							console.log('User dismissed the A2HS prompt');
-						}
-
 						deferredPrompt = null;
 					});
 			});

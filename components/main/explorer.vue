@@ -1,105 +1,107 @@
 <template>
-  <main v-if="$store.state.view === 'xr'">
-    <galleryContainer/>
-  </main>
-  <main v-else-if="$store.state.view === 'map'">
-    <MapView/>
-  </main>
-  <main v-else v-on:scroll="handleScroll">
-    <!-- content section -->
-    <section v-if="$store.state.user != undefined" id="content">
+  <transition appear name="page-load">
+    <main v-if="$store.state.view === 'xr'">
+      <galleryContainer/>
+    </main>
+    <main v-else-if="$store.state.view === 'map'">
+      <MapView/>
+    </main>
+    <main v-else v-on:scroll="handleScroll">
+      <!-- content section -->
+      <section v-if="$store.state.user != undefined" id="content">
 
-      <!-- container -->
-      <div v-if="$store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 ||
-          $store.state.facet === 'content' && $store.state.objects.content.length > 0 ||
-          $store.state.facet === 'events' && $store.state.objects.events.length > 0 ||
-          $store.state.facet === 'people' && $store.state.objects.people.length > 0" class="container">
-        <div class="scroller">
-          <!--<div id="list" v-bind:class="$store.state.view" >-->
-            <!-- facets -->
-            <transition-group name="explorer-item" tag="div" id="list" v-bind:class="$store.state.view">
-              <user-contact v-if="$store.state.facet === 'contacts'"
-                  v-for="contact in $store.state.objects.contacts"
-                  v-bind:key="contact.id"
-                  v-bind:contact="contact"
-                  v-bind:connection="contact.connection"
-                  v-on:render-details="renderDetailsModal">
-              </user-contact>
-              <user-content v-if="$store.state.facet === 'content'"
-                  v-for="content in $store.state.objects.content"
-                  v-bind:key="content.id"
-                  v-bind:content="content"
-                  v-bind:connection="content.connection"
-                  v-on:render-details="renderDetailsModal">
-              </user-content>
-              <user-event v-if="$store.state.facet === 'events'"
-                  v-for="event in $store.state.objects.events"
-                  v-bind:key="event.id"
-                  v-bind:event="event"
-                  v-on:render-details="renderDetailsModal">
-              </user-event>
-              <user-person v-if="$store.state.facet === 'people'"
-                  v-for="person in $store.state.objects.people"
-                  v-bind:key="person.id"
-                  v-bind:person="person"
-                  v-on:render-details="renderDetailsModal">
-              </user-person>
-            </transition-group>
-          <!--</div>-->
+        <!-- container -->
+        <div v-if="$store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 ||
+            $store.state.facet === 'content' && $store.state.objects.content.length > 0 ||
+            $store.state.facet === 'events' && $store.state.objects.events.length > 0 ||
+            $store.state.facet === 'people' && $store.state.objects.people.length > 0" class="container">
+          <div class="scroller">
+            <!--<div id="list" v-bind:class="$store.state.view" >-->
+              <!-- facets -->
+              <transition-group appear name="explorer-item" tag="div" id="list" v-bind:class="$store.state.view">
+                <user-contact v-if="$store.state.facet === 'contacts'"
+                    v-for="contact in $store.state.objects.contacts"
+                    v-bind:key="contact.id"
+                    v-bind:contact="contact"
+                    v-bind:connection="contact.connection"
+                    v-on:render-details="renderDetailsModal">
+                </user-contact>
+                <user-content v-if="$store.state.facet === 'content'"
+                    v-for="content in $store.state.objects.content"
+                    v-bind:key="content.id"
+                    v-bind:content="content"
+                    v-bind:connection="content.connection"
+                    v-on:render-details="renderDetailsModal">
+                </user-content>
+                <user-event v-if="$store.state.facet === 'events'"
+                    v-for="event in $store.state.objects.events"
+                    v-bind:key="event.id"
+                    v-bind:event="event"
+                    v-on:render-details="renderDetailsModal">
+                </user-event>
+                <user-person v-if="$store.state.facet === 'people'"
+                    v-for="person in $store.state.objects.people"
+                    v-bind:key="person.id"
+                    v-bind:person="person"
+                    v-on:render-details="renderDetailsModal">
+                </user-person>
+              </transition-group>
+            <!--</div>-->
 
-          <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0 || $store.state.facet === 'people' && $store.state.objects.events.length > 0) && $store.state.spinner === true" id="more-waiting">
+            <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length > 0 || $store.state.facet === 'content' && $store.state.objects.content.length > 0 || $store.state.facet === 'events' && $store.state.objects.events.length > 0 || $store.state.facet === 'people' && $store.state.objects.events.length > 0) && $store.state.spinner === true" id="more-waiting">
+              <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
+              <div class="text blue"> Loading </div>
+            </div>
+
+            <modals-container/>
+          </div>
+        </div>
+
+        <!-- Searching -->
+        <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 ||
+            $store.state.facet === 'content' && $store.state.objects.content.length === 0 ||
+            $store.state.facet === 'events' && $store.state.objects.events.length === 0 ||
+            $store.state.facet === 'people' && $store.state.objects.people.length === 0) &&
+            $store.state.spinner === true" id="waiting">
+          <div>
             <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
-            <div class="text blue"> Loading </div>
+            <div class="text blue"> Searching </div>
           </div>
-
-          <modals-container/>
         </div>
-      </div>
 
-      <!-- Searching -->
-      <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 ||
-          $store.state.facet === 'content' && $store.state.objects.content.length === 0 ||
-          $store.state.facet === 'events' && $store.state.objects.events.length === 0 ||
-          $store.state.facet === 'people' && $store.state.objects.people.length === 0) &&
-          $store.state.spinner === true" id="waiting">
-        <div>
-          <img src="https://d233zlhvpze22y.cloudfront.net/1457056861/images/loading-icon-ring.svg" />
-          <div class="text blue"> Searching </div>
-        </div>
-      </div>
-
-      <!-- shared error -->
-      <div v-if="$store.state.searchError === true" id="shared-error">
-        <div class="prompt">
-          <div class="prompt-text">
-            <div v-if="$store.state.mode === 'shared'">
-              There was an error retrieving these shared results.
-            </div>
-            <div v-else>
-              There was a problem retrieving your search results. Please try again. If this problem persists, please <a href="http://bitscoop.com/support">contact support</a>.
+        <!-- shared error -->
+        <div v-if="$store.state.searchError === true" id="shared-error">
+          <div class="prompt">
+            <div class="prompt-text">
+              <div v-if="$store.state.mode === 'shared'">
+                There was an error retrieving these shared results.
+              </div>
+              <div v-else>
+                There was a problem retrieving your search results. Please try again. If this problem persists, please <a href="http://bitscoop.com/support">contact support</a>.
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- no resuts -->
-      <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 ||
-          $store.state.facet === 'content' && $store.state.objects.content.length === 0 ||
-          $store.state.facet === 'events' && $store.state.objects.events.length === 0 ||
-          $store.state.facet === 'people' && $store.state.objects.people.length === 0) &&
-          $store.state.spinner === false &&
-          $store.state.searching === false &&
-          $store.state.searchError === false" id="no-results">
-        <div class="prompt">
-          <div class="prompt-text">
-            <h2>No results found.</h2>
-            <div>Try adjusting your search </div>
-            <div>or adding more <a href="/providers">Connections</a>.</div>
+        <!-- no resuts -->
+        <div v-if="($store.state.facet === 'contacts' && $store.state.objects.contacts.length === 0 ||
+            $store.state.facet === 'content' && $store.state.objects.content.length === 0 ||
+            $store.state.facet === 'events' && $store.state.objects.events.length === 0 ||
+            $store.state.facet === 'people' && $store.state.objects.people.length === 0) &&
+            $store.state.spinner === false &&
+            $store.state.searching === false &&
+            $store.state.searchError === false" id="no-results">
+          <div class="prompt">
+            <div class="prompt-text">
+              <h2>No results found.</h2>
+              <div>Try adjusting your search </div>
+              <div>or adding more <a href="/providers">Connections</a>.</div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </transition>
 </template>
 
 <script>
@@ -187,7 +189,8 @@
             query: searchOne,
             variables: {
               id: this.$store.state.currentSearch.id
-            }
+            },
+            fetchPolicy: 'no-cache'
           });
 
           if (result.data.searchOne == null) {

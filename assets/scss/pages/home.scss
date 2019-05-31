@@ -82,7 +82,7 @@ div#body.home {
             font-size: 1.25em;
             border-bottom-color: $border-color-dark !important;
 
-            & > .tab {
+            .tab {
               &.selected {
                 border: 1px solid $input-border-color-dark !important;
 

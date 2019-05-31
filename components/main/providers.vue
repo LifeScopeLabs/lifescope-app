@@ -1,30 +1,32 @@
 <template>
-  <main>
-    <div class="scroller">
-      <div id="provider-grid">
-        <div v-if="$store.getters.authenticated" v-model="providerHydratedMany" v-for="provider in providerHydratedMany"
-             v-on:click="showConnectionModal(provider)" v-bind:key="provider.id"
-             v-bind:class="[{associated: provider.assoc_count > 0}, provider.tags]" class="mix"
-             v-bind:data-id="provider.id" v-bind:data-assoc-count="provider.assoc_count">
-          <div class="box-content">
-            <span v-if="provider.assoc_count > 1">{{ provider.assoc_count }}</span>
-            <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
-            <p>{{ provider.name }}</p>
+  <transition appear name="page-load">
+    <main>
+      <div class="scroller">
+        <div id="provider-grid">
+          <div v-if="$store.getters.authenticated" v-model="providerHydratedMany" v-for="provider in providerHydratedMany"
+               v-on:click="showConnectionModal(provider)" v-bind:key="provider.id"
+               v-bind:class="[{associated: provider.assoc_count > 0}, provider.tags]" class="mix"
+               v-bind:data-id="provider.id" v-bind:data-assoc-count="provider.assoc_count">
+            <div class="box-content">
+              <span v-if="provider.assoc_count > 1">{{ provider.assoc_count }}</span>
+              <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
+              <p>{{ provider.name }}</p>
+            </div>
           </div>
-        </div>
-        <div v-if="$store.getters.authenticated !== true" v-model="providerWithMapMany"
-             v-for="provider in loginMaps" v-on:click="showConnectionModal(provider)"
-             v-bind:key="provider.id" v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
-          <div class="box-content">
-            <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
-            <p>{{ provider.name }}</p>
+          <div v-if="$store.getters.authenticated !== true" v-model="providerWithMapMany"
+               v-for="provider in loginMaps" v-on:click="showConnectionModal(provider)"
+               v-bind:key="provider.id" v-bind:class="[provider.tags]" class="mix" v-bind:data-id="provider.id">
+            <div class="box-content">
+              <h1><i v-bind:class="getProviderIcon(provider)"></i></h1>
+              <p>{{ provider.name }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <modals-container/>
-  </main>
+      <modals-container/>
+    </main>
+  </transition>
 </template>
 
 <script>
@@ -81,7 +83,8 @@
     beforeMount: async function() {
       if (this.$store.getters.authenticated === true) {
         let providerHydratedResult = await this.$apollo.query({
-          query: providerHydratedMany
+          query: providerHydratedMany,
+          fetchPolicy: 'no-cache'
         });
 
         this.$data.providerHydratedMany = providerHydratedResult.data.providerHydratedMany;
@@ -89,6 +92,7 @@
 
       let providerWithMapResult = await this.$apollo.query({
         query: providerWithMapMany,
+        fetchPolicy: 'no-cache',
       });
 
       this.$data.providerWithMapMany = providerWithMapResult.data.providerWithMapMany;

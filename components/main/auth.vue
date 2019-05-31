@@ -1,28 +1,30 @@
 <template>
   <main>
-    <section v-if="$store.state.user != undefined" id="content">
-      <div class="boxed-group" v-if="$data.error == null">
-        <div class="align-center"><a v-bind:href="$store.state.auth.app.homepage_url">{{ $store.state.auth.app.name }}</a> would like to connect to your LifeScope account.</div>
-        <div class="align-center padded paragraphed">
-          <div>{{ $store.state.auth.app.description}}</div>
+    <transition appear name="page-load">
+      <section v-if="$store.state.user != undefined" id="content">
+        <div class="boxed-group" v-if="$data.error == null">
+          <div class="align-center"><a v-bind:href="$store.state.auth.app.homepage_url">{{ $store.state.auth.app.name }}</a> would like to connect to your LifeScope account.</div>
+          <div class="align-center padded paragraphed">
+            <div>{{ $store.state.auth.app.description}}</div>
 
-          <div class="scopes padded align-center">
-            <div style="margin-bottom: 0.5em">{{ $store.state.auth.app.name }} is requesting access to the following information:</div>
-            <div class="flexbox flex-column">
-              <li v-for="scope in $store.state.auth.scopes">{{ translateScope(scope) }}</li>
+            <div class="scopes padded align-center">
+              <div style="margin-bottom: 0.5em">{{ $store.state.auth.app.name }} is requesting access to the following information:</div>
+              <div class="flexbox flex-column">
+                <li v-for="scope in $store.state.auth.scopes">{{ translateScope(scope) }}</li>
+              </div>
+              <div style="margin-top: 0.5em">
+                This app will have access to this information indefinitely. Their privacy policy can be found <a v-bind:href="$store.state.auth.app.privacy_policy_url">here</a>.</div>
             </div>
-            <div style="margin-top: 0.5em">
-              This app will have access to this information indefinitely. Their privacy policy can be found <a v-bind:href="$store.state.auth.app.privacy_policy_url">here</a>.</div>
-          </div>
 
-          <div class="mobile-buttons flex-center">
-            <button class="primary left-button" v-on:click="allowAuth">Allow</button>
-            <button class="danger" v-on:click="denyAuth">Deny</button>
+            <div class="mobile-buttons flex-center">
+              <button class="primary left-button" v-on:click="allowAuth">Allow</button>
+              <button class="danger" v-on:click="denyAuth">Deny</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-if="$data.error != null" class="align-center">{{ $data.error }}</div>
-    </section>
+        <div v-if="$data.error != null" class="align-center">{{ $data.error }}</div>
+      </section>
+    </transition>
   </main>
 </template>
 
@@ -146,7 +148,8 @@
 		    query: oauthAppOneAuthorization,
 		    variables: {
 			    client_id: this.$route.query.client_id
-		    }
+		    },
+            fetchPolicy: 'no-cache'
 	    });
 
 	    if (result == null) {

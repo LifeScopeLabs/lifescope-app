@@ -255,6 +255,12 @@ export default {
 	*/
 	loading: {color: '#2ac1de'},
 
+	pageTransition: {
+	    appear: true,
+		name: 'opacity',
+		mode: 'out-in'
+	},
+
 	modules: [
 		'@nuxtjs/apollo',
 		'@nuxtjs/google-analytics',
@@ -399,6 +405,10 @@ export default {
 		},
 		{
 			src: './plugins/sw.js',
+			ssr: false
+		},
+		{
+			src: './plugins/appear.js',
 			ssr: false
 		}
 	],

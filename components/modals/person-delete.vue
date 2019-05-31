@@ -42,7 +42,7 @@
 			            }
 		            });
 
-		            window.location.href = '/settings/people';
+		            this.$router.push('/settings/people');
 	            } catch(err) {
             		self.$data.tryAgain = true;
 

@@ -12,7 +12,8 @@
 
       if (this.$store.getters.authenticated === true) {
         let userResult = await this.$apollo.query({
-          query: userOne
+          query: userOne,
+          fetchPolicy: 'no-cache'
         });
 
         this.$store.state.userOne = userResult.data.userOne;

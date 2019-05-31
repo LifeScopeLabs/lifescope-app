@@ -7,7 +7,7 @@
         <div class="body flexbox flex-column flex-x-center">
             <div class="paragraph flexbox flex-column flex-x-center">
                 <span class="instructions">Delete Your LifeScope Account</span>
-                
+
                 <p>Are you sure you'd like to delete your LifeScope account?</p>
                 <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
                 <p>Once you delete your account, your LifeScope index will be deleted.</p>
@@ -25,15 +25,15 @@
 <script>
     import deleteAccount from '../../apollo/mutations/delete-account.gql';
 
-	export default {
-		methods: {
-      deleteAccount: async function() {
-        await this.$apollo.mutate({
-            mutation: deleteAccount
-        });
+    export default {
+        methods: {
+            deleteAccount: async function () {
+                await this.$apollo.mutate({
+                    mutation: deleteAccount
+                });
 
-        window.location = '/';
-      }
-		}
-	}
+                window.location = '/';
+            }
+        }
+    }
 </script>

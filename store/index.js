@@ -5,7 +5,7 @@ require('whatwg-fetch');
 
 export const strict = false;
 
-export const state = function () {
+function initialState () {
     return {
         cookies: null,
         user: null,
@@ -147,7 +147,9 @@ export const state = function () {
 
         show_native_notification: false
     }
-};
+}
+
+export const state = initialState;
 
 export const getters = {
     authenticated(state) {
@@ -172,6 +174,23 @@ export const mutations = {
 
     SET_RES: function (state, res) {
         state.csrf_token = res.context ? res.context.csrf_token : null;
+    },
+
+    RESET_STATE: function(state) {
+        let clean = initialState();
+
+        let saved = {
+            cookies: state.cookies,
+            user: state.user,
+            mapbox: state.mapbox,
+            csrf_token: state.csrf_token
+        };
+
+        _.each(clean, function(val, key) {
+            state[key] = clean[key];
+        });
+
+        _.assign(state, saved);
     }
 };
 
@@ -179,5 +198,9 @@ export const actions = {
     async nuxtServerInit({commit}, {req, res}) {
         await commit('SET_REQ', req);
         await commit('SET_RES', res);
+    },
+
+    async resetState({commit}) {
+        await commit('RESET_STATE')
     }
 };

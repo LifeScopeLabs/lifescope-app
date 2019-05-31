@@ -171,7 +171,7 @@
         let data = result.data.searchUpsert;
 
         if (data && data.id) {
-          window.location.href = 'https://app.lifescope.io/explore?qid=' + data.id;
+          this.$router.push('/explore?qid=' + data.id);
         }
       },
 
