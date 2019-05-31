@@ -99,19 +99,23 @@
     },
 
     mounted: async function() {
+      let self = this;
+
       let mixitup = require('mixitup');
 
       this.$store.mixer = mixitup('#provider-grid', {});
 
-      let query = this.$route.query;
+      this.$router.onReady(function() {
+        let query = self.$route.query;
 
-      if (query.client && query.client === 'app' && this.$store.getters.authenticated !== true) {
-        document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'visible') {
-                window.location.reload();
-            }
-        });
-      }
+        if (query.client && query.client === 'app' && self.$store.getters.authenticated !== true) {
+          document.addEventListener('visibilitychange', function() {
+              if (document.visibilityState === 'visible') {
+                  window.location.reload();
+              }
+          });
+        }
+      })
     },
 
     updated() {
