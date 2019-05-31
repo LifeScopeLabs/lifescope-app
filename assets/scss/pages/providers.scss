@@ -79,19 +79,24 @@ div#body.providers {
     font-size: 1.5em;
   }
 
-  .mobile-type-selector-enter-active, .mobile-type-selector-leave-active {
-    transition: all 0.5s;
-  }
-  .mobile-type-selector-enter, .mobile-type-selector-leave-to {
-    opacity: 0;
-  }
-
   aside.mobile-type-selector {
-    display: none;
+    & > .scroller {
+      -webkit-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+      max-height: 0;
+      opacity: 0;
+    }
 
     @media #{$maxwidth768},#{$mobile} {
       &.open {
-        display: block;
+
+        & > .scroller {
+          -webkit-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
+
+          max-height: 100%;
+          opacity: 1;
+        }
       }
     }
   }
