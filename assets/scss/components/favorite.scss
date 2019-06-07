@@ -1,70 +1,70 @@
 #favorite {
-  .content {
-    @include flexbox;
-    @include flex-column;
-
-    @media #{$maxwidth768},#{$mobile} {
-      max-width: none;
-    }
-
-    .data {
-      @include flexbox;
-      @include flex-x-center;
-
-      & > i {
-        font-size: 4em;
-        width: 1.5em;
-        min-width: 1.2em;
-        text-align: center;
-      }
-
-      .text-box {
-        margin: 0;
-      }
-    }
-
-    .label {
-      font-size: 1.2em;
-      margin: 1em 0 0.2em 0;
-    }
-
-    .selectors {
-      @include flexbox;
-      @include flex-column;
-    }
-
-    .buttons {
-      @include flexbox;
-      @include flex-space-between;
-
-      margin-top: 1.5em;
-
-      @media (max-width: 850px) {
-        @include flex-column;
-      }
-
-      & > div {
+    .content {
         @include flexbox;
+        @include flex-column;
 
-        @media (max-width: 850px) {
-          @include flex-space-between;
-
-          &:last-child {
-            margin-top: 1em;
-          }
+        @media #{$maxwidth768}, #{$mobile} {
+            max-width: none;
         }
 
-        & > button:first-child {
-          margin-right: 0.5em;
+        .data {
+            @include flexbox;
+            @include flex-x-center;
+
+            & > i {
+                font-size: 4em;
+                width: 1.5em;
+                min-width: 1.2em;
+                text-align: center;
+            }
+
+            .text-box {
+                margin: 0;
+            }
         }
-      }
+
+        .label {
+            font-size: 1.2em;
+            margin: 1em 0 0.2em;
+        }
+
+        .selectors {
+            @include flexbox;
+            @include flex-column;
+        }
+
+        .buttons {
+            @include flexbox;
+            @include flex-space-between;
+
+            margin-top: 1.5em;
+
+            @media (max-width: 850px) {
+                @include flex-column;
+            }
+
+            & > div {
+                @include flexbox;
+
+                @media (max-width: 850px) {
+                    @include flex-space-between;
+
+                    &:last-child {
+                        margin-top: 1em;
+                    }
+                }
+
+                & > button:first-child {
+                    margin-right: 0.5em;
+                }
+            }
+        }
     }
-  }
 }
 
 div#body.dark {
-  #favorite {
-    color: $font-color-dark;
-    background-color: $background-color-dark;
-  }
+    #favorite {
+        color: $font-color-dark;
+        background-color: $background-color-dark;
+    }
 }

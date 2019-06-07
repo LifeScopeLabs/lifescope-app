@@ -1,10 +1,11 @@
 <template>
+    <div></div>
 </template>
 
 <script>
-    export default {
-    	middleware: function({ redirect }) {
-        return redirect('/settings/connections');
-      }
-    }
+	export default {
+		middleware: function({redirect}) {
+			return redirect('/settings/connections');
+		}
+	}
 </script>

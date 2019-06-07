@@ -1,28 +1,28 @@
 .feed.item {
-  background-color: $item-background-color;
-  border: 1px solid $border-color;
-  border-radius: 1px;
-  padding: 1em;
-  max-width: 100%;
-  text-align: center;
-  word-wrap: break-word;
-  word-break: break-word;
+    background-color: $item-background-color;
+    border: 1px solid $border-color;
+    border-radius: 1px;
+    padding: 1em;
+    max-width: 100%;
+    text-align: center;
+    word-wrap: break-word;
+    word-break: break-word;
 
-  @media #{$maxwidth768},#{$mobile} {
-    padding: 0.5em;
-    width: 100%;
-  }
-
-  pre {
-    white-space: pre-wrap;
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 1em;
-
-    @media #{$maxwidth768},#{$mobile} {
-      margin-bottom: 0.35em;
+    @media #{$maxwidth768}, #{$mobile} {
+        padding: 0.5em;
+        width: 100%;
     }
-  }
+
+    pre {
+        white-space: pre-wrap;
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 1em;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            margin-bottom: 0.35em;
+        }
+    }
 
 }

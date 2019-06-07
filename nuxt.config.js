@@ -1,8 +1,6 @@
 import bodyParser from 'body-parser';
 import config from 'config';
 import cookieParser from 'cookie-parser';
-import jquery from 'jquery';
-import moment from 'moment';
 import webpack from 'webpack';
 
 import csrf from './lib/middleware/csrf';
@@ -256,7 +254,7 @@ export default {
 	loading: {color: '#2ac1de'},
 
 	pageTransition: {
-	    appear: true,
+		appear: true,
 		name: 'opacity',
 		mode: 'out-in'
 	},
@@ -317,7 +315,7 @@ export default {
 	** Build configuration
 	*/
 	build: {
-		extend(config, ctx) {
+		extend(config) {
 			config.node = {
 				dns: 'empty',
 				fs: 'empty',
@@ -350,6 +348,7 @@ export default {
 		vendor: [
 			'jquery',
 			'mixitup',
+			'moment',
 			'vue-js-modal',
 			'vue2-filters',
 			'vue-bootstrap-datetimepicker',

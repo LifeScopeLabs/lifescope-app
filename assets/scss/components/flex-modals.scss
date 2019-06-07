@@ -1,52 +1,52 @@
 .v--modal-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & > .v--modal-background-click {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
-    max-height: 95% !important;
-    min-height: 95% !important;
+    & > .v--modal-background-click {
+        display: flex;
 
-    overflow: auto;
-  }
+        max-height: 95% !important;
+        min-height: 95% !important;
+
+        overflow: auto;
+    }
 }
 
 .v--modal-box.v--modal {
-  display: flex;
-  max-width: 95%;
+    display: flex;
+    max-width: 95%;
 
-  top: initial !important;
-  left: initial !important;
-  width: auto !important;
-  height: auto !important;
+    top: initial !important;
+    left: initial !important;
+    width: auto !important;
+    height: auto !important;
 
-  margin: auto !important;
-  margin-bottom: auto !important;
+    margin: auto !important;
+    margin-bottom: auto !important;
 
 
-  @media #{$maxwidth768},#{$mobile} {
-    margin-bottom: 7em !important;
-  }
-
-  & > .upload {
-    max-width: 800px;
-
-    @media #{$maxwidth768},#{$mobile} {
-      max-width: 100%;
+    @media #{$maxwidth768}, #{$mobile} {
+        margin-bottom: 7em !important;
     }
 
-    input {
-      max-width: 100%;
-      margin-bottom: 1em;
+    & > .upload {
+        max-width: 800px;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            max-width: 100%;
+        }
+
+        input {
+            max-width: 100%;
+            margin-bottom: 1em;
+        }
     }
-  }
 }
 
 div#body.dark {
-  .v--modal {
-    color: $font-color-dark;
-    background-color: $background-color-dark;
-  }
+    .v--modal {
+        color: $font-color-dark;
+        background-color: $background-color-dark;
+    }
 }

@@ -1,7 +1,9 @@
 <template>
     <div class="content padded">
         <div class="flexbox flex-end">
-            <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
+            <i class="close-button fal fa-2x fa-times-circle"
+               v-on:click="$emit('close')"
+            ></i>
         </div>
 
         <div class="body flexbox flex-column flex-x-center">
@@ -17,8 +19,16 @@
             </div>
 
             <div class="mobile-buttons">
-                <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
-                <button class="danger confirm" v-on:click="deleteApp">Yes, Delete</button>
+                <button class="left-button"
+                        v-on:click="$emit('close')"
+                >
+                    No, Cancel
+                </button>
+                <button class="danger confirm"
+                        v-on:click="deleteApp"
+                >
+                    Yes, Delete
+                </button>
             </div>
         </div>
     </div>
@@ -32,29 +42,30 @@
 		data: function() {
 			return {
 				tryAgain: false
-            }
-        },
+			}
+		},
 		methods: {
-            deleteApp: async function(connection) {
-            	let self = this;
+			deleteApp: async function() {
+				let self = this;
 
-            	try {
-		            await this.$apollo.mutate({
-			            mutation: oauthAppDelete,
-			            variables: {
-				            id: self.$store.state.app.id
-			            }
-		            });
+				try {
+					await this.$apollo.mutate({
+						mutation: oauthAppDelete,
+						variables: {
+							id: self.$store.state.app.id
+						}
+					});
 
-		            this.$router.push('/settings/developer');
-	            } catch(err) {
-            		self.$data.tryAgain = true;
+					this.$router.push('/settings/developer');
+				}
+				catch (err) {
+					self.$data.tryAgain = true;
 
-            		setTimeout(function() {
-            			self.$data.tryAgain = false;
-                    }, 10000)
-                }
-            }
+					setTimeout(function() {
+						self.$data.tryAgain = false;
+					}, 10000)
+				}
+			}
 		}
 	}
 </script>

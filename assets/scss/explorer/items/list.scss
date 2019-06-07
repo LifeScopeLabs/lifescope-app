@@ -1,55 +1,55 @@
 .item.list {
-  @include no-select;
+    @include no-select;
 
-  display: table-row;
-  font-size: 1.2em;
-  width: 100%;
-  cursor: pointer;
-  word-break: break-word;
-  background-color: $background-color;
-
-  &:nth-child(even) {
-    background-color: $border-color;
-  }
-
-  > * {
-    display: table-cell;
-    padding: 0.4em 1em;
-  }
-
-  &:hover {
-    background-color: darken($border-color, 10%);
-  }
-
-  .prettyType, .type, .provider_name, .firstItemType {
-    text-transform: capitalize;
-  }
-
-  span.date {
-    word-break: initial;
-  }
-
-  @media #{$maxwidth768},#{$mobile} {
-    .title {
-      text-overflow: clip;
-    }
-
-    .mobile-hide {
-      display: none;
-    }
-  }
-}
-
-div#body.dark {
-  .item.list {
-    background-color: $background-color-dark;
+    display: table-row;
+    font-size: 1.2em;
+    width: 100%;
+    cursor: pointer;
+    word-break: break-word;
+    background-color: $background-color;
 
     &:nth-child(even) {
-      background-color: $border-color-dark;
+        background-color: $border-color;
+    }
+
+    > * {
+        display: table-cell;
+        padding: 0.4em 1em;
     }
 
     &:hover {
-      background-color: lighten($border-color-dark, 20%);
+        background-color: darken($border-color, 10%);
     }
-  }
+
+    .type {
+        text-transform: capitalize;
+    }
+
+    span.date {
+        word-break: initial;
+    }
+
+    @media #{$maxwidth768}, #{$mobile} {
+        .title {
+            text-overflow: clip;
+        }
+
+        .mobile-hide {
+            display: none;
+        }
+    }
+}
+
+div#body.dark {
+    .item.list {
+        background-color: $background-color-dark;
+
+        &:nth-child(even) {
+            background-color: $border-color-dark;
+        }
+
+        &:hover {
+            background-color: lighten($border-color-dark, 20%);
+        }
+    }
 }

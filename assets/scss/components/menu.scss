@@ -1,292 +1,304 @@
 div#body {
-  .menu-enter-active, .menu-leave-active {
-    transition: all 0.25s ease-in-out;
-  }
+    .menu-enter-active,
+    .menu-leave-active {
+        transition: all 0.25s ease-in-out;
+    }
 
-  .menu-enter, .menu-leave-to {
-    max-width: 0;
-    min-width: 0;
-  }
+    .menu-enter,
+    .menu-leave-to {
+        max-width: 0;
+        min-width: 0;
+    }
 
-  .menu-drop-enter-active, .menu-drop-leave-active {
-    transition: all 0.5s ease-in-out;
-  }
+    .menu-drop-enter-active,
+    .menu-drop-leave-active {
+        transition: all 0.5s ease-in-out;
+    }
 
-  .menu-drop-enter, .menu-drop-leave-to {
-    opacity: 0;
-  }
+    .menu-drop-enter,
+    .menu-drop-leave-to {
+        opacity: 0;
+    }
 }
 
 div#body.explorer {
-  &.grid,
-  &.list,
-  &.feed,
-  &.map,
-  &.xr {
-    #menu {
-      .menu {
-        @media #{$maxwidth768},#{$mobile}  {
-          .views, .sort, .facets {
-            @include flexbox;
+    &.grid,
+    &.list,
+    &.feed,
+    &.map,
+    &.xr {
+        #menu {
+            .menu {
+                @media #{$maxwidth768}, #{$mobile}  {
+                    .views,
+                    .sort,
+                    .facets {
+                        @include flexbox;
 
-            & > i {
-              width: 1.5em;
-              text-align: center;
+                        & > i {
+                            width: 1.5em;
+                            text-align: center;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }
 
 div#body.home {
-  #menu {
-    .menu {
-      @media #{$maxwidth768},#{$mobile}  {
-        .home-sort {
-          @include flexbox;
+    #menu {
+        .menu {
+            @media #{$maxwidth768}, #{$mobile}  {
+                .home-sort {
+                    @include flexbox;
+                }
+            }
         }
-      }
     }
-  }
 }
 
 #menu {
-  @include flexbox;
-  @include flex-grow-scrollable(false);
-
-  background-color: $item-background-color;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 15px 15px rgba(0, 0, 0, 0.5);
-
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 30;
-
-  overflow-y: auto;
-
-  width: 25%;
-  max-width: 25%;
-  height: 100%;
-  min-width: 300px;
-
-  border-left: 1px solid $input-border-color;
-
-  transition: width 100ms ease, min-width 100ms ease;
-
-  @media #{$maxwidth768},#{$mobile} {
-    width: 90%;
-  }
-
-  .menu {
     @include flexbox;
-    @include flex-column;
+    @include flex-grow-scrollable(false);
 
-    min-height: 100%;
+    background-color: $item-background-color;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 15px 15px rgba(0, 0, 0, 0.5);
 
-    & > header {
-      @include flexbox;
-      @include no-select;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 30;
 
-      position: relative;
-      padding: 15.5px 15px;
-      font-size: 1.7em;
-      background-color: $background-color-light;
+    overflow-y: auto;
 
-      #close-menu {
-        position: absolute;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-        padding: 0.5em;
-        font-size: 1.2em;
+    width: 25%;
+    max-width: 25%;
+    height: 100%;
+    min-width: 300px;
 
-        &:hover {
-          color: $red;
-        }
-      }
+    border-left: 1px solid $input-border-color;
+
+    transition: width 100ms ease, min-width 100ms ease;
+
+    @media #{$maxwidth768}, #{$mobile} {
+        width: 90%;
     }
 
-    & > section {
-      & > * {
-        border-bottom: 1px solid $border-color;
-      }
-
-      a {
+    .menu {
         @include flexbox;
-        @include flex-x-center;
-        @include interactive;
-
-        font-size: 1.5em;
-        padding: 15px;
-        color: lighten($font-color, 5%);
-        text-decoration: none;
-
-        & > i {
-          width: 1.5em;
-          margin-right: 0.25em;
-          margin-left: -0.25em;
-          text-align: center;
-        }
-      }
-
-      .views, .sort, .home-sort, .facets {
         @include flex-column;
-        display: none;
 
-        a {
-          padding: 5px;
-        }
+        min-height: 100%;
 
-        .active {
-          color: $orange !important;
-        }
-
-        & > div {
-          & > i {
-            width: 1.5em;
-            text-align: center;
-          }
-
-          &:first-child {
+        & > header {
             @include flexbox;
             @include no-select;
-            @include interactive;
-            align-items: center;
 
-            cursor: pointer;
-            font-size: 1.5em;
-            padding: 0.5em;
-            text-transform: capitalize;
+            position: relative;
+            padding: 15.5px 15px;
+            font-size: 1.7em;
+            background-color: $background-color-light;
 
-            .drawer-label {
-              margin-right: 0.25em;
+            #close-menu {
+                position: absolute;
+                right: 0;
+                top: 0;
+                cursor: pointer;
+                padding: 0.5em;
+                font-size: 1.2em;
+
+                &:hover {
+                    color: $red;
+                }
             }
+        }
 
-            & > .count {
-              color: $font-color;
+        & > section {
+            & > * {
+                border-bottom: 1px solid $border-color;
             }
-          }
-
-          &:last-child:not(:first-child) {
-            @include flex-column;
-            @include flex-grow;
-            @include flex-start;
-
-            padding: 0 0.75em 0.5em 0.75em;
 
             a {
-              @include interactive;
-              @include pointer;
+                @include flexbox;
+                @include flex-x-center;
+                @include interactive;
 
-              padding-left: 1.25em;
-              color: $font-color;
+                font-size: 1.5em;
+                padding: 15px;
+                color: lighten($font-color, 5%);
+                text-decoration: none;
+
+                & > i {
+                    width: 1.5em;
+                    margin-right: 0.25em;
+                    margin-left: -0.25em;
+                    text-align: center;
+                }
             }
-          }
-        }
-      }
-    }
 
-    & > footer {
-      @include flexbox;
-      @include flex-grow;
-      @include flex-end;
-      @include flex-column;
+            .views,
+            .sort,
+            .home-sort,
+            .facets {
+                @include flex-column;
+                display: none;
 
-      margin-bottom: 0.5em;
+                a {
+                    padding: 5px;
+                }
 
-      a {
-        text-decoration: none;
+                .active {
+                    color: $orange !important;
+                }
 
-        color: $blue !important;
+                & > div {
+                    & > i {
+                        width: 1.5em;
+                        text-align: center;
+                    }
 
-        &:hover {
-          color: lighten($blue, 25%) !important;
-        }
-      }
+                    &:first-child {
+                        @include flexbox;
+                        @include no-select;
+                        @include interactive;
+                        align-items: center;
 
-      & > div {
-        &:first-child {
-          @include flexbox;
-          @include flex-row;
-          @include flex-space-between;
+                        cursor: pointer;
+                        font-size: 1.5em;
+                        padding: 0.5em;
+                        text-transform: capitalize;
 
-          font-size: 1.6em;
-          margin-bottom: 0.5em;
+                        .drawer-label {
+                            margin-right: 0.25em;
+                        }
 
-          > div {
-            margin: 0.5em;
-          }
+                        & > .count {
+                            color: $font-color;
+                        }
+                    }
 
-          > a {
-            margin: 0.5em;
-            white-space: nowrap;
+                    &:last-child:not(:first-child) {
+                        @include flex-column;
+                        @include flex-grow;
+                        @include flex-start;
 
-            &:first-child {
-              overflow: hidden;
-              text-overflow: ellipsis;
+                        padding: 0 0.75em 0.5em;
+
+                        a {
+                            @include interactive;
+                            @include pointer;
+
+                            padding-left: 1.25em;
+                            color: $font-color;
+                        }
+                    }
+                }
             }
-          }
         }
 
-        &:last-child {
-          @include flexbox;
-          @include flex-row;
-          @include flex-center;
+        & > footer {
+            @include flexbox;
+            @include flex-grow;
+            @include flex-end;
+            @include flex-column;
 
-          font-size: 12px !important;
+            margin-bottom: 0.5em;
 
-          span.spacer {
-            margin: 0 5px;
-          }
+            a {
+                text-decoration: none;
+
+                color: $blue !important;
+
+                &:hover {
+                    color: lighten($blue, 25%) !important;
+                }
+            }
+
+            & > div {
+                &:first-child {
+                    @include flexbox;
+                    @include flex-row;
+                    @include flex-space-between;
+
+                    font-size: 1.6em;
+                    margin-bottom: 0.5em;
+
+                    > div {
+                        margin: 0.5em;
+                    }
+
+                    > a {
+                        margin: 0.5em;
+                        white-space: nowrap;
+
+                        &:first-child {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    @include flexbox;
+                    @include flex-row;
+                    @include flex-center;
+
+                    font-size: 12px !important;
+
+                    span.spacer {
+                        margin: 0 5px;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
 
 div#body.dark {
-  #menu {
-    background-color: $item-background-color-dark;
-    color: $font-color-dark;
+    #menu {
+        background-color: $item-background-color-dark;
+        color: $font-color-dark;
 
-    border-left: 1px solid $input-border-color-dark;
-    box-shadow: 0 20px 30px rgba(255, 255, 255, 0.5), 0 15px 15px rgba(255, 255, 255, 0.5);
+        border-left: 1px solid $input-border-color-dark;
+        box-shadow: 0 20px 30px rgba(255, 255, 255, 0.5), 0 15px 15px rgba(255, 255, 255, 0.5);
 
-    .menu {
-      & > header {
-        border-bottom: 1px solid $input-border-color-dark;
-        background-color: $background-color-dark;
-      }
-
-      & > section {
-        & > * {
-          border-bottom: 1px solid $border-color-dark;
-        }
-
-        a {
-          color: lighten($font-color-dark, 5%);
-
-          &:hover {
-            color: $blue;
-          }
-        }
-
-        .views, .sort, .home-sort, .facets {
-          & > div {
-            &:first-child {
-              & > .count {
-                color: $font-color-dark;
-              }
+        .menu {
+            & > header {
+                border-bottom: 1px solid $input-border-color-dark;
+                background-color: $background-color-dark;
             }
 
-            &:last-child {
-              color: $font-color-dark;
+            & > section {
+                & > * {
+                    border-bottom: 1px solid $border-color-dark;
+                }
+
+                a {
+                    color: lighten($font-color-dark, 5%);
+
+                    &:hover {
+                        color: $blue;
+                    }
+                }
+
+                .views,
+                .sort,
+                .home-sort,
+                .facets {
+                    & > div {
+                        &:first-child {
+                            & > .count {
+                                color: $font-color-dark;
+                            }
+                        }
+
+                        &:last-child {
+                            color: $font-color-dark;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }

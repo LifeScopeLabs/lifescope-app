@@ -1,28 +1,28 @@
 #results-error {
-  @include flexbox;
-  @include flex-column;
-  @include flex-center;
-  @include flex-x-center;
-
-  height: 100%;
-  background-color: $item-background-color;
-
-  & > div {
-    @include align-center;
     @include flexbox;
     @include flex-column;
     @include flex-center;
+    @include flex-x-center;
 
-    border: 15px solid $blue;
-    border-radius: 50%;
-    width: 325px;
-    height: 325px;
-    font-size: 1.2em;
-  }
+    height: 100%;
+    background-color: $item-background-color;
+
+    & > div {
+        @include align-center;
+        @include flexbox;
+        @include flex-column;
+        @include flex-center;
+
+        border: 15px solid $blue;
+        border-radius: 50%;
+        width: 325px;
+        height: 325px;
+        font-size: 1.2em;
+    }
 }
 
 div#body.dark {
-  #results-error {
-    background-color: $item-background-color-dark;
-  }
+    #results-error {
+        background-color: $item-background-color-dark;
+    }
 }

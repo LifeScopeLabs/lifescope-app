@@ -1,3 +1,3 @@
-self.addEventListener('fetch', function(event) {
+/* global self */
 
-});
+self.addEventListener('fetch', function() {});

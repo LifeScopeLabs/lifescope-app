@@ -1,7 +1,9 @@
 <template>
     <div class="content padded">
         <div class="flexbox flex-end">
-            <i class="close-button fal fa-2x fa-times-circle" v-on:click="$emit('close')"></i>
+            <i class="close-button fal fa-2x fa-times-circle"
+               v-on:click="$emit('close')"
+            ></i>
         </div>
 
         <div class="body flexbox flex-column flex-x-center">
@@ -14,8 +16,16 @@
                 <p>LifeScope will not keep your data and we never share any data without your consent.</p>
             </div>
             <div class="mobile-buttons">
-                <button class="left-button" v-on:click="$emit('close')">No, Cancel</button>
-                <button class="danger confirm" v-on:click="deleteAccount">Yolo, Delete</button>
+                <button class="left-button"
+                        v-on:click="$emit('close')"
+                >
+                    No, Cancel
+                </button>
+                <button class="danger confirm"
+                        v-on:click="deleteAccount"
+                >
+                    Yolo, Delete
+                </button>
             </div>
         </div>
     </div>
@@ -23,17 +33,17 @@
 
 
 <script>
-    import deleteAccount from '../../apollo/mutations/delete-account.gql';
+	import deleteAccount from '../../apollo/mutations/delete-account.gql';
 
-    export default {
-        methods: {
-            deleteAccount: async function () {
-                await this.$apollo.mutate({
-                    mutation: deleteAccount
-                });
+	export default {
+		methods: {
+			deleteAccount: async function() {
+				await this.$apollo.mutate({
+					mutation: deleteAccount
+				});
 
-                window.location = '/';
-            }
-        }
-    }
+				window.location = '/';
+			}
+		}
+	}
 </script>

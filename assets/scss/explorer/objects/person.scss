@@ -1,88 +1,90 @@
 .object.person {
-  & > div {
-    @include flexbox;
-    @include flex-row;
-    @include no-select;
-
-    cursor: pointer;
-
-    .user-avatar {
-      & > .default {
-        font-size: 2.5em;
-
-        color: white;
-        width: 50px;
-        height: 50px;
-
-        border-radius: 50%;
-        line-height: 1.5;
-
-        text-align: center;
-      }
-
-      & > img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-      }
-
-      i {
-        color: $font-color-subdue;
-        width: 1.5em;
-        font-size: 2em;
-        text-align: center;
-      }
-    }
-
-    .details {
-      .person-name {
-        font-size: 1.25em;
-        margin-left: .5em;
-        min-height: 50px;
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    .provider {
-      text-transform: uppercase;
-      color: $font-color-subdue;
-
-      i {
-        width: 1.5em;
-        text-align: center;
-      }
-    }
-  }
-
-  &.share-menu-margin-bottom {
-    margin-bottom: 2em;
-  }
-
-}
-
-.person-enter-active, .person-leave-active {
-  transition: all 1s ease-in-out;
-}
-
-.person-enter, .person-leave-to {
-  opacity: 0;
-}
-
-div#body.dark {
-  .object.contact {
     & > div {
-      &:first-child {
+        @include flexbox;
+        @include flex-row;
+        @include no-select;
+
+        cursor: pointer;
+
         .user-avatar {
-          i {
-            color: $font-color-subdue-dark;
-          }
+            & > .default {
+                font-size: 2.5em;
+
+                color: white;
+                width: 50px;
+                height: 50px;
+
+                border-radius: 50%;
+                line-height: 1.5;
+
+                text-align: center;
+            }
+
+            & > img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            i {
+                color: $font-color-subdue;
+                width: 1.5em;
+                font-size: 2em;
+                text-align: center;
+            }
+        }
+
+        .details {
+            .person-name {
+                font-size: 1.25em;
+                margin-left: 0.5em;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+            }
         }
 
         .provider {
-          color: $font-color-subdue-dark;
+            text-transform: uppercase;
+            color: $font-color-subdue;
+
+            i {
+                width: 1.5em;
+                text-align: center;
+            }
         }
-      }
     }
-  }
+
+    &.share-menu-margin-bottom {
+        margin-bottom: 2em;
+    }
+
+}
+
+.person-enter-active,
+.person-leave-active {
+    transition: all 1s ease-in-out;
+}
+
+.person-enter,
+.person-leave-to {
+    opacity: 0;
+}
+
+div#body.dark {
+    .object.contact {
+        & > div {
+            &:first-child {
+                .user-avatar {
+                    i {
+                        color: $font-color-subdue-dark;
+                    }
+                }
+
+                .provider {
+                    color: $font-color-subdue-dark;
+                }
+            }
+        }
+    }
 }

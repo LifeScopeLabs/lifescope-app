@@ -1,5 +1,5 @@
 $blue: #2AC1DE;
-$orange: #FF9933;
+$orange: #F93;
 $green: #6CC644;
 $red: #BD2C00;
 $purple: #6E5494;
@@ -36,87 +36,91 @@ $font-color-subdue: $font-color-subdue-light;
 $border-color: $border-color-light;
 $input-border-color: $input-border-color-light;
 
+$btn-primary-background: #286090;
+$btn-primary-border-focus: #122B40;
+$btn-primary-border-highlight: #204D74;
+
 // Color classes
 @mixin blue {
-  color: $blue !important;
+    color: $blue !important;
 }
 
 @mixin orange {
-  color: $orange !important;
+    color: $orange !important;
 }
 
 @mixin green {
-  color: $green !important;
+    color: $green !important;
 }
 
 @mixin red {
-  color: $red !important;
+    color: $red !important;
 }
 
 @mixin subdue {
-  color: $font-color-subdue !important;
+    color: $font-color-subdue !important;
 }
 
 @mixin transparent {
-  color: transparent !important;
+    color: transparent !important;
 }
 
 // Color classes
 .blue {
-  color: $blue !important;
+    color: $blue !important;
 }
 
 .orange {
-  color: $orange !important;
+    color: $orange !important;
 }
 
 .green {
-  color: $green !important;
+    color: $green !important;
 }
 
 .red {
-  color: $red !important;
+    color: $red !important;
 }
 
 .subdue {
-  color: $font-color-subdue !important;
+    color: $font-color-subdue !important;
 }
 
 .transparent {
-  color: transparent !important;
+    color: transparent !important;
 }
 
 // Fonts
 .fa {
-  font-family: FontAwesome !important;
-  font-style: normal !important;
+    font-family: FontAwesome !important;
+    font-style: normal !important;
 }
 
 @mixin lato($weight: 400) {
-  font-family: 'Lato', Arial, Helvetica, sans-serif;
-  font-weight: $weight;
+    font-family: "Lato", Arial, Helvetica, sans-serif;
+    font-weight: $weight;
 }
 
 @mixin pt-sans($weight: 400) {
-  font-family: 'PT Sans', Arial, Helvetica, sans-serif;
-  font-weight: $weight;
+    font-family: "PT Sans", Arial, Helvetica, sans-serif;
+    font-weight: $weight;
 }
 
 @mixin quicksand($weight: 400) {
-  font-family: 'Quicksand', Arial, Helvetica, sans-serif;
-  font-weight: $weight;
+    font-family: "Quicksand", Arial, Helvetica, sans-serif;
+    font-weight: $weight;
 }
 
 @mixin raleway($weight: 400) {
-  font-family: Raleway, Arial, Helvetica, sans-serif;
+    font-family: Raleway, Arial, Helvetica, sans-serif;
 }
 
 @mixin roboto($weight: 400) {
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
-  font-weight: $weight;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-weight: $weight;
 }
 
 @mixin source-sans($weight: 400) {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: $weight;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: $weight;
 }

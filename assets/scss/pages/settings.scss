@@ -1,837 +1,839 @@
 div#body.settings {
-  overflow: auto;
+    overflow: auto;
 
-  &.dark {
-    aside.mobile-type-selector {
-      #pages {
-        & > * {
-          &:not(:last-child) {
-            border-bottom: 1px solid $border-color-dark;
-          }
+    &.dark {
+        aside.mobile-type-selector {
+            #pages {
+                & > * {
+                    &:not(:last-child) {
+                        border-bottom: 1px solid $border-color-dark;
+                    }
+                }
+            }
         }
-      }
+
+        .settings-menu {
+            background-color: $item-background-color-dark;
+
+            a {
+                color: $font-color-dark;
+            }
+        }
+
+        .text-box {
+            input {
+                color: $font-color-dark;
+            }
+        }
+
+
+        .tooltip {
+            color: lighten($font-color-dark, 30%);
+        }
+
+        main {
+            color: $font-color-dark;
+
+            & > section {
+                background-color: $background-color-dark;
+            }
+        }
+
+        #developer {
+            .app {
+                background-color: $background-color-dark;
+                border: 1px solid $border-color-dark;
+
+                &:hover {
+                    background-color: lighten($background-color, 10%);
+                }
+            }
+        }
+
+        #authorized-apps {
+            .app {
+                background-color: $background-color-dark;
+            }
+        }
+
+        #people {
+            .person {
+                &:not(:last-child) {
+                    border-bottom: 1px solid $border-color-dark;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: lighten($background-color-dark, 10%);
+                }
+            }
+        }
+
+        #people-create,
+        #people-edit {
+            .contact-search {
+                .temp-contacts {
+                    border: 1px solid $border-color-dark;
+
+                    .temp-contact {
+                        &:not(:last-child) {
+                            border-bottom: 1px solid $border-color-dark;
+                        }
+
+                        &:hover {
+                            background-color: lighten($background-color-dark, 10%);
+                        }
+                    }
+                }
+            }
+
+            .hydrated-contact {
+                &:not(:last-child) {
+                    border-bottom: 1px solid $border-color-dark;
+                }
+            }
+        }
+    }
+
+    header {
+        @media #{$maxwidth768}, #{$mobile}  {
+            border-bottom-style: none;
+
+            .mobile-selector {
+                display: block !important;
+
+                & > i {
+                    margin-left: 0.5em;
+                    width: 1.5em;
+                }
+            }
+        }
+
+        & > nav {
+            @include lock-width;
+        }
+
+        .mobile-selector {
+            @include no-select;
+
+            display: none;
+            cursor: pointer;
+            margin-top: 0.5em;
+            text-align: center;
+            font-size: 1.5em;
+        }
+    }
+
+    .mobile-type-selector-enter-active,
+    .mobile-type-selector-leave-active {
+        transition: all 0.5s;
+    }
+
+    .mobile-type-selector-enter,
+    .mobile-type-selector-leave-to {
+        opacity: 0;
+    }
+
+    aside.mobile-type-selector {
+        display: none;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            &.open {
+                display: block;
+            }
+        }
+
+        #pages {
+            @include flexbox;
+            @include flex-column;
+            @include flex-center;
+            @include flex-x-center;
+
+            & > * {
+                @include interactive;
+                @include no-select;
+                @include pointer;
+
+                font-size: 1.35em;
+                padding: 0.5em;
+
+                width: 50%;
+                max-width: 300px;
+                text-align: center;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $border-color;
+                }
+            }
+        }
     }
 
     .settings-menu {
-      background-color: $item-background-color-dark;
+        width: 200px;
+        margin-right: 15px;
 
-      a {
-        color: $font-color-dark;
-      }
-    }
+        & > * {
+            font-size: 1.4em;
+        }
 
-    .text-box {
-      input {
-        color: $font-color-dark;
-      }
-    }
+        a {
+            @include interactive;
 
-
-    .tooltip {
-      color: lighten($font-color-dark, 30%);
+            text-decoration: none;
+            display: block;
+            padding: 0.4em 0.5em;
+            color: $font-color;
+        }
     }
 
     main {
-      color: $font-color-dark;
+        display: block;
+        overflow: visible;
+        padding: 1em;
 
-      & > section {
-        background-color: $background-color-dark;
-      }
+        & > section {
+            @include flexbox;
+            @include lock-width;
+
+            @media #{$maxwidth768}, #{$mobile}  {
+                @include flex-column;
+            }
+
+            & > #left {
+                @media #{$maxwidth768}, #{$mobile}  {
+                    display: none;
+                }
+            }
+
+            & > #settings {
+                @include flex-grow;
+            }
+        }
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+    .table {
+        & > * > * {
+            padding: 0.3em;
+        }
+    }
+
+    .text-box {
+        margin: 0;
+    }
+
+    .label {
+        font-size: 1em;
+        margin-bottom: 0.3em;
+
+        &:not(:first-child) {
+            margin-top: 1.5em;
+        }
+    }
+
+    .success-icon {
+        margin-left: 5px;
+        font-size: 1em;
+        position: relative;
+        top: 1px;
+    }
+
+    #main-menu {
+        display: none;
+
+        @media #{$mobile-portrait} {
+            @include flexbox;
+            width: 1.5em;
+            height: 1.5em;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+        }
+    }
+
+    #settings {
+        @include flex-grow;
+        @include no-select;
+    }
+
+    .shrink {
+        width: 400px;
+
+        @media #{$maxwidth1080}, #{$mobile} {
+            width: 100%;
+        }
+    }
+
+    .tooltip {
+        margin-left: 3em;
+        color: lighten($font-color, 30%);
+    }
+
+    &.profile {
+        #other-gender {
+            margin-top: 0.5em;
+        }
+
+        #birthday {
+            input {
+                margin: 0;
+            }
+        }
+    }
+
+    &.account {
+        #deactivate-modal,
+        #delete-modal {
+            h3 {
+                margin-bottom: 0.75em;
+            }
+
+            p {
+                margin-bottom: 0.5em;
+
+                &:last-of-type {
+                    margin-bottom: 1.1em;
+                }
+            }
+
+            button {
+                &:first-of-type {
+                    margin-right: 0.75em;
+                }
+            }
+        }
+
+        #update-password {
+            margin-top: 1em;
+        }
+
+        #update-email {
+            margin-top: 1em;
+        }
+    }
+
+    .flex-mobile {
+        @include flexbox;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            @include flex-column;
+
+            span {
+                height: 1em;
+                min-height: 1em;
+            }
+        }
+    }
+
+    &.connections {
+        $transition-time: 150ms;
+
+        .connection {
+            .title {
+                position: relative;
+                cursor: pointer;
+
+                & > :not(:first-child) {
+                    padding-left: 5px;
+                }
+
+                .icon-name {
+                    @include flexbox;
+                    @include flex-x-center;
+
+                    @media #{$maxwidth768}, #{$mobile} {
+                        & > .name {
+                            word-break: break-word;
+                            font-size: 0.75em;
+                        }
+                    }
+                }
+
+                .last-run {
+                    @include flex-grow;
+
+                    @media #{$maxwidth768}, #{$mobile} {
+                        margin: 0.5em;
+                        width: 4em;
+                    }
+                }
+
+                .updates {
+                    @include flexbox;
+                    @include flex-end;
+                    font-size: 0.5em;
+                    opacity: 0.7;
+                    margin-right: 20px;
+
+                    & > * {
+                        padding-left: 5px;
+                    }
+                }
+
+                .expand-indicator {
+                    padding: 0 !important;
+                    margin-left: 5px;
+                    transition: transform $transition-time ease;
+
+                    position: relative;
+                    top: 1px;
+
+                    @media #{$maxwidth768}, #{$mobile} {
+                        position: absolute;
+                        right: 0;
+                        top: 8px;
+                    }
+                }
+
+                i.fa-adjust-hue {
+                    margin: 0 !important;
+                    padding: 5px !important;
+                }
+
+                i {
+                    width: 1.5em;
+
+                    &.fa-spin {
+                        width: 2em;
+                        height: 2em;
+
+                        padding: 0.5em;
+                    }
+                }
+            }
+
+            &.active {
+                & > :first-child {
+                    background-color: $blue;
+                    color: #FFF;
+                }
+
+                .updates {
+                    opacity: 1;
+                }
+
+                .expand-indicator {
+                    transform: rotate(180deg);
+                    top: -1px;
+
+                    @media #{$maxwidth768}, #{$mobile} {
+                        top: 10px;
+                    }
+                }
+            }
+
+            & > :not(:first-child) {
+                max-height: 2000px;
+
+                -webkit-transition: max-height 0.25s ease-in-out;
+                transition: max-height 0.25s ease-in-out;
+            }
+
+            &:not(.active) {
+                overflow: hidden;
+
+                & > :not(:first-child) {
+                    max-height: 0;
+                    border: 0;
+
+                    -webkit-transition: max-height 0.25s ease-in-out;
+                    transition: max-height 0.25s ease-in-out;
+                }
+            }
+
+            &.disabled {
+                .title .updates {
+                    display: none;
+                }
+
+                .title .disabled {
+                    &:after {
+                        content: "Disabled";
+                        font-size: 0.8em;
+                        color: firebrick;
+                        opacity: 0.7;
+                    }
+                }
+            }
+
+            &.disabled.active {
+                .title .disabled {
+                    display: none;
+                }
+            }
+
+            .delete-disable {
+                @include flexbox;
+                @include flex-x-center;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    margin-top: 1.5em;
+                }
+            }
+
+            .reauthorize > button {
+                margin-bottom: 0.5em;
+            }
+        }
+
+        #big-add {
+            color: #2AC1DE;
+            text-decoration: none;
+            padding: 10px;
+            margin: 25px;
+            border-radius: 5px;
+            border: 1px dashed darken($border-color, 25%);
+
+            &:hover {
+                background-color: darken($background-color, 10%);
+            }
+        }
+    }
+
+    .mobile-flex-center {
+        @media #{$maxwidth768}, #{$mobile} {
+            @include flexbox;
+            @include flex-center;
+
+            @media #{$maxwidth400} {
+                font-size: 0.8em;
+            }
+        }
+    }
+
+    .avatar-container {
+        .title {
+            margin-right: 1em;
+        }
+    }
+
+    .external-avatar {
+        margin-top: 1em;
+    }
+
+    .oauth-app {
+        .form {
+            & > div {
+                margin-bottom: 1em;
+
+                .title {
+                    margin-right: 1em;
+                }
+            }
+
+            .client-keys {
+                @include flexbox;
+                @include flex-space-between;
+
+                word-break: break-word;
+
+                & > :first-child {
+                    margin-right: 1em;
+                }
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    @include flex-column;
+                }
+            }
+
+            .redirects {
+                .redirect {
+                    margin: 0.25em 0;
+
+                    & > :first-child {
+                        margin-right: 0.25em;
+                    }
+
+                    i {
+                        color: $red;
+                        width: 1.5em;
+                        cursor: pointer;
+                        text-align: center;
+
+                        &:hover {
+                            color: $orange;
+                        }
+                    }
+                }
+
+                .new-redirect {
+                    & > :first-child {
+                        margin-right: 0.25em;
+                    }
+
+                    & > :last-child {
+                        margin-left: 0.25em;
+                    }
+
+                    i {
+                        color: $green;
+
+                        cursor: pointer;
+
+                        &:hover {
+                            color: $blue;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     #developer {
-      .app {
-        background-color: $background-color-dark;
-        border: 1px solid $border-color-dark;
+        .app {
+            background-color: $background-color;
+            border: 1px solid $border-color;
+            padding: 0.5em 1em;
 
-        &:hover {
-          background-color: lighten($background-color, 10%);
+            margin-top: 1em;
+
+            font-size: 1.2em;
+
+            &:hover {
+                background-color: darken($background-color, 10%);
+                cursor: pointer;
+            }
+
+            .name {
+                margin-right: 1em;
+                color: $blue;
+            }
         }
-      }
     }
 
     #authorized-apps {
-      .app {
-        background-color: $background-color-dark;
-      }
-    }
+        .app {
+            @include flexbox;
+            @include flex-space-between;
+            @include flex-x-center;
 
-    #people {
-      .person {
-        &:not(:last-child) {
-          border-bottom: 1px solid $border-color-dark;
-        }
+            border: 1px solid $border-color;
+            background-color: $background-color;
+            padding: 0.25em;
 
-        &:hover {
-          cursor: pointer;
-          background-color: lighten($background-color-dark, 10%);
+            @media #{$maxwidth768}, #{$mobile} {
+                @include flex-column;
+
+                & > * {
+                    margin-bottom: 0.5em;
+                }
+            }
+
+            & > :first-child {
+                & > :first-child {
+                    margin-right: 0.5em;
+                }
+            }
         }
-      }
     }
 
     #people-create,
     #people-edit {
-      .contact-search {
-        .temp-contacts {
-          border: 1px solid $border-color-dark;
 
-          .temp-contact {
+        .names {
+            & > * {
+                margin-bottom: 1em;
+            }
+        }
+
+        .contact-search {
+            @include flexbox;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                @include flex-column;
+
+                & > * {
+                    margin-bottom: 0.5em;
+                }
+            }
+
+            .text-box {
+                height: 44.25px;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    height: inherit;
+                }
+            }
+
+            .temp-contacts {
+                @include flex-grow-scrollable(false);
+
+                overflow-x: hidden;
+
+                margin-left: 0.5em;
+                border: 1px solid $border-color;
+
+                height: 200px;
+                min-height: 200px;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    margin-left: 0;
+                }
+
+                .temp-contact {
+                    padding: 0.5em;
+
+                    &:not(:last-child) {
+                        border-bottom: 1px solid $border-color;
+                    }
+
+                    &:hover {
+                        background-color: $background-color;
+                        cursor: pointer;
+                    }
+
+                    & > *:not(img):not(i) {
+                        @include flex-grow;
+
+                        word-break: break-all;
+                    }
+
+                    & > img,
+                    & > i {
+                        text-align: center;
+
+                        width: 50px;
+                        height: 50px;
+                    }
+                }
+            }
+
+            .page-buttons {
+                margin-top: 0.5em;
+
+                margin-left: 0.5em;
+
+                & > i {
+                    font-size: 1.5em;
+                    margin-right: 0.5em;
+
+                    &:hover {
+                        color: $blue;
+                        cursor: pointer;
+                    }
+                }
+
+                &.first-page {
+                    & > i:first-child {
+                        color: gray !important;
+                        cursor: default !important;
+                    }
+                }
+
+                &.last-page {
+                    & > i:last-child {
+                        color: gray !important;
+                        cursor: default !important;
+                    }
+                }
+            }
+        }
+
+        .hydrated-contact {
+            padding: 0.5em;
+
             &:not(:last-child) {
-              border-bottom: 1px solid $border-color-dark;
+                border-bottom: 1px solid $border-color;
+            }
+
+            & > :first-child {
+                & > *:not(img):not(i) {
+                    @include flex-grow;
+
+                    word-break: break-all;
+                }
+
+                & > img,
+                & > i {
+                    margin-right: 0.25em;
+                    display: flex;
+                    align-items: center;
+
+                    max-width: 200px;
+                }
+            }
+
+            .delete {
+                &:hover {
+                    color: red;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    #people {
+        .person {
+            padding: 0.5em;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid $border-color;
             }
 
             &:hover {
-              background-color: lighten($background-color-dark, 10%);
+                cursor: pointer;
+                background-color: $background-color;
             }
-          }
-        }
-      }
 
-      .hydrated-contact {
-        &:not(:last-child) {
-          border-bottom: 1px solid $border-color-dark;
-        }
-      }
-    }
-  }
+            .top-line {
+                margin-bottom: 0.25em;
 
-  header {
-    @media #{$maxwidth768},#{$mobile}  {
-      border-bottom-style: none;
+                img,
+                div.default {
+                    margin-right: 20px;
+                }
 
-      .mobile-selector {
-        display: block !important;
+                .name {
+                    word-break: break-word;
 
-        & > i {
-          margin-left: 0.5em;
-          width: 1.5em;
-        }
-      }
-    }
-
-    & > nav {
-      @include lock-width;
-    }
-
-    .mobile-selector {
-      @include no-select;
-
-      display: none;
-      cursor: pointer;
-      margin-top: 0.5em;
-      text-align: center;
-      font-size: 1.5em;
-    }
-  }
-
-  .mobile-type-selector-enter-active, .mobile-type-selector-leave-active {
-    transition: all 0.5s;
-  }
-  .mobile-type-selector-enter, .mobile-type-selector-leave-to {
-    opacity: 0;
-  }
-
-  aside.mobile-type-selector {
-    display: none;
-
-    @media #{$maxwidth768},#{$mobile} {
-      &.open {
-        display: block;
-      }
-    }
-
-    #pages {
-      @include flexbox;
-      @include flex-column;
-      @include flex-center;
-      @include flex-x-center;
-
-      & > * {
-        @include interactive;
-        @include no-select;
-        @include pointer;
-
-        font-size: 1.35em;
-        padding: 0.5em 0.5em;
-
-        width: 50%;
-        max-width: 300px;
-        text-align: center;
-
-        &:not(:last-child) {
-          border-bottom: 1px solid $border-color;
-        }
-      }
-    }
-  }
-
-  .settings-menu {
-    width: 200px;
-    margin-right: 15px;
-
-    & > * {
-      font-size: 1.4em;
-    }
-
-    a {
-      @include interactive;
-
-      text-decoration: none;
-      display: block;
-      padding: 0.4em 0.5em;
-      color: $font-color;
-    }
-  }
-
-  main {
-    display: block;
-    overflow: visible;
-    padding: 1em;
-
-    & > section {
-      @include flexbox;
-      @include lock-width;
-
-      @media #{$maxwidth768},#{$mobile}  {
-        @include flex-column;
-      }
-
-      & > #left {
-        @media #{$maxwidth768},#{$mobile}  {
-          display: none;
-        }
-      }
-
-      & > #settings {
-        @include flex-grow;
-      }
-    }
-  }
-
-  .modal {
-    text-align: center;
-  }
-
-  .table {
-    & > * > * {
-      padding: 0.3em;
-    }
-  }
-
-  .text-box {
-    margin: 0;
-  }
-
-  .label {
-    font-size: 1em;
-    margin-bottom: 0.3em;
-
-    &:not(:first-child) {
-      margin-top: 1.5em;
-    }
-  }
-
-  .success-icon {
-    margin-left: 5px;
-    font-size: 1em;
-    position: relative;
-    top: 1px;
-  }
-
-  #main-menu {
-    display: none;
-
-    @media #{$mobile-portrait} {
-      @include flexbox;
-      width: 1.5em;
-      height: 1.5em;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5em;
-    }
-  }
-
-  #settings {
-    @include flex-grow;
-    @include no-select;
-  }
-
-  .shrink {
-    width: 400px;
-
-    @media #{$maxwidth1080},#{$mobile} {
-      width: 100%;
-    }
-  }
-
-  .tooltip {
-    margin-left: 3em;
-    color: lighten($font-color, 30%);
-  }
-
-  &.profile {
-    #other-gender {
-      margin-top: 0.5em;
-    }
-
-    #birthday {
-      input {
-        margin: 0;
-      }
-    }
-  }
-
-  &.account {
-    #deactivate-modal,
-    #delete-modal {
-      h3 {
-        margin-bottom: 0.75em;
-      }
-
-      p {
-        margin-bottom: 0.5em;
-
-        &:last-of-type {
-          margin-bottom: 1.1em;
-        }
-      }
-
-      button {
-        &:first-of-type {
-          margin-right: 0.75em;
-        }
-      }
-    }
-
-    #update-password {
-      margin-top: 1em;
-    }
-
-    #update-email {
-      margin-top: 1em;
-    }
-  }
-
-  .flex-mobile {
-    @include flexbox;
-
-    @media #{$maxwidth768},#{$mobile} {
-      @include flex-column;
-
-      span {
-        height: 1em;
-        min-height: 1em;
-      }
-    }
-  }
-
-  &.connections {
-    $transition-time: 150ms;
-
-    .connection {
-      .title {
-        position: relative;
-        cursor: pointer;
-
-        & > :not(:first-child) {
-          padding-left: 5px;
-        }
-
-        .icon-name {
-          @include flexbox;
-          @include flex-x-center;
-
-          @media #{$maxwidth768},#{$mobile} {
-            & > .name {
-              word-break: break-word;
-              font-size: 0.75em;
+                    font-size: 1.5em;
+                }
             }
-          }
+
+            .contacts {
+                word-break: break-word;
+            }
         }
+    }
 
-        .last-run {
-          @include flex-grow;
-
-          @media #{$maxwidth768},#{$mobile} {
-            margin: 0.5em;
-            width: 4em;
-          }
-        }
-
-        .updates {
-          @include flexbox;
-          @include flex-end;
-          font-size: 0.5em;
-          opacity: 0.7;
-          margin-right: 20px;
-
-          & > * {
-            padding-left: 5px;
-          }
-        }
-
-        .expand-indicator {
-          padding: 0 !important;
-          margin-left: 5px;
-          transition: transform $transition-time ease;
-
-          position: relative;
-          top: 1px;
-
-          @media #{$maxwidth768},#{$mobile} {
-            position: absolute;
-            right: 0;
-            top: 8px;
-          }
-        }
-
-        i.fa-adjust-hue {
-          margin: 0 !important;
-          padding: 5px !important;
-        }
-
-        i {
-          width: 1.5em;
-
-          &.fa-spin {
-            width: 2em;
-            height: 2em;
-
-            padding: 0.5em;
-          }
-        }
-      }
-
-      &.active {
-        & > :first-child {
-          background-color: $blue;
-          color: #FFF;
-        }
-
-        .updates {
-          opacity: 1;
-        }
-
-        .expand-indicator {
-          transform: rotate(180deg);
-          top: -1px;
-
-          @media #{$maxwidth768},#{$mobile} {
-            top: 10px;
-          }
-        }
-      }
-
-      & > :not(:first-child) {
-        max-height: 2000px;
-
-        -webkit-transition: max-height 0.25s ease-in-out;
-        transition: max-height 0.25s ease-in-out;
-      }
-
-      &:not(.active) {
-        overflow: hidden;
-
-        & > :not(:first-child) {
-          max-height: 0;
-          border: none;
-
-          -webkit-transition: max-height 0.25s ease-in-out;
-          transition: max-height 0.25s ease-in-out;
-        }
-      }
-
-      &.disabled {
-        .title .updates {
-          display: none;
-        }
-
-        .title .disabled {
-          &:after {
-            content: 'Disabled';
-            font-size: 0.8em;
-            color: firebrick;
-            opacity: 0.7;
-          }
-        }
-      }
-
-      &.disabled.active {
-        .title .disabled {
-          display: none;
-        }
-      }
-
-      .delete-disable {
+    .avatar {
         @include flexbox;
         @include flex-x-center;
 
-        @media #{$maxwidth768},#{$mobile} {
-          margin-top: 1.5em;
-        }
-      }
+        & > .default {
+            color: white;
+            width: 120px;
+            height: 120px;
 
-      .reauthorize > button {
-        margin-bottom: 0.5em;
-      }
-    }
-
-    #big-add {
-      color: #2ac1de;
-      text-decoration: none;
-      padding: 10px;
-      margin: 25px;
-      border-radius: 5px;
-      border: 1px dashed darken($border-color, 25%);
-
-      &:hover {
-        background-color: darken($background-color, 10%);
-      }
-    }
-  }
-
-  .mobile-flex-center {
-    @media #{$maxwidth768},#{$mobile} {
-      @include flexbox;
-      @include flex-center;
-
-      @media #{$maxwidth400} {
-        font-size: 0.8em;
-      }
-    }
-  }
-
-  .avatar-container {
-    .title {
-      margin-right: 1em;
-    }
-  }
-
-  .external-avatar {
-    margin-top: 1em;
-  }
-
-  .oauth-app {
-    .form {
-      & > div {
-        margin-bottom: 1em;
-
-        .title {
-          margin-right: 1em;
-        }
-      }
-
-      .client-keys {
-        @include flexbox;
-        @include flex-space-between;
-
-        word-break: break-word;
-
-        & > :first-child {
-          margin-right: 1em;
+            border-radius: 50%;
+            line-height: 1.5;
+            text-align: center;
+            font-size: 6em;
         }
 
-        @media #{$maxwidth768},#{$mobile} {
-          @include flex-column;
+        & > img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
         }
-      }
 
-      .redirects {
-        .redirect {
-          margin: 0.25em 0;
-
-          & > :first-child {
-            margin-right: 0.25em;
-          }
-
-          i {
-            color: $red;
-            width: 1.5em;
-            cursor: pointer;
+        i {
+            margin: 0 0.25em;
             text-align: center;
 
-            &:hover {
-              color: $orange;
+            color: gray;
+        }
+
+        &:not(.default-only) {
+            i {
+                &:hover {
+                    cursor: pointer;
+                    color: $blue;
+                }
             }
-          }
         }
-
-        .new-redirect {
-          & > :first-child {
-            margin-right: 0.25em;
-          }
-
-          & > :last-child {
-            margin-left: 0.25em;
-          }
-
-          i {
-            color: $green;
-
-            cursor: pointer;
-
-            &:hover {
-              color: $blue
-            }
-          }
-        }
-      }
     }
-  }
-
-  #developer {
-    .app {
-      background-color: $background-color;
-      border: 1px solid $border-color;
-      padding: 0.5em 1em;
-
-      margin-top: 1em;
-
-      font-size: 1.2em;
-
-      &:hover {
-        background-color: darken($background-color, 10%);
-        cursor: pointer;
-      }
-
-      .name {
-        margin-right: 1em;
-        color: $blue;
-      }
-    }
-  }
-
-  #authorized-apps {
-    .app {
-      @include flexbox;
-      @include flex-space-between;
-      @include flex-x-center;
-
-      border: 1px solid $border-color;
-      background-color: $background-color;
-      padding: 0.25em;
-
-      @media #{$maxwidth768},#{$mobile} {
-        @include flex-column;
-
-        & > * {
-          margin-bottom: 0.5em;
-        }
-      }
-
-      & > :first-child {
-        & > :first-child {
-          margin-right: 0.5em;
-        }
-      }
-    }
-  }
-
-  #people-create,
-  #people-edit {
-
-    .names {
-      & > * {
-        margin-bottom: 1em;
-      }
-    }
-
-    .contact-search {
-      @include flexbox;
-
-      @media #{$maxwidth768},#{$mobile} {
-        @include flex-column;
-
-        & > * {
-          margin-bottom: 0.5em;
-        }
-      }
-
-      .text-box {
-        height: 44.25px;
-
-        @media #{$maxwidth768},#{$mobile} {
-          height: inherit;
-        }
-      }
-
-      .temp-contacts {
-        @include flex-grow-scrollable(false);
-
-        overflow-x: hidden;
-
-        margin-left: 0.5em;
-        border: 1px solid $border-color;
-
-        height: 200px;
-        min-height: 200px;
-
-        @media #{$maxwidth768},#{$mobile} {
-          margin-left: 0;
-        }
-
-        .temp-contact {
-          padding: 0.5em;
-
-          &:not(:last-child) {
-            border-bottom: 1px solid $border-color;
-          }
-
-          &:hover {
-            background-color: $background-color;
-            cursor: pointer;
-          }
-
-          & > *:not(img):not(i) {
-            @include flex-grow;
-
-            word-break: break-all;
-          }
-
-          & > img,
-          & > i {
-            width: 1.5em;
-            text-align: center;
-
-            width: 50px;
-            height: 50px;
-          }
-        }
-      }
-
-      .page-buttons {
-        margin-top: 0.5em;
-
-        margin-left: 0.5em;
-
-        & > i {
-          font-size: 1.5em;
-          margin-right: 0.5em;
-
-          &:hover {
-            color: $blue;
-            cursor: pointer;
-          }
-        }
-
-        &.first-page {
-          & > i:first-child {
-            color: gray !important;
-            cursor: default !important;
-          }
-        }
-
-        &.last-page {
-          & > i:last-child {
-            color: gray !important;
-            cursor: default !important;
-          }
-        }
-      }
-    }
-
-    .hydrated-contact {
-      padding: 0.5em;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid $border-color;
-      }
-
-      & > :first-child {
-        & > *:not(img):not(i) {
-          @include flex-grow;
-
-          word-break: break-all;
-        }
-
-        & > img,
-        & > i {
-          margin-right: 0.25em;
-          display: flex;
-          align-items: center;
-
-          max-width: 200px;
-        }
-      }
-
-      .delete {
-        &:hover {
-          color: red;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-
-  #people {
-    .person {
-      padding: 0.5em;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid $border-color;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: $background-color;
-      }
-
-      .top-line {
-        margin-bottom: 0.25em;
-
-        img,
-        div.default {
-          margin-right: 20px;
-        }
-
-        .name {
-          word-break: break-word;
-
-          font-size: 1.5em;
-        }
-      }
-
-      .contacts {
-        word-break: break-word;
-      }
-    }
-  }
-
-  .avatar {
-    @include flexbox;
-    @include flex-x-center;
-
-    & > .default {
-      color: white;
-      width: 120px;
-      height: 120px;
-
-      border-radius: 50%;
-      line-height: 1.5;
-      text-align: center;
-      font-size: 6em;
-    }
-
-    & > img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-    }
-
-    i {
-      margin: 0 0.25em;
-      text-align: center;
-
-      color: gray;
-    }
-
-    &:not(.default-only) {
-      i {
-        &:hover {
-          cursor: pointer;
-          color: $blue;
-        }
-      }
-    }
-  }
 }

@@ -1,55 +1,104 @@
 <template>
-	<div v-if="contact.hidden !== true" class="object contact" v-bind:id="contact.id">
-		<!-- contact -->
-		<div>
-			<!-- avatar -->
-			<div class="user-avatar">
-				<!-- avatar image -->
-				<img v-if="contact.avatar_url" class="avatar" v-bind:src="contact.avatar_url"/>
-				<!-- else avatar icon -->
-				<i v-else class="fal fa-user"></i>
-			</div>
+    <div v-if="contact.hidden !== true"
+         v-bind:id="contact.id"
+         class="object contact"
+    >
+        <!-- contact -->
+        <div>
+            <!-- avatar -->
+            <div class="user-avatar">
+                <!-- avatar image -->
+                <img v-if="contact.avatar_url"
+                     class="avatar"
+                     v-bind:src="contact.avatar_url"
+                />
+                <!-- else avatar icon -->
+                <i v-else
+                   class="fal fa-user"
+                ></i>
+            </div>
 
-			<!-- details -->
-			<div class="details flexbox flex-column">
-				<div class="flexbox flex-column">
-					<!-- name -->
-					<div v-if="contact.name">{{ contact.name }}</div>
-					<!-- handle -->
-					<div v-if="contact.handle">{{ contact.handle }}</div>
-				</div>
-			</div>
-		</div>
+            <!-- details -->
+            <div class="details flexbox flex-column">
+                <div class="flexbox flex-column">
+                    <!-- name -->
+                    <div v-if="contact.name">{{ contact.name }}</div>
+                    <!-- handle -->
+                    <div v-if="contact.handle">{{ contact.handle }}</div>
+                </div>
+            </div>
+        </div>
 
-		<div class="flexbox flex-row flex-space-between tag-hide">
-			<div class="flexbox flex-column flex-start">
-				<!-- Tag -->
-				<div class="tag-button" v-on:click="openActionModal(contact, 'contact')">
-					<i class="fal fa-hashtag"></i><span> Tag</span>
-				</div>
+        <div class="flexbox flex-row flex-space-between tag-hide">
+            <div class="flexbox flex-column flex-start">
+                <!-- Tag -->
+                <div class="tag-button"
+                     v-on:click="openActionModal(contact, 'contact')"
+                >
+                    <i class="fal fa-hashtag"></i>
+                    <span> Tag</span>
+                </div>
 
-				<!-- tags -->
-				<div class="tags">
-					<span v-for="tag in contact.tags" v-bind:key="tag"> #{{ tag }}</span>
-				</div>
-			</div>
+                <!-- tags -->
+                <div class="tags">
+                    <span v-for="tag in contact.tags"
+                          v-bind:key="tag"
+                    > #{{ tag }}</span>
+                </div>
+            </div>
 
-			<div class=hide-button v-on:click="hideContact(contact)"> <i class="fal fa-minus-hexagon"></i> Hide</div>
-		</div>
-	</div>
+            <div class="hide-button"
+                 v-on:click="hideContact(contact)"
+            >
+                <i class="fal fa-minus-hexagon"></i>
+                Hide
+            </div>
+        </div>
+    </div>
 
-	<div class="contact-hidden" v-else-if="contact.hidden === true">
-		<div class="unhide-button" v-on:click="unhideContact(contact)"><i class="fal fa-plus-hexagon"></i> Unhide Contact</div>
-	</div>
+    <div v-else-if="contact.hidden === true"
+         class="contact-hidden"
+    >
+        <div class="unhide-button"
+             v-on:click="unhideContact(contact)"
+        >
+            <i class="fal fa-plus-hexagon"></i>
+            Unhide
+            Contact
+        </div>
+    </div>
 </template>
 
 <script>
-	import actionModal from '../modals/action-modal';
+	import _ from 'lodash';
+
+	import actionModal from '../modals/action-modal.vue';
 	import contactHide from '../../apollo/mutations/contact-hide.gql';
 	import contactUnhide from '../../apollo/mutations/contact-unhide.gql';
 	import icons from '../../lib/util/icons';
 
 	export default {
+		filters: {
+			safe: function(input) {
+				return typeof input === 'string' ? input : input == null ? '' : input.toString()
+			}
+		},
+
+		props: {
+			connection: {
+				type: Object,
+				default: function() {
+					return {};
+				}
+			},
+			contact: {
+				type: Object,
+				default: function() {
+					return {};
+				}
+			}
+		},
+
 		data: function() {
 			return {
 				tags: function() {
@@ -81,11 +130,7 @@
 				}
 			}
 		},
-		filters: {
-			safe: function(input) {
-				return typeof input === 'string' ? input : input == null ? '' : input.toString()
-			}
-		},
+
 		methods: {
 			getProviderIcon: function(provider) {
 				return icons('provider', provider.name);
@@ -132,10 +177,6 @@
 
 				match.hidden = false;
 			}
-		},
-		props: [
-			'connection',
-			'contact'
-		]
+		}
 	}
 </script>

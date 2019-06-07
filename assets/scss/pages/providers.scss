@@ -1,319 +1,319 @@
 div#body.providers {
-  overflow: hidden;
-  
-  .expand-indicator {
-    transform: rotate(180deg);
-    top: -1px;
+    overflow: hidden;
 
-     @media #{$maxwidth768},#{$mobile} {
-      top: 10px;
-    }
-  }
+    padding: 0 !important;
 
-  @media #{$maxwidth768},#{$mobile}  {
-    .mobile-selector {
-      display: block !important;
+    .expand-indicator {
+        transform: rotate(180deg);
+        top: -1px;
 
-      & > i {
-        width: 1.5em;
-        text-align: center;
-      }
-    }
-
-    aside.filters {
-      & > .scroller {
-        display: none;
-
-        #filters {
-          .filter {
-            text-align: center;
-            font-size: 1.25em;
-          }
+        @media #{$maxwidth768}, #{$mobile} {
+            top: 10px;
         }
-      }
     }
 
-    &.ctl-expand {
-      aside.filters {
-        @include flexbox;
-      }
+    @media #{$maxwidth768}, #{$mobile}  {
+        .mobile-selector {
+            display: block !important;
 
-      main {
-        @include flex(0);
-      }
+            & > i {
+                width: 1.5em;
+                text-align: center;
+            }
+        }
+
+        aside.filters {
+            & > .scroller {
+                display: none;
+
+                #filters {
+                    .filter {
+                        text-align: center;
+                        font-size: 1.25em;
+                    }
+                }
+            }
+        }
+
+        &.ctl-expand {
+            aside.filters {
+                @include flexbox;
+            }
+
+            main {
+                @include flex(0);
+            }
+        }
     }
-  }
 
-  &.dark {
+    &.dark {
+        aside.filters {
+            background-color: $background-color-dark;
+            color: $font-color-dark;
+        }
+
+        main {
+            background-color: $background-color-dark;
+
+            #provider-grid {
+                & > div {
+                    color: $font-color-dark;
+                    background-color: $background-color-dark;
+                    border: 3px solid $border-color-dark;
+                }
+            }
+        }
+
+        #workflow {
+            .tooltip {
+                color: $font-color-subdue-dark;
+            }
+        }
+    }
+
+    .mobile-selector {
+        @include no-select;
+
+        display: none;
+        cursor: pointer;
+        margin-top: 0.5em;
+        text-align: center;
+        font-size: 1.5em;
+    }
+
+    aside.mobile-type-selector {
+        & > .scroller {
+            -webkit-transition: all 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        @media #{$maxwidth768}, #{$mobile} {
+            &.open {
+
+                & > .scroller {
+                    -webkit-transition: all 0.5s ease-in-out;
+                    transition: all 0.5s ease-in-out;
+
+                    max-height: 100%;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    header {
+        border-bottom: 0;
+
+        .logo {
+            height: 70px;
+            margin: 3px;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                height: 40px;
+                margin: 0;
+            }
+        }
+
+        & > nav > :first-child > span {
+            bottom: 11px;
+            left: -20px;
+        }
+
+        #done {
+            width: 100px;
+            align-self: stretch;
+            margin-left: 1em;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                width: 100%;
+                margin: 0;
+            }
+        }
+
+        .mobile-selector {
+            @include no-select;
+
+            display: none;
+            cursor: pointer;
+            margin-top: 0.5em;
+            text-align: center;
+            font-size: 1.5em;
+            text-transform: uppercase;
+
+            & > i {
+                width: 1.5em;
+                text-align: center;
+            }
+        }
+    }
+
     aside.filters {
-      background-color: $background-color-dark;
-      color: $font-color-dark;
+        #filters {
+            @include flexbox;
+            @include flex-wrap;
+            @include flex-center;
+            @include flex-x-center;
+
+            margin-top: 1em;
+
+            & > .filter {
+                @include raleway;
+                @include no-select;
+                @include interactive;
+
+                text-transform: uppercase;
+                padding: 0.5em;
+                cursor: pointer;
+            }
+        }
     }
 
     main {
-      background-color: $background-color-dark;
+        #provider-grid {
+            $spacing: 10px;
+            @include flexbox;
+            @include flex-center;
+            @include flex-wrap;
 
-      #provider-grid {
-        & > div {
-          color: $font-color-dark;
-          background-color: $background-color-dark;
-          border: 3px solid $border-color-dark;
+            @include align-center;
+
+            margin: 0;
+            padding: $spacing;
+
+            & > div {
+                @include align-center;
+                @include no-select;
+
+                font-size: 1.8em;
+                display: inline-block;
+                width: 175px;
+                height: 175px;
+                margin: $spacing;
+                cursor: pointer;
+
+                background-color: $background-color;
+                border: 3px solid $border-color;
+
+                &.associated {
+                    background-color: $blue;
+                    color: #FFF;
+                    border: 3px solid lighten($blue, 15%);
+                }
+
+                &:hover,
+                &:active,
+                &.active {
+                    border-color: $orange;
+                }
+
+                & > div.box-content {
+                    @include flexbox;
+                    @include flex-column;
+                    @include flex-center;
+
+                    position: relative;
+                    height: 100%;
+
+                    & > span {
+                        position: absolute;
+                        right: 5px;
+                        top: 3px;
+                    }
+
+                    & > h1 {
+                        margin: 0;
+                    }
+                }
+
+                & > div.coming-soon-text {
+                    position: relative;
+                    top: -125px;
+                    margin: 0 1em;
+                    color: black;
+                }
+            }
         }
-      }
     }
 
     #workflow {
-      .tooltip {
-        color: $font-color-subdue-dark;
-      }
-    }
-  }
+        .action {
+            @include flexbox;
+            @include flex-center;
 
-  .mobile-selector {
-    @include no-select;
-
-    display: none;
-    cursor: pointer;
-    margin-top: 0.5em;
-    text-align: center;
-    font-size: 1.5em;
-  }
-
-  aside.mobile-type-selector {
-    & > .scroller {
-      -webkit-transition: all 0.5s ease-in-out;
-      transition: all 0.5s ease-in-out;
-      max-height: 0;
-      opacity: 0;
-    }
-
-    @media #{$maxwidth768},#{$mobile} {
-      &.open {
-
-        & > .scroller {
-          -webkit-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-
-          max-height: 100%;
-          opacity: 1;
+            margin-top: 1.5em;
         }
-      }
+
+        label {
+            font-size: 1.2em;
+        }
+
+        i {
+            width: 1.5em;
+        }
+
+        .tooltip {
+            margin: 0.35em 0 0 3em;
+            color: $font-color-subdue;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                margin-top: 0;
+            }
+        }
+
+        .label {
+            font-size: 1.2em;
+            margin-bottom: 1em;
+        }
+
+
+        .coming-soon {
+            color: $red;
+            font-size: 1.5em;
+            text-align: center;
+
+            max-width: 600px;
+        }
     }
-  }
 
-  header {
-    border-bottom: none;
+    .login {
+        font-size: 1.4em;
 
-    .logo {
-      height: 70px;
-      margin: 3px;
+        & > i {
+            width: 1.5em;
+            cursor: pointer;
+            text-align: center;
 
-      @media #{$maxwidth768},#{$mobile} {
-        height: 40px;
-        margin: 0px;
-      }
+            &:hover {
+                color: $blue;
+            }
+        }
     }
 
-    & > nav > :first-child > span {
-      bottom: 11px;
-      left: -20px;
-    }
-
-    #done {
-      width: 100px;
-      align-self: stretch;
-      margin-left: 1em;
-
-      @media #{$maxwidth768},#{$mobile} {
-        width: 100%;
-        margin: 0;
-      }
-    }
-
-    .mobile-selector {
-      @include no-select;
-
-      display: none;
-      cursor: pointer;
-      margin-top: 0.5em;
-      text-align: center;
-      font-size: 1.5em;
-      text-transform: uppercase;
-
-      & > i {
-        width: 1.5em;
+    #login-modal {
         text-align: center;
-      }
-    }
-  }
 
-  aside.filters {
-    #filters {
-      @include flexbox;
-      @include flex-wrap;
-      @include flex-center;
-      @include flex-x-center;
-
-      margin-top: 1em;
-
-      & > .filter {
-        @include raleway;
-        @include no-select;
-        @include interactive;
-
-        text-transform: uppercase;
-        padding: 0.5em;
-        cursor: pointer;
-      }
-    }
-  }
-
-  main {
-    #provider-grid {
-      $spacing: 10px;
-      @include flexbox;
-      @include flex-center;
-      @include flex-wrap;
-
-      @include align-center;
-
-      margin: 0;
-      padding: $spacing;
-
-      & > div {
-        @include align-center;
-        @include no-select;
-
-        font-size: 1.8em;
-        display: inline-block;
-        width: 175px;
-        height: 175px;
-        margin: $spacing;
-        cursor: pointer;
-
-        background-color: $background-color;
-        border: 3px solid $border-color;
-
-        &.associated {
-          background-color: $blue;
-          color: #FFF;
-          border: 3px solid lighten($blue, 15%);
+        .body {
+            padding: 0.5em 1em;
         }
 
-        &:hover,
-        &:active,
-        &.active {
-          border-color: $orange;
+        h3 {
+            margin-bottom: 0.75em;
         }
 
-        & > div.box-content {
-          @include flexbox;
-          @include flex-column;
-          @include flex-center;
+        p {
+            margin-bottom: 0.5em;
 
-          position: relative;
-          height: 100%;
-
-          & > span {
-            position: absolute;
-            right: 5px;
-            top: 3px;
-          }
-
-          & > h1 {
-            margin: 0;
-          }
+            &:last-of-type {
+                margin-bottom: 1.1em;
+            }
         }
 
-        & > div.coming-soon-text {
-          position: relative;
-          top: -125px;
-          margin: 0 1em;
-          color: black;
+        button {
+            &:first-of-type {
+                margin-right: 0.75em;
+            }
         }
-      }
     }
-  }
-
-  padding: 0 !important;
-
-  #workflow {
-    .action {
-      @include flexbox;
-      @include flex-center;
-
-      margin-top: 1.5em;
-    }
-
-    label {
-      font-size: 1.2em;
-    }
-
-    i {
-      width: 1.5em;
-    }
-
-    .tooltip {
-      margin: 0.35em 0 0 3em;
-      color: $font-color-subdue;
-
-      @media #{$maxwidth768},#{$mobile} {
-        margin-top: 0em;
-      }
-    }
-
-    .label {
-      font-size: 1.2em;
-      margin-bottom: 1em;
-    }
-
-
-    .coming-soon {
-      color: $red;
-      font-size: 1.5em;
-      text-align: center;
-
-      max-width: 600px;
-    }
-  }
-
-  .login {
-    font-size: 1.4em;
-
-    & > i {
-      width: 1.5em;
-      cursor: pointer;
-      text-align: center;
-
-      &:hover {
-        color: $blue;
-      }
-    }
-  }
-
-  #login-modal {
-    text-align: center;
-
-    .body {
-      padding: 0.5em 1em;
-    }
-
-    h3 {
-      margin-bottom: 0.75em;
-    }
-
-    p {
-      margin-bottom: 0.5em;
-
-      &:last-of-type {
-        margin-bottom: 1.1em;
-      }
-    }
-
-    button {
-      &:first-of-type {
-        margin-right: 0.75em;
-      }
-    }
-  }
 }

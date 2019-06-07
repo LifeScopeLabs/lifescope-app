@@ -1,32 +1,32 @@
 #waiting {
-  @include flexbox;
-  @include flex-column;
-  @include flex-center;
-  @include flex-x-center;
-
-  height: 100%;
-  background-color: $item-background-color;
-
-  & > div {
     @include flexbox;
     @include flex-column;
     @include flex-center;
     @include flex-x-center;
 
-    & > img {
-      width: 10em;
-    }
+    height: 100%;
+    background-color: $item-background-color;
 
-    & > .text {
-      font-size: 2em;
-      text-transform: uppercase;
-      margin-top: 0.2em;
+    & > div {
+        @include flexbox;
+        @include flex-column;
+        @include flex-center;
+        @include flex-x-center;
+
+        & > img {
+            width: 10em;
+        }
+
+        & > .text {
+            font-size: 2em;
+            text-transform: uppercase;
+            margin-top: 0.2em;
+        }
     }
-  }
 }
 
 div#body.dark {
-  #waiting {
-    background-color: $item-background-color-dark;
-  }
+    #waiting {
+        background-color: $item-background-color-dark;
+    }
 }

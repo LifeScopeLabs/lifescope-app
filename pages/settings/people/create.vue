@@ -1,15 +1,11 @@
 <template>
+    <div></div>
 </template>
 
 <script>
 	export default {
-		layout: function(context) {
+		layout: function() {
 			return 'settings/people/create';
-		},
-
-		asyncData({ store }) {
-			store.state.mode = 'people-create';
-			store.state.pageName = 'settings people-create';
 		},
 
 		data: function() {
@@ -18,10 +14,15 @@
 			}
 		},
 
-    middleware: function({ store, redirect }) {
-		  if (store.state.user == undefined) {
-		    return redirect('/');
-      }
-    }
+		asyncData({store}) {
+			store.state.mode = 'people-create';
+			store.state.pageName = 'settings people-create';
+		},
+
+		middleware: function({store, redirect}) {
+			if (store.state.user == undefined) {
+				return redirect('/');
+			}
+		}
 	}
 </script>

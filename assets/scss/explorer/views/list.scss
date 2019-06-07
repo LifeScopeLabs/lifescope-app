@@ -1,43 +1,42 @@
 div#body.explorer.list {
-  main {
-    #list {
-      display: table !important;
-      //table-layout: fixed;
-      border-collapse: collapse;
-      border: 0;
+    main {
+        #list {
+            display: table !important;
+            //table-layout: fixed;
+            border-collapse: collapse;
+            border: 0;
 
-      width: 100%;
-      margin: 0;
+            width: 100%;
+            margin: 0;
 
-      .icon-column {
-        i {
-          margin-right: 0.25em;
-          width: 1.5em;
+            .icon-column {
+                i {
+                    margin-right: 0.25em;
+                    width: 1.5em;
+                }
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    width: 1.5em;
+                    padding: 0;
+
+                    & i > {
+                        margin: 0 auto;
+                    }
+                }
+            }
+
+            .provider {
+                text-transform: capitalize;
+            }
         }
 
-        @media #{$maxwidth768},#{$mobile} {
-        width: 1.5em;
-        padding: 0;
-
-        & i > {
-          margin: 0 auto;
+        #map {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 50%;
+            width: 100%;
+            border-top: 1px solid $border-color;
         }
-      }
-      }
-
-      .provider\.name,
-      .firstItem\.type\.name {
-        text-transform: capitalize;
-      }
     }
-
-    #map {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 50%;
-      width: 100%;
-      border-top: 1px solid $border-color;
-    }
-  }
 }
