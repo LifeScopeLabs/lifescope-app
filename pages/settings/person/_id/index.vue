@@ -5,7 +5,7 @@
 <script>
 	export default {
 		layout: function() {
-			return 'settings/people/edit';
+			return 'settings/person/edit';
 		},
 
 		data: function() {

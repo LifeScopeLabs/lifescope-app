@@ -705,7 +705,7 @@
 			},
 
 			redirectToPeople: function() {
-				this.$router.push('/settings/people/create');
+				this.$router.push('/settings/person/create');
 			},
 
 			concatNames: function(item) {

@@ -130,7 +130,7 @@ gulp.task('devel', function(done) {
 });
 
 
-gulp.task('lint', ['lint:js', 'lint:json']);
+gulp.task('lint', ['lint:js', 'lint:json', 'lint:sass']);
 
 
 gulp.task('lint:js', function() {

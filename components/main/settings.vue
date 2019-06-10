@@ -645,11 +645,19 @@
                                     </div>
                                 </div>
 
-                                <button class="primary"
-                                        v-on:click="createNewApp"
-                                >
-                                    Create App
-                                </button>
+                                <div class="mobile-buttons flexbox flex-space-between">
+                                    <button class="primary"
+                                            v-on:click="createNewApp"
+                                    >
+                                        Create App
+                                    </button>
+
+                                    <button class="cancel"
+                                            v-on:click="cancelApp"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -798,6 +806,11 @@
                                             v-on:click="updateApp"
                                     >
                                         Save App
+                                    </button>
+                                    <button class="cancel"
+                                            v-on:click="cancelApp"
+                                    >
+                                        Cancel
                                     </button>
                                     <button class="danger"
                                             v-on:click="showAppDeleteModal"
@@ -1306,6 +1319,7 @@
 		},
 
 		mounted: async function() {
+			console.log('Settings mounted running');
 			let self = this;
 
 			let connectionResult = await this.$apollo.query({
@@ -1425,6 +1439,7 @@
 			}
 
 			if (this.$store.state.mode === 'people-edit') {
+				console.log('Mounting people-edit');
 				let personResult = await this.$apollo.query({
 					query: personOne,
 					variables: {
@@ -1661,7 +1676,7 @@
 			},
 
 			initializeNewPerson: async function() {
-				this.$router.push('/settings/people/create');
+				this.$router.push('/settings/person/create');
 			},
 
 			createNewApp: async function() {
@@ -1712,7 +1727,7 @@
 			},
 
 			editPerson: async function(id) {
-				this.$router.push('/settings/people/' + id);
+				this.$router.push('/settings/person/' + id);
 			},
 
 			updateApp: async function() {
@@ -2027,8 +2042,13 @@
 			},
 
 			cancelEdit: function() {
+				console.log('cancelEdit');
 				this.$router.push('/settings/people');
 			},
+
+            cancelApp: function() {
+				this.$router.push('/settings/developer');
+            },
 
 			hasAvatars: function() {
 				let avatarFound = _.find(this.$store.state.person.hydratedContacts, function(contact) {
