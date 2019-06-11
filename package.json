@@ -13,7 +13,7 @@
     "yarn": "1.*"
   },
   "scripts": {
-    "build": "nuxt build && backpack build",
+    "build": "gulp lint && nuxt build && backpack build",
     "seed": "./node_modules/.bin/babel-node ./scripts/seed.js",
     "dev": "NODE_ENV=dev babel-node server.js",
     "dev-prod": "NODE_ENV=production babel-node server.js",
@@ -59,7 +59,6 @@
     "gulp-zip": "^4.1.0",
     "jest": "^22.3.0",
     "mongodb-memory-server": "^1.7.0",
-    "node-sass": "^4.12.0",
     "nodemon": "^1.18.10",
     "path": "^0.12.7",
     "request": "^2.83.0",
@@ -142,6 +141,7 @@
     "networked-aframe": "git+https://github.com/lifescopelabs/networked-aframe",
     "nipplejs": "^0.7.1",
     "node-fetch": "^2.6.0",
+    "node-sass": "^4.12.0",
     "node-uuid": "^1.4.8",
     "nuxt": "^2.8.1",
     "qs": "^6.5.2",
