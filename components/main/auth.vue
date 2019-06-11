@@ -10,8 +10,10 @@
                      class="boxed-group"
                 >
                     <div class="align-center">
-                        <a v-bind:href="$store.state.auth.app.homepage_url">{{
-                            $store.state.auth.app.name }}
+                        <a v-bind:href="$store.state.auth.app.homepage_url">
+                            {{
+                                $store.state.auth.app.name
+                            }}
                         </a>
                         would like to connect to your LifeScope account.
                     </div>
@@ -97,20 +99,24 @@
 		},
 
 		beforeMount: async function() {
-			let result = await this.$apollo.query({
-				query: oauthAppOneAuthorization,
-				variables: {
-					client_id: this.$route.query.client_id
-				},
-				fetchPolicy: 'no-cache'
+			let self = this;
+
+			this.$router.onReady(async function() {
+                let result = await self.$apollo.query({
+                    query: oauthAppOneAuthorization,
+                    variables: {
+                        client_id: self.$route.query.client_id
+                    },
+                    fetchPolicy: 'no-cache'
+                });
+
+                if (result == null) {
+                    this.$data.error = 'Code 400: Invalid Client ID';
+                }
+
+                self.$store.state.auth.app = result.data.oauthAppOneAuthorization;
+                self.$store.state.auth.scopes = self.$route.query.scope.split(',');
 			});
-
-			if (result == null) {
-				this.$data.error = 'Code 400: Invalid Client ID';
-			}
-
-			this.$store.state.auth.app = result.data.oauthAppOneAuthorization;
-			this.$store.state.auth.scopes = this.$route.query.scope.split(',');
 		},
 
 		methods: {

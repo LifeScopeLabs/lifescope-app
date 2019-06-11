@@ -22,7 +22,7 @@
 		layout: function(context) {
 			let user = _.get(context, 'req.user') ? context.req.user : _.get(context, 'nuxtState.state.user');
 
-			return user != undefined ? 'home' : 'providers';
+			return user != undefined ? 'auth' : 'providers';
 		},
 
 		data: function() {
