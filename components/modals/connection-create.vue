@@ -17,7 +17,7 @@
             </div>
             <div class="padded paragraphed">
                 <p>
-                    Instagram has recently shut off access to thrid parties causing direct LifeScope access to no longer
+                    Instagram has recently shut off access to third parties causing direct LifeScope access to no longer
                     be supported.
                 </p>
                 <p>
@@ -25,19 +25,80 @@
                     domain 'instagram.com'.
                 </p>
                 <p>
-                    Instgram is hugely poplular and profitable, but more closed than ever. We belive that Instagram
+                    Instagram is hugely popular and profitable, but more closed than ever. We believe that Instagram
                     should be a more open platform and should reopen their API to others.
                 </p>
                 <p>
                     If you feel like we do,
-                    <a href="https://www.facebook.com/InstagramEnglish/">contact Instagram and
-                        ask for the API back!
+                    <a href="https://help.instagram.com"
+                       target="_blank"
+                    >
+                        contact Instagram and ask for the API back!
                     </a>
-                    .
+                </p>
+            </div>
+        </div>
+        <div v-else-if="provider.name === 'Lyft' && provider.enabled !== true"
+             id="workflow"
+             class="boxed-group"
+        >
+            <div class="align-center">
+                <div class="flexbox flex-x-center">
+                    <i v-bind:class="getProviderIcon(provider)"></i>
+                    <div class="header flex-grow">Lyft</div>
+                    <i class="close-button fal fa-2x fa-times-circle"
+                       v-on:click="$emit('close')"
+                    ></i>
+                </div>
+            </div>
+            <div class="padded paragraphed">
+                <p>
+                    Lyft has recently shut off access to third parties causing direct LifeScope access to no longer
+                    be supported.
                 </p>
                 <p>
-                    You can also create your own LifeScope cluster and create your own app connection Instagram.
-                    <a href="https://lifescopelabs.github.io">Learn More</a>
+                    Lyft is hugely popular, but more closed than ever. We believe that Lyft should be a more open
+                    platform and should reopen their API to others.
+                </p>
+                <p>
+                    If you feel like we do,
+                    <a href="https://help.lyft.com/hc/en-us/requests/new"
+                       target="_blank"
+                    >
+                        contact Lyft and ask for their API back!
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div v-else-if="provider.name === 'Uber' && provider.enabled !== true"
+             id="workflow"
+             class="boxed-group"
+        >
+            <div class="align-center">
+                <div class="flexbox flex-x-center">
+                    <i v-bind:class="getProviderIcon(provider)"></i>
+                    <div class="header flex-grow">Uber</div>
+                    <i class="close-button fal fa-2x fa-times-circle"
+                       v-on:click="$emit('close')"
+                    ></i>
+                </div>
+            </div>
+            <div class="padded paragraphed">
+                <p>
+                    Uber has recently shut off access to third parties causing direct LifeScope access to no longer
+                    be supported.
+                </p>
+                <p>
+                    Uber is hugely popular, but more closed than ever. We believe that Uber should be a more open
+                    platform and should reopen their API to others.
+                </p>
+                <p>
+                    If you feel like we do,
+                    <a href="https://help.uber.com/riders/article/how-can-i-contact-uber"
+                       target="_blank"
+                    >
+                        contact Uber and ask for their API back!
+                    </a>
                 </p>
             </div>
         </div>
