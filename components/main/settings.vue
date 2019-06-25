@@ -615,7 +615,7 @@
                                         <div v-if="$store.state.app.homepage.error === true"
                                              class="error"
                                         >
-                                            This app must have a valid homepage URL
+                                            This app must have a valid homepage URL that matches the regex /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)$/
                                         </div>
                                     </div>
                                     <div class="text-box shrink">
@@ -633,7 +633,7 @@
                                         <div v-if="$store.state.app.privacyPolicy.error === true"
                                              class="error"
                                         >
-                                            This app must have a valid privacy policy URL
+                                            This app must have a valid privacy policy URL that matches the regex /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)$/
                                         </div>
                                     </div>
                                     <div class="text-box shrink">
@@ -730,7 +730,7 @@
                                         <div v-if="$data.tempRedirect.error === true"
                                              class="error"
                                         >
-                                            Invalid URL
+                                            Invalid URL - must match the regex /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)$/
                                         </div>
                                     </div>
                                 </div>
@@ -1319,29 +1319,32 @@
 		},
 
 		mounted: async function() {
-			console.log('Settings mounted running');
 			let self = this;
 
-			let connectionResult = await this.$apollo.query({
+			let connectionResultPromise = this.$apollo.query({
 				query: connectionMany,
 				fetchPolicy: 'no-cache'
 			});
 
 			if (self.$store.state.mode === 'locations') {
-				let locationFilesResult = await this.$apollo.query({
+				let locationFilesResultPromise = this.$apollo.query({
 					query: locationFileCount,
 					fetchPolicy: 'no-cache'
 				});
 
-				let locationTrackedResult = await this.$apollo.query({
+				let locationTrackedResultPromise = this.$apollo.query({
 					query: locationTrackedCount,
 					fetchPolicy: 'no-cache'
 				});
 
-				let locationUploadedResult = await this.$apollo.query({
+				let locationUploadedResultPromise = this.$apollo.query({
 					query: locationUploadedCount,
 					fetchPolicy: 'no-cache'
 				});
+
+				let locationFilesResult = await locationFilesResultPromise;
+				let locationTrackedResult = await locationTrackedResultPromise;
+				let locationUploadedResult = await locationUploadedResultPromise;
 
 				this.$data.locationFilesCount = locationFilesResult.data.locationFileCount;
 				this.$data.locationTrackedCount = locationTrackedResult.data.locationCount;
@@ -1439,7 +1442,6 @@
 			}
 
 			if (this.$store.state.mode === 'people-edit') {
-				console.log('Mounting people-edit');
 				let personResult = await this.$apollo.query({
 					query: personOne,
 					variables: {
@@ -1510,6 +1512,7 @@
 					}
 				});
 
+				let connectionResult = await connectionResultPromise;
 				let connections = connectionResult.data.connectionMany;
 
 				_.each(connections, function(connection) {
@@ -2042,7 +2045,6 @@
 			},
 
 			cancelEdit: function() {
-				console.log('cancelEdit');
 				this.$router.push('/settings/people');
 			},
 

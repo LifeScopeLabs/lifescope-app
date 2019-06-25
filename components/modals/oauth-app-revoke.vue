@@ -79,7 +79,6 @@
 					self.$emit('close');
 				}
 				catch (err) {
-					console.log(err);
 					self.$data.tryAgain = true;
 
 					setTimeout(function() {

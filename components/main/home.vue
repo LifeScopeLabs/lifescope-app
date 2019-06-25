@@ -362,18 +362,11 @@
 
 	import _ from 'lodash';
 
-	import connectionCount from '../../apollo/queries/connection-count.gql';
-	import contactCount from '../../apollo/queries/contact-count.gql';
-	import contentCount from '../../apollo/queries/content-count.gql';
-	import eventCount from '../../apollo/queries/event-count.gql';
-	import locationCount from '../../apollo/queries/location-count.gql';
-	import personCount from '../../apollo/queries/person-count.gql';
 	import personMany from '../../apollo/queries/person-many.gql';
 	import personOne from '../../apollo/queries/person-one.gql';
-	import searchCount from '../../apollo/queries/search-count.gql';
 	import searchMany from '../../apollo/queries/search-many.gql';
-	import tagCount from '../../apollo/queries/tag-count.gql';
 	import tagMany from '../../apollo/queries/tag-many.gql';
+	import userCounts from '../../apollo/queries/user-counts.gql';
 
 	import { defaultColor, defaultLetter } from '../../lib/util/default-icon';
 	import favoriteModal from '../modals/favorite.vue';
@@ -402,74 +395,20 @@
 		mounted: async function() {
 			let self = this;
 
-			let connectionCountResult = await this.$apollo.query({
-				query: connectionCount,
-				fetchPolicy: 'no-cache',
-			});
+			let userCountPromise = this.$apollo.query({
+                query: userCounts,
+                fetchPolicy: 'no-cache'
+            });
 
-			let eventCountResult = await this.$apollo.query({
-				query: eventCount,
-				fetchPolicy: 'no-cache'
-			});
-
-			let contentCountResult = await this.$apollo.query({
-				query: contentCount,
-				fetchPolicy: 'no-cache'
-			});
-
-			let contactCountResult = await this.$apollo.query({
-				query: contactCount,
-				fetchPolicy: 'no-cache'
-			});
-
-			let locationCountResult = await this.$apollo.query({
-				query: locationCount,
-				fetchPolicy: 'no-cache'
-			});
-
-			let personCountResult = await this.$apollo.query({
-				query: personCount,
-				variables: {
-					filter: {
-						self: false
-					}
-				},
-				fetchPolicy: 'no-cache'
-			});
-
-			let searchCountResult = await this.$apollo.query({
-				query: searchCount,
-				fetchPolicy: 'no-cache'
-			});
-
-			let favoriteCountResult = await this.$apollo.query({
-				query: searchCount,
-				variables: {
-					favorited: true
-				},
-				fetchPolicy: 'no-cache'
-			});
-
-			let tagCountResult = await this.$apollo.query({
-				query: tagCount,
-				fetchPolicy: 'no-cache'
-			});
-
-			let sharedTagCountResult = await this.$apollo.query({
-				query: tagCount,
-				variables: {
-					share: 'public'
-				},
-				fetchPolicy: 'no-cache'
-			});
-
-			let personResult = await this.$apollo.query({
+			let personPromise = this.$apollo.query({
 				query: personOne,
 				variables: {
 					self: true
 				},
 				fetchPolicy: 'no-cache'
 			});
+
+			let personResult = await personPromise;
 
 			let person = personResult.data.personOne;
 
@@ -486,16 +425,18 @@
 
 			self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
 
-			this.$data.connectionCount = connectionCountResult.data.connectionCount;
-			this.$data.eventCount = eventCountResult.data.eventCount;
-			this.$data.contactCount = contactCountResult.data.contactCount;
-			this.$data.contentCount = contentCountResult.data.contentCount;
-			this.$data.locationCount = locationCountResult.data.locationCount;
-			this.$data.favoriteCount = favoriteCountResult.data.searchCount;
-			this.$data.personCount = personCountResult.data.personCount;
-			this.$data.tagCount = tagCountResult.data.tagCount;
-			this.$data.sharedTagCount = sharedTagCountResult.data.tagCount;
-			this.$store.state.searchCount = searchCountResult.data.searchCount;
+			let userCountResult = await userCountPromise;
+
+			this.$data.connectionCount = userCountResult.data.userCounts.connectionCount;
+			this.$data.eventCount = userCountResult.data.userCounts.eventCount;
+			this.$data.contactCount = userCountResult.data.userCounts.contactCount;
+			this.$data.contentCount = userCountResult.data.userCounts.contentCount;
+			this.$data.locationCount = userCountResult.data.userCounts.locationCount;
+			this.$data.favoriteCount = userCountResult.data.userCounts.favoriteSearchCount;
+			this.$data.personCount = userCountResult.data.userCounts.peopleCount;
+			this.$data.tagCount = userCountResult.data.userCounts.tagCount;
+			this.$data.sharedTagCount = userCountResult.data.userCounts.sharedTagCount;
+			this.$store.state.searchCount = userCountResult.data.userCounts.searchCount;
 
 			this.$data.offset = 0;
 			this.$store.state.home.tab = 'people';

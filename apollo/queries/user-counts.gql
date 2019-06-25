@@ -1,0 +1,14 @@
+query userCounts {
+    userCounts {
+        connectionCount,
+        contactCount,
+        contentCount,
+        eventCount,
+        locationCount,
+        peopleCount,
+        searchCount,
+        favoriteSearchCount,
+        tagCount,
+        sharedTagCount
+    }
+}
