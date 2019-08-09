@@ -1,0 +1,57 @@
+div#body.base {
+    main {
+        img {
+            max-height: 300px;
+            max-width: 300px;
+            margin-bottom: 2em;
+        }
+
+        .scroller > div {
+            margin: 1em 0;
+        }
+    }
+
+    #signin-choice {
+        text-align: center;
+
+        .signin-button {
+            @include align-center;
+            @include no-select;
+
+            font-size: 3em;
+            display: inline-block;
+            width: 300px;
+            height: 300px;
+            margin: 2em;
+            cursor: pointer;
+
+            background-color: $background-color;
+            border: 3px solid $border-color;
+
+            &:hover,
+            &:active,
+            &.active {
+                border-color: $orange;
+            }
+
+            & > div.box-content {
+                @include flexbox;
+                @include flex-column;
+                @include flex-center;
+
+                position: relative;
+                height: 100%;
+
+                & > span {
+                    position: absolute;
+                    right: 5px;
+                    top: 3px;
+                }
+
+                .subtext {
+                    font-size: 0.6em;
+                }
+            }
+        }
+    }
+}

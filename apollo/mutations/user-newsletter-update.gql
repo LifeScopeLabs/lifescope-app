@@ -1,0 +1,6 @@
+mutation userNewsletterUpdate($newsletter: Boolean!) {
+     userNewsletterUpdate(newsletter: $newsletter) {
+        id,
+        newsletter
+    }
+}

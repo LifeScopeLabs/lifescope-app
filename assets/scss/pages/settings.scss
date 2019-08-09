@@ -1,6 +1,10 @@
 div#body.settings {
     overflow: auto;
 
+    .errors {
+        color: $red;
+    }
+
     &.dark {
         aside.mobile-type-selector {
             #pages {
@@ -312,6 +316,18 @@ div#body.settings {
 
         #update-email {
             margin-top: 1em;
+        }
+
+        #email-change {
+            .flex-mobile {
+                button {
+                    margin-left: 1em;
+
+                    @media #{$maxwidth768}, #{$mobile} {
+                        margin: 1em 0 0;
+                    }
+                }
+            }
         }
     }
 

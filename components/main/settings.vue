@@ -165,6 +165,31 @@
                         </div>
 
                         <div class="boxed-group">
+                            <div class="title">Email settings</div>
+                            <div class="padded paragraphed">
+                                <p v-if="$store.state.user.email == null || $store.state.user.email.length === 0">No email address associated with this account</p>
+                                <p v-else>Current email address: {{ $store.state.user.email }}</p>
+
+                                <button class="primary"
+                                        v-on:click="openEmailChangeModal"
+                                >
+                                    Change email
+                                </button>
+
+                                <div id="newsletter">
+                                    <label>
+                                        <input v-model="$store.state.user.newsletter"
+                                               type="checkbox"
+                                               v-bind:value="$store.state.user.newsletter === true"
+                                               v-on:change="updateNewsletter"
+                                        />
+                                        Subscribe to the LifeScope newsletter
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="boxed-group">
                             <div class="title">Delete LifeScope Account</div>
 
                             <div class="padded paragraphed">
@@ -1239,6 +1264,7 @@
 	import deleteAccountModal from '../modals/account-delete.vue';
 	import deleteConnectionModal from '../modals/connection-delete.vue';
 	import disableConnectionModal from '../modals/connection-disable.vue';
+	import emailChangeModal from '../modals/email-change.vue';
 	import locationTrackingModal from '../modals/location-tracking.vue';
 	import locationUploadModal from '../modals/location-upload.vue';
 	import locationFileCount from '../../apollo/queries/location-file-count.gql';
@@ -1264,6 +1290,7 @@
 	import userThemeUpdate from '../../apollo/mutations/user-theme-update.gql';
 	import patchConnection from '../../apollo/mutations/patch-connection.gql';
 	import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
+	import userNewsletterUpdate from '../../apollo/mutations/user-newsletter-update.gql';
 
 	function isBefore(value) {
 		let now = moment();
@@ -1315,6 +1342,8 @@
 				unpersonedContactLimit: 20,
 
 				externalAvatarError: false,
+
+                newEmail: ''
 			}
 		},
 
@@ -2151,7 +2180,33 @@
 
 			oldConnection: function(connection) {
 				return moment().subtract(3, 'days') > moment(connection.last_successful_run);
-			}
+			},
+
+            openEmailChangeModal: async function() {
+                this.$modal.show(emailChangeModal, {}, {
+                    height: 'auto',
+                    scrollable: true
+                });
+            },
+
+            updateNewsletter: async function() {
+				let self = this;
+
+                let response = await this.$apollo.mutate({
+                    mutation: userNewsletterUpdate,
+                    variables: {
+                        newsletter: self.$store.state.user.newsletter === true
+                    }
+                });
+
+				let user = response.data.userNewsletterUpdate;
+
+				let copy = _.cloneDeep(self.$store.state.user);
+
+				copy.newsletter = user.newsletter;
+
+				self.$store.state.user = copy;
+            }
 		},
 	}
 </script>

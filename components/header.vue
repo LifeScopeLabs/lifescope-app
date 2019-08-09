@@ -540,9 +540,16 @@
                 />
             </nuxt-link>
 
-            <span v-if="$store.state.user != undefined"
-                  class="flex-grow"
-            ></span>
+            <nuxt-link v-if="$store.state.user == undefined"
+                       id="base"
+                       to="/"
+            >
+                <img class="logo"
+                     src="~/assets/images/icons/black_LOGO.svg"
+                />
+            </nuxt-link>
+
+            <span class="flex-grow"></span>
 
             <div v-if="$store.state.user != undefined && $store.state.mode === 'provider'"
                  class="flexbox flex-x-center"
@@ -575,17 +582,36 @@
                 <div class="fal fa-bars"></div>
             </div>
 
-            <div v-if="$store.state.user == undefined && ($store.state.mode === 'provider' || $store.state.mode === 'home' || $store.state.mode === 'auth')">
-                <span class="flex-grow"></span>
-
+            <div v-if="$store.state.user == undefined && ($store.state.mode === 'provider' || $store.state.mode === 'login-provider' || $store.state.mode === 'signup-provider' || $store.state.mode === 'auth')"
+                 class="flexbox"
+            >
                 <div class="login flexbox flex-x-center">
-                    <div>Sign up or Log in by Connecting to any of the providers below.</div>
+                    <div v-if="$store.state.mode === 'signup-provider'">Sign up by Connecting to any of the providers below.</div>
+                    <div v-else-if="$store.state.mode === 'login-provider'">Log in by Connecting to any of the providers below.</div>
+                    <div v-else>Sign up or Log in by Connecting to any of the providers below.</div>
                     <i class="fal fa-question-circle"
                        v-on:click="showLoginModal"
                     ></i>
                 </div>
+            </div>
 
-                <span class="flex-grow"></span>
+            <span v-if="$store.state.user == undefined"
+                  class="flex-grow"
+            >
+            </span>
+
+            <div v-if="$store.state.mode === 'login-provider' || $store.state.mode === 'signup-provider'">
+                <nuxt-link v-if="$store.state.user == undefined && $store.state.mode === 'login-provider'"
+                           to="/login"
+                >
+                    <button class="back">Go back</button>
+                </nuxt-link>
+
+                <nuxt-link v-if="$store.state.user == undefined && $store.state.mode === 'signup-provider'"
+                           to="/signup"
+                >
+                    <button class="back">Go back</button>
+                </nuxt-link>
             </div>
         </nav>
 

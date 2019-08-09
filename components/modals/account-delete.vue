@@ -11,7 +11,7 @@
                 <span class="instructions">Delete Your LifeScope Account</span>
 
                 <p>Are you sure you'd like to delete your LifeScope account?</p>
-                <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
+                <p>LifeScope is read only and your connected data source accounts (Facebook, Twitter, Google, etc.) will remain unchanged.</p>
                 <p>Once you delete your account, your LifeScope index will be deleted.</p>
                 <p>LifeScope will not keep your data and we never share any data without your consent.</p>
             </div>
