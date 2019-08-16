@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="$data.error != null"
+                <div v-else-if="$data.error != null"
                      class="align-center"
                 >
                     {{ $data.error }}
@@ -64,7 +64,6 @@
 </template>
 
 <script>
-	import _ from 'lodash';
 	import querystring from 'querystring';
 	import url from 'url';
 
@@ -74,10 +73,15 @@
 	let scopeTranslation = {
 		basic: 'Basic user information like LifeScope ID (Read-only)',
 		'contacts:read': 'LifeScope Contacts (Read-only)',
+        'contacts:write': 'LifeScope Contacts (Read and write)',
 		'content:read': 'LifeScope Content (Read-only)',
+		'content:write': 'LifeScope Content (Read and write)',
 		'locations:read': 'LifeScope Locations (Read-only)',
+		'locations:write': 'LifeScope Locations (Read and write)',
 		'events:read': 'LifeScope Events (also includes Contacts, Content, and Locations; Read-only)',
-		'people:read': 'LifeScope People (Read-only)'
+		'events:write': 'LifeScope Events (also includes Contacts, Content, and Locations; Read and write)',
+		'people:read': 'LifeScope People (Read-only)',
+		'people:write': 'LifeScope People (Read and write)',
 	};
 
 	function returnError(errorObj) {
@@ -102,20 +106,21 @@
 			let self = this;
 
 			this.$router.onReady(async function() {
-                let result = await self.$apollo.query({
-                    query: oauthAppOneAuthorization,
-                    variables: {
-                        client_id: self.$route.query.client_id
-                    },
-                    fetchPolicy: 'no-cache'
-                });
+				try {
+					let result = await self.$apollo.query({
+						query: oauthAppOneAuthorization,
+						variables: {
+							client_id: self.$route.query.client_id
+						},
+						fetchPolicy: 'no-cache'
+					});
 
-                if (result == null) {
-                    this.$data.error = 'Code 400: Invalid Client ID';
+					self.$store.state.auth.app = result.data.oauthAppOneAuthorization;
+					self.$store.state.auth.scopes = self.$route.query.scope.split(',');
+				}
+				catch(err) {
+					self.$data.error = err;
                 }
-
-                self.$store.state.auth.app = result.data.oauthAppOneAuthorization;
-                self.$store.state.auth.scopes = self.$route.query.scope.split(',');
 			});
 		},
 
@@ -144,7 +149,7 @@
 					window.location.href = url.format(parsed);
 				}
 				catch (err) {
-					let errorMessage = _.get(err, 'graphQLErrors[0].message') || _.get(err, 'data.errors[0].message');
+					let errorMessage = err;
 					let missingParameter = /was not provided/.test(errorMessage);
 					let invalidClientId = /Invalid client_id/.test(errorMessage);
 					let invalidRedirectUri = /Invalid redirect_uri/.test(errorMessage);

@@ -405,7 +405,7 @@
                                             name="provider"
                                     >
                                         <option value=""></option>
-                                        <option v-for="provider in orderBy($store.state.providerHydratedMany, 'name')"
+                                        <option v-for="provider in orderBy(combinedProviders, 'name')"
                                                 v-bind:key="provider.id"
                                                 v-bind:value="provider.id | lowercase"
                                         >
@@ -626,6 +626,7 @@
 	import _ from 'lodash';
 	import qs from 'qs';
 
+	import connectedOAuthProviderMany from '../apollo/queries/connectedOauthProviderMany.gql';
 	import contactSearch from '../apollo/mutations/contact-search.gql';
 	import connectionMany from '../apollo/queries/connection-many.gql';
 	import contentSearch from '../apollo/mutations/content-search.gql';
@@ -702,6 +703,12 @@
 			}
 		},
 
+		computed: {
+            combinedProviders: function() {
+                return [].concat(this.$store.state.providerHydratedMany, this.$store.state.connectedOAuthProviderMany);
+            }
+		},
+
 		created: async function() {
 			let self = this;
 
@@ -725,6 +732,16 @@
 
 						return Promise.resolve();
 					});
+
+				this.$store.state.oauthProvidersLoaded = this.$apollo.query({
+                    query: connectedOAuthProviderMany,
+                    fetchPolicy: 'no-cache'
+                })
+                    .then(function(result) {
+                        self.$store.state.connectedOAuthProviderMany = result.data.connectedOAuthProviderMany;
+
+                        return Promise.resolve();
+                    });
 
 				this.$store.state.peopleLoaded = this.$apollo.query({
 					query: personMany,
@@ -1455,6 +1472,7 @@
 
 				await Promise.all([
 					this.$store.state.connectionsLoaded,
+					this.$store.state.oauthProvidersLoaded,
 					this.$store.state.providersLoaded,
 					this.$store.state.peopleLoaded,
 				]);

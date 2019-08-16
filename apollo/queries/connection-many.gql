@@ -13,12 +13,15 @@
         enabled,
         last_run,
         last_successful_run,
+        name,
+        oauth_app_name,
         permissions,
         provider_id,
         provider {
             id,
             name,
             auth_type,
+            oauth_app,
             sources
         },
         provider_name,

@@ -13,7 +13,9 @@
                         />
                         <div id="signup-choice">
                             <h1>You can sign up for LifeScope in two ways:</h1>
-                            <h4>(By signing up for LifeScope, you agree to the
+
+                            <h4>
+                                (By signing up for LifeScope, you agree to the
                                 <a target="_blank"
                                    href="https://lifescope.io/terms"
                                 >

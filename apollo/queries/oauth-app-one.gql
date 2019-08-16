@@ -6,6 +6,8 @@ query oauthAppOne($id: String!) {
 		homepage_url,
 		name,
 		privacy_policy_url,
+        provider_id,
+        provider_id_string,
 		redirect_uris
     }
 }

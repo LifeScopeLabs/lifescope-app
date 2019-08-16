@@ -12,10 +12,15 @@
 	let allowedScopes = {
 		basic: true,
 		'events:read': true,
+		'events:write': true,
 		'content:read': true,
+		'content:write': true,
 		'contacts:read': true,
+		'contacts:write': true,
 		'locations:read': true,
-		'people:read': true
+		'locations:write': true,
+		'people:read': true,
+		'people:write': true,
 	};
 
 	export default {

@@ -300,7 +300,7 @@
                                         <div class="flex-grow name">{{ connection.name }}</div>
                                         <div class="disabled"></div>
                                     </div>
-                                    <div v-if="connection.browser == null && connection.runnable !== false"
+                                    <div v-if="connection.browser == null && connection.oauth_app_name == null &&connection.runnable !== false"
                                          class="last-run"
                                     >
                                         <div v-if="connection.last_successful_run != null"
@@ -334,7 +334,7 @@
                                       v-on:submit.prevent=""
                                 >
                                     <div class="padded paragraphed">
-                                        <div v-if="connection.browser == null">
+                                        <div v-if="connection.browser == null && connection.oauth_app_name == null">
                                             <div class="flexbox flex-x-center label">
                                                 <div>Name</div>
                                                 <i class="fal fa-check-circle flex-grow success-icon"
@@ -352,10 +352,15 @@
                                         </div>
 
                                         <div>
-                                            <div v-if="connection.browser == null"
+                                            <div v-if="connection.browser == null && connection.oauth_app_name == null"
                                                  class="label"
                                             >
                                                 What would you like?
+                                            </div>
+                                            <div v-else-if="connection.oauth_app_name != null"
+                                                 class="label"
+                                            >
+                                                This is a Connection to an app built on LifeScope.
                                             </div>
                                             <div v-else-if="connection.browser != null"
                                                  class="label"
@@ -699,6 +704,11 @@
                                     <div class="flexbox flex-column">
                                         <div class="title">Client ID</div>
                                         <div>{{ $store.state.app.clientId.value }}</div>
+                                    </div>
+
+                                    <div class="flexbox flex-column">
+                                        <div class="title">Provider ID</div>
+                                        <div>{{ $store.state.app.providerId.value }}</div>
                                     </div>
 
                                     <div class="flexbox flex-column">
@@ -1443,6 +1453,7 @@
 				self.$store.state.app.description.value = app.description;
 				self.$store.state.app.homepage.value = app.homepage_url;
 				self.$store.state.app.privacyPolicy.value = app.privacy_policy_url;
+				self.$store.state.app.providerId.value = app.provider_id_string;
 				self.$store.state.app.redirects.value = app.redirect_uris || [];
 				self.$store.state.app.clientId.value = app.client_id;
 			}

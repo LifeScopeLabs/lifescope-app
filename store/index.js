@@ -67,11 +67,13 @@ function initialState () {
         },
 
         connectionMany: [],
+        connectedOAuthProviderMany: [],
         providerHydratedMany: [],
         permissions: {},
         userOne: {},
 
         connectionsLoaded: false,
+        oauthProvidersLoaded: false,
         providersLoaded: false,
 
         facet: null,
@@ -98,31 +100,43 @@ function initialState () {
 
         app: {
             id: null,
+
             clientId: {
                 value: null,
                 error: false
             },
+
             clientSecret: {
                 value: null,
                 error: false
             },
+
             redirects: {
                 value: [],
                 error: false,
             },
+
             name: {
                 value: null,
                 error: false
             },
+
             description: {
                 value: null,
                 error: false
             },
+
             homepage: {
                 value: null,
                 error: false
             },
+
             privacyPolicy: {
+                value: null,
+                error: false
+            },
+
+            providerId: {
                 value: null,
                 error: false
             }

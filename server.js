@@ -55,6 +55,6 @@ Promise.resolve()
 		builder.build();
 		app.use(nuxt.render);
 		app.listen(LISTEN_PORT);
-		console.log('Nuxt App listening on: ' + LISTEN_PORT);
 
+		console.log('Nuxt App listening on: ' + LISTEN_PORT); //eslint-disable-line no-console
 	});

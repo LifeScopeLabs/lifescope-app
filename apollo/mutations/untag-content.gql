@@ -1,4 +1,4 @@
-mutation untagContent($id: String, $tags: [String]) {
+mutation untagContent($id: String!, $tags: [String]) {
     untagContent (id: $id, tags: $tags) {
       id
     }
