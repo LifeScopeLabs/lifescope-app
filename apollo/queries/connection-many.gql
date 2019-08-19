@@ -26,6 +26,7 @@
         },
         provider_name,
         remote_connection_id,
+        runnable,
         status
     }
 }

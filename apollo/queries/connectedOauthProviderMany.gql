@@ -11,6 +11,7 @@
         remote_map_id,
         remote_map_id_string,
         name,
+        runnable,
         tags
     }
 }

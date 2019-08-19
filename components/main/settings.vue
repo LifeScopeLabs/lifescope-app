@@ -300,7 +300,7 @@
                                         <div class="flex-grow name">{{ connection.name }}</div>
                                         <div class="disabled"></div>
                                     </div>
-                                    <div v-if="connection.browser == null && connection.oauth_app_name == null &&connection.runnable !== false"
+                                    <div v-if="connection.browser == null && connection.oauth_app_name == null && connection.runnable !== false"
                                          class="last-run"
                                     >
                                         <div v-if="connection.last_successful_run != null"
