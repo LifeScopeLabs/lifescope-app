@@ -24,7 +24,7 @@
              v-bind:data-id="content.id"
         >
             <audio v-if="isAudio(content)"
-                   v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+                   v-observe-visibility="{ callback: visibilityChanged, throttle: 500 }"
                    controls
                    v-bind:style="{ width: getWidth, height: getHeight }"
             >
@@ -33,12 +33,12 @@
                 >
             </audio>
             <img v-if="isImage(content)"
-                 v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+                 v-observe-visibility="{ callback: visibilityChanged, throttle: 500 }"
                  v-bind:src="content.embed_content"
                  v-bind:alt="content.title"
             />
             <video v-if="isVideo(content)"
-                   v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+                   v-observe-visibility="{ callback: visibilityChanged, throttle: 500 }"
                    v-bind:width="getWidth"
                    v-bind:height="getHeight"
                    controls
@@ -48,17 +48,16 @@
                 >
             </video>
             <iframe v-if="isEmail(content)"
-                    v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+                    v-bind:id="content.id"
+                    v-observe-visibility="{ callback: emailVisibilityChanged, throttle: 500 }"
                     frameBorder="0"
                     v-bind:width="getWidth()"
                     v-bind:height="getHeight()"
-                    v-bind:name="content.id"
-                    v-on:load="renderEmailIframe(content)"
             ></iframe>
             <span v-if="isIframe(content)"
-                  v-observe-visibility="{ callback: visbilityChanged, throttle: 500 }"
+                  v-bind:id="content.id"
+                  v-observe-visibility="{ callback: iframeVisibilityChanged, throttle: 500 }"
                   class="iframe-wrapper"
-                  v-html="content.embed_content"
             >
             </span>
         </div>
@@ -350,22 +349,75 @@
 			},
 
 			renderEmailIframe(content) {
-				let $iframe = $('iframe[name="' + content.id + '"]');
+				let $iframe = $('iframe[id="' + content.id + '"]');
 
 				let iframe = $iframe.get(0);
-				if (iframe.contentDocument) {
+
+				if (iframe.contentDocument && iframe.contentDocument.body.innerHTML.length === 0) {
 					iframe.contentDocument.body.innerHTML = content.embed_content;
 				}
 			},
 
-			visbilityChanged(isVisible, entry) {
+			visibilityChanged(isVisible, entry) {
 				if (isVisible) {
-					entry.target.classList.remove('embed-hidden');
-					$(entry.target).parent().siblings('.thumbnail').addClass('hidden');
+					let src, dataSrc, target;
+
+					let isControls = _.find(entry.target.attributes, function(attr) {
+						return attr.name === 'controls';
+                    });
+
+					if (isControls == null) {
+						target = entry.target;
+                    }
+					else {
+						target = $(entry.target).children().get(0);
+                    }
+
+					_.each(target.attributes, function(attr) {
+						if (attr.name === 'data-src') {
+							dataSrc = attr;
+                        }
+
+						if (attr.name === 'src') {
+							src = attr;
+                        }
+                    });
+
+					if (dataSrc != null) {
+						src.value = dataSrc.value;
+                    }
 				}
-				else {
-					entry.target.classList.add('embed-hidden');
-					$(entry.target).parent().siblings('.thumbnail').removeClass('hidden');
+			},
+
+			emailVisibilityChanged(isVisible, entry) {
+				if (isVisible) {
+					let id = _.find(entry.target.attributes, function(attr) {
+						return attr.name === 'id';
+                    });
+
+					let content = _.find(this.$store.state.objects.content, function(content) {
+						return content.id === id.value;
+					});
+
+					this.renderEmailIframe(content);
+				}
+			},
+
+			iframeVisibilityChanged(isVisible, entry) {
+				if (isVisible) {
+					let id = _.find(entry.target.attributes, function(attr) {
+						return attr.name === 'id';
+					});
+
+					let content = _.find(this.$store.state.objects.content, function(content) {
+						return content.id === id.value;
+					});
+
+					let html = $(entry.target).html();
+
+					if (html.length === 0) {
+						$(entry.target).html(content.embed_content);
+					}
 				}
 			},
 
