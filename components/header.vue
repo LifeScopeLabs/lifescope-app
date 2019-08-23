@@ -79,6 +79,16 @@
             <div v-if="$store.state.facet === 'events'"
                  class="sort"
             >
+                <a data-sort="score"
+                   v-bind:class="{ active: $store.state.sortField === 'score' }"
+                   v-on:click="setSort('score')"
+                >
+                    <i v-if="$store.state.sortField === 'score'"
+                       class="sort-arrow"
+                       v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                    ></i>
+                    <span>Relevance</span>
+                </a>
                 <a data-sort="connection_id_string"
                    v-bind:class="{ active: $store.state.sortField === 'connection' }"
                    v-on:click="setSort('connection')"
@@ -114,6 +124,16 @@
             <div v-if="$store.state.facet === 'contacts'"
                  class="sort"
             >
+                <a data-sort="score"
+                   v-bind:class="{ active: $store.state.sortField === 'score' }"
+                   v-on:click="setSort('score')"
+                >
+                    <i v-if="$store.state.sortField === 'score'"
+                       class="sort-arrow"
+                       v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                    ></i>
+                    <span>Relevance</span>
+                </a>
                 <a data-sort="name"
                    v-bind:class="{ active: $store.state.sortField === 'name' }"
                    v-on:click="setSort('name')"
@@ -149,6 +169,16 @@
             <div v-if="$store.state.facet === 'content'"
                  class="sort"
             >
+                <a data-sort="score"
+                   v-bind:class="{ active: $store.state.sortField === 'score' }"
+                   v-on:click="setSort('score')"
+                >
+                    <i v-if="$store.state.sortField === 'score'"
+                       class="sort-arrow"
+                       v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                    ></i>
+                    <span>Relevance</span>
+                </a>
                 <a data-sort="title"
                    v-bind:class="{ active: $store.state.sortField === 'title' }"
                    v-on:click="setSort('title')"
@@ -184,6 +214,16 @@
             <div v-if="$store.state.facet === 'people'"
                  class="sort"
             >
+                <a data-sort="score"
+                   v-bind:class="{ active: $store.state.sortField === 'score' }"
+                   v-on:click="setSort('score')"
+                >
+                    <i v-if="$store.state.sortField === 'score'"
+                       class="sort-arrow"
+                       v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                    ></i>
+                    <span>Relevance</span>
+                </a>
                 <a data-sort="first_name"
                    v-bind:class="{ active: $store.state.sortField === 'first_name' }"
                    v-on:click="setSort('first_name')"
@@ -758,25 +798,25 @@
 
 				switch (facet) {
 					case 'events':
-						this.$store.state.sortField = 'datetime';
-						this.$store.state.sortOrder = 'desc';
+						this.$store.state.sortField = 'score';
+						this.$store.state.sortOrder = 'asc';
 
 						break;
 
 					case 'content':
-						this.$store.state.sortField = 'type';
+						this.$store.state.sortField = 'score';
 						this.$store.state.sortOrder = 'asc';
 
 						break;
 
 					case 'contacts':
-						this.$store.state.sortField = 'connection';
+						this.$store.state.sortField = 'score';
 						this.$store.state.sortOrder = 'asc';
 
 						break;
 
 					case 'people':
-						this.$store.state.sortField = 'first_name';
+						this.$store.state.sortField = 'score';
 						this.$store.state.sortOrder = 'asc';
 
 						break;

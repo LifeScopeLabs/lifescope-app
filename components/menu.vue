@@ -144,7 +144,7 @@
                             >
                                 <i v-bind:class="{ 'fal fa-caret-up': $store.state.mobileSortSelectorOpen === true, 'fal fa-caret-down': $store.state.mobileSortSelectorOpen !== true }"></i>
                                 <span class="drawer-label">Sort &ndash;</span>
-                                <span class="name">{{ $store.state.sortField[0].toUpperCase() + $store.state.sortField.slice(1) }}</span>
+                                <span class="name">{{ sortName() }}</span>
                                 <i v-bind:class="{ 'fal fa-chevron-up': $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"></i>
                             </div>
                             <transition name="menu-drop">
@@ -154,6 +154,16 @@
                                     <div v-if="$store.state.facet === 'events'"
                                          class="sort"
                                     >
+                                        <a data-sort="score"
+                                           v-bind:class="{ active: $store.state.sortField === 'score' }"
+                                           v-on:click="setSort('score')"
+                                        >
+                                            <i v-if="$store.state.sortField === 'score'"
+                                               class="sort-arrow"
+                                               v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                                            ></i>
+                                            <span>Relevance</span>
+                                        </a>
                                         <a data-sort="connection_id_string"
                                            v-bind:class="{ active: $store.state.sortField === 'connection' }"
                                            v-on:click="setSort('connection')"
@@ -189,6 +199,16 @@
                                     <div v-if="$store.state.facet === 'contacts'"
                                          class="sort"
                                     >
+                                        <a data-sort="score"
+                                           v-bind:class="{ active: $store.state.sortField === 'score' }"
+                                           v-on:click="setSort('score')"
+                                        >
+                                            <i v-if="$store.state.sortField === 'score'"
+                                               class="sort-arrow"
+                                               v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                                            ></i>
+                                            <span>Relevance</span>
+                                        </a>
                                         <a data-sort="name"
                                            v-bind:class="{ active: $store.state.sortField === 'name' }"
                                            v-on:click="setSort('name')"
@@ -224,6 +244,16 @@
                                     <div v-if="$store.state.facet === 'content'"
                                          class="sort"
                                     >
+                                        <a data-sort="score"
+                                           v-bind:class="{ active: $store.state.sortField === 'score' }"
+                                           v-on:click="setSort('score')"
+                                        >
+                                            <i v-if="$store.state.sortField === 'score'"
+                                               class="sort-arrow"
+                                               v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                                            ></i>
+                                            <span>Relevance</span>
+                                        </a>
                                         <a data-sort="title"
                                            v-bind:class="{ active: $store.state.sortField === 'title' }"
                                            v-on:click="setSort('title')"
@@ -259,6 +289,16 @@
                                     <div v-if="$store.state.facet === 'people'"
                                          class="sort"
                                     >
+                                        <a data-sort="score"
+                                           v-bind:class="{ active: $store.state.sortField === 'score' }"
+                                           v-on:click="setSort('score')"
+                                        >
+                                            <i v-if="$store.state.sortField === 'score'"
+                                               class="sort-arrow"
+                                               v-bind:class="{ 'fal fa-chevron-up' : $store.state.sortOrder === 'asc', 'fal fa-chevron-down': $store.state.sortOrder === 'desc' }"
+                                            ></i>
+                                            <span>Relevance</span>
+                                        </a>
                                         <a data-sort="first_name"
                                            v-bind:class="{ active: $store.state.sortField === 'first_name' }"
                                            v-on:click="setSort('first_name')"
@@ -437,6 +477,10 @@
 				this.$store.state.menu.open = false;
 				this.$root.$emit('set-facet', facet)
 			},
+
+            sortName: function() {
+				return this.$store.state.sortField === 'score' ? 'Relevance' : this.$store.state.sortField[0].toUpperCase() + this.$store.state.sortField.slice(1);
+            },
 
 			isSettingsPage: function() {
 				return /settings/.test(this.$store.state.pageName)
