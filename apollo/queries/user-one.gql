@@ -10,6 +10,11 @@ query userOne {
         newsletter,
 		settings {
 			theme
+		},
+		tutorials {
+		    connections,
+		    explorer,
+		    home,
 		}
     }
 }

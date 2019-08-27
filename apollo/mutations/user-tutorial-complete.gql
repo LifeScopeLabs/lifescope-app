@@ -1,0 +1,10 @@
+mutation userTutorialComplete($tutorial: String!) {
+     userTutorialComplete(tutorial: $tutorial) {
+        id,
+        tutorials {
+            connections,
+            explorer,
+            home
+        }
+    }
+}

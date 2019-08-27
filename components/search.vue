@@ -5,6 +5,7 @@
     >
         <div v-if="!$store.state.hide_advanced"
              id="advanced"
+             data-intro-selector="advanced-search"
              v-on:click="toggleFilterEditor"
         >
             <i v-bind:class="$data.editorOpen ? 'fal glow fa-caret-up' : 'fal glow fa-caret-down'"></i>
@@ -581,6 +582,7 @@
 
         <div v-if="!$store.state.hide_favorite_star"
              id="search-favorited"
+             data-intro-selector="favorite-star"
              v-bind:class="{filled: $store.state.currentSearch.favorited}"
              v-on:click="showFavoriteModal"
         >
@@ -588,6 +590,7 @@
         </div>
 
         <div id="search-button"
+             data-intro-selector="search-execute"
              v-on:click="performSearch(true)"
         >
             <i class="fal fa-search"></i>

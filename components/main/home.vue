@@ -134,6 +134,7 @@
                         <nav id="tabs">
                             <div class="tab"
                                  name="people"
+                                 data-intro-selector="people-tab"
                                  v-bind:class="{selected: $store.state.home.tab === 'people'}"
                                  v-on:click="fetchData(true, 'people', 'first_name')"
                             >
@@ -141,6 +142,7 @@
                             </div>
                             <div class="tab"
                                  name="favorited"
+                                 data-intro-selector="searches-tab"
                                  v-bind:class="{selected: $store.state.home.tab === 'searches'}"
                                  v-on:click="fetchData(true, 'searches', 'favorited')"
                             >
@@ -148,6 +150,7 @@
                             </div>
                             <div class="tab"
                                  name="tags"
+                                 data-intro-selector="tags-tab"
                                  v-bind:class="{selected: $store.state.home.tab === 'tags'}"
                                  v-on:click="fetchData(true, 'tags', 'tag')"
                             >
@@ -367,6 +370,7 @@
 	import searchMany from '../../apollo/queries/search-many.gql';
 	import tagMany from '../../apollo/queries/tag-many.gql';
 	import userCounts from '../../apollo/queries/user-counts.gql';
+	import userTutorialComplete from '../../apollo/mutations/user-tutorial-complete.gql';
 
 	import { defaultColor, defaultLetter } from '../../lib/util/default-icon';
 	import favoriteModal from '../modals/favorite.vue';
@@ -450,6 +454,38 @@
 
 				self.selectTab(self.$store.state.home.tab, sort);
 			});
+
+			if (_.get(self.$store.state.user, 'tutorials.home') !== true) {
+                self.$intro()
+                    .setOptions({
+                        steps: [
+                            {
+                            	intro: 'This is your home page, which lets you quickly re-run your top searches as well as share tagged searches with others.'
+                            },
+                            {
+                            	intro: 'This tab lets you quickly make searches on People, which you can make in <a href="https://app.lifescope.io/settings/people">one of the Settings pages</a>. People are collections of Contacts, i.e. accounts from various Providers.',
+                                element: document.querySelector('[data-intro-selector="people-tab"]')
+                            },
+                            {
+                            	intro: 'From this tab, you can see and easily re-run your favorite LifeScope searches.',
+                                element: document.querySelector('[data-intro-selector="searches-tab"]')
+                            },
+                            {
+                            	intro: 'This tab shows you all of the things you\'ve tagged in LifeScope. You can make everything tagged with a specific tag publicly available so that you can share your curated stories with others.',
+                                element: document.querySelector('[data-intro-selector="tags-tab"]')
+                            }
+                        ]
+                    })
+                    .start()
+	                .oncomplete(function() {
+		                self.$apollo.mutate({
+			                mutation: userTutorialComplete,
+			                variables: {
+				                tutorial: 'home'
+			                }
+		                });
+	                });
+			}
 		},
 
 		methods: {

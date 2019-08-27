@@ -350,6 +350,7 @@ export default {
 			'mixitup',
 			'moment',
 			'vue-js-modal',
+			'vue-introjs',
 			'vue2-filters',
 			'vue-bootstrap-datetimepicker',
 			'vue-observe-visibility',
@@ -384,6 +385,7 @@ export default {
 				moment: 'moment',
 				// 'socket.io': 'socket.io-client',
 				easyrtc: './static/easyrtc/easyrtc.js',
+				introJs: 'intro.js',
 				// 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js',
 				mapboxgl: 'mapbox-gl'
 			}),
@@ -408,6 +410,10 @@ export default {
 		},
 		{
 			src: './plugins/appear.js',
+			ssr: false
+		},
+		{
+			src: './plugins/vue-introjs',
 			ssr: false
 		}
 	],

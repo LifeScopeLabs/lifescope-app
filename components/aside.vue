@@ -1,6 +1,7 @@
 <template slot="aside">
     <aside v-if="$store.state.pageName === 'providers'"
            class="filters"
+           data-intro-selector="provider-filters"
     >
         <div class="scroller">
             <div id="filters">

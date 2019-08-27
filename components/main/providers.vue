@@ -2,10 +2,10 @@
     <transition appear
                 name="page-load"
     >
-        <main>
+        <main data-intro-selector="provider-grid">
             <div class="scroller">
                 <div v-if="$store.getters.authenticated === true"
-                     id="provider-grid"
+                     id="provider-grid",
                 >
                     <div v-for="provider in providerHydratedMany"
                          v-bind:key="provider.id"
@@ -56,6 +56,7 @@
 	import loginHelpModal from '../../components/modals/login-help.vue';
 	import providerHydratedMany from '../../apollo/queries/provider-hydrated-many.gql';
 	import providerWithMapMany from '../../apollo/queries/provider-with-map-many.gql';
+	import userTutorialComplete from '../../apollo/mutations/user-tutorial-complete.gql';
 
 	export default {
 		data: function() {
@@ -109,7 +110,41 @@
 						}
 					});
 				}
-			})
+			});
+
+			if (_.get(self.$store.state.user, 'tutorials.connections') !== true) {
+				self.$intro()
+                    .setOptions({
+                        steps: [
+                            {
+                            	intro: 'Welcome to LifeScope! In just a few clicks you can have a wealth of data ready to be searched, curated, and shared, regardless of where that data originated.'
+                            },
+                            {
+                            	intro: 'This is the Providers page, where you can make Connections to your accounts. Providers are sources of data such as Facebook, Spotify, Google, or reddit. Connections are individual accounts of yours that you give LifeScope permission to access, and you choose what data LifeScope can retrieve.'
+                            },
+                            {
+                            	intro: 'You can filter Providers by their types here.',
+                                element: document.querySelector('[data-intro-selector="provider-filters"')
+                            },
+                            {
+                            	intro: 'You can click any of the Providers here to find out how to make a Connection to it. In many cases, this will involve authorizing LifeScope to have access to your data. LifeScope will NEVER have access to your login credentials for your accounts.',
+                                element: document.querySelector('[data-intro-selector="provider-grid"')
+                            },
+                            {
+                            	intro: 'Providers highlighted in blue are ones you already have a Connection to. You can make multiple Connections to the same provider, e.g. you can connect a personal and work Google account. To do so, you must log out of one account, then log in to the other account during the Connection process.'
+                            }
+                        ]
+                    })
+					.start()
+					.oncomplete(function() {
+						self.$apollo.mutate({
+							mutation: userTutorialComplete,
+							variables: {
+								tutorial: 'connections'
+							}
+						});
+					});
+			}
 		},
 
 		updated() {

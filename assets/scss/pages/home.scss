@@ -231,13 +231,6 @@ div#body.home {
                 @include flex-x-center;
                 @include flex-grow;
 
-                @media #{$maxwidth768}, #{$mobile} {
-                    @include flex-row;
-
-                    flex: initial;
-                    margin: 0.35em 0 0.25em;
-                }
-
                 & > * {
                     @include align-center;
 

@@ -171,6 +171,7 @@
 
 	import searchFind from '../../apollo/mutations/search-find.gql';
 	import searchOne from '../../apollo/queries/search-one.gql';
+	import userTutorialComplete from '../../apollo/mutations/user-tutorial-complete.gql';
 
 	import Details from '../modals/details.vue';
 	import UserContact from '../objects/contact.vue';
@@ -199,6 +200,8 @@
 		},
 
 		mounted: async function() {
+			let self = this;
+
 			this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
 			let params = qs.parse(window.location.search, {
@@ -248,8 +251,40 @@
 			else if (this.$store.state.mode === 'shared') {
 				this.$root.$emit('perform-search', true);
 			}
-		}
-		,
+
+			if (_.get(this.$store.state.user, 'tutorials.explorer') !== true) {
+				this.$intro()
+					.setOptions({
+						steps: [
+							{
+								intro: 'This is the Explorer, where you can search and explore all of your data in LifeScope.'
+							},
+							{
+								intro: 'Click the magnifying glass to run a search.',
+                                element: document.querySelector('[data-intro-selector="search-execute"')
+							},
+							{
+								intro: 'Click here to open the Advanced Search features. You can filter searches on People or Contacts (Who); the type of Content involved (What); the date and time it took place (When) the location it took place (Where); and what Providers/Connections the data came from (How). Note that Where filters must be drawn on the Map View.',
+								element: document.querySelector('[data-intro-selector="advanced-search"')
+							},
+                            {
+                            	intro: 'Click the star to Favorite a search that you find useful, interesting, or just plain cool. It\'ll show up under the Favorites classification under the Searches tab on your <a href="https://app.lifescope.io">home page</a>.',
+	                            element: document.querySelector('[data-intro-selector="favorite-star"')
+                            }
+						]
+					})
+					.start()
+					.oncomplete(function() {
+						self.$apollo.mutate({
+							mutation: userTutorialComplete,
+							variables: {
+								tutorial: 'explorer'
+							}
+						});
+					});
+			}
+		},
+
 		methods: {
 			searchIcon: function(search) {
 				return search.favorited && search.icon ? search.icon : 'far fa-circle';
