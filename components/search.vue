@@ -858,6 +858,17 @@
 			});
 		},
 
+		destroyed: function() {
+			this.$root.$off([
+				'check-and-search',
+				'perform-search',
+				'polygon-deleted',
+				'polygon-updated',
+				'polygon-selected',
+				'polygon-created',
+			]);
+		},
+
 		methods: {
 			showFavoriteModal: function() {
 				let temp = _.clone(this.$store.state.currentSearch);
@@ -1069,7 +1080,7 @@
 						params.qid = data.id;
 
 						history.push({
-							pathname: history.location.pathname,
+							pathname: window.location.pathname,
 							search: qs.stringify(params, {
 								addQueryPrefix: true
 							})
@@ -1092,7 +1103,7 @@
 						delete params.qid;
 
 						history.push({
-							pathname: history.location.pathname,
+							pathname: window.location.pathname,
 							search: qs.stringify(params, {
 								addQueryPrefix: true
 							})
@@ -1173,7 +1184,7 @@
 					}
 
 					history.push({
-						pathname: history.location.pathname,
+						pathname: window.location.pathname,
 						search: qs.stringify(params, {
 							addQueryPrefix: true
 						})

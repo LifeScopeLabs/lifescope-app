@@ -268,8 +268,8 @@
 								element: document.querySelector('[data-intro-selector="advanced-search"')
 							},
                             {
-                            	intro: 'Click the star to Favorite a search that you find useful, interesting, or just plain cool. It\'ll show up under the Favorites classification under the Searches tab on your <a href="https://app.lifescope.io">home page</a>.',
-	                            element: document.querySelector('[data-intro-selector="favorite-star"')
+                                intro: 'Click the star to Favorite a search that you find useful, interesting, or just plain cool. It\'ll show up under the Favorites classification under the Searches tab on your <a href="https://app.lifescope.io">home page</a>.',
+                                element: document.querySelector('[data-intro-selector="favorite-star"')
                             }
 						]
 					})

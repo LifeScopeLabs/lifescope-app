@@ -11,7 +11,7 @@
                          class="flexbox flex-column flex-grow flex-center flex-x-center"
                     >
                         <img class="logo"
-                             src="~/assets/images/icons/black_LOGO.svg"
+                             src="~/assets/images/icons/Logo.svg"
                         />
                         <div id="login-choice">
                             <h1>You can log into LifeScope in two ways:</h1>
@@ -46,7 +46,7 @@
                         <div v-if="$data.loginSuccess !== true">
                             <div class="flexbox flex-grow flex-column flex-center flex-x-center">
                                 <img class="logo"
-                                     src="~/assets/images/icons/black_LOGO.svg"
+                                     src="~/assets/images/icons/Logo.svg"
                                 />
                                 <h3>
                                     Enter your email address below.
@@ -85,7 +85,7 @@
                         <div v-else>
                             <div class="flexbox flex-grow flex-column flex-center flex-x-center">
                                 <img class="logo"
-                                     src="~/assets/images/icons/black_LOGO.svg"
+                                     src="~/assets/images/icons/Logo.svg"
                                 />
                                 <h3>
                                     Check your email for a link to complete the login process.

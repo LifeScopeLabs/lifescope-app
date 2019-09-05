@@ -7,7 +7,7 @@
                 <div class="flexbox flex-grow flex-x-center flex-center">
                     <div class="flexbox flex-column flex-grow flex-center flex-x-center">
                         <img class="logo"
-                             src="~/assets/images/icons/black_LOGO.svg"
+                             src="~/assets/images/icons/Logo.svg"
                         />
                         <div id="signin-choice">
                             <h1>Welcome to LifeScope! Choose whether you want to Sign Up or Log In:</h1>

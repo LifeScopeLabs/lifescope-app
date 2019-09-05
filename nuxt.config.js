@@ -415,6 +415,10 @@ export default {
 		{
 			src: './plugins/vue-introjs',
 			ssr: false
+		},
+		{
+			src: './plugins/sw.js',
+			ssr: false
 		}
 	],
 

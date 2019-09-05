@@ -4,13 +4,8 @@
             <nuxt-link id="home"
                        to="/"
             >
-                <img v-if="$store.getters.theme === 'dark'"
-                     class="logo"
-                     src="~/assets/images/icons/white_LOGO.svg"
-                />
-                <img v-else
-                     class="logo"
-                     src="~/assets/images/icons/black_LOGO.svg"
+                <img class="logo"
+                     src="~/assets/images/icons/Logo.svg"
                 />
             </nuxt-link>
 
@@ -317,13 +312,8 @@
             <nuxt-link id="home"
                        to="/"
             >
-                <img v-if="$store.getters.theme === 'dark'"
-                     class="logo"
-                     src="~/assets/images/icons/white_LOGO.svg"
-                />
-                <img v-else
-                     class="logo"
-                     src="~/assets/images/icons/black_LOGO.svg"
+                <img class="logo"
+                     src="~/assets/images/icons/Logo.svg"
                 />
             </nuxt-link>
 
@@ -570,13 +560,8 @@
                        id="home"
                        to="/"
             >
-                <img v-if="$store.getters.theme === 'dark'"
-                     class="logo"
-                     src="~/assets/images/icons/white_LOGO.svg"
-                />
-                <img v-else
-                     class="logo"
-                     src="~/assets/images/icons/black_LOGO.svg"
+                <img class="logo"
+                     src="~/assets/images/icons/Logo.svg"
                 />
             </nuxt-link>
 
@@ -585,7 +570,7 @@
                        to="/"
             >
                 <img class="logo"
-                     src="~/assets/images/icons/black_LOGO.svg"
+                     src="~/assets/images/icons/Logo.svg"
                 />
             </nuxt-link>
 
@@ -765,7 +750,7 @@
 					params.facet = this.$store.state.facet;
 
 					history.push({
-						pathname: history.location.pathname,
+						pathname: window.location.pathname,
 						search: qs.stringify(params, {
 							addQueryPrefix: true
 						})
@@ -831,7 +816,7 @@
 					params.facet = this.$store.state.facet;
 
 					history.push({
-						pathname: history.location.pathname,
+						pathname: window.location.pathname,
 						search: qs.stringify(params, {
 							addQueryPrefix: true
 						})

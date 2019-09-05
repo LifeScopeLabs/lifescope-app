@@ -9,7 +9,7 @@
                          class="flexbox flex-column flex-grow flex-center flex-x-center"
                     >
                         <img class="logo"
-                             src="~/assets/images/icons/black_LOGO.svg"
+                             src="~/assets/images/icons/Logo.svg"
                         />
                         <div id="signup-choice">
                             <h1>You can sign up for LifeScope in two ways:</h1>
@@ -62,7 +62,7 @@
                         <div v-if="$data.signupSuccess !== true">
                             <div class="flexbox flex-grow flex-column flex-center flex-x-center">
                                 <img class="logo"
-                                     src="~/assets/images/icons/black_LOGO.svg"
+                                     src="~/assets/images/icons/Logo.svg"
                                 />
                                 <h3>
                                     Enter your email address below and read and accept LifeScope's
@@ -145,7 +145,7 @@
                         <div v-else>
                             <div class="flexbox flex-grow flex-column flex-center flex-x-center">
                                 <img class="logo"
-                                     src="~/assets/images/icons/black_LOGO.svg"
+                                     src="~/assets/images/icons/Logo.svg"
                                 />
                                 <h3>
                                     Check your email for a link to complete the signup process.
