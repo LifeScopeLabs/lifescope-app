@@ -477,6 +477,16 @@
                         ]
                     })
                     .start()
+                    .onskip(function() {
+	                    self.$apollo.mutate({
+		                    mutation: userTutorialComplete,
+		                    variables: {
+			                    tutorial: 'home'
+		                    }
+	                    });
+
+	                    self.$store.state.user.tutorials.home = true;
+                    })
                     .oncomplete(function() {
                         self.$apollo.mutate({
                             mutation: userTutorialComplete,
@@ -484,6 +494,8 @@
                                 tutorial: 'home'
                             }
                         });
+
+	                    self.$store.state.user.tutorials.home = true;
                     });
 			}
 		},

@@ -274,6 +274,16 @@
 						]
 					})
 					.start()
+					.onskip(function() {
+						self.$apollo.mutate({
+							mutation: userTutorialComplete,
+							variables: {
+								tutorial: 'explorer'
+							}
+						});
+
+						self.$store.state.user.tutorials.explorer = true;
+					})
 					.oncomplete(function() {
 						self.$apollo.mutate({
 							mutation: userTutorialComplete,
@@ -281,6 +291,8 @@
 								tutorial: 'explorer'
 							}
 						});
+
+						self.$store.state.user.tutorials.explorer = true;
 					});
 			}
 		},

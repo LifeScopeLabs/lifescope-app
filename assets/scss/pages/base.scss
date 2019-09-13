@@ -21,6 +21,10 @@ div#body.base {
 
             & > div > * {
                 max-width: 100%;
+
+                @media #{$maxwidth768}, #{$mobile}  {
+                    max-height: 200px;
+                }
             }
         }
     }
@@ -35,6 +39,12 @@ div#body.base {
             @media #{$maxwidth768}, #{$mobile}  {
                 @include flex-column;
                 @include flex-x-center;
+            }
+
+            &:first-child {
+                font-size: 40px;
+
+                margin-bottom: 0.5em;
             }
         }
 
@@ -70,6 +80,8 @@ div#body.base {
 
             @media #{$maxwidth768}, #{$mobile}  {
                 margin: 0.25em;
+
+                max-height: 100px;
             }
 
             & > div.box-content {

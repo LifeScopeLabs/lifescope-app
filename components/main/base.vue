@@ -10,7 +10,7 @@
                              src="~/assets/images/icons/Logo.svg"
                         />
                         <div id="signin-choice">
-                            <h1>Welcome to LifeScope! Choose whether you want to Sign Up or Log In:</h1>
+                            <div>Welcome to LifeScope!</div>
                             <div class="flexbox">
                                 <div class="signin-button"
                                      v-on:click="signupClick"

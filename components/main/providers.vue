@@ -136,6 +136,16 @@
                         ]
                     })
 					.start()
+					.onskip(function() {
+						self.$apollo.mutate({
+							mutation: userTutorialComplete,
+							variables: {
+								tutorial: 'connections'
+							}
+						});
+
+						self.$store.state.user.tutorials.connections = true;
+					})
 					.oncomplete(function() {
 						self.$apollo.mutate({
 							mutation: userTutorialComplete,
@@ -143,6 +153,8 @@
 								tutorial: 'connections'
 							}
 						});
+
+						self.$store.state.user.tutorials.connections = true;
 					});
 			}
 		},

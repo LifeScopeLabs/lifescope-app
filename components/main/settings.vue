@@ -190,10 +190,30 @@
                         </div>
 
                         <div class="boxed-group">
+                            <div class="title">
+                                Reset Tutorials
+                                <i v-bind:class="{ shown: $data.tutorialsReset === true }"
+                                   class="fal fa-check-circle flex-grow success-icon"
+                                ></i>
+                            </div>
+                            <div class="padded paragraphed">
+                                <p>Forgot how LifeScope works? Click the button to reset the tutorial pop-ups.</p>
+
+                                <div class="flex-mobile">
+                                    <button class="primary"
+                                            v-on:click="resetTutorials"
+                                    >
+                                        Reset Tutorials
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="boxed-group">
                             <div class="title">Delete LifeScope Account</div>
 
                             <div class="padded paragraphed">
-                                <p>LifeScope is read only and your connected data source account will remain unchanged.</p>
+                                <p>LifeScope is read only and your connected data source accounts will remain unchanged.</p>
                                 <p>Once you delete your account, your LifeScope index will be deleted.</p>
                                 <p>LifeScope will not keep your data and we never share any data without your consent.</p>
 
@@ -1301,6 +1321,7 @@
 	import patchConnection from '../../apollo/mutations/patch-connection.gql';
 	import userApiKeyUpdate from '../../apollo/mutations/user-api-key-update.gql';
 	import userNewsletterUpdate from '../../apollo/mutations/user-newsletter-update.gql';
+	import userTutorialsReset from '../../apollo/mutations/user-tutorials-reset.gql';
 
 	function isBefore(value) {
 		let now = moment();
@@ -1347,6 +1368,7 @@
 				error: false,
 
 				profileUpdated: false,
+                tutorialsReset: false,
 
 				unpersonedContactOffset: 0,
 				unpersonedContactLimit: 20,
@@ -2217,6 +2239,22 @@
 				copy.newsletter = user.newsletter;
 
 				self.$store.state.user = copy;
+            },
+
+            resetTutorials: async function() {
+				let self = this;
+
+				let response = await this.$apollo.mutate({
+                    mutation: userTutorialsReset
+                });
+
+				self.$store.state.user.tutorials = response.data.userTutorialsReset.tutorials;
+
+	            self.$data.tutorialsReset = true;
+
+	            setTimeout(function() {
+		            self.$data.tutorialsReset = false;
+	            }, 2000)
             }
 		},
 	}

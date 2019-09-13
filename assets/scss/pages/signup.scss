@@ -21,6 +21,10 @@ div#body.signup {
 
             & > div > * {
                 max-width: 100%;
+
+                @media #{$maxwidth768}, #{$mobile}  {
+                    max-height: 200px;
+                }
             }
         }
     }
@@ -70,6 +74,8 @@ div#body.signup {
 
             @media #{$maxwidth768}, #{$mobile}  {
                 margin: 0.25em;
+
+                max-height: 100px;
             }
 
             & > div.box-content {
@@ -86,6 +92,10 @@ div#body.signup {
                     top: 3px;
                 }
 
+                & > p {
+                    margin-bottom: 0.25em;
+                }
+
                 .subtext {
                     font-size: 0.6em;
                 }
@@ -94,7 +104,7 @@ div#body.signup {
 
         .opposite {
             @media #{$maxwidth768}, #{$mobile}  {
-                margin: 0 1em;
+                margin: 0.25em 2em;
             }
         }
     }
