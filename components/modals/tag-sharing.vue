@@ -128,7 +128,7 @@
 
 	import _ from 'lodash';
 
-	const logoUrl = 'https://d15xakt8l0tdrr.cloudfront.net/assets/images/icons/android-chrome-512x512.png';
+	const logoUrl = 'https://d21yg5z5swigyg.cloudfront.net/assets/images/icons/android-chrome-512x512.png';
 
 	export default {
 		props: {
