@@ -136,25 +136,25 @@
                         ]
                     })
 					.start()
-					.onskip(function() {
-						self.$apollo.mutate({
+					.onskip(async function() {
+						let response = await self.$apollo.mutate({
 							mutation: userTutorialComplete,
 							variables: {
 								tutorial: 'connections'
 							}
 						});
 
-						self.$store.state.user.tutorials.connections = true;
+						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					})
-					.oncomplete(function() {
-						self.$apollo.mutate({
+					.oncomplete(async function() {
+						let response = await self.$apollo.mutate({
 							mutation: userTutorialComplete,
 							variables: {
 								tutorial: 'connections'
 							}
 						});
 
-						self.$store.state.user.tutorials.connections = true;
+						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					});
 			}
 		},

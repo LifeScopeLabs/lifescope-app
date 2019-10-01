@@ -274,25 +274,25 @@
 						]
 					})
 					.start()
-					.onskip(function() {
-						self.$apollo.mutate({
+					.onskip(async function() {
+						let response = await self.$apollo.mutate({
 							mutation: userTutorialComplete,
 							variables: {
 								tutorial: 'explorer'
 							}
 						});
 
-						self.$store.state.user.tutorials.explorer = true;
+						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					})
-					.oncomplete(function() {
-						self.$apollo.mutate({
+					.oncomplete(async function() {
+						let response = await self.$apollo.mutate({
 							mutation: userTutorialComplete,
 							variables: {
 								tutorial: 'explorer'
 							}
 						});
 
-						self.$store.state.user.tutorials.explorer = true;
+						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					});
 			}
 		},

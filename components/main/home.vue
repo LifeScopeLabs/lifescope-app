@@ -477,25 +477,25 @@
                         ]
                     })
                     .start()
-                    .onskip(function() {
-	                    self.$apollo.mutate({
-		                    mutation: userTutorialComplete,
-		                    variables: {
-			                    tutorial: 'home'
-		                    }
-	                    });
-
-	                    self.$store.state.user.tutorials.home = true;
-                    })
-                    .oncomplete(function() {
-                        self.$apollo.mutate({
+                    .onskip(async function() {
+                        let response = await self.$apollo.mutate({
                             mutation: userTutorialComplete,
                             variables: {
                                 tutorial: 'home'
                             }
                         });
 
-	                    self.$store.state.user.tutorials.home = true;
+                        self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
+                    })
+                    .oncomplete(async function() {
+                        let response = await self.$apollo.mutate({
+                            mutation: userTutorialComplete,
+                            variables: {
+                                tutorial: 'home'
+                            }
+                        });
+
+                        self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
                     });
 			}
 		},

@@ -2250,11 +2250,11 @@
 
 				self.$store.state.user.tutorials = response.data.userTutorialsReset.tutorials;
 
-	            self.$data.tutorialsReset = true;
+                self.$data.tutorialsReset = true;
 
-	            setTimeout(function() {
-		            self.$data.tutorialsReset = false;
-	            }, 2000)
+                setTimeout(function() {
+                    self.$data.tutorialsReset = false;
+                }, 2000)
             }
 		},
 	}
