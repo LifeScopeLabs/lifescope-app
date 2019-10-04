@@ -51,6 +51,7 @@
 
 <script>
 	import _ from 'lodash';
+	import accountAlreadyConnectedErrorModal from '../../components/modals/account-already-connected-error';
 	import connectionCreateModal from '../../components/modals/connection-create.vue';
 	import icons from '../../lib/util/icons';
 	import loginHelpModal from '../../components/modals/login-help.vue';
@@ -157,6 +158,10 @@
 						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					});
 			}
+
+			if (_.has(self.$store.state.cookies, 'account_already_connected')) {
+				self.showAccountAlreadyConnectedErrorModal(self.$store.state.cookies.account_already_connected);
+            }
 		},
 
 		updated() {
@@ -189,7 +194,21 @@
 					height: 'auto',
 					scrollable: true
 				});
-			}
+			},
+
+            showAccountAlreadyConnectedErrorModal: function(provider_name) {
+	            this.$modal.show(accountAlreadyConnectedErrorModal, {
+		            provider_name: provider_name
+	            }, {
+		            height: 'auto',
+		            scrollable: true
+	            });
+
+	            document.cookie = encodeURIComponent('account_already_connected') +
+		            "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+		            "; domain=.lifescope.io" +
+		            "; path=/";
+            }
 		},
 	}
 </script>
