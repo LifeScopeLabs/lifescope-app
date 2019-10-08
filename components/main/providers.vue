@@ -51,10 +51,11 @@
 
 <script>
 	import _ from 'lodash';
-	import accountAlreadyConnectedErrorModal from '../../components/modals/account-already-connected-error';
+	import accountAlreadyConnectedErrorModal from '../../components/modals/account-already-connected-error.vue';
 	import connectionCreateModal from '../../components/modals/connection-create.vue';
 	import icons from '../../lib/util/icons';
 	import loginHelpModal from '../../components/modals/login-help.vue';
+	import nonMatchingAccountsErrorModal from '../../components/modals/non-matching-accounts-error.vue';
 	import providerHydratedMany from '../../apollo/queries/provider-hydrated-many.gql';
 	import providerWithMapMany from '../../apollo/queries/provider-with-map-many.gql';
 	import userTutorialComplete from '../../apollo/mutations/user-tutorial-complete.gql';
@@ -162,6 +163,10 @@
 			if (_.has(self.$store.state.cookies, 'account_already_connected')) {
 				self.showAccountAlreadyConnectedErrorModal(self.$store.state.cookies.account_already_connected);
             }
+
+			if (_.has(self.$store.state.cookies, 'non_matching_accounts')) {
+				self.showNonMatchingAccountsErrorModal(self.$store.state.cookies.non_matching_accounts);
+			}
 		},
 
 		updated() {
@@ -208,7 +213,21 @@
 		            "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
 		            "; domain=.lifescope.io" +
 		            "; path=/";
-            }
+            },
+
+			showNonMatchingAccountsErrorModal: function(provider_name) {
+				this.$modal.show(nonMatchingAccountsErrorModal, {
+					provider_name: provider_name
+				}, {
+					height: 'auto',
+					scrollable: true
+				});
+
+				document.cookie = encodeURIComponent('non_matching_accounts') +
+					"=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+					"; domain=.lifescope.io" +
+					"; path=/";
+			}
 		},
 	}
 </script>
