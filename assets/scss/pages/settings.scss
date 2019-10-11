@@ -526,6 +526,14 @@ div#body.settings {
         }
     }
 
+    .address-container {
+        max-width: 50%;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            max-width: 100%;
+        }
+    }
+
     .external-avatar {
         margin-top: 1em;
     }

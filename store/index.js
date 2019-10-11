@@ -152,7 +152,15 @@ function initialState () {
             contact_id_strings: [],
             hydratedContacts: [],
             available_avatars: [],
-            avatar_index: null
+            avatar_index: null,
+            address: {
+                street_address: null,
+                street_address_2: null,
+                city: null,
+                postal_code: null,
+                region: null,
+                country: null
+            }
         },
 
         personMany: [],

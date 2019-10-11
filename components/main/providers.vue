@@ -202,22 +202,22 @@
 			},
 
             showAccountAlreadyConnectedErrorModal: function(provider_name) {
-	            this.$modal.show(accountAlreadyConnectedErrorModal, {
-		            provider_name: provider_name
-	            }, {
-		            height: 'auto',
-		            scrollable: true
-	            });
+                this.$modal.show(accountAlreadyConnectedErrorModal, {
+                    providerName: provider_name
+                }, {
+                    height: 'auto',
+                    scrollable: true
+                });
 
-	            document.cookie = encodeURIComponent('account_already_connected') +
-		            "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
-		            "; domain=.lifescope.io" +
-		            "; path=/";
+                document.cookie = encodeURIComponent('account_already_connected') +
+                    "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+                    "; domain=.lifescope.io" +
+                    "; path=/";
             },
 
 			showNonMatchingAccountsErrorModal: function(provider_name) {
 				this.$modal.show(nonMatchingAccountsErrorModal, {
-					provider_name: provider_name
+					providerName: provider_name
 				}, {
 					height: 'auto',
 					scrollable: true

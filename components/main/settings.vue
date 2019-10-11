@@ -1069,6 +1069,62 @@
                                     </div>
                                 </div>
 
+                                <div class="flexbox flex-column address-container">
+                                    <div class="title">Address</div>
+
+                                    <input v-model="$store.state.person.address.street_address"
+                                           type="text"
+                                           title="street-address"
+                                           placeholder="123 Main Street"
+                                    >
+
+                                    <input v-model="$store.state.person.address.street_address_2"
+                                           type="text"
+                                           title="street-address-2"
+                                           placeholder="Apt. 3A"
+                                    >
+
+                                    <input v-model="$store.state.person.address.city"
+                                           type="text"
+                                           title="city"
+                                           placeholder="Springfield"
+                                    >
+
+                                    <input v-model="$store.state.person.address.postal_code"
+                                           type="text"
+                                           title="postal-code"
+                                           placeholder="98765"
+                                    >
+
+                                    <no-ssr>
+                                        <!-- eslint-disable vue/attribute-hyphenation -->
+                                        <country-select v-model="$store.state.person.address.country"
+                                                        v-bind:country="$store.state.person.address.country"
+                                                        topCountry="United States"
+                                                        v-bind:countryName="true"
+                                        />
+
+                                        <!-- eslint-disable vue/attribute-hyphenation -->
+                                        <region-select v-model="$store.state.person.address.region"
+                                                       v-bind:country="$store.state.person.address.country"
+                                                       v-bind:region="$store.state.person.address.region"
+                                                       v-bind:countryName="true"
+                                                       v-bind:regionName="true"
+                                        />
+                                    </no-ssr>
+                                </div>
+
+                                <div class="flexbox flex-column notes">
+                                    <div class="title">Notes</div>
+
+                                    <textarea id="notes"
+                                              v-model="$store.state.person.notes"
+                                              placeholder="Various notes about this person that don't fit elsewhere"
+                                    >
+
+                                    </textarea>
+                                </div>
+
                                 <div class="flex-mobile">
                                     <button class="primary"
                                             v-on:click="createNewPerson"
@@ -1240,6 +1296,62 @@
                                                v-on:change="checkExternalAvatar"
                                         >
                                     </div>
+                                </div>
+
+                                <div class="flexbox flex-column address-container">
+                                    <div class="title">Address</div>
+
+                                    <input v-model="$store.state.person.address.street_address"
+                                           type="text"
+                                           title="street-address"
+                                           placeholder="123 Main Street"
+                                    >
+
+                                    <input v-model="$store.state.person.address.street_address_2"
+                                           type="text"
+                                           title="street-address-2"
+                                           placeholder="Apt. 3A"
+                                    >
+
+                                    <input v-model="$store.state.person.address.city"
+                                           type="text"
+                                           title="city"
+                                           placeholder="Springfield"
+                                    >
+
+                                    <input v-model="$store.state.person.address.postal_code"
+                                           type="text"
+                                           title="postal-code"
+                                           placeholder="98765"
+                                    >
+
+                                    <no-ssr>
+                                        <!-- eslint-disable vue/attribute-hyphenation -->
+                                        <country-select v-model="$store.state.person.address.country"
+                                                        v-bind:country="$store.state.person.address.country"
+                                                        topCountry="United States"
+                                                        v-bind:countryName="true"
+                                        />
+
+                                        <!-- eslint-disable vue/attribute-hyphenation -->
+                                        <region-select v-model="$store.state.person.address.region"
+                                                       v-bind:country="$store.state.person.address.country"
+                                                       v-bind:region="$store.state.person.address.region"
+                                                       v-bind:countryName="true"
+                                                       v-bind:regionName="true"
+                                        />
+                                    </no-ssr>
+                                </div>
+
+                                <div class="flexbox flex-column notes">
+                                    <div class="title">Notes</div>
+
+                                    <textarea id="notes"
+                                              v-model="$store.state.person.notes"
+                                              placeholder="Various notes about this person that don't fit elsewhere"
+                                    >
+
+                                    </textarea>
                                 </div>
 
                                 <div class="flex-mobile">
@@ -1439,6 +1551,8 @@
 				self.$store.state.person.last_name = person.last_name;
 				self.$store.state.person.contact_id_strings = person.contact_id_strings;
 				self.$store.state.person.hydratedContacts = person.hydratedContacts;
+				self.$store.state.person.address = person.address;
+				self.$store.state.person.notes = person.notes;
 				self.$store.state.person.available_avatars = _.compact(_.map(person.hydratedContacts, function(contact) {
 					return contact.avatar_url;
 				}));
@@ -1460,24 +1574,26 @@
 			}
 
 			if (this.$store.state.mode === 'app-edit') {
-				let appResult = await this.$apollo.query({
-					query: oauthAppOne,
-					variables: {
-						id: self.$route.params.id
-					},
-					fetchPolicy: 'no-cache'
+				this.$router.onReady(async function() {
+                    let appResult = await self.$apollo.query({
+                        query: oauthAppOne,
+                        variables: {
+                            id: self.$route.params.id
+                        },
+                        fetchPolicy: 'no-cache'
+                    });
+
+                    let app = appResult.data.oauthAppOne;
+
+                    self.$store.state.app.id = app.id;
+                    self.$store.state.app.name.value = app.name;
+                    self.$store.state.app.description.value = app.description;
+                    self.$store.state.app.homepage.value = app.homepage_url;
+                    self.$store.state.app.privacyPolicy.value = app.privacy_policy_url;
+                    self.$store.state.app.providerId.value = app.provider_id_string;
+                    self.$store.state.app.redirects.value = app.redirect_uris || [];
+                    self.$store.state.app.clientId.value = app.client_id;
 				});
-
-				let app = appResult.data.oauthAppOne;
-
-				self.$store.state.app.id = app.id;
-				self.$store.state.app.name.value = app.name;
-				self.$store.state.app.description.value = app.description;
-				self.$store.state.app.homepage.value = app.homepage_url;
-				self.$store.state.app.privacyPolicy.value = app.privacy_policy_url;
-				self.$store.state.app.providerId.value = app.provider_id_string;
-				self.$store.state.app.redirects.value = app.redirect_uris || [];
-				self.$store.state.app.clientId.value = app.client_id;
 			}
 
 			if (this.$store.state.mode === 'authorized-apps') {
@@ -1504,31 +1620,39 @@
 			}
 
 			if (this.$store.state.mode === 'people-edit') {
-				let personResult = await this.$apollo.query({
-					query: personOne,
-					variables: {
-						id: self.$route.params.id,
-					},
-					fetchPolicy: 'no-cache'
+				this.$router.onReady(async function() {
+                    let personResult = await self.$apollo.query({
+                        query: personOne,
+                        variables: {
+                            id: self.$route.params.id,
+                        },
+                        fetchPolicy: 'no-cache'
+                    });
+
+                    let person = personResult.data.personOne;
+
+                    self.$store.state.person.id = person.id;
+                    self.$store.state.person.avatar_url = person.avatar_url;
+                    self.$store.state.person.external_avatar_url = person.external_avatar_url;
+                    self.$store.state.person.first_name = person.first_name;
+                    self.$store.state.person.middle_name = person.middle_name;
+                    self.$store.state.person.last_name = person.last_name;
+                    self.$store.state.person.contact_id_strings = person.contact_id_strings;
+                    self.$store.state.person.hydratedContacts = person.hydratedContacts;
+                    self.$store.state.person.address = _.omit(person.address, 'region');
+					self.$store.state.person.notes = person.notes;
+                    self.$store.state.person.available_avatars = _.compact(_.map(person.hydratedContacts, function(contact) {
+                        return contact.avatar_url;
+                    }));
+
+                    self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
+
+                    self.runUnpersonedContactSearch('', true);
+
+                    self.$nextTick(function() {
+                        self.$store.state.person.address.region = person.address.region;
+                    });
 				});
-
-				let person = personResult.data.personOne;
-
-				self.$store.state.person.id = person.id;
-				self.$store.state.person.avatar_url = person.avatar_url;
-				self.$store.state.person.external_avatar_url = person.external_avatar_url;
-				self.$store.state.person.first_name = person.first_name;
-				self.$store.state.person.middle_name = person.middle_name;
-				self.$store.state.person.last_name = person.last_name;
-				self.$store.state.person.contact_id_strings = person.contact_id_strings;
-				self.$store.state.person.hydratedContacts = person.hydratedContacts;
-				self.$store.state.person.available_avatars = _.compact(_.map(person.hydratedContacts, function(contact) {
-					return contact.avatar_url;
-				}));
-
-				self.$store.state.person.avatar_index = _.indexOf(self.$store.state.person.available_avatars, self.$store.state.person.avatar_url);
-
-				self.runUnpersonedContactSearch('', true);
 			}
 
 			if (this.$store.state.mode === 'people-create') {
@@ -2023,7 +2147,9 @@
 						middle_name: person.middle_name,
 						last_name: person.last_name,
 						contact_id_strings: person.contact_id_strings,
-						avatar_url: person.avatar_url
+						avatar_url: person.avatar_url,
+						address: _.pick(person.address, ['street_address', 'street_address_2', 'region', 'country', 'city', 'postal_code']),
+						notes: person.notes
 					};
 
 					if (self.$data.externalAvatarError === false) {
@@ -2060,7 +2186,9 @@
 						middle_name: person.middle_name,
 						last_name: person.last_name,
 						avatar_url: person.avatar_url,
-						contact_id_strings: person.contact_id_strings
+						contact_id_strings: person.contact_id_strings,
+                        address: _.pick(person.address, ['street_address', 'street_address_2', 'region', 'country', 'city', 'postal_code']),
+                        notes: person.notes
 					};
 
 					if (self.$data.externalAvatarError === false) {

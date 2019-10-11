@@ -23,6 +23,15 @@ query personMany($skip: Int, $limit: Int, $sort: SortFindManyPeopleInput, $filte
 					name
 				},
 			}
-        }
+        },
+        address {
+            street_address,
+            street_address_2,
+            city,
+            region,
+            country,
+            postal_code
+        },
+        notes
     }
 }

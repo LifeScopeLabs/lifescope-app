@@ -397,6 +397,10 @@ export default {
 		'./plugins/vue2-filters',
 		'./plugins/vue-observe-visibility',
 		{
+			src: './plugins/vue-country-region-select',
+			ssr: false
+		},
+		{
 			src: './plugins/vue-bootstrap-datetimepicker',
 			ssr: false
 		},
