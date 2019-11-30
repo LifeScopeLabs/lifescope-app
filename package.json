@@ -137,7 +137,7 @@
     "mixitup": "^3.2.2",
     "moment": "^2.21.0",
     "mongodb": "^3.0.7",
-    "mongoose": "^5.0.11",
+    "mongoose": "^5.7.5",
     "mongoose-uuid2": "^2.1.0",
     "networked-aframe": "git+https://github.com/lifescopelabs/networked-aframe",
     "nipplejs": "^0.7.1",
