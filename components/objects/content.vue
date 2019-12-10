@@ -6,6 +6,7 @@
         <div v-if="$store.state.view === 'feed'"
              v-bind:id="content.id"
              v-bind:key="1"
+             v-bind:class="{ hidden: content.invisible === true }"
              class="object feed"
         >
             <div class="items">

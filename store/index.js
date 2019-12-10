@@ -43,6 +43,7 @@ function initialState () {
         searchMany: [],
         searchCount: null,
         tagMany: [],
+        mapPageSize: 1000,
         pageSize: 100,
         pageOffset: 0,
         searchEnded: false,
@@ -167,7 +168,9 @@ function initialState () {
 
         oauthAppAuthorizedMany: [],
 
-        show_native_notification: false
+        show_native_notification: false,
+
+        visibleObjectStartIndex: 0
     }
 }
 

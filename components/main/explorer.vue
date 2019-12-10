@@ -164,7 +164,7 @@
 </template>
 
 <script>
-    /* global moment */
+    /* global moment, $ */
 
 	import _ from 'lodash';
 	import qs from 'qs';
@@ -368,13 +368,80 @@
 			},
 
 			handleScroll: _.debounce(async function(e) {
+				let self = this;
 				let target = e.target;
 
 				let scrollBottom = target.scrollTop + target.clientHeight;
 
+				let objects = this.$store.state.objects[this.$store.state.facet];
+
 				if (scrollBottom > 0.9 * target.scrollHeight && this.$store.state.searching !== true) {
-					this.$root.$emit('perform-search', false);
+					let nextPageStartEvent = objects[self.$store.state.visibleObjectStartIndex + (2 * self.$store.state.pageSize)];
+                    
+					if (this.$store.state.view === 'feed' && nextPageStartEvent != null) {
+                        for (let i = self.$store.state.visibleObjectStartIndex + (2 * self.$store.state.pageSize); i < self.$store.state.visibleObjectStartIndex + (3 * self.$store.state.pageSize); i++) {
+                            if (objects[i] != null) {
+                                objects[i].invisible = false;
+                            }
+                        }
+
+                        if (objects.length > 2 * self.$store.state.pageSize) {
+                            for (let i = self.$store.state.visibleObjectStartIndex; i < self.$store.state.visibleObjectStartIndex + self.$store.state.pageSize; i++) {
+                                if (objects[i] != null) {
+                                    objects[i].invisible = true;
+                                }
+                            }
+
+                            self.$store.state.visibleObjectStartIndex += self.$store.state.pageSize;
+                        }
+                    }
+					else {
+						this.$root.$emit('perform-search', false);
+
+						this.$root.$once('search-finished', function() {
+							if (self.$store.state.view === 'feed' && objects.length > 2 * self.$store.state.pageSize) {
+								for (let i = self.$store.state.visibleObjectStartIndex; i < self.$store.state.visibleObjectStartIndex + self.$store.state.pageSize; i++) {
+									if (objects[i] != null) {
+										objects[i].invisible = true;
+									}
+								}
+
+								self.$store.state.visibleObjectStartIndex += self.$store.state.pageSize;
+							}
+						});
+					}
 				}
+
+				if (target.scrollTop < 0.1 * target.scrollHeight && this.$store.state.searching !== true && this.$store.state.view === 'feed') {
+					let items = $('#list').children();
+
+					let firstVisible = _.find(items, function(child) {
+						let top = child.offsetTop;
+						let height = child.offsetHeight;
+
+						return top + height > target.scrollTop;
+                    });
+
+					if (self.$store.state.visibleObjectStartIndex > 0) {
+						for (let i = self.$store.state.visibleObjectStartIndex; i >= self.$store.state.visibleObjectStartIndex - self.$store.state.pageSize; i--) {
+							if (objects[i] != null) {
+                                objects[i].invisible = false;
+							}
+						}
+
+                        for (let i = self.$store.state.visibleObjectStartIndex + (2 * self.$store.state.pageSize); i >= self.$store.state.visibleObjectStartIndex + self.$store.state.pageSize; i--) {
+                            if (objects[i] != null) {
+                                objects[i].invisible = true;
+                            }
+                        }
+
+						self.$store.state.visibleObjectStartIndex -= self.$store.state.pageSize;
+
+						self.$nextTick(function() {
+							target.scrollTop = firstVisible.offsetTop - 200 > 0 ? firstVisible.offsetTop - 200 : 0;
+						});
+					}
+                }
 			}, 500),
 
 			renderDetailsModal: function(item, type) {

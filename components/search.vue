@@ -1206,7 +1206,7 @@
 
 				let variables = {
 					offset: this.$store.state.offset,
-					limit: this.$store.state.pageSize,
+					limit: this.$store.state.view === 'map' ? this.$store.state.mapPageSize : this.$store.state.pageSize,
 					sortField: this.$store.state.sortField,
 					sortOrder: this.$store.state.sortOrder
 				};

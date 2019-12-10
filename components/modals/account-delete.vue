@@ -24,7 +24,7 @@
                 <button class="danger confirm"
                         v-on:click="deleteAccount"
                 >
-                    Yolo, Delete
+                    Yes, Delete
                 </button>
             </div>
         </div>

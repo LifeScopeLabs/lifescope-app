@@ -44,7 +44,7 @@
                 <button class="danger confirm"
                         v-on:click="deleteConnection(connection)"
                 >
-                    Yolo, Delete
+                    Yes, Delete
                 </button>
             </div>
         </div>

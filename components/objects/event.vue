@@ -6,6 +6,7 @@
         <div v-if="$store.state.view === 'feed'"
              v-bind:id="event.id"
              v-bind:key="1"
+             v-bind:class="{ hidden: event.invisible === true }"
              class="object event feed"
         >
             <div v-if="event.hidden !== true"

@@ -739,7 +739,23 @@
 					return;
 				}
 
+				if (this.$store.state.view === 'map') {
+					this.$store.state.visibleObjectStartIndex = 0;
+
+					for (let i = 200; i < this.$store.state.objects.events.length; i++) {
+						this.$store.state.objects.events[i].invisible = true;
+                    }
+                }
+
 				this.$store.state.view = view;
+
+				if (view === 'map' && this.$store.state.objects.events.length < this.$store.state.mapPageSize) {
+					this.$root.$emit('perform-search', false);
+				}
+
+				this.$nextTick(function() {
+                    $('main').scrollTop(0);
+				});
 
 				if (process.browser) {
 					let params = qs.parse(history.location.search, {
@@ -780,28 +796,29 @@
 				this.$store.state.facetSelectOpen = false;
 				this.$store.state.facet = facet;
 				this.$store.state.searching = false;
+				this.$store.state.visibleObjectStartIndex = 0;
 
 				switch (facet) {
 					case 'events':
-						this.$store.state.sortField = 'score';
-						this.$store.state.sortOrder = 'asc';
+						this.$store.state.sortField = 'datetime';
+						this.$store.state.sortOrder = 'desc';
 
 						break;
 
 					case 'content':
-						this.$store.state.sortField = 'score';
+						this.$store.state.sortField = 'type';
 						this.$store.state.sortOrder = 'asc';
 
 						break;
 
 					case 'contacts':
-						this.$store.state.sortField = 'score';
+						this.$store.state.sortField = 'connection';
 						this.$store.state.sortOrder = 'asc';
 
 						break;
 
 					case 'people':
-						this.$store.state.sortField = 'score';
+						this.$store.state.sortField = 'first_name';
 						this.$store.state.sortOrder = 'asc';
 
 						break;
