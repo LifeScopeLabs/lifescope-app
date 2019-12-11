@@ -182,6 +182,19 @@
 		},
 
 		mounted: async function() {
+			let self = this;
+
+			this.$router.onReady(function() {
+				let query = self.$route.query;
+
+				if (query.client && query.client === 'app' && self.$store.getters.authenticated !== true) {
+					document.addEventListener('visibilitychange', function() {
+						if (document.visibilityState === 'visible') {
+							window.location.reload();
+						}
+					});
+				}
+			});
 		},
 
 		updated() {
