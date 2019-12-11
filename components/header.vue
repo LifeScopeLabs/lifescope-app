@@ -627,13 +627,13 @@
 
             <div v-if="$store.state.mode === 'login-provider' || $store.state.mode === 'signup-provider'">
                 <nuxt-link v-if="$store.state.user == undefined && $store.state.mode === 'login-provider'"
-                           to="/login"
+                           v-bind:to="{ name: 'login', query: { client: $route.query.client } }"
                 >
                     <button class="back">Go back</button>
                 </nuxt-link>
 
                 <nuxt-link v-if="$store.state.user == undefined && $store.state.mode === 'signup-provider'"
-                           to="/signup"
+                           v-bind:to="{ name: 'signup', query: { client: $route.query.client } }"
                 >
                     <button class="back">Go back</button>
                 </nuxt-link>

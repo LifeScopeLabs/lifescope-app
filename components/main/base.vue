@@ -55,11 +55,23 @@
 
 		methods: {
 			signupClick: function() {
-				this.$router.push('/signup');
+				let route = '/signup';
+
+				if (this.$route.query && this.$route.query.client === 'app') {
+					route += '?client=app';
+                }
+
+				this.$router.push(route);
 			},
 
 			loginClick: function() {
-				this.$router.push('/login')
+				let route = '/login';
+
+				if (this.$route.query && this.$route.query.client === 'app') {
+					route += '?client=app';
+				}
+
+				this.$router.push(route);
 			},
 		},
 	}

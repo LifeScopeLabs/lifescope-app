@@ -121,19 +121,6 @@
 		},
 
 		mounted: async function() {
-			let self = this;
-
-			this.$router.onReady(function() {
-				let query = self.$route.query;
-
-				if (query.client && query.client === 'app' && self.$store.getters.authenticated !== true) {
-					document.addEventListener('visibilitychange', function() {
-						if (document.visibilityState === 'visible') {
-							window.location.reload();
-						}
-					});
-				}
-			});
 		},
 
 		updated() {
@@ -141,19 +128,43 @@
 
 		methods: {
 			backToLoginChoice: function() {
-				this.$router.push('/login');
+				let route = '/login';
+
+				if (this.$route.query && this.$route.query.client === 'app') {
+					route += '?client=app';
+				}
+
+				this.$router.push(route);
             },
 
 			emailClick: function() {
-                this.$router.push('/login/email');
+				let route = '/login/email';
+
+				if (this.$route.query && this.$route.query.client === 'app') {
+					route += '?client=app';
+				}
+
+				this.$router.push(route);
             },
 
             goToSignup: function() {
-				this.$router.push('/signup');
+                let route = '/signup';
+
+                if (this.$route.query && this.$route.query.client === 'app') {
+                    route += '?client=app';
+                }
+
+                this.$router.push(route);
             },
 
             providerClick: function() {
-				this.$router.push('/login/provider')
+                let route = '/login/provider';
+
+                if (this.$route.query && this.$route.query.client === 'app') {
+                    route += '?client=app';
+                }
+
+                this.$router.push(route);
             },
 
 			submitlogin: function() {
