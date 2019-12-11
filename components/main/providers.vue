@@ -108,7 +108,7 @@
 				if (query.client && query.client === 'app' && self.$store.getters.authenticated !== true) {
 					document.addEventListener('visibilitychange', function() {
 						if (document.visibilityState === 'visible') {
-							window.location.reload();
+							window.location.href = '/?client=app';
 						}
 					});
 				}
