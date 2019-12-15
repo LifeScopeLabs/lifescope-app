@@ -1,365 +1,374 @@
-@import 'components/action-bar.scss';
-@import 'components/action-modal.scss';
-@import 'components/error.scss';
-@import 'components/more-waiting.scss';
-@import 'components/next.scss';
-@import 'components/no-results.scss';
-@import 'components/shared-error.scss';
-@import 'components/waiting.scss';
-@import '../components/flex-modals.scss';
-@import 'items/feed.scss';
-@import 'items/grid.scss';
-@import 'items/list.scss';
-@import 'items/modaled.scss';
-@import 'objects/contact.scss';
-@import 'objects/content.scss';
-@import 'objects/event.scss';
-@import 'objects/feed.scss';
-@import 'objects/location.scss';
-@import 'objects/organization.scss';
-@import 'objects/person.scss';
-@import 'objects/place.scss';
-@import 'objects/thing.scss';
-@import 'views/feed.scss';
-@import 'views/grid.scss';
-@import 'views/list.scss';
-@import 'views/map.scss';
-@import 'views/map.scss';
+@import "components/action-bar.scss";
+@import "components/action-modal.scss";
+@import "components/error.scss";
+@import "components/more-waiting.scss";
+@import "components/next.scss";
+@import "components/no-results.scss";
+@import "components/shared-error.scss";
+@import "components/waiting.scss";
+@import "../components/flex-modals.scss";
+@import "items/feed.scss";
+@import "items/grid.scss";
+@import "items/list.scss";
+@import "items/modaled.scss";
+@import "objects/contact.scss";
+@import "objects/content.scss";
+@import "objects/event.scss";
+@import "objects/feed.scss";
+@import "objects/location.scss";
+@import "objects/organization.scss";
+@import "objects/person.scss";
+@import "objects/place.scss";
+@import "objects/thing.scss";
+@import "views/feed.scss";
+@import "views/grid.scss";
+@import "views/list.scss";
+@import "views/map.scss";
+@import "views/map.scss";
 
 header {
-  & > #search-bar {
-    width: 50%;
-    min-width: 400px;
+    & > #search-bar {
+        width: 50%;
+        min-width: 400px;
 
-    #filter-controls {
-      & > div {
-        top: 20px;
-      }
+        #filter-controls {
+            & > div {
+                top: 20px;
+            }
+        }
     }
-  }
 }
 
 .leaflet-right {
-  z-index: 20 !important;
+    z-index: 20 !important;
 }
 
 div#body.explorer {
-  #list {
-    position: relative;
+    .container > .scroller {
+        .explorer-item-enter-active,
+        .explorer-item-leave-active {
+            transition: all 1s ease-in-out;
+        }
 
-    &.loading {
-      padding-bottom: 5em !important;
-
-      @media #{$maxwidth768},#{$mobile} {
-        padding-bottom: 4.5em !important;
-      }
+        .explorer-item-enter,
+        .explorer-item-leave-to {
+            opacity: 0;
+        }
     }
-  }
 
-  &.dark {
-    main {
-      color: $font-color-dark;
-      background-color: $background-color-dark;
+    #list {
+        position: relative;
+
+        &.loading {
+            padding-bottom: 5em !important;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                padding-bottom: 4.5em !important;
+            }
+        }
+    }
+
+    &.dark {
+        main {
+            color: $font-color-dark;
+            background-color: $background-color-dark;
+        }
+
+        .modal {
+            .content {
+                & > aside {
+                    background-color: $background-color-dark;
+                }
+            }
+        }
+    }
+
+    .type-grid {
+        @include flexbox;
+        @include flex-wrap;
+        @include flex-x-start;
+
+        height: 100%;
+        max-height: 100%;
+        border: 0;
     }
 
     .modal {
-      .content {
-        & > aside {
-          background-color: $background-color-dark;
+        .content {
+            & > aside {
+                display: block;
+                position: fixed;
+                top: 45%;
+                cursor: pointer;
+                font-size: 1.5em;
+                background-color: $background-color;
+                height: 3em;
+                padding: 0 0.5em;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    position: absolute;
+                    background-color: initial;
+                    height: initial;
+                    padding: 0;
+                    top: 8px;
+                }
+
+                &.next {
+                    @media #{$maxwidth768}, #{$mobile} {
+                        left: 50px !important;
+                    }
+                }
+
+                &.prev {
+                    @media #{$maxwidth768}, #{$mobile} {
+                        left: 10px !important;
+                    }
+                }
+
+                & > i {
+                    position: relative;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 1.5em;
+                    text-align: center;
+
+                    @media #{$maxwidth768}, #{$mobile} {
+                        top: 0;
+                        transform: initial;
+                    }
+                }
+            }
+
+            .body {
+                margin: 1.5em 1.5em 0;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    margin: 1.5em 0 0;
+                }
+            }
         }
-      }
     }
-  }
 
-  .type-grid {
-    @include flexbox;
-    @include flex-wrap;
-    @include flex-x-start;
-
-    height: 100%;
-    max-height: 100%;
-    border: 0;
-  }
-
-  .leaflet-control-container {
-    a {
-      &.highlight {
-
-      }
+    &.map {
+        #map {
+            width: 100%;
+            height: 100%;
+        }
     }
-  }
 
-  .modal {
-    .content {
-      & > aside {
-        display: block;
-        position: fixed;
-        top: 45%;
-        cursor: pointer;
-        font-size: 1.5em;
-        background-color: $background-color;
-        height: 3em;
-        padding: 0 0.5em;
 
-        @media #{$maxwidth768},#{$mobile} {
-          position: absolute;
-          background-color: initial;
-          height: initial;
-          padding: 0;
-          top: 8px;
+    &.grid,
+    &.results,
+    &.list,
+    &.feed {
+        #background {
+            @include flexbox;
+            @include flex-grow;
+
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
         }
 
-        &.next {
-          @media #{$maxwidth768},#{$mobile} {
-            left: 50px !important;
-          }
-        }
-
-        &.prev {
-          @media #{$maxwidth768},#{$mobile} {
-            left: 10px !important;
-          }
-        }
-
-        & > i {
-          position: relative;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 1.5em;
-          text-align: center;
-
-          @media #{$maxwidth768},#{$mobile} {
+        #grid-scroll,
+        #list-scroll {
+            position: absolute;
+            margin: 0;
+            border: 0;
             top: 0;
-            transform: initial;
-          }
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-height: 100%;
+            width: 100%;
         }
-      }
+    }
 
-      .body {
-        margin: 1.5em 1.5em 0 1.5em;
+    &.feed {
+        .event-detail-container {
+            margin: 10px;
 
-        @media #{$maxwidth768},#{$mobile} {
-          margin: 1.5em 0 0;
+            @media #{$maxwidth768}, #{$mobile} {
+                margin: 0;
+            }
         }
-      }
-    }
-  }
-
-  &.map {
-    #map {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-
-  &.grid, &.results, &.list, &.feed {
-    #background {
-      @include flexbox;
-      @include flex-grow;
-
-      flex-direction: column;
-      overflow-y: auto;
-      position: relative;
     }
 
-    #grid-scroll, #list-scroll {
-      position: absolute;
-      margin: 0;
-      border: 0;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      max-height: 100%;
-      width: 100%;
-    }
-  }
-
-  &.feed {
     .event-detail-container {
-      margin: 10px;
-
-      @media #{$maxwidth768},#{$mobile} {
-        margin: 0;
-      }
-    }
-  }
-
-  .event-detail-container {
-    @include flexbox;
-    @include flex-row;
-
-    width: 100%;
-
-    @media #{$maxwidth768},#{$mobile} {
-      flex-flow: column;
-      align-items: center;
-    }
-
-    .event-left {
-      @include flexbox;
-      @include flex-column;
-      @include flex-space-between;
-
-      order: 1;
-      width: 300px;
-
-      @media #{$maxwidth768},#{$mobile} {
-        align-content: center;
-        width: 98%;
-      }
-
-    }
-
-    .event-center {
-      @include flexbox;
-      @include flex-column;
-      flex-grow: 1;
-      align-content: center;
-
-      order: 2;
-
-      width: 100%;
-
-      @media #{$maxwidth768},#{$mobile} {
-        border: 0;
-        width: 98%;
-      }
-
-      .content-detail, .thing-detail {
         @include flexbox;
-        @include flex-column;
-        flex-grow: 1;
-        align-items: center;
+        @include flex-row;
 
-        :last-child {
-          border-bottom: none;
+        width: 100%;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            flex-flow: column;
+            align-items: center;
         }
 
-        > div {
-          width: 95%;
+        .event-left {
+            @include flexbox;
+            @include flex-column;
+            @include flex-space-between;
+
+            order: 1;
+            width: 300px;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                align-content: center;
+                width: 98%;
+            }
 
         }
-      }
-    }
 
-    .event-right {
-      @include flexbox;
-      @include flex-column;
-      @include flex-space-between;
-      order: 3;
-      width: 400px;
+        .event-center {
+            @include flexbox;
+            @include flex-column;
+            flex-grow: 1;
+            align-content: center;
 
-      @media #{$maxwidth768},#{$mobile} {
-        width: 98%;
-      }
+            order: 2;
+
+            width: 100%;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                border: 0;
+                width: 98%;
+            }
+
+            .content-detail,
+            .thing-detail {
+                @include flexbox;
+                @include flex-column;
+                flex-grow: 1;
+                align-items: center;
+
+                :last-child {
+                    border-bottom: 0;
+                }
+
+                > div {
+                    width: 95%;
+
+                }
+            }
+        }
+
+        .event-right {
+            @include flexbox;
+            @include flex-column;
+            @include flex-space-between;
+            order: 3;
+            width: 400px;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                width: 98%;
+            }
+        }
     }
-  }
 }
 
 div#body.explorer.grid {
-  #background {
-    #grid-scroll {
-      @include flexbox;
-      @include flex-column;
+    #background {
+        #grid-scroll {
+            @include flexbox;
+            @include flex-column;
+        }
     }
-  }
 
-  #list {
-    @include flexbox;
-    @include flex-wrap;
-    @include flex-x-start;
-    border: 0;
+    #list {
+        @include flexbox;
+        @include flex-wrap;
+        @include flex-x-start;
+        border: 0;
 
-    justify-content: center;
-    margin: 0;
-  }
-
-  #map {
-    position: relative;
-    left: 0;
-    bottom: 0;
-    min-height: 20em;
-    width: 25%;
-    border-top: 0;
-
-    @media #{$maxwidth768},#{$mobile} {
-      width: 100%;
+        justify-content: center;
+        margin: 0;
     }
-  }
+
+    #map {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        min-height: 20em;
+        width: 25%;
+        border-top: 0;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            width: 100%;
+        }
+    }
 }
 
 .awesome-marker {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .hidden-beta {
-  display: none;
+    display: none;
 }
 
 .tagging {
-  form > :first-child {
-    text-align: center;
-  }
-
-  .add-tag {
-    @include flexbox;
-    @include flex-x-center;
-
-    input {
-      margin-left: 0;
-      margin-right: 0;
-
-      &[type='text'] {
-        @include flex-grow;
-
-        padding: 0.1em 0.2em;
-        border: 1px solid $border-color;
-        font-size: 1em;
-      }
-
-      &[type='submit'] {
-        padding: 0;
-        border: none;
-        font-size: 1.2em;
-        cursor: pointer;
-
-        &:hover {
-          color: $blue;
-        }
-      }
-    }
-  }
-
-  .tags {
-    @include flexbox;
-    @include flex-column;
-
-    color: $blue;
-
-    & > div {
-      @include flexbox;
-
-      margin: 0.2em 0;
-
-      & > span {
-        @include flex-grow;
-        cursor: pointer;
-
-        &:hover {
-          color: $green;
-        }
-      }
-
-      & > i {
-        cursor: pointer;
+    form > :first-child {
         text-align: center;
-
-        &:hover {
-          color: $red;
-        }
-      }
     }
-  }
+
+    .add-tag {
+        @include flexbox;
+        @include flex-x-center;
+
+        input {
+            margin-left: 0;
+            margin-right: 0;
+
+            &[type="text"] {
+                @include flex-grow;
+
+                padding: 0.1em 0.2em;
+                border: 1px solid $border-color;
+                font-size: 1em;
+            }
+
+            &[type="submit"] {
+                padding: 0;
+                border: 0;
+                font-size: 1.2em;
+                cursor: pointer;
+
+                &:hover {
+                    color: $blue;
+                }
+            }
+        }
+    }
+
+    .tags {
+        @include flexbox;
+        @include flex-column;
+
+        color: $blue;
+
+        & > div {
+            @include flexbox;
+
+            margin: 0.2em 0;
+
+            & > span {
+                @include flex-grow;
+                cursor: pointer;
+
+                &:hover {
+                    color: $green;
+                }
+            }
+
+            & > i {
+                cursor: pointer;
+                text-align: center;
+
+                &:hover {
+                    color: $red;
+                }
+            }
+        }
+    }
 }

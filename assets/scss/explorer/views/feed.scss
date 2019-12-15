@@ -1,17 +1,17 @@
 div#body.explorer.feed {
-  main {
+    main {
 
-    #list {
-    @include flexbox;
-    @include flex-column;
-    @include flex-space-around;
-    @include flex-x-center;
+        #list {
+            @include flexbox;
+            @include flex-column;
+            @include flex-space-around;
+            @include flex-x-center;
 
-      padding: 1em 0.5em;
+            padding: 1em 0.5em;
 
-      @media #{$maxwidth768},#{$mobile} {
-        padding: 0.5em;
-      }
+            @media #{$maxwidth768}, #{$mobile} {
+                padding: 0.5em;
+            }
+        }
     }
-  }
 }

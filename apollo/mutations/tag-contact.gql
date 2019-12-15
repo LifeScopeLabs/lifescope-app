@@ -1,4 +1,4 @@
-mutation tagContact($id: String, $tags: [String]) {
+mutation tagContact($id: String!, $tags: [String]) {
     tagContact (id: $id, tags: $tags) {
       id
     }

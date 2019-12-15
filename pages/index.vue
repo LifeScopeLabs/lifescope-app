@@ -1,21 +1,26 @@
 <template>
+    <div></div>
 </template>
 
 <script>
-  export default {
-    layout: function(context) {
-      return context.req.user != undefined ? 'home' : 'providers';
-    },
+	import _ from 'lodash';
 
-    asyncData({store}) {
-      store.state.mode = 'home';
-      store.state.pageName = store.state.user ? 'home' : 'providers';
-    },
+	export default {
+		layout: function(context) {
+			let user = _.get(context, 'req.user') ? context.req.user : _.get(context, 'nuxtState.state.user');
 
-    data: function() {
-      return {
-        authenticated: this.$store.state.user != undefined
-      }
-    },
-  }
+			return user != undefined ? 'home' : 'base';
+		},
+
+		data: function() {
+			return {
+				authenticated: this.$store.state.user != undefined
+			}
+		},
+
+		asyncData({store}) {
+			store.state.mode = 'home';
+			store.state.pageName = store.state.user ? 'home' : 'base';
+		},
+	}
 </script>

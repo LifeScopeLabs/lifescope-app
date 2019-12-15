@@ -1,21 +1,22 @@
 <template>
+    <div></div>
 </template>
 
 <script>
 	export default {
-		layout: function(context) {
-			return 'settings/people/edit';
+		layout: function() {
+			return 'settings/person/create';
 		},
 
-		asyncData({store}) {
-			store.state.mode = 'people-edit';
-			store.state.pageName = 'settings people-edit';
-		},
-
-		data: function({ params }) {
+		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
+		},
+
+		asyncData({store}) {
+			store.state.mode = 'people-create';
+			store.state.pageName = 'settings people-create';
 		},
 
 		middleware: function({store, redirect}) {

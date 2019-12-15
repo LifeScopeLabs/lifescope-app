@@ -1,4 +1,4 @@
-mutation untagPerson($id: String, $tags: [String]) {
+mutation untagPerson($id: String!, $tags: [String]) {
     untagPerson (id: $id, tags: $tags) {
       id
     }

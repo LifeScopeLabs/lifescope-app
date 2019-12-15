@@ -1,0 +1,10 @@
+mutation userTutorialsReset {
+     userTutorialsReset {
+        id,
+        tutorials {
+            connections,
+            explorer,
+            home
+        }
+    }
+}

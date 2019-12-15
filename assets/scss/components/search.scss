@@ -1,709 +1,717 @@
 body {
-  &.search-expand {
-    & > main {
-      filter: blur(5px) grayscale(100%);
-      position: relative;
+    &.search-expand {
+        & > main {
+            filter: blur(5px) grayscale(100%);
+            position: relative;
 
-      &::after {
-        position: fixed;
-        z-index: 10;
-        width: 100%;
-        height: 100%;
-        content: '';
-      }
+            &::after {
+                position: fixed;
+                z-index: 10;
+                width: 100%;
+                height: 100%;
+                content: "";
+            }
+        }
     }
-  }
 }
 
 #search-bar {
-  @include flex-grow;
-  $padding: 0.25em;
-  border-radius: 5px;
-  position: relative;
-  font-size: 1.25em;
+    @include flex-grow;
+    @include source-sans;
+    $padding: 0.25em;
 
-  @media #{$maxwidth768},#{$mobile} {
-    margin: 0;
-  }
+    border-radius: 5px;
+    position: relative;
+    font-size: 1.25em;
 
-  @include source-sans;
-
-  #advanced {
-    @include flexbox;
-    @include flex-x-center;
-
-    padding: 0 $padding;
-    margin-left: .25em;
-  }
-
-  #filter-controls {
-    @include flexbox;
-    @include flex-x-start;
-
-    position: absolute;
-    left: 0;
-    top: 100%;
-    z-index: 20;
-    cursor: auto;
-
-    @media #{$maxwidth768},#{$mobile} {
-      @include flex-column;
-
-      left: -65px;
-      right: -58px;
-      margin-top: 10px;
-      width: auto;
-      background-color: $item-background-color;
-      border: 1px solid $input-border-color;
-      font-size: 1.3em;
+    @media #{$maxwidth768}, #{$mobile} {
+        margin: 0;
     }
 
-    & > div {
-      position: relative;
-      top: 10px;
-
-      border: 1px solid $input-border-color;
-      background-color: $item-background-color;
-
-      @media #{$maxwidth768},#{$mobile} {
-        border: none;
-        top: 0;
-      }
-    }
-
-    #filter-editor {
-      margin-right: 8px;
-      width: 250px;
-
-      @media #{$maxwidth768},#{$mobile} {
-        width: 100%;
-        margin-right: 0;
-        padding: 0 0.5em;
-      }
-
-      padding: 0.85 * $padding $padding;
-
-      @include no-select;
-
-      #filter-buttons {
+    #advanced {
         @include flexbox;
-        @include flex-center;
+        @include flex-x-center;
 
-        .control {
-          font-size: 1.3em;
-          padding: 0.25em 0.5em;
+        padding: 0 $padding;
+        margin-left: 0.25em;
+    }
 
-          &:not([data-type='where']) {
-            cursor: pointer;
+    .filter-controls-enter-active,
+    .filter-controls-leave-active {
+        transition: all 0.5s;
+    }
 
-            &:hover {
-              position: relative;
+    .filter-controls-enter,
+    .filter-controls-leave-to {
+        opacity: 0;
+    }
 
-              &:after {
-                display: inline-flex;
-                @include flex-x-center;
+    #filter-controls {
+        @include flexbox;
+        @include flex-x-start;
+
+        position: absolute;
+        left: 0;
+        top: 100%;
+        z-index: 20;
+        cursor: auto;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            @include flex-column;
+
+            left: -65px;
+            right: -58px;
+            margin-top: 10px;
+            width: auto;
+            background-color: $item-background-color;
+            border: 1px solid $input-border-color;
+            font-size: 1.3em;
+        }
+
+        & > div {
+            position: relative;
+            top: 10px;
+
+            border: 1px solid $input-border-color;
+            background-color: $item-background-color;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                border: 0;
+                top: 0;
+            }
+        }
+
+        #filter-editor {
+            @include no-select;
+
+            margin-right: 8px;
+            width: 250px;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                width: 100%;
+                margin-right: 0;
+                padding: 0 0.5em;
+            }
+
+            padding: 0.85 * $padding $padding;
+
+            #filter-buttons {
+                @include flexbox;
                 @include flex-center;
 
-                width: 0.85em;
-                height: 0.85em;
+                .control {
+                    font-size: 1.3em;
+                    padding: 0.25em 0.5em;
 
-                position: absolute;
-                top: 0;
-                right: 0;
+                    &:not([data-type="where"]) {
+                        cursor: pointer;
 
-                margin: 0;
-                padding: 0;
+                        &:hover {
+                            position: relative;
 
-                background-color: $item-background-color;
-                border-radius: 5em;
+                            &:after {
+                                @include flex-x-center;
+                                @include flex-center;
 
-                content: '+';
-              }
+                                display: inline-flex;
+
+                                width: 0.85em;
+                                height: 0.85em;
+
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+
+                                margin: 0;
+                                padding: 0;
+
+                                background-color: $item-background-color;
+                                border-radius: 5em;
+
+                                color: $blue;
+
+                                content: "+";
+                            }
+                        }
+                    }
+
+                    &[data-type="where"] {
+                        opacity: 0.35;
+                        cursor: auto;
+                    }
+
+                    &.active {
+                        opacity: 1 !important;
+                        color: $orange;
+                    }
+                }
             }
 
-            &:hover {
-              &:after {
-                color: $blue;
-              }
+            #filter-values {
+                font-size: 0.75em;
+
+                input {
+                    font-size: 1.1em;
+
+                    &[type="radio"] {
+                        vertical-align: bottom;
+                        display: none;
+                    }
+                }
+
+                label {
+                    font-size: 1em;
+                }
+
+                &.who {
+                    form.who {
+                        display: block;
+
+                        .input-container {
+                            border: 1px solid $border-color;
+                            border-radius: 3px;
+
+                            & > label {
+                                &:first-child {
+                                    border-radius: 3px 0 0 3px;
+                                }
+
+                                &:last-child {
+                                    border-radius: 0 3px 3px 0;
+                                }
+
+                                &:not(:last-child) {
+                                    border-right: 1px solid $border-color;
+                                }
+                            }
+
+                            &.who-type {
+                                & > label {
+                                    width: 50%;
+                                }
+                            }
+
+                            &.interaction-type {
+                                & > label {
+                                    width: 25%;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.what {
+                    form.what {
+                        display: block;
+                    }
+                }
+
+                &.when {
+                    form.when {
+                        display: block;
+
+                        & > .input-container {
+                            border: 1px solid $border-color;
+                            border-radius: 3px;
+                            font-size: 0.75em;
+
+                            & > label {
+                                width: 50%;
+
+                                &:first-child {
+                                    border-radius: 3px 0 0 3px;
+                                }
+
+                                &:last-child {
+                                    border-radius: 0 3px 3px 0;
+                                }
+
+                                &:not(:last-child) {
+                                    border-right: 1px solid $border-color;
+                                }
+                            }
+                        }
+                    }
+
+                    .text-box {
+                        margin-left: 0.1em;
+                        margin-right: 0.2em;
+
+                        @media #{$maxwidth768}, #{$mobile} {
+                            margin-left: 0;
+                            margin-right: 0.3em;
+                        }
+                    }
+
+                    .shrink {
+                        width: 200px;
+
+                        @media #{$mobile-portrait} {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                &.where {
+                    form.where {
+                        display: block;
+
+                        & > .input-container {
+                            border: 1px solid $border-color;
+                            border-radius: 3px;
+                            font-size: 0.75em;
+
+                            & > label {
+                                width: 50%;
+
+                                &:first-child {
+                                    border-radius: 3px 0 0 3px;
+                                }
+
+                                &:last-child {
+                                    border-radius: 0 3px 3px 0;
+                                }
+
+                                &:not(:last-child) {
+                                    border-right: 1px solid $border-color;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.connector {
+                    form.connector {
+                        display: block;
+
+                        & > .input-container {
+                            border: 1px solid $border-color;
+                            border-radius: 3px;
+                            font-size: 0.75em;
+
+                            & > label {
+                                &:first-child {
+                                    width: 50%;
+                                    border-right: 1px solid $border-color;
+                                    border-radius: 3px 0 0 3px;
+                                }
+
+                                &:last-child {
+                                    width: 50%;
+                                    border-radius: 0 3px 3px 0;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #filter-name {
+                    padding: 0 1em;
+
+                    .text-box {
+                        border-left: 0;
+                        border-right: 0;
+
+                        margin-bottom: 1em;
+                    }
+
+                    &.hidden {
+                        display: none;
+                    }
+
+                    input {
+                        text-align: center;
+
+                        font-size: 1em;
+                        color: lighten($font-color, 35%);
+                    }
+                }
+
+                .input-container {
+                    @include flexbox;
+                    @include flex-grow;
+                    @include flex-space-around;
+
+                    margin: 0.5em 0;
+
+                    text-align: center;
+
+                    select {
+                        margin-left: 0;
+                    }
+
+                    .radio {
+                        cursor: pointer;
+                        font-size: 1.2em;
+                        padding: 0.5em 0;
+                        background-color: $background-color;
+
+                        &:not(.active) {
+                            &:hover {
+                                background-color: darken($background-color, 5%);
+                            }
+                        }
+
+                        &.active {
+                            background-color: $orange;
+                            color: $highlight-color;
+                        }
+                    }
+                }
+
+                .estimated {
+                    margin: 1em;
+                    text-align: center;
+
+                    input {
+                        top: 2px;
+                        margin: 0 0.5em;
+                    }
+                }
             }
-          }
 
-          &[data-type='where'] {
-            opacity: 0.35;
-            cursor: auto;
-          }
+            #filter-done {
+                margin: 1em 0 0.5em;
+                font-size: 0.85em;
+                text-align: center;
 
-          &.active {
-            opacity: 1 !important;
-            color: $orange;
-          }
-        }
-      }
-
-      #filter-values {
-        font-size: 0.75em;
-
-        input {
-          font-size: 1.1em;
-
-          &[type="radio"] {
-            vertical-align: bottom;
-            display: none;
-          }
-        }
-
-        label {
-          font-size: 1em;
-        }
-
-        &.who {
-          form.who {
-            display: block;
-
-            .input-container {
-              border: 1px solid $border-color;
-              border-radius: 3px;
-
-              & > label {
-                &:first-child {
-                  border-radius: 3px 0 0 3px;
+                & > button {
+                    width: 50%;
                 }
-
-                &:last-child {
-                  border-radius: 0 3px 3px 0;
-                }
-
-                &:not(:last-child) {
-                  border-right: 1px solid $border-color;
-                }
-              }
-
-              &.who-type {
-                & > label {
-                  width: 50%;
-                }
-              }
-
-              &.interaction-type {
-                & > label {
-                  width: 25%;
-                }
-              }
             }
-          }
         }
 
-        &.what {
-          form.what {
-            display: block;
-          }
-        }
+        #filter-list {
+            @include no-select;
+            @include hide-empty;
 
-        &.when {
-          form.when {
-            display: block;
+            left: 1px;
+            padding: 0.85 * $padding $padding 0 $padding;
 
-            & > .input-container {
-              border: 1px solid $border-color;
-              border-radius: 3px;
-              font-size: 0.75em;
+            max-height: 250px;
+            overflow-y: auto;
 
-              & > label {
-                width: 50%;
-
-                &:first-child {
-                  border-radius: 3px 0 0 3px;
-                }
-
-                &:last-child {
-                  border-radius: 0 3px 3px 0;
-                }
-
-                &:not(:last-child) {
-                  border-right: 1px solid $border-color;
-                }
-              }
+            .filter {
+                display: inline-block;
+                margin-bottom: 0.85 / 0.7 * $padding;
+                cursor: pointer;
             }
-          }
+        }
+    }
 
-          .text-box {
-            margin-left: 0.1em;
-            margin-right: 0.2em;
+    #query-form {
+        &:first-child {
+            padding-left: $padding;
+        }
+    }
 
-            @media #{$maxwidth768},#{$mobile} {
-              margin-left: 0;
-              margin-right: 0.3em;
-            }
-          }
+    #search-box {
+        margin: 0;
+        border: 0;
 
-          .shrink {
-            width: 200px;
+        & > input {
+            padding: 0.25em 0;
+            font-size: 1.25em;
+        }
+    }
 
-            @media #{$mobile-portrait} {
-              width: 100%;
-            }
-          }
+    #filters {
+        @include flexbox;
+        @include flex-x-center;
+        @include hide-empty;
+
+        overflow: hidden;
+        cursor: auto;
+        padding-left: 0.5 * $padding;
+
+        &.calculating {
+            position: absolute;
+            top: -20000px;
         }
 
-        &.where {
-          form.where {
-            display: block;
-
-            & > .input-container {
-              border: 1px solid $border-color;
-              border-radius: 3px;
-              font-size: 0.75em;
-
-              & > label {
-                width: 50%;
-
-                &:first-child {
-                  border-radius: 3px 0 0 3px;
-                }
-
-                &:last-child {
-                  border-radius: 0 3px 3px 0;
-                }
-
-                &:not(:last-child) {
-                  border-right: 1px solid $border-color;
-                }
-              }
-            }
-          }
-        }
-
-        &.connector {
-          form.connector {
-            display: block;
-
-            & > .input-container {
-              border: 1px solid $border-color;
-              border-radius: 3px;
-              font-size: 0.75em;
-
-              & > label {
-                &:first-child {
-                  width: 50%;
-                  border-right: 1px solid $border-color;
-                  border-radius: 3px 0 0 3px;
-                }
-
-                &:last-child {
-                  width: 50%;
-                  border-radius: 0 3px 3px 0;
-                }
-              }
-            }
-          }
-        }
-
-        #filter-name {
-          padding: 0 1em;
-
-          .text-box {
-            border-left: none;
-            border-right: none;
-
-            margin-bottom: 1em;
-          }
-
-          &.hidden {
-            display: none;
-          }
-
-          input {
-            text-align: center;
-
-            font-size: 1em;
-            color: lighten($font-color, 35%);
-          }
-        }
-
-        .input-container {
-          @include flexbox;
-          @include flex-grow;
-          @include flex-space-around;
-
-          margin: 0.5em 0;
-
-          text-align: center;
-
-          select {
-            margin-left: 0;
-          }
-
-          .radio {
+        .filter {
+            position: relative;
+            top: 1px;
             cursor: pointer;
-            font-size: 1.2em;
-            padding: 0.5em 0;
-            background-color: $background-color;
 
-            &:not(.active) {
-              &:hover {
-                background-color: darken($background-color, 5%);
-              }
+            span {
+                padding: 0.2em 0.3em;
             }
-            &.active {
-              background-color: $orange;
-              color: $highlight-color;
-            }
-          }
         }
-
-        .estimated {
-          margin: 1em;
-          text-align: center;
-
-          input {
-            top: 2px;
-            margin: 0 0.5em;
-          }
-        }
-      }
-
-      #filter-done {
-        margin: 1em 0 0.5em;
-        font-size: 0.85em;
-        text-align: center;
-
-        & > button {
-          width: 50%;
-        }
-      }
-    }
-
-    #filter-list {
-      left: 1px;
-      padding: 0.85 * $padding $padding 0 $padding;
-
-      max-height: 250px;
-      overflow-y: auto;
-
-      @include no-select;
-      @include hide-empty;
-
-      .filter {
-        display: inline-block;
-        margin-bottom: 0.85 / 0.7 * $padding;
-        cursor: pointer;
-      }
-    }
-  }
-
-  #query-form {
-    &:first-child {
-      padding-left: $padding
-    }
-  }
-
-  #search-box {
-    margin: 0;
-    border: none;
-
-    & > input {
-      padding: 0.25em 0;
-      font-size: 1.25em;
-    }
-  }
-
-  #filters {
-    overflow: hidden;
-    cursor: auto;
-    padding-left: 0.5 * $padding;
-
-    @include flexbox;
-    @include flex-x-center;
-    @include hide-empty;
-
-    &.calculating {
-      position: absolute;
-      top: -20000px;
-    }
-
-    .filter {
-      position: relative;
-      top: 1px;
-      cursor: pointer;
-
-      span {
-        padding: 0.2em 0.3em;
-      }
-    }
-  }
-
-  #filter-overflow-count {
-    @include flexbox;
-    @include flex-x-center;
-    @include hide-empty;
-
-    div {
-      font-size: 0.7em;
-
-      border: 1px solid $input-border-color;
-      background-color: darken($background-color, 2%);
-      border-radius: 4px;
-
-      position: relative;
-      top: 1px;
-      padding: 0.2em 0.4em;
-
-      &:hover {
-        color: $blue;
-      }
-    }
-  }
-
-  .filter {
-    display: inline-block;
-
-    font-size: 0.7em;
-
-    white-space: nowrap;
-
-    border: 1px solid $input-border-color;
-    background-color: darken($background-color, 2%);
-    border-radius: 4px;
-
-    margin-right: 0.35em;
-
-    @include source-sans;
-    @include no-select;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    & > * {
-      padding: 0.45em;
-
-      &:first-child {
-        padding-right: 0;
-      }
-    }
-
-    &:hover {
-      color: $blue;
-    }
-
-    &.active {
-      background-color: darken($background-color, 5%);
-    }
-  }
-
-  #search-button,
-  #search-favorited {
-    padding: 0 $padding;
-    margin-right: 0.25em;
-
-    @include flexbox;
-    @include flex-x-center;
-  }
-
-  #search-favorited {
-    &.filled {
-      i {
-        color: $blue;
-      }
-    }
-  }
-}
-
-#shared-search {
-  @include flexbox;
-  @include flex-grow;
-  @include flex-x-center;
-  @include flex-center;
-
-  .avatar {
-    @include flexbox;
-    @include flex-center;
-
-    & > .default {
-      color: white;
-      width: 50px;
-      height: 50px;
-      font-size: 2.5em;
-
-      border-radius: 50%;
-      line-height: 1.5;
-
-      text-align: center;
-
-      @media #{$maxwidth768},#{$mobile} {
-        width: 35px;
-        height: 35px;    
-        font-size: 1.75em;
-      }
-    }
-
-    & > img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-
-    i {
-      margin: 0 0.25em;
-      text-align: center;
-
-      color: gray;
-    }
-
-    margin: 0 0.25em;
-  }
-
-  span {
-    text-align: center;
-    font-size: 1.5em;
-
-    @media #{$maxwidth768},#{$mobile} {
-      font-size: 1.25em;
-    }
-  }
-}
-
-div#body.dark {
-  #search-bar {
-    #filter-controls {
-      @media #{$maxwidth768},#{$mobile} {
-        background-color: $item-background-color-dark;
-        border: 1px solid $input-border-color-dark;
-      }
-
-      & > div {
-        border: 1px solid $input-border-color-dark;
-        background-color: $item-background-color-dark;
-
-        @media #{$maxwidth768},#{$mobile} {
-          border: none;
-        }
-      }
-
-      select {
-        color: $font-color-dark;
-      }
-
-      #filter-editor {
-        #filter-buttons {
-          .control {
-            &:not([data-type='where']) {
-              &:hover {
-                &:after {
-                  background-color: $item-background-color-dark;
-                }
-              }
-            }
-          }
-        }
-
-        #filter-values {
-          &.who {
-            form.who {
-              .input-container {
-                border: 1px solid $border-color-dark;
-
-                & > label {
-                  &:not(:last-child) {
-                    border-right: 1px solid $border-color-dark;
-                  }
-                }
-              }
-            }
-          }
-
-          &.when {
-            form.when {
-              & > .input-container {
-                border: 1px solid $border-color-dark;
-
-                & > label {
-                  &:not(:last-child) {
-                    border-right: 1px solid $border-color-dark;
-                  }
-                }
-              }
-            }
-          }
-
-          &.where {
-            form.where {
-              & > .input-container {
-                border: 1px solid $border-color-dark;
-
-                & > label {
-                  &:not(:last-child) {
-                    border-right: 1px solid $border-color-dark;
-                  }
-                }
-              }
-            }
-          }
-
-          &.connector {
-            form.connector {
-              & > .input-container {
-                border: 1px solid $border-color-dark;
-
-                & > label {
-                  &:first-child {
-                    border-right: 1px solid $border-color-dark;
-                  }
-                }
-              }
-            }
-          }
-
-          #filter-name {
-            input {
-              color: lighten($font-color-dark, 35%);
-            }
-          }
-
-          .input-container {
-            .radio {
-              background-color: $background-color-dark;
-
-              &:not(.active) {
-                &:hover {
-                  background-color: lighten($background-color-dark, 10%);
-                }
-              }
-
-              &.active {
-                background-color: $orange;
-                color: $highlight-color;
-              }
-            }
-          }
-        }
-      }
     }
 
     #filter-overflow-count {
-      div {
-        border: 1px solid $input-border-color-dark;
-        background-color: lighten($background-color-dark, 5%);
-      }
+        @include flexbox;
+        @include flex-x-center;
+        @include hide-empty;
+
+        div {
+            font-size: 0.7em;
+
+            border: 1px solid $input-border-color;
+            background-color: darken($background-color, 2%);
+            border-radius: 4px;
+
+            position: relative;
+            top: 1px;
+            padding: 0.2em 0.4em;
+
+            &:hover {
+                color: $blue;
+            }
+        }
     }
 
     .filter {
-      border: 1px solid $input-border-color-dark;
-      background-color: lighten($background-color-dark, 5%);
+        @include source-sans;
+        @include no-select;
 
-      &.active {
-        background-color: lighten($background-color-dark, 10%);
-      }
+        display: inline-block;
+
+        font-size: 0.7em;
+
+        white-space: nowrap;
+
+        border: 1px solid $input-border-color;
+        background-color: darken($background-color, 2%);
+        border-radius: 4px;
+
+        margin-right: 0.35em;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        & > * {
+            padding: 0.45em;
+
+            &:first-child {
+                padding-right: 0;
+            }
+        }
+
+        &:hover {
+            color: $blue;
+        }
+
+        &.active {
+            background-color: darken($background-color, 5%);
+        }
     }
 
-    #filter-editor {
-      select {
-        background-color: $background-color-dark;
-      }
-    }
-  }
+    #search-button,
+    #search-favorited {
+        @include flexbox;
+        @include flex-x-center;
 
-  #search-box {
-    color: $font-color-dark;
-  }
+        padding: 0 $padding;
+        margin-right: 0.25em;
+    }
+
+    #search-favorited {
+        &.filled {
+            i {
+                color: $blue;
+            }
+        }
+    }
+}
+
+#shared-search {
+    @include flexbox;
+    @include flex-grow;
+    @include flex-x-center;
+    @include flex-center;
+
+    .avatar {
+        @include flexbox;
+        @include flex-center;
+
+        margin: 0 0.25em;
+
+        & > .default {
+            color: white;
+            width: 50px;
+            height: 50px;
+            font-size: 2.5em;
+
+            border-radius: 50%;
+            line-height: 1.5;
+
+            text-align: center;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                width: 35px;
+                height: 35px;
+                font-size: 1.75em;
+            }
+        }
+
+        & > img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        i {
+            margin: 0 0.25em;
+            text-align: center;
+
+            color: gray;
+        }
+    }
+
+    span {
+        text-align: center;
+        font-size: 1.5em;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            font-size: 1.25em;
+        }
+    }
+}
+
+div#body.dark {
+    #search-bar {
+        #filter-controls {
+            @media #{$maxwidth768}, #{$mobile} {
+                background-color: $item-background-color-dark;
+                border: 1px solid $input-border-color-dark;
+            }
+
+            & > div {
+                border: 1px solid $input-border-color-dark;
+                background-color: $item-background-color-dark;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    border: 0;
+                }
+            }
+
+            select {
+                color: $font-color-dark;
+            }
+
+            #filter-editor {
+                #filter-buttons {
+                    .control {
+                        &:not([data-type="where"]) {
+                            &:hover {
+                                &:after {
+                                    background-color: $item-background-color-dark;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #filter-values {
+                    &.who {
+                        form.who {
+                            .input-container {
+                                border: 1px solid $border-color-dark;
+
+                                & > label {
+                                    &:not(:last-child) {
+                                        border-right: 1px solid $border-color-dark;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &.when {
+                        form.when {
+                            & > .input-container {
+                                border: 1px solid $border-color-dark;
+
+                                & > label {
+                                    &:not(:last-child) {
+                                        border-right: 1px solid $border-color-dark;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &.where {
+                        form.where {
+                            & > .input-container {
+                                border: 1px solid $border-color-dark;
+
+                                & > label {
+                                    &:not(:last-child) {
+                                        border-right: 1px solid $border-color-dark;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &.connector {
+                        form.connector {
+                            & > .input-container {
+                                border: 1px solid $border-color-dark;
+
+                                & > label {
+                                    &:first-child {
+                                        border-right: 1px solid $border-color-dark;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    #filter-name {
+                        input {
+                            color: lighten($font-color-dark, 35%);
+                        }
+                    }
+
+                    .input-container {
+                        .radio {
+                            background-color: $background-color-dark;
+
+                            &:not(.active) {
+                                &:hover {
+                                    background-color: lighten($background-color-dark, 10%);
+                                }
+                            }
+
+                            &.active {
+                                background-color: $orange;
+                                color: $highlight-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #filter-overflow-count {
+            div {
+                border: 1px solid $input-border-color-dark;
+                background-color: lighten($background-color-dark, 5%);
+            }
+        }
+
+        .filter {
+            border: 1px solid $input-border-color-dark;
+            background-color: lighten($background-color-dark, 5%);
+
+            &.active {
+                background-color: lighten($background-color-dark, 10%);
+            }
+        }
+
+        #filter-editor {
+            select {
+                background-color: $background-color-dark;
+            }
+        }
+    }
+
+    #search-box {
+        color: $font-color-dark;
+    }
 }

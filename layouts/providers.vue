@@ -1,5 +1,7 @@
 <template>
-    <div id="body" v-bind:class="[{ authenticated: $store.getters.authenticated }, $store.getters.theme, $store.state.pageName]">
+    <div id="body"
+         v-bind:class="[{ authenticated: $store.getters.authenticated }, $store.getters.theme, $store.state.pageName]"
+    >
         <vue-header></vue-header>
 
         <vue-menu></vue-menu>
@@ -15,17 +17,17 @@
 </template>
 
 <script>
-	import CookieConsent from '../components/cookie-consent';
-	import LocationTracking from '../components/location-tracking';
-	import VueHeader from '../components/header';
-	import VueMenu from '../components/menu';
-	import VueAside from '../components/aside';
-	import VueMain from '../components/main/providers';
+	// import CookieConsent from '../components/cookie-consent.vue';
+	import LocationTracking from '../components/location-tracking.vue';
+	import VueHeader from '../components/header.vue';
+	import VueMenu from '../components/menu.vue';
+	import VueAside from '../components/aside.vue';
+	import VueMain from '../components/main/providers.vue';
 
 	export default {
 		components: {
 			// CookieConsent: CookieConsent,
-      LocationTracking: LocationTracking,
+			LocationTracking: LocationTracking,
 			VueAside: VueAside,
 			VueHeader: VueHeader,
 			VueMenu: VueMenu,

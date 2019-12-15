@@ -1,4 +1,4 @@
-mutation tagContent($id: String, $tags: [String]) {
+mutation tagContent($id: String!, $tags: [String]) {
     tagContent (id: $id, tags: $tags) {
       id
     }

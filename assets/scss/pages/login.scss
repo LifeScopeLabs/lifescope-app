@@ -1,0 +1,139 @@
+div#body.login {
+    main {
+        display: block;
+        overflow: scroll;
+        padding: 1em;
+
+        img.logo {
+            max-height: 300px;
+            max-width: 300px;
+            margin-bottom: 2em;
+
+            @media #{$maxwidth768}, #{$mobile}  {
+                margin-left: 0.5em;
+                margin-right: 0.5em;
+                max-width: 90%;
+            }
+        }
+
+        .scroller > div {
+            margin: 1em 0;
+
+            & > div > * {
+                max-width: 100%;
+
+                @media #{$maxwidth768}, #{$mobile}  {
+                    max-height: 200px;
+                }
+            }
+        }
+    }
+
+    #login-choice {
+        @include flexbox;
+        @include flex-column;
+
+        text-align: center;
+
+        & > div {
+            @media #{$maxwidth768}, #{$mobile}  {
+                @include flex-column;
+                @include flex-x-center;
+            }
+        }
+
+        @media #{$maxwidth768}, #{$mobile}  {
+            h1 {
+                margin-left: 0.5em;
+                margin-right: 0.5em;
+            }
+        }
+
+        .login-button {
+            @include align-center;
+            @include no-select;
+
+            font-size: 1.8em;
+            display: inline-block;
+
+            height: 300px;
+            width: 300px;
+            max-width: 95%;
+
+            margin: 1em;
+            cursor: pointer;
+
+            background-color: $background-color;
+            border: 3px solid $border-color;
+
+            &:hover,
+            &:active,
+            &.active {
+                border-color: $orange;
+            }
+
+            @media #{$maxwidth768}, #{$mobile}  {
+                margin: 0.25em;
+
+                max-height: 120px;
+            }
+
+            & > div.box-content {
+                @include flexbox;
+                @include flex-column;
+                @include flex-center;
+
+                position: relative;
+                height: 100%;
+
+                & > span {
+                    position: absolute;
+                    right: 5px;
+                    top: 3px;
+                }
+
+                & > p {
+                    margin-bottom: 0.25em;
+                }
+
+                .subtext {
+                    font-size: 0.6em;
+                }
+            }
+        }
+
+        .opposite {
+            @media #{$maxwidth768}, #{$mobile}  {
+                margin: 0.25em 2em;
+            }
+        }
+    }
+
+    #login {
+        max-width: 400px;
+
+        #email-form {
+            @include flexbox;
+            @include flex-column;
+
+            max-width: 4000px;
+
+            margin-top: 2em;
+
+            .errors {
+                color: $red;
+            }
+
+            .text-box {
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 0;
+                margin-bottom: 1em;
+            }
+
+            button.primary {
+                margin: 1em 0;
+            }
+        }
+    }
+}

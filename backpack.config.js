@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   webpack: (config, options, webpack) => {
     config.entry.main = [
@@ -7,3 +8,4 @@ module.exports = {
     return config;
   }
 };
+/* eslint-enable no-unused-vars */

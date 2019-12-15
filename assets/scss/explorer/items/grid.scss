@@ -1,142 +1,144 @@
 .item.grid {
-  @include flexbox;
-  @include flex-end;
-  @include flex-column;
-  @include no-select;
-  @include pointer;
+    @include flexbox;
+    @include flex-end;
+    @include flex-column;
+    @include no-select;
+    @include pointer;
 
-  word-break: break-word;
+    word-break: break-word;
 
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-clip: content-box;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: content-box;
 
-  box-shadow: 0 0 5px 1px $border-color;
-  border: 3px solid #FFF;
+    box-shadow: 0 0 5px 1px $border-color;
+    border: 3px solid #FFF;
 
-  width: 10em;
-  height: 10em;
-  margin: 0.5em;
-  padding: 0;
+    width: 10em;
+    height: 10em;
+    margin: 0.5em;
+    padding: 0;
 
-  @media #{$maxwidth768},#{$mobile} {
-    @include flex-row;
+    @media #{$maxwidth768}, #{$mobile} {
+        @include flex-row;
 
-    width: 95%;
-    height: 5em;
-    margin: 0.25em 0;
-  }
+        width: 95%;
+        height: 5em;
+        margin: 0.25em 0;
+    }
 
-  &:hover {
-    border-color: $blue;
-  }
+    &:hover {
+        border-color: $blue;
+    }
 
-  .event-hidden,
-  .contact-hidden,
-  .content-hidden,
-  .person-hidden {
-      padding: 0.5em;
-  }
+    .event-hidden,
+    .contact-hidden,
+    .content-hidden,
+    .person-hidden {
+        padding: 0.5em;
+    }
 
-  .mobile-thumbnail {
-    padding: 1em 0;
+    .mobile-thumbnail {
+        padding: 1em 0;
 
-    img {
-      @include flexbox;
+        img {
+            @include flexbox;
 
-      margin: auto;
-      width: auto;
-      height: auto;
-      max-height: 95px;
-      max-width: 100%;
+            margin: auto;
+            width: auto;
+            height: auto;
+            max-height: 95px;
+            max-width: 100%;
 
-      @media #{$maxwidth768},#{$mobile} {
-        height: 100%;
+            @media #{$maxwidth768}, #{$mobile} {
+                height: 100%;
 
-        &:before {
-          padding-right: 100%
+                &:before {
+                    padding-right: 100%;
+                }
+            }
         }
-      }
+
+        & > .default {
+            font-size: 2.25em;
+            color: white;
+            width: 50px;
+            height: 50px;
+
+            padding: 15px 0;
+
+            border-radius: 30px;
+
+            margin: auto;
+
+            text-align: center;
+        }
+
+        & > img {
+            width: 50px;
+            height: 50px;
+        }
+
+        @media #{$maxwidth768}, #{$mobile} {
+            @include flexbox;
+        }
     }
 
-    & > .default {
-      font-size: 2.25em;
-      color: white;
-      width: 50px;
-      height: 50px;
+    .type-icon {
+        margin: auto;
+        font-size: 3em;
 
-      border-radius: 30px;
+        color: fade(darken($font-color, 10%), 65%);
 
-      margin: auto;
-
-      text-align: center;
+        @media #{$maxwidth768}, #{$mobile} {
+            display: none;
+        }
     }
 
-    & > img {
-      width: 50px;
-      height: 50px;
+    .title-bar {
+        @include flexbox;
+        @include flex-x-center;
+        @include flex-space-between;
+
+        font-size: 0.75em;
+        width: 100%;
+        padding: 5px;
+        background-color: fade(darken($item-background-color, 5%), 85%);
+
+        @media #{$maxwidth768}, #{$mobile} {
+            font-size: 1.2em;
+        }
+
+        .title {
+            text-align: center;
+            margin: auto 5px;
+            max-height: 55px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                max-height: 70px;
+            }
+        }
     }
 
-    @media #{$maxwidth768},#{$mobile} {
-      @include flexbox;
+    .bubble {
+        @include flexbox;
+        @include flex-center;
+        @include flex-x-center;
+
+        border-radius: 50%;
+        background-color: darken($item-background-color, 10%);
+
+        min-width: 28px;
+        min-height: 28px;
+        font-size: 18px;
+
+        @media #{$maxwidth768}, #{$mobile} {
+            min-width: 38px;
+            min-height: 38px;
+            font-size: 25px;
+        }
     }
-  }
-
-  .type-icon {
-    margin: auto;
-    font-size: 3em;
-
-    color: fade(darken($font-color, 10%), 65%);
-
-    @media #{$maxwidth768},#{$mobile} {
-      display: none;
-    }
-  }
-
-  .title-bar {
-    @include flexbox;
-    @include flex-x-center;
-    @include flex-space-between;
-
-    font-size: 0.75em;
-    width: 100%;
-    padding: 5px;
-    background-color: fade(darken($item-background-color, 5%), 85%);
-
-    @media #{$maxwidth768},#{$mobile} {
-      font-size: 1.2em;
-    }
-
-    .title {
-      text-align: center;
-      margin: auto 5px;
-      max-height: 55px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      @media #{$maxwidth768},#{$mobile} {
-        max-height: 70px;
-      }
-    }
-  }
-
-  .bubble {
-    @include flexbox;
-    @include flex-center;
-    @include flex-x-center;
-
-    border-radius: 50%;
-    background-color: darken($item-background-color, 10%);
-
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 18px;
-
-    @media #{$maxwidth768},#{$mobile} {
-      min-width: 38px;
-      min-height: 38px;
-      font-size: 25px;
-    }
-  }
 }

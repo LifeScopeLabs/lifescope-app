@@ -1,40 +1,39 @@
 .icon-picker {
-  & > * {
-    &.options {
-      @include flexbox;
-      @include flex-wrap;
+    & > * {
+        &.options {
+            @include flexbox;
+            @include flex-wrap;
 
-      border: 1px solid $input-border-color;
-      border-radius: 1px;
-      max-height: 60%;
+            border: 1px solid $input-border-color;
+            border-radius: 1px;
+            max-height: 60%;
 
-      @media #{$maxwidth768},#{$mobile} {
-        max-height: 200px;
-        overflow: auto;
-      }
+            @media #{$maxwidth768}, #{$mobile} {
+                max-height: 200px;
+                overflow: auto;
+            }
 
-      & > i {
-        @include align-center;
+            & > i {
+                @include align-center;
+                @include pointer;
+
+                font-size: 2em;
+                padding: 0.2em;
+                text-align: center;
+                width: 1.5em;
+                box-sizing: content-box;
+
+                &:hover {
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+
+    #clear-icon {
         @include pointer;
 
-        font-size: 2em;
-        padding: 0.2em;
-        text-align: center;
-        width: 1.5em;
-        box-sizing: content-box;
-        text-align: center;
-
-        &:hover {
-          opacity: 0.5;
-        }
-      }
+        color: $red;
+        margin: 0.35em 0 0 0.35em;
     }
-  }
-
-  #clear-icon {
-    @include pointer;
-
-    color: $red;
-    margin: 0.35em 0 0 0.35em;
-  }
 }

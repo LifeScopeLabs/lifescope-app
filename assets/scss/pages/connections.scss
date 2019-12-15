@@ -1,70 +1,70 @@
 div#body.connections.connect {
-  main {
-    @include flex-grow-scrollable(false);
+    main {
+        @include flex-grow-scrollable(false);
 
-    #content {
-      @include flexbox;
-      @include flex-column;
-      @include flex-x-center;
+        #content {
+            @include flexbox;
+            @include flex-column;
+            @include flex-x-center;
 
-      @media #{$maxwidth768},#{$mobile} {
-        @include flex-x-stretch;
-      }
+            @media #{$maxwidth768}, #{$mobile} {
+                @include flex-x-stretch;
+            }
 
-      & > * {
-        &:not(:last-child) {
-          margin-bottom: 1em;
+            & > * {
+                &:not(:last-child) {
+                    margin-bottom: 1em;
+                }
+            }
         }
-      }
-    }
 
-    #wrapper {
-      margin: 3em 1em 1em 1em;
+        #wrapper {
+            margin: 3em 1em 1em;
 
-      @media #{$maxwidth768},#{$mobile} {
-        margin: 0.45em 0.35em;
-      }
-    }
-
-    #workflow {
-      width: 500px;
-
-      @media #{$maxwidth768},#{$mobile} {
-        width: 100%;
-      }
-
-      .action {
-        @include flexbox;
-        @include flex-center;
-
-        margin-top: 1.5em;
-      }
-
-      label {
-        font-size: 1.2em;
-      }
-
-      .tooltip {
-        margin: 0.35em 0 0 3em;
-        color: $font-color-subdue;
-
-        @media #{$maxwidth768},#{$mobile} {
-          margin-top: 0em;
+            @media #{$maxwidth768}, #{$mobile} {
+                margin: 0.45em 0.35em;
+            }
         }
-      }
 
-      .label {
-        margin-bottom: 1em;
-      }
+        #workflow {
+            width: 500px;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                width: 100%;
+            }
+
+            .action {
+                @include flexbox;
+                @include flex-center;
+
+                margin-top: 1.5em;
+            }
+
+            label {
+                font-size: 1.2em;
+            }
+
+            .tooltip {
+                margin: 0.35em 0 0 3em;
+                color: $font-color-subdue;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    margin-top: 0;
+                }
+            }
+
+            .label {
+                margin-bottom: 1em;
+            }
+        }
+
+        #manage {
+            @include flexbox;
+            @include flex-center;
+        }
     }
 
-    #manage {
-      @include flexbox;
-      @include flex-center;
+    footer {
+        display: none;
     }
-  }
-
-  footer {
-    display: none;
-  }
 }

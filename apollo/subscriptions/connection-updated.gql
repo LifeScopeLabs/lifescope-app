@@ -13,6 +13,7 @@ subscription connectionUpdated {
         enabled,
         last_run,
         last_successful_run,
+        oauth_app_name,
         permissions,
         provider_id,
         provider {
@@ -22,6 +23,7 @@ subscription connectionUpdated {
             sources
         },
         provider_name,
-        remote_connection_id
+        remote_connection_id,
+        runnable,
     }
 }

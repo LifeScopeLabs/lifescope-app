@@ -1,12 +1,12 @@
 #more-waiting {
-  @include flexbox;
-  @include flex-column;
-  @include flex-center;
-  @include flex-x-center;
+    @include flexbox;
+    @include flex-column;
+    @include flex-center;
+    @include flex-x-center;
 
-  height: 100%;
+    height: 100%;
 
-  & > img {
-    height: 50px;
-  }
+    & > img {
+        height: 50px;
+    }
 }

@@ -1,15 +1,11 @@
 <template>
+    <div></div>
 </template>
 
 <script>
 	export default {
-		layout: function(context) {
+		layout: function() {
 			return 'settings/authorized-apps';
-		},
-
-		asyncData({ store }) {
-			store.state.mode = 'authorized-apps';
-			store.state.pageName = 'settings authorized-apps';
 		},
 
 		data: function() {
@@ -18,10 +14,15 @@
 			}
 		},
 
-    middleware: function({ store, redirect }) {
-		  if (store.state.user == undefined) {
-		    return redirect('/');
-      }
-    }
+		asyncData({store}) {
+			store.state.mode = 'authorized-apps';
+			store.state.pageName = 'settings authorized-apps';
+		},
+
+		middleware: function({store, redirect}) {
+			if (store.state.user == undefined) {
+				return redirect('/');
+			}
+		}
 	}
 </script>

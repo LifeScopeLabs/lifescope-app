@@ -1,0 +1,17 @@
+{
+    connectedOAuthProviderMany {
+        id,
+        login,
+        coming_soon,
+        enabled,
+        oauth_app,
+        oauth_app_id,
+        oauth_app_id_string,
+        sources,
+        remote_map_id,
+        remote_map_id_string,
+        name,
+        runnable,
+        tags
+    }
+}

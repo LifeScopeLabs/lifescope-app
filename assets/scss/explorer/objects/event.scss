@@ -1,161 +1,171 @@
 .object.event {
-  @include flexbox;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.15);
-
-  @media #{$maxwidth768},#{$mobile} {
-    @include flex-column;
-  }
-
-  .items {
     @include flexbox;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.15);
 
-    @media #{$maxwidth768},#{$mobile} {
-      @include flex-column;
+    @media #{$maxwidth768}, #{$mobile} {
+        @include flex-column;
     }
 
-    & > *:not(:last-child):not(.close-container) {
-      padding-right: 1em;
-      margin-right: 1em;
-      border-right: 1px solid $border-color;
+    .items {
+        @include flexbox;
 
-      @media #{$maxwidth768},#{$mobile} {
-        padding: 0 0 1em 0;
-        margin: 0 0 1em 0;
-        border-right: none;
-        border-bottom: 1px solid $border-color;
-      }
+        @media #{$maxwidth768}, #{$mobile} {
+            @include flex-column;
+        }
+
+        & > *:not(:last-child):not(.close-container) {
+            padding-right: 1em;
+            margin-right: 1em;
+            border-right: 1px solid $border-color;
+
+            @media #{$maxwidth768}, #{$mobile} {
+                padding: 0 0 1em;
+                margin: 0 0 1em;
+                border-right: 0;
+                border-bottom: 1px solid $border-color;
+            }
+        }
+
+        & > .details {
+            @include flexbox;
+            @include flex-column;
+
+            text-align: left;
+            word-break: initial;
+
+            .type {
+                text-transform: uppercase;
+                margin-bottom: 0.5em;
+                color: $font-color-subdue;
+
+                @media #{$maxwidth768}, #{$mobile} {
+                    @include flex-center;
+                    text-align: center;
+                }
+
+            }
+
+            .provider {
+                margin-bottom: 0.5em;
+                text-transform: capitalize;
+            }
+
+            .estimation {
+                margin-top: -0.35em;
+                color: $font-color-subdue;
+
+                i {
+                    color: transparent;
+                }
+
+                span {
+                    font-size: 0.85em;
+                }
+            }
+
+            & > .date {
+                margin-bottom: 0.5em;
+            }
+        }
+
+        & > .content {
+            .object.content {
+                .provider {
+                    display: none;
+                }
+            }
+        }
+
+        & > .interactions {
+            word-break: break-all;
+            min-width: 150px;
+
+            .object.contact,
+            .object.person {
+                margin: 0.25em 0;
+
+                .tagging {
+                    text-align: right;
+                }
+
+                .provider {
+                    display: none;
+                }
+
+                &:not(:last-child) {
+                    padding-bottom: 0.5em;
+                    border-bottom: 1px solid $border-color;
+                }
+
+                &:not(:first-child) {
+                    padding-top: 0.5em;
+                }
+            }
+        }
     }
 
-    & > .details {
-      @include flexbox;
-      @include flex-column;
-
-      text-align: left;
-      word-break: initial;
-
-      .type {
-        text-transform: uppercase;
-        margin-bottom: 0.5em;
-        color: $font-color-subdue;
-
-        @media #{$maxwidth768},#{$mobile} {
-          @include flex-center;
-          text-align: center;
-        }
-
-      }
-
-      .provider {
-        margin-bottom: 0.5em;
-        text-transform: capitalize;
-      }
-
-      .estimation {
-        margin-top: -0.35em;
-        color: $font-color-subdue;
-
-        i {
-          color: transparent;
-        }
-
-        span {
-          font-size: 0.85em;
-        }
-      }
-
-      & > .date {
-        margin-bottom: 0.5em;
-      }
+    .event-hidden {
+        @include flexbox;
+        @include flex-grow;
+        @include flex-column;
+        @include flex-x-center;
     }
+}
 
-    & > .content {
-      .object.content {
-        .provider {
-          display: none;
-        }
-      }
-    }
+.event-enter-active,
+.event-leave-active {
+    transition: all 1s ease-in-out;
+}
 
-    & > .interactions {
-      word-break: break-all;
-      min-width: 150px;
-
-      .object.contact,
-      .object.person {
-        margin: 0.25em 0;
-
-        .tagging {
-          text-align: right;
-        }
-
-        .provider {
-          display: none;
-        }
-
-        &:not(:last-child) {
-          padding-bottom: 0.5em;
-          border-bottom: 1px solid $border-color;
-        }
-
-        &:not(:first-child) {
-          padding-top: 0.5em;
-        }
-      }
-    }
-  }
-
-  .event-hidden {
-    @include flexbox;
-    @include flex-grow;
-    @include flex-column;
-    @include flex-x-center;
-  }
+.event-enter,
+.event-leave-to {
+    opacity: 0;
 }
 
 .modal .object.event .interactions .expand {
-  display: none !important;
+    display: none !important;
 }
 
 div#body.dark {
-  .object.event {
-    color: $font-color-dark;
-    background-color: $background-color-dark;
+    .object.event {
+        color: $font-color-dark;
+        background-color: $background-color-dark;
 
-    .items {
-      & > *:not(:last-child):not(.close-container) {
-        border-right: 1px solid $border-color-dark;
+        .items {
+            & > *:not(:last-child):not(.close-container) {
+                border-right: 1px solid $border-color-dark;
 
-        @media #{$maxwidth768},#{$mobile} {
-          border-right: none;
-          border-bottom: 1px solid $border-color-dark;
+                @media #{$maxwidth768}, #{$mobile} {
+                    border-right: 0;
+                    border-bottom: 1px solid $border-color-dark;
+                }
+            }
+
+            & > .details {
+
+                .type {
+                    color: $font-color-subdue-dark;
+                }
+
+                .estimation {
+                    color: $font-color-subdue-dark;
+                }
+            }
+
+            & > .interactions {
+                .expand {
+                    background-color: $border-color-dark;
+                }
+
+                .object.contact,
+                .object.person {
+
+                    &:not(:last-child) {
+                        padding-bottom: 0.5em;
+                        border-bottom: 1px solid $border-color-dark;
+                    }
+                }
+            }
         }
-      }
-
-      & > .details {
-
-        .type {
-          color: $font-color-subdue-dark;
-        }
-
-        .estimation {
-          color: $font-color-subdue-dark;
-        }
-      }
-
-      & > .interactions {
-        .expand {
-          background-color: $border-color-dark;
-        }
-
-        .object.contact,
-        .object.person {
-  
-          &:not(:last-child) {
-            padding-bottom: 0.5em;
-            border-bottom: 1px solid $border-color-dark;
-          }
-        }
-      }
     }
-  }
 }

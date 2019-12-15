@@ -1,32 +1,32 @@
 #no-results {
-  @include flexbox;
-  @include flex-column;
-  @include flex-center;
-  @include flex-x-center;
-
-  width: 100%;
-  height: 100%;
-  background-color: $item-background-color;
-
-  & > .prompt {
-    @include align-center;
     @include flexbox;
     @include flex-column;
+    @include flex-center;
+    @include flex-x-center;
 
-    border: 15px solid $blue;
-    border-radius: 50%;
-    width: 325px;
-    height: 325px;
-    font-size: 1.2em;
+    width: 100%;
+    height: 100%;
+    background-color: $item-background-color;
 
-    & > .prompt-text {
-      margin: auto 0;
+    & > .prompt {
+        @include align-center;
+        @include flexbox;
+        @include flex-column;
+
+        border: 15px solid $blue;
+        border-radius: 50%;
+        width: 325px;
+        height: 325px;
+        font-size: 1.2em;
+
+        & > .prompt-text {
+            margin: auto 0;
+        }
     }
-  }
 }
 
 div#body.dark {
-  #no-results {
-    background-color: $item-background-color-dark;
-  }
+    #no-results {
+        background-color: $item-background-color-dark;
+    }
 }

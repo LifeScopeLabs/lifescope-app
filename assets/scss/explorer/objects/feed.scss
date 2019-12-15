@@ -1,56 +1,56 @@
 .object.feed {
-  @include flexbox;
+    @include flexbox;
 
-  width: 100%;
-  word-break: break-all;
-  padding: 1em;
-
-  &:not(.modaled) {
-    margin-bottom: 1em;
-    border: 1px solid $background-color-dark;
-    border-radius: 5px;
-  }
-
-  .items {
     width: 100%;
+    word-break: break-all;
+    padding: 1em;
 
-    & > .content {
-      @include flexbox;
-      @include flex-column;
-      @include flex-grow;
-
-      & > *:not(:last-child) {
-        margin-bottom: 1em;
-        padding-bottom: 1em;
-        border-bottom: 1px solid $border-color;
-      }
-    }
-
-    & > .contact,
-    & > .person {
-      @include flexbox;
-      @include flex-grow;
-      @include flex-column;
-
-      & > div:first-child {
-        @include flex-grow;
-      }
-    }
-  }
-}
-
-div#body.dark {
-  .object.feed {
     &:not(.modaled) {
-      border: 1px solid $border-color-dark;
+        margin-bottom: 1em;
+        border: 1px solid $background-color-dark;
+        border-radius: 5px;
     }
 
     .items {
-      & > .content {
-        & > *:not(:last-child) {
-          border-bottom: 1px solid $border-color-dark;
+        width: 100%;
+
+        & > .content {
+            @include flexbox;
+            @include flex-column;
+            @include flex-grow;
+
+            & > *:not(:last-child) {
+                margin-bottom: 1em;
+                padding-bottom: 1em;
+                border-bottom: 1px solid $border-color;
+            }
         }
-      }
+
+        & > .contact,
+        & > .person {
+            @include flexbox;
+            @include flex-grow;
+            @include flex-column;
+
+            & > div:first-child {
+                @include flex-grow;
+            }
+        }
     }
-  }
+}
+
+div#body.dark {
+    .object.feed {
+        &:not(.modaled) {
+            border: 1px solid $border-color-dark;
+        }
+
+        .items {
+            & > .content {
+                & > *:not(:last-child) {
+                    border-bottom: 1px solid $border-color-dark;
+                }
+            }
+        }
+    }
 }

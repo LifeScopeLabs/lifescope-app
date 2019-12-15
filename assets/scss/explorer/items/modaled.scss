@@ -1,39 +1,39 @@
 .object.modaled {
-  @include flexbox;
-
-  width: 100%;
-  word-break: break-word;
-  padding: 1em;
-
-  .close-container {
-    margin-bottom: 0.5em;
-  }
-
-  .items {
     @include flexbox;
 
-    @media #{$maxwidth768},#{$mobile} {
-      @include flex-column;
+    width: 100%;
+    word-break: break-word;
+    padding: 1em;
+
+    .close-container {
+        margin-bottom: 0.5em;
     }
 
-    & > .content {
-      @include flexbox;
-      @include flex-column;
-      @include flex-grow;
+    .items {
+        @include flexbox;
 
-      @media #{$maxwidth768},#{$mobile} {
-        @include flex(0);
-      }
+        @media #{$maxwidth768}, #{$mobile} {
+            @include flex-column;
+        }
 
-      & > *:not(:last-child) {
-        margin-bottom: 1em;
-        padding-bottom: 1em;
-        border-bottom: 1px solid $border-color;
-      }
+        & > .content {
+            @include flexbox;
+            @include flex-column;
+            @include flex-grow;
 
-      .tagging {
-        text-align: center;
-      }
+            @media #{$maxwidth768}, #{$mobile} {
+                @include flex(0);
+            }
+
+            & > *:not(:last-child) {
+                margin-bottom: 1em;
+                padding-bottom: 1em;
+                border-bottom: 1px solid $border-color;
+            }
+
+            .tagging {
+                text-align: center;
+            }
+        }
     }
-  }
 }

@@ -1,70 +1,79 @@
 .object.contact {
-  & > div {
-    @include flexbox;
-    cursor: pointer;
-
-    .user-avatar {
-      .avatar {
-        height: 3em;
-        max-width: 3em;
-        margin-right: 0.5em;
-      }
-
-      i {
-        color: $font-color-subdue;
-        margin-right: 0.25em;
-        font-size: 2.5em;
-      }
-    }
-
-    .details {
-      @include flexbox;
-      @include flex-x-center;
-
-      align-items: flex-start;
-
-      & > div {
-        text-align: start;
-      }
-
-    }
-
-    .provider {
-      text-transform: uppercase;
-      font-size: 0.85em;
-      color: $font-color-subdue;
-
-      i {
-        width: 1.5em;
-        text-align: center;
-      }
-    }
-    
-  }
-}
-
-.contact-hidden {
-  @include flexbox;
-  @include flex-grow;
-  @include flex-column;
-  @include flex-x-center;
-
-}
-
-div#body.dark {
-  .object.contact {
     & > div {
-      &:first-child {
+        @include flexbox;
+        cursor: pointer;
+
         .user-avatar {
-          i {
-            color: $font-color-subdue-dark;
-          }
+            .avatar {
+                height: 3em;
+                max-width: 3em;
+                margin-right: 0.5em;
+            }
+
+            i {
+                color: $font-color-subdue;
+                margin-right: 0.25em;
+                font-size: 2.5em;
+            }
+        }
+
+        .details {
+            @include flexbox;
+            @include flex-x-center;
+
+            align-items: flex-start;
+
+            & > div {
+                text-align: start;
+            }
+
         }
 
         .provider {
-          color: $font-color-subdue-dark;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            color: $font-color-subdue;
+
+            i {
+                width: 1.5em;
+                text-align: center;
+            }
         }
-      }
+
     }
-  }
+}
+
+.contact-enter-active,
+.contact-leave-active {
+    transition: all 1s ease-in-out;
+}
+
+.contact-enter,
+.contact-leave-to {
+    opacity: 0;
+}
+
+.contact-hidden {
+    @include flexbox;
+    @include flex-grow;
+    @include flex-column;
+    @include flex-x-center;
+}
+
+div#body.dark {
+    .object.contact {
+        & > div {
+            &:first-child {
+                .user-avatar {
+                    i {
+                        color: $font-color-subdue-dark;
+                    }
+                }
+
+                .provider {
+                    color: $font-color-subdue-dark;
+                }
+            }
+        }
+    }
 }

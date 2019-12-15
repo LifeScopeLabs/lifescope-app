@@ -1,40 +1,43 @@
 <template>
-  <div></div>
+    <div></div>
 </template>
 
 <script>
-  import locationRecordOne from '../apollo/mutations/location-record-one.gql';
-  import userOne from '../apollo/queries/user-one.gql';
+    /* global moment */
 
-  export default {
-    beforeMount: async function() {
-      let self = this;
+	import locationRecordOne from '../apollo/mutations/location-record-one.gql';
+	import userOne from '../apollo/queries/user-one.gql';
 
-      if (this.$store.getters.authenticated === true) {
-        let userResult = await this.$apollo.query({
-          query: userOne
-        });
+	export default {
+		beforeMount: async function() {
+			let self = this;
 
-        this.$store.state.userOne = userResult.data.userOne;
+			if (this.$store.getters.authenticated === true) {
+				let userResult = await this.$apollo.query({
+					query: userOne,
+					fetchPolicy: 'no-cache'
+				});
 
-        if(process.client && this.$store.state.userOne.location_tracking_enabled) {
-          navigator.geolocation.getCurrentPosition(async function(position) {
-            let longitude = position.coords.longitude;
-            let latitude = position.coords.latitude;
-            let datetime = moment().utc(position.coords.timestamp).toDate();
+				this.$store.state.userOne = userResult.data.userOne;
 
-            let result = await self.$apollo.mutate({
-              mutation: locationRecordOne,
-              variables: {
-                geo_format: 'lat_lng',
-                longitude: longitude,
-                latitude: latitude,
-                datetime: datetime
-              }
-            });
-          });
-        }
-      }
-    },
-  }
+				if (process.client && this.$store.state.userOne.location_tracking_enabled) {
+					navigator.geolocation.getCurrentPosition(async function(position) {
+						let longitude = position.coords.longitude;
+						let latitude = position.coords.latitude;
+						let datetime = moment().utc(position.coords.timestamp).toDate();
+
+						await self.$apollo.mutate({
+							mutation: locationRecordOne,
+							variables: {
+								geo_format: 'lat_lng',
+								longitude: longitude,
+								latitude: latitude,
+								datetime: datetime
+							}
+						});
+					});
+				}
+			}
+		},
+	}
 </script>

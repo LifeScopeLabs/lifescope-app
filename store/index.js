@@ -12,6 +12,7 @@ export const modules = {
 }
 
 export const state = function () {
+function initialState () {
     return {
         cookies: null,
         user: null,
@@ -49,6 +50,7 @@ export const state = function () {
         searchMany: [],
         searchCount: null,
         tagMany: [],
+        mapPageSize: 1000,
         pageSize: 100,
         pageOffset: 0,
         searchEnded: false,
@@ -73,11 +75,13 @@ export const state = function () {
         },
 
         connectionMany: [],
+        connectedOAuthProviderMany: [],
         providerHydratedMany: [],
         permissions: {},
         userOne: {},
 
         connectionsLoaded: false,
+        oauthProvidersLoaded: false,
         providersLoaded: false,
 
         facet: null,
@@ -104,31 +108,43 @@ export const state = function () {
 
         app: {
             id: null,
+
             clientId: {
                 value: null,
                 error: false
             },
+
             clientSecret: {
                 value: null,
                 error: false
             },
+
             redirects: {
                 value: [],
                 error: false,
             },
+
             name: {
                 value: null,
                 error: false
             },
+
             description: {
                 value: null,
                 error: false
             },
+
             homepage: {
                 value: null,
                 error: false
             },
+
             privacyPolicy: {
+                value: null,
+                error: false
+            },
+
+            providerId: {
                 value: null,
                 error: false
             }
@@ -144,16 +160,28 @@ export const state = function () {
             contact_id_strings: [],
             hydratedContacts: [],
             available_avatars: [],
-            avatar_index: null
+            avatar_index: null,
+            address: {
+                street_address: null,
+                street_address_2: null,
+                city: null,
+                postal_code: null,
+                region: null,
+                country: null
+            }
         },
 
         personMany: [],
 
         oauthAppAuthorizedMany: [],
 
-        show_native_notification: false
+        show_native_notification: false,
+
+        visibleObjectStartIndex: 0
     }
-};
+}
+
+export const state = initialState;
 
 export const getters = {
     authenticated(state) {
@@ -178,6 +206,23 @@ export const mutations = {
 
     SET_RES: function (state, res) {
         state.csrf_token = res.context ? res.context.csrf_token : null;
+    },
+
+    RESET_STATE: function(state) {
+        let clean = initialState();
+
+        let saved = {
+            cookies: state.cookies,
+            user: state.user,
+            mapbox: state.mapbox,
+            csrf_token: state.csrf_token
+        };
+
+        _.each(clean, function(val, key) {
+            state[key] = clean[key];
+        });
+
+        _.assign(state, saved);
     }
 };
 
@@ -185,5 +230,9 @@ export const actions = {
     async nuxtServerInit({commit}, {req, res}) {
         await commit('SET_REQ', req);
         await commit('SET_RES', res);
+    },
+
+    async resetState({commit}) {
+        await commit('RESET_STATE')
     }
 };

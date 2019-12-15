@@ -1,5 +1,5 @@
-mutation personUpdate($id: String, $first_name: String, $middle_name: String, $last_name: String, $contact_id_strings: [String], $avatar_url: String, $external_avatar_url: String) {
-    personUpdate(id: $id, first_name: $first_name, middle_name: $middle_name, last_name: $last_name, contact_id_strings: $contact_id_strings, avatar_url: $avatar_url, external_avatar_url: $external_avatar_url) {
+mutation personUpdate($id: String, $first_name: String, $middle_name: String, $last_name: String, $contact_id_strings: [String], $avatar_url: String, $external_avatar_url: String, $address: addressType, $notes: String) {
+    personUpdate(id: $id, first_name: $first_name, middle_name: $middle_name, last_name: $last_name, contact_id_strings: $contact_id_strings, avatar_url: $avatar_url, external_avatar_url: $external_avatar_url, address: $address, notes: $notes) {
         id
     }
 }

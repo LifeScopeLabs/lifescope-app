@@ -3,11 +3,18 @@ query userOne {
         id,
         api_key,
         api_key_string,
+        email,
         joined,
         last_login,
         location_tracking_enabled,
+        newsletter,
 		settings {
 			theme
+		},
+		tutorials {
+		    connections,
+		    explorer,
+		    home,
 		}
     }
 }

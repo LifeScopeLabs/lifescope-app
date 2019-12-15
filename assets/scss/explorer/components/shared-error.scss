@@ -1,31 +1,31 @@
 #shared-error {
-  @include flexbox;
-  @include flex-column;
-  @include flex-center;
-  @include flex-x-center;
-
-  width: 100%;
-  height: 100%;
-  background-color: $item-background-color;
-
-  & > .prompt {
-    @include align-center;
     @include flexbox;
     @include flex-column;
+    @include flex-center;
+    @include flex-x-center;
 
-    font-size: 1.2em;
+    width: 100%;
+    height: 100%;
+    background-color: $item-background-color;
 
-    width: 500px;
-    max-width: 95%;
+    & > .prompt {
+        @include align-center;
+        @include flexbox;
+        @include flex-column;
 
-    & > .prompt-text {
-      margin: auto 0;
+        font-size: 1.2em;
+
+        width: 500px;
+        max-width: 95%;
+
+        & > .prompt-text {
+            margin: auto 0;
+        }
     }
-  }
 }
 
 div#body.dark {
-  #shared-error {
-    background-color: $item-background-color-dark;
-  }
+    #shared-error {
+        background-color: $item-background-color-dark;
+    }
 }

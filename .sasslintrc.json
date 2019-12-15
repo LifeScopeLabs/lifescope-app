@@ -1,0 +1,64 @@
+{
+	"rules": {
+		"no-important": 0,
+
+		"hex-notation": [
+			2,
+			{
+				"style": "uppercase"
+			}
+		],
+
+		"leading-zero": [
+			1,
+			{
+				"include": true
+			}
+		],
+
+		"no-vendor-prefixes": 0,
+
+		"property-sort-order": 0,
+
+		"indentation": [
+			2,
+			{
+				"size": 4
+			}
+		],
+
+		"no-qualifying-elements": 0,
+
+		"no-color-literals": 0,
+
+		"force-attribute-nesting": 0,
+
+		"force-element-nesting": 0,
+
+		"force-pseudo-nesting": 0,
+
+		"no-color-keywords": 0,
+
+		"quotes": [
+			2,
+			{
+				"style": "double"
+			}
+		],
+
+		"no-ids": 0,
+
+		"nesting-depth": 0,
+
+		"no-transition-all": 0,
+
+		"pseudo-element": 0,
+
+		"clean-import-paths": [
+			2,
+			{
+				"filename-extension": true
+			}
+		]
+	}
+}

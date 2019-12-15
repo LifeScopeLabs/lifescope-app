@@ -1,4 +1,4 @@
-mutation tagUpdateSharing($id: String, $share: String){
+mutation tagUpdateSharing($id: String!, $share: String){
     tagUpdateSharing(id: $id, share: $share) {
         id,
         share,

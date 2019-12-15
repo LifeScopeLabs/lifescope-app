@@ -1,159 +1,168 @@
 div#body.explorer.map {
-  .mapboxgl-ctrl-bottom-left,
-  .mapboxgl-ctrl-bottom-right {
-    .mapboxgl-ctrl {
-      display: none !important;
+    .mapboxgl-ctrl-bottom-left,
+    .mapboxgl-ctrl-bottom-right {
+        .mapboxgl-ctrl {
+            display: none !important;
+        }
     }
-  }
 
-  &.dark {
+    &.dark {
+        .map-corner {
+            color: black !important;
+        }
+    }
+
+    main {
+        & > div {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
     .map-corner {
-      color: #000000 !important;
-    }
-  }
+        position: absolute;
 
-  main {
-    & > div {
-      height: 100%;
-      width: 100%;
-    }
-  }
+        top: 10px;
+        left: 50px;
 
-  .map-corner {
-    position: absolute;
+        padding: 0.2em 0.4em;
 
-    top: 10px;
-    left: 50px;
+        border-radius: 0.4em;
 
-    padding: 0.2em 0.4em;
+        background-color: lighten($blue, 30%);
 
-    border-radius: 0.4em;
+        &.clickable {
+            cursor: pointer;
 
-    background-color: lighten($blue, 30%);
+            &:hover {
+                background-color: lighten($blue, 20%);
+            }
+        }
 
-    &.clickable {
-      cursor: pointer;
+        .fa-spin {
+            height: 1em;
+            width: 1em;
+        }
 
-      &:hover {
-        background-color: lighten($blue, 20%);
-      }
-    }
-  }
-
-  #where-instructions {
-    position: absolute;
-
-    top: 80px;
-    left: 10px;
-
-    max-width: 200px;
-    padding: 0.2em 0.4em;
-    border-radius: 0.4em;
-
-    text-align: center;
-
-    background-color: lighten($green, 30%);
-  }
-
-  .spider-leg-container {
-    width: 1px;
-    height: 1px;
-    overflow: display;
-    will-change: transform;
-
-    &:hover {
-      .spider-leg-line {
-        opacity: 1;
-
-        background-color: #f404f4;
-      }
+        & > div:last-child {
+            margin-left: 0.5em;
+        }
     }
 
-    .spider-leg-pin {
-      margin-left: -20px;
-      margin-top: -20px;
+    #where-instructions {
+        position: absolute;
+
+        top: 80px;
+        left: 10px;
+
+        max-width: 200px;
+        padding: 0.2em 0.4em;
+        border-radius: 0.4em;
+
+        text-align: center;
+
+        background-color: lighten($green, 30%);
     }
 
-    .spider-leg-line {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 2px;
-      background-color: #343434;
-      opacity: 0.45;
-      transform-origin: bottom;
-      z-index: 0;
-      height: 0;
-    }
+    .spider-leg-container {
+        width: 1px;
+        height: 1px;
+        overflow: display;
+        will-change: transform;
 
-    &.animate {
-      -webkit-transition: margin 0.15s linear;
-      -moz-transition: margin 0.15s linear;
-      -ms-transition: margin 0.15s linear;
-      -o-transition: margin 0.15s linear;
-      transition: margin 0.15s linear;
+        &:hover {
+            .spider-leg-line {
+                opacity: 1;
 
-      .spider-leg-line {
-        -webkit-transition: all 0.15s linear;
-        -moz-transition: all 0.15s linear;
-        -ms-transition: all 0.15s linear;
-        -o-transition: all 0.15s linear;
-        transition: all 0.15s linear;
+                background-color: #F404F4;
+            }
+        }
 
-        -webkit-transition-delay: inherit;
-        -moz-transition-delay: inherit;
-        -ms-transition-delay: inherit;
-        -o-transition-delay: inherit;
-        transition-delay: inherit;
+        .spider-leg-pin {
+            margin-left: -20px;
+            margin-top: -20px;
+        }
+
+        .spider-leg-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background-color: #343434;
+            opacity: 0.45;
+            transform-origin: bottom;
+            z-index: 0;
+            height: 0;
+        }
+
+        &.animate {
+            -webkit-transition: margin 0.15s linear;
+            -moz-transition: margin 0.15s linear;
+            -ms-transition: margin 0.15s linear;
+            -o-transition: margin 0.15s linear;
+            transition: margin 0.15s linear;
+
+            .spider-leg-line {
+                -webkit-transition: all 0.15s linear;
+                -moz-transition: all 0.15s linear;
+                -ms-transition: all 0.15s linear;
+                -o-transition: all 0.15s linear;
+                transition: all 0.15s linear;
+
+                -webkit-transition-delay: inherit;
+                -moz-transition-delay: inherit;
+                -ms-transition-delay: inherit;
+                -o-transition-delay: inherit;
+                transition-delay: inherit;
+
+                &.initial,
+                &.exit {
+                    .spider-leg-line {
+                        height: 0 !important;
+                    }
+                }
+            }
+        }
 
         &.initial,
         &.exit {
-          .spider-leg-line {
-            height: 0 !important;
-          }
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+            height: 0;
         }
-      }
     }
 
-    &.initial,
-    &.exit {
-      margin-left: 0 !important;
-      margin-top: 0 !important;
-      height: 0;
+    .map-marker {
+        z-index: 1;
+        cursor: pointer;
+
+        top: -25px;
+        left: 3px;
+
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+
+        i.type-icon {
+            color: white;
+            margin-left: -3px;
+            margin-top: 1px;
+        }
+
+        i.fill-circle {
+            margin-top: 3px;
+            font-size: 1.5em;
+        }
+
+        .fa-stack-2-5x {
+            font-size: 2.5em;
+            margin-left: -3px;
+            margin-top: 3px;
+
+            left: 0;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+        }
     }
-  }
-
-  .map-marker {
-    z-index: 1;
-    cursor: pointer;
-
-    top: -25px;
-    left: 3px;
-
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-
-    i.type-icon {
-      color: #ffffff;
-      margin-left: -3px;
-      margin-top: 1px;
-    }
-
-    i.fill-circle {
-      margin-top: 3px;
-      font-size: 1.5em;
-    }
-
-    .fa-stack-2_5x {
-      font-size: 2.5em;
-      margin-left: -3px;
-      margin-top: 3px;
-
-      left: 0;
-      position: absolute;
-      text-align: center;
-      width: 100%;
-    }
-  }
 }

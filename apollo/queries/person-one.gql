@@ -25,6 +25,15 @@ query personOne($id: String, $self: Boolean) {
 					name
 				},
 			}
-        }
+        },
+        address {
+            street_address,
+            street_address_2,
+            city,
+            region,
+            country,
+            postal_code
+        },
+        notes
     }
 }
