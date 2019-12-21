@@ -1,5 +1,5 @@
 <template>
-  <a-scene embedded >
+  <a-scene embedded loading-screen="enabled: false">
 
 <!-- :networked-scene="'serverURL: https://nxr.lifescope.io; app: lifescope-xr; room: ls-room; audio: true; adapter: easyrtc; connectOnLoad: true;'" -->
 
@@ -22,16 +22,20 @@
     </a-assets>
 
     <!-- gallery -->
-    <gallery/>
+    <gallery v-if="sceneLayout == SceneLayoutEnum.GALLERY"/>
+    <grid-layout v-else-if="sceneLayout == SceneLayoutEnum.GRID"
+      offsetz="1.5"/>
 
-    <avatarcomp ref="avatar"/>
+    <avatar v-if="sceneLayout == SceneLayoutEnum.GALLERY" ref="avatar"
+      :position="'0 ' + playerHeight + ' 0'"/>
+    <grid-camera v-else-if="sceneLayout == SceneLayoutEnum.GRID" ref="avatar"/>
 
     <!-- Sky id="Sky" -->
     <a-sky v-if="skybox==SkyboxEnum.STARS"
       id="starsky" src="#sky" rotation="90 0 90">
     </a-sky>
     <a-sun-sky v-else-if="skybox==SkyboxEnum.SUN"
-      id="sunsky" material="side: back" :sun-sky-position="'time: ' + skytime">
+      id="sunsky" material="side: back" :sun-sky-position="'starttime: ' + skytime">
     </a-sun-sky>
 
   </a-scene>
@@ -46,27 +50,37 @@ import socketIO from 'socket.io-client';
 import easyrtc from '../../static/easyrtc/easyrtc.js';
 
 import gallery from "./components/gallery.vue";
+import GridLayout from "./components/grid/GridLayout.vue"
 
-import Avatar from "./avatar.js";
-import avatarcomp from "./avatar.vue";
+
+import avatar from "./components/avatar/avatar.vue";
+import GridCamera from "./components/grid/GridCamera.vue";
 
 import { SkyboxEnum } from '../../store/modules/xr/modules/graphics';
+import { SceneLayoutEnum } from '../../store/modules/xr';
+
 
 export default {
     components: {
         gallery,
-        avatarcomp
+        GridLayout,
+        GridCamera,
+        avatar,
     },
     data() {
       return {
-        avatar: {},
-        SkyboxEnum: SkyboxEnum
+        SkyboxEnum: SkyboxEnum,
+        SceneLayoutEnum: SceneLayoutEnum,
       }
     },
 
     computed: {
       ...mapState('xr',
-        ['roomName']
+        [
+          'inVR',
+          'roomName',
+          'sceneLayout'
+        ]
       ),
 
       ...mapState('xr/graphics',
@@ -74,15 +88,19 @@ export default {
           'skybox',
           'skytime'
         ]
-      )
+      ),
+
+      ...mapState('xr/avatar',
+        [
+          'avatars',
+          'playerHeight',
+        ]
+      ),
     },
 
     mounted () {
       // if (CONFIG.DEBUG) {console.log("App.vue mounted");};
 
-      console.log('scene.vue mounted');
-      console.log(AFRAME);
-      console.log(this.roomName);
       var self = this;
 
       var scene = document.querySelector('a-scene');  
@@ -92,6 +110,9 @@ export default {
         scene.addEventListener('loaded', self.onSceneLoaded);
       }
 
+      if (scene.is('vr-mode')) {
+        self.onEnterVR();
+      }
       document.body.addEventListener('enter-vr', function (evt) {
         self.onEnterVR();
         document.body.addEventListener('exit-vr', function (event) {
@@ -107,12 +128,12 @@ export default {
       });
 
       // make eyes invisible to user when the avatar is created
-      document.body.addEventListener('entityCreated', function (evt) {
-        if (evt.detail.el.id === 'playerRig') {
-          document.getElementsByClassName('player')[0].getElementsByClassName('face')[0].setAttribute('visible', 'false');
-          document.getElementsByClassName('player')[0].getElementsByClassName('head')[0].setAttribute('visible', 'false');
-        }
-      });
+      // document.body.addEventListener('entityCreated', function (evt) {
+      //   if (evt.detail.el.id === 'playerRig') {
+      //     document.getElementsByClassName('player')[0].getElementsByClassName('face')[0].setAttribute('visible', 'false');
+      //     document.getElementsByClassName('player')[0].getElementsByClassName('head')[0].setAttribute('visible', 'false');
+      //   }
+      // });
 
       if (!self.$route.query.room){
           self.$route.query.room = 'ls-room';
@@ -124,11 +145,11 @@ export default {
       //   this.$store.dispatch('xr/getRoomConfig').then(() => {
       //     this.$store.dispatch('xr/getObjs').then(() => {
 
-            if (AFRAME.utils.device.isMobile()) {
-              self.setupMobile();
-            } else {
-              self.setupDesktop();
-            }
+            // if (AFRAME.utils.device.isMobile()) {
+            //   self.setupMobile();
+            // } else {
+            //   self.setupDesktop();
+            // }
       //     })
       //   });
       // });
@@ -147,24 +168,18 @@ export default {
       onEnterVR () {
         var self = this;
         // if (CONFIG.DEBUG) {console.log('entered vr');};
-        if (this.avatar !== null) {
-          this.avatar.createRightHandNetworked();
-        }
-        else {
-          document.body.addEventListener('avatarCreated', function(evt) {
-            console.log("avatarCreated");
-            self.avatar.createRightHandNetworked();
-          })
-        }
+        self.$store.commit('xr/SET_IN_VR', true);
 
         if (AFRAME.utils.device.isMobile()) {
               this.teardownMobile();
         }
       },
       onExitVR () {
+        var self = this;
         // if (CONFIG.DEBUG) {console.log('exited vr');};
-        var rightHand = document.getElementById('rightHandController');
-        rightHand.parentElement.removeChild(rightHand);
+        // var rightHand = document.getElementById('rightHandController');
+        // rightHand.parentElement.removeChild(rightHand);
+        self.$store.commit('xr/SET_IN_VR', false);
 
         if (AFRAME.utils.device.isMobile()) {
           this.setupMobile();
@@ -173,7 +188,7 @@ export default {
 
       setupMobile () {
         // if (CONFIG.DEBUG) {console.log("isMobile");};
-        this.$refs.avatar.setupMobile();
+        // this.$refs.avatar.setupMobile();
       },
 
       teardownMobile () {
@@ -188,7 +203,7 @@ export default {
 
       setupDesktop () {
         // if (CONFIG.DEBUG) {console.log("!isMobile");};
-        this.$refs.avatar.setupDesktop();
+        // this.$refs.avatar.setupDesktop();
       },
     }
   }

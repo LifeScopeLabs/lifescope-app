@@ -9,9 +9,9 @@ export const strict = false;
 
 export const modules = {
     xr: xrModule
-}
+};
 
-export const state = function () {
+// export const state = function () {
 function initialState () {
     return {
         cookies: null,
@@ -180,6 +180,7 @@ function initialState () {
         visibleObjectStartIndex: 0
     }
 }
+
 
 export const state = initialState;
 

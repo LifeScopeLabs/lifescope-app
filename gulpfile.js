@@ -142,6 +142,7 @@ gulp.task('lint:js', function() {
 		'components/**/*.js',
 		'components/**/*.vue',
 		'!components/xr/**/*.vue',
+		'!components/xr/**/*.js',
 		'layouts/**/*.vue',
 		'lib/**/*.js',
 		'!lib/aframe/**/*.js',
@@ -149,8 +150,10 @@ gulp.task('lint:js', function() {
 		'migrations/**/*.js',
 		'pages/**/*.vue',
 		'plugins/**/*.js',
+		'!plugins/vue-aframe.js',
 		'static/*.js',
 		'store/**/*.js',
+		'!store/modules/xr/**/*.js',
 		'test/**/*.js'
 	])
 		.pipe(eslint())

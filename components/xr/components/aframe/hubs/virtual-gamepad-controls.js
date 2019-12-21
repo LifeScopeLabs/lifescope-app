@@ -17,7 +17,7 @@ AFRAME.registerComponent("virtual-gamepad-controls", {
   schema: {},
 
   init() {
-    if (CONFIG.DEBUG) {console.log("virtual-gamepad-controls init");}
+    // if (CONFIG.DEBUG) {console.log("virtual-gamepad-controls init");}
     this.onEnterVr = this.onEnterVr.bind(this);
     this.onExitVr = this.onExitVr.bind(this);
     this.onFirstInteraction = this.onFirstInteraction.bind(this);

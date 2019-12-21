@@ -2,6 +2,7 @@
   <div id="xrapp">
     <aframe-scene></aframe-scene>
     <!-- <hud v-if="sceneLoaded"></hud> -->
+    <loading-screen v-if="!sceneLoaded"/>
   </div>
 </template>
 
@@ -13,12 +14,14 @@ import Vue from 'vue';
 
 
 import aframeScene from './scene.vue';
-import hud from './components/hud/hud.vue';
+import LoadingScreen from './LoadingScreen.vue';
+// import hud from './components/hud/hud.vue';
 
 export default {
     components: {
         aframeScene,
-        hud
+        LoadingScreen,
+        // hud
     },
 
     computed: {

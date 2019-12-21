@@ -1,12 +1,28 @@
 import axios from 'axios';
-// https://stackoverflow.com/questions/53446792/nuxt-vuex-how-do-i-break-down-a-vuex-module-into-separate-files
-import graphicsModule from './modules/graphics';
-import carouselModule from './modules/carousel';
 
+import avatarModule from './modules/avatar';
+import carouselModule from './modules/carousel';
+import hudModule from './modules/hud';
+import graphicsModule from './modules/graphics';
+import mapModule from './modules/map';
+import nafModule from './modules/naf';
+import gridModule from './modules/grid';
+import styleModule from './modules/style';
+
+const SceneLayoutEnum = Object.freeze({
+    GALLERY: 1,
+    GRID: 2
+});
 
 export const modules = {
+    avatar: avatarModule,
+    carousel: carouselModule,
     graphics: graphicsModule,
-    carousel: carouselModule
+    hud: hudModule,
+    map: mapModule,
+    naf: nafModule,
+    grid: gridModule,
+    style: styleModule,
 };
 
 export const state = function () {
@@ -18,7 +34,57 @@ export const state = function () {
         rooms: [],
         sceneLoaded: false,
         isMobile: false,
+        inVR: false,
+        sceneLayout: SceneLayoutEnum.GRID,
      }
+};
+
+export const getters = {
+    totalItems: (state, getters, rootState, rootGetters) => {
+        switch (rootState.facet) {
+            case 'content':
+                return getters.LS_CONTENT.length;
+            case 'events':
+                return getters.LS_EVENTS.length;
+            case 'contacts':
+                return getters.LS_CONTACTS.length;
+            case 'people':
+                return getters.LS_PEOPLE.length;
+            default:
+                return 0;
+        }
+    },
+    LS_CONTENT: (state, getters, rootState, rootGetters) => {
+        return rootState.objects.content;
+    },
+    LS_EVENTS: (state, getters, rootState, rootGetters) => {
+        var events = rootState.objects.events;
+        var items = [];
+        events.forEach(event => {
+            var obj = {};
+            obj.datetime = event.datetime;
+            obj.eventtype = event.type;
+            obj.connection = event.connection;
+            event.content.forEach(content => {
+                items.push({ ...obj, content: content });
+            });
+        });
+        return items;
+    },
+    LS_CONTACTS: (state, getters, rootState, rootGetters) => {
+        rootState.objects.contacts.forEach(contact => {
+            console.log(contact);
+        });
+
+        return rootState.objects.contacts;
+    },
+    LS_PEOPLE: (state, getters, rootState, rootGetters) => {
+        rootState.objects.people.forEach(person => {
+            console.log(person);
+        });
+
+        return rootState.objects.people;
+    }
 };
 
 export const mutations = {
@@ -58,49 +124,25 @@ export const mutations = {
             state.isMobile = AFRAME.utils.device.isMobile();
         }
     },
+    SET_LAYOUT: function(state, val) {
+        // if (CONFIG.DEBUG) {console.log("SET_LAYOUT");}
+        if (SceneLayoutEnum.hasOwnProperty(val)) {
+            state.sceneLayout = SceneLayoutEnum[val];
+        }
+        else {
+            console.log(`cannot set sceneLayout, ${val} is not a SceneLayoutEnum`);
+        }
+    },
 };
 
-export const actions = {
-    setRoomName (context, name) {
-        // if (CONFIG.DEBUG) {console.log(`setRoomName(${name})`);};
-        context.commit('SET_ROOMNAME', name);
-    },
-
-    getRoomConfig ({ commit }) {
-        // if (CONFIG.DEBUG) {console.log("getRoomConfig action");};
-        return axios.get("/roomconfig")
-        .then((res) => {
-            commit('SET_ROOMCONFIG', res.data);
-        })
-    },
-
-    getObjs (context) {
-        // if (CONFIG.DEBUG) {console.log("getObjs action");};
-
-        var x = '/' + context.state.roomConfig.BUCKET_PATH;
-
-        // context.commit('SET_ROOMNAME', 'ls-room');
-
-        return axios.get(x)
-        .then((res) => {
-            console.log("getObjs action then");
-            var objs = [];
-            var rooms = Object.keys(res.data);
-            var someData = res.data[context.state.roomName].forEach(element => {
-                objs.push(element);
-            });
-            context.commit('SET_LSOBJS', objs);
-            context.commit('SET_ROOMS', rooms);
-        })
-    }
-}
 
 const xrModule = {
     namespaced: true,
     modules,
     state,
     mutations,
-    actions
+    getters
 };
 
+export { SceneLayoutEnum };
 export default xrModule;

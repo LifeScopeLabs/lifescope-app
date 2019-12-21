@@ -278,6 +278,7 @@ export default {
 		scss: [
 			'~assets/scss/lifescope-styles/*.scss',
 			'~assets/scss/lifescope-styles/*/*.scss',
+			'components/xr/**/*.scss',
 		]
 	},
 
@@ -357,8 +358,6 @@ export default {
 			'~/vue.config.js',
 			'aframe',
 			'networked-aframe',
-			'aframe-animation-component',
-			'aframe-src-fit-component',
 			'aframe-input-mapping-component',
 			'aframe-teleport-controls',
 			'aframe-extras',

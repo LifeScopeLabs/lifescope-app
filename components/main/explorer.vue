@@ -3,7 +3,7 @@
                 name="page-load"
     >
         <main v-if="$store.state.view === 'xr'">
-            <galleryContainer />
+            <XRApp />
         </main>
         <main v-else-if="$store.state.view === 'map'">
             <MapView />
@@ -180,7 +180,7 @@
 	import UserPerson from '../objects/person.vue';
 
 	import MapView from '../views/map.vue';
-	import galleryContainer from '../xr/gallery-container.vue'
+	import XRApp from '../xr/XRApp.vue';
 
 	export default {
 		components: {
@@ -189,7 +189,7 @@
 			UserContent,
 			UserEvent,
 			UserPerson,
-			galleryContainer
+			XRApp
 		},
 
 		data: function() {
