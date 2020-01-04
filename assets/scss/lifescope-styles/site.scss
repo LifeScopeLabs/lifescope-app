@@ -774,3 +774,11 @@ div#body.dark {
 .introjs-button {
     padding: 0.7em 1.2em !important;
 }
+
+.shepherd-element {
+    max-width: 400px;
+
+    @media #{$maxwidth768}, #{$mobile} {
+        max-width: 90% !important;
+    }
+}

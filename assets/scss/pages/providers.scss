@@ -233,6 +233,10 @@ div#body.providers {
                     margin: 0 1em;
                     color: black;
                 }
+
+                &.shepherd-target-marker {
+                    display: none;
+                }
             }
         }
     }

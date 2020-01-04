@@ -361,7 +361,7 @@
 </template>
 
 <script>
-    /* global moment */
+    /* global moment $ */
 
 	import _ from 'lodash';
 
@@ -398,6 +398,19 @@
 
 		mounted: async function() {
 			let self = this;
+
+			function calculateTooltipOffset(step) {
+				let tooltipHeight = $(step.tooltip.element).height();
+
+				step.updateStepOptions({
+					tetherOptions: {
+						targetOffset: tooltipHeight + 40 + 'px 0'
+					}
+				});
+
+				step.hide();
+				step.show();
+			}
 
 			let userCountPromise = this.$apollo.query({
                 query: userCounts,
@@ -456,38 +469,173 @@
 			});
 
 			if (_.get(self.$store.state.user, 'tutorials.home') !== true) {
-                self.$intro()
-                    .setOptions({
-                        steps: [
-                            {
-                                intro: 'This is your home page, which lets you quickly re-run your top searches as well as share tagged searches with others.'
-                            },
-                            {
-                                intro: 'This tab lets you quickly make searches on People, which you can make in <a href="https://app.lifescope.io/settings/people">one of the Settings pages</a>. People are collections of Contacts, i.e. accounts from various Providers.',
-                                element: document.querySelector('[data-intro-selector="people-tab"]')
-                            },
-                            {
-                                intro: 'From this tab, you can see and easily re-run your favorite LifeScope searches.',
-                                element: document.querySelector('[data-intro-selector="searches-tab"]')
-                            },
-                            {
-                                intro: 'This tab shows you all of the things you\'ve tagged in LifeScope. You can make everything tagged with a specific tag publicly available so that you can share your curated stories with others.',
-                                element: document.querySelector('[data-intro-selector="tags-tab"]')
-                            }
-                        ]
-                    })
-                    .start()
-                    .onskip(async function() {
-                        let response = await self.$apollo.mutate({
-                            mutation: userTutorialComplete,
-                            variables: {
-                                tutorial: 'home'
-                            }
-                        });
+				let rendering = false;
 
-                        self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
-                    })
-                    .oncomplete(async function() {
+				self.$nextTick(function() {
+					let tour = self.$shepherd({
+						useModalOverlay: true,
+						defaultStepOptions: {
+							arrow: false,
+							cancelIcon: {
+								enabled: true,
+								label: 'Cancel'
+							}
+						}
+					});
+
+					tour.addSteps([
+						{
+							title: 'Dashboard',
+							text: 'This is your personal life dashboard that keeps what’s most important at your fingertips. Index your personal history and keep track of all your data.',
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							]
+						},
+						{
+							title: 'People',
+							text: 'See every interaction with all the People in your life. People are indexed using collections of Contacts. Create relationships between a person’s Contacts on the <a href="https://app.lifescope.io/settings/people">People page</a>.',
+							attachTo: {
+								element: '.tab[name="people"]',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							],
+							tetherOptions: {
+								attachment: 'top center',
+								targetAttachment: 'bottom center'
+							},
+							when: {
+								show: function() {
+									if (rendering === false) {
+										rendering = true;
+
+										calculateTooltipOffset(this);
+
+										rendering = false;
+									}
+								}
+							}
+						},
+						{
+							title: 'Saved Searches',
+							text: 'Easily get answers to your most important questions. From this tab, you can see and conveniently re-run your favorite LifeScope searches.',
+							attachTo: {
+								element: '.tab[name="favorited"]',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							],
+							tetherOptions: {
+								attachment: 'top center',
+								targetAttachment: 'bottom center'
+							},
+							when: {
+								show: function() {
+									if (rendering === false) {
+										rendering = true;
+
+										calculateTooltipOffset(this);
+
+										rendering = false;
+									}
+								}
+							}
+						},
+						{
+							title: 'Tags',
+							text: 'Curate anything in your history using Tags. This tab shows you all of the things you\'ve tagged in LifeScope. Make tags publicly available to share your curated feeds and stories with others.',
+							attachTo: {
+								element: '.tab[name="tags"]',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.complete();
+									},
+									text: 'Done'
+								}
+							],
+							tetherOptions: {
+								attachment: 'top center',
+								targetAttachment: 'bottom center'
+							},
+							when: {
+								show: function() {
+									if (rendering === false) {
+										rendering = true;
+
+										calculateTooltipOffset(this);
+
+										rendering = false;
+									}
+								}
+							}
+                        }
+                    ]);
+
+                    tour.start();
+
+                    tour.on('cancel', async function() {
                         let response = await self.$apollo.mutate({
                             mutation: userTutorialComplete,
                             variables: {
@@ -497,6 +645,18 @@
 
                         self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
                     });
+
+                    tour.on('complete', async function() {
+                        let response = await self.$apollo.mutate({
+                            mutation: userTutorialComplete,
+                            variables: {
+                                tutorial: 'home'
+                            }
+                        });
+
+                        self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
+                    });
+                });
 			}
 		},
 

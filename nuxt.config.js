@@ -351,7 +351,7 @@ export default {
 			'mixitup',
 			'moment',
 			'vue-js-modal',
-			'vue-introjs',
+			'vue-shepherd',
 			'vue2-filters',
 			'vue-bootstrap-datetimepicker',
 			'vue-observe-visibility',
@@ -415,7 +415,7 @@ export default {
 			ssr: false
 		},
 		{
-			src: './plugins/vue-introjs',
+			src: './plugins/vue-shepherd',
 			ssr: false
 		}
 	],

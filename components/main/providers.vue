@@ -2,7 +2,7 @@
     <transition appear
                 name="page-load"
     >
-        <main data-intro-selector="provider-grid">
+        <main>
             <div class="scroller">
                 <div v-if="$store.getters.authenticated === true"
                      id="provider-grid"
@@ -115,40 +115,132 @@
 			});
 
 			if (self.$store.state.user && _.get(self.$store.state.user, 'tutorials.connections') !== true) {
-				self.$intro()
-                    .setOptions({
-                        steps: [
-                            {
-                                intro: 'Welcome to LifeScope! In just a few clicks you can have a wealth of data ready to be searched, curated, and shared, regardless of where that data originated.'
-                            },
-                            {
-                                intro: 'This is the Providers page, where you can make Connections to your accounts. Providers are sources of data such as Facebook, Spotify, Google, or reddit. Connections are individual accounts of yours that you give LifeScope permission to access, and you choose what data LifeScope can retrieve.'
-                            },
-                            {
-                                intro: 'You can filter Providers by their types here.',
-                                element: document.querySelector('[data-intro-selector="provider-filters"')
-                            },
-                            {
-                                intro: 'You can click any of the Providers here to find out how to make a Connection to it. In many cases, this will involve authorizing LifeScope to have access to your data. LifeScope will NEVER have access to your login credentials for your accounts.',
-                                element: document.querySelector('[data-intro-selector="provider-grid"')
-                            },
-                            {
-                                intro: 'Providers highlighted in blue are ones you already have a Connection to. You can make multiple Connections to the same provider, e.g. you can connect a personal and work Google account. To do so, you must log out of one account, then log in to the other account during the Connection process.'
-                            }
-                        ]
-                    })
-					.start()
-					.onskip(async function() {
-						let response = await self.$apollo.mutate({
-							mutation: userTutorialComplete,
-							variables: {
-								tutorial: 'connections'
+                self.$nextTick(function() {
+					let tour = self.$shepherd({
+						useModalOverlay: true,
+						defaultStepOptions: {
+							arrow: false,
+							cancelIcon: {
+								enabled: true,
+								label: 'Cancel'
 							}
-						});
+						}
+					});
 
-						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
-					})
-					.oncomplete(async function() {
+					tour.addSteps([
+						{
+							title: 'Connections',
+							text: 'This is the Connections page, where you can link to your accounts and import data. Add sources of data (Providers) such as Facebook, Spotify, Google, or reddit. Connections are individual accounts that you give LifeScope permission to access, and you choose what data LifeScope can index.',
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							]
+						},
+						{
+							title: 'Provider Filters',
+							text: 'Filter the Provider list by category here.',
+							attachTo: {
+								element: 'aside.filters',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							],
+							tetherOptions: {
+								attachment: 'top center',
+								targetAttachment: 'bottom center',
+								targetOffset: '220px 0'
+							}
+						},
+						{
+							title: 'Create a Connection',
+							text: 'Click any of the Providers here to find out how to make a Connection to it. In many cases, this will involve authorizing LifeScope to have access to your data. LifeScope will NEVER have access to your login credentials for your accounts.',
+							attachTo: {
+								element: '#provider-grid',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							],
+							tetherOptions: {
+								attachment: 'top center',
+								targetAttachment: 'bottom center',
+								targetOffset: '20px 0'
+							}
+						},
+						{
+							title: 'Multiple Connections to a Provider',
+							text: 'A Provider will highlight blue when a Connection is made to it. You can make multiple Connections to the same Provider, e.g. you can connect a personal and work Google account. To do so, you must log out of one account, then log in to the other account during the Connection process.',
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.complete();
+									},
+									text: 'Done'
+								}
+							]
+						}
+					]);
+
+					tour.start();
+
+					tour.on('cancel', async function() {
 						let response = await self.$apollo.mutate({
 							mutation: userTutorialComplete,
 							variables: {
@@ -158,6 +250,18 @@
 
 						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					});
+
+					tour.on('complete', async function() {
+						let response = await self.$apollo.mutate({
+							mutation: userTutorialComplete,
+							variables: {
+								tutorial: 'connections'
+							}
+						});
+
+						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
+					});
+				});
 			}
 
 			if (_.has(self.$store.state.cookies, 'account_already_connected')) {

@@ -202,6 +202,19 @@
 		mounted: async function() {
 			let self = this;
 
+			function calculateTooltipOffset(step) {
+				let tooltipHeight = $(step.tooltip.element).height();
+
+				step.updateStepOptions({
+					tetherOptions: {
+						targetOffset: tooltipHeight + 45 + 'px 0'
+					}
+				});
+
+				step.hide();
+				step.show();
+			}
+
 			this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
 			let params = qs.parse(window.location.search, {
@@ -253,38 +266,173 @@
 			}
 
 			if (_.get(this.$store.state.user, 'tutorials.explorer') !== true) {
-				this.$intro()
-					.setOptions({
-						steps: [
-							{
-								intro: 'This is the Explorer, where you can search and explore all of your data in LifeScope.'
-							},
-							{
-								intro: 'Click the magnifying glass to run a search.',
-                                element: document.querySelector('[data-intro-selector="search-execute"')
-							},
-							{
-								intro: 'Click here to open the Advanced Search features. You can filter searches on People or Contacts (Who); the type of Content involved (What); the date and time it took place (When) the location it took place (Where); and what Providers/Connections the data came from (How). Note that Where filters must be drawn on the Map View.',
-								element: document.querySelector('[data-intro-selector="advanced-search"')
-							},
-                            {
-                                intro: 'Click the star to Favorite a search that you find useful, interesting, or just plain cool. It\'ll show up under the Favorites classification under the Searches tab on your <a href="https://app.lifescope.io">home page</a>.',
-                                element: document.querySelector('[data-intro-selector="favorite-star"')
-                            }
-						]
-					})
-					.start()
-					.onskip(async function() {
-						let response = await self.$apollo.mutate({
-							mutation: userTutorialComplete,
-							variables: {
-								tutorial: 'explorer'
-							}
-						});
+				let rendering = false;
 
-						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
-					})
-					.oncomplete(async function() {
+				self.$nextTick(function() {
+					let tour = self.$shepherd({
+						useModalOverlay: true,
+						defaultStepOptions: {
+							arrow: false,
+							cancelIcon: {
+								enabled: true,
+								label: 'Cancel'
+							}
+						}
+					});
+
+					tour.addSteps([
+						{
+							title: 'LifeScope Explorer',
+							text: 'This is the LifeScope Explorer, where you can search and explore all of your data. See your history as a feed, grid, list, map, or interactive 3D space.',
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							]
+						},
+						{
+							title: 'Run Search',
+							text: 'Click the magnifying glass to run a search.',
+							attachTo: {
+								element: '#search-button',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							],
+							tetherOptions: {
+								attachment: 'bottom right',
+								targetAttachment: 'top right'
+							},
+                            when: {
+								show: function() {
+									if (rendering === false) {
+										rendering = true;
+
+										calculateTooltipOffset(this);
+
+										rendering = false;
+									}
+                                }
+                            }
+						},
+						{
+							title: 'Advanced Search',
+							text: 'Click here to open the Advanced Search features. You can filter searches on People or Contacts (Who); the type of Content involved (What); the date and time it took place (When); the location it took place (Where); and what Providers/Connections the data came from (How). Note that Where filters must be drawn on the Map View.',
+							attachTo: {
+								element: '#advanced',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.next();
+									},
+									text: 'Next'
+								}
+							],
+							tetherOptions: {
+								attachment: 'top left',
+								targetAttachment: 'bottom left'
+							},
+							when: {
+								show: function() {
+									if (rendering === false) {
+										rendering = true;
+
+										calculateTooltipOffset(this);
+
+										rendering = false;
+									}
+								}
+							}
+						},
+						{
+							title: 'Favorite a Search',
+							text: 'Click the star to Favorite a search that you find useful, interesting, or just plain cool. It\'ll show up under the Favorites classification under the Searches tab on your <a href="https://app.lifescope.io">home page</a>.',
+							attachTo: {
+								element: '#search-favorited',
+								on: 'bottom'
+							},
+							buttons: [
+								{
+									action: function() {
+										return tour.cancel();
+									},
+									text: 'Cancel'
+								},
+								{
+									action: function() {
+										return tour.back();
+									},
+									text: 'Previous'
+								},
+								{
+									action: function() {
+										return tour.complete();
+									},
+									text: 'Done'
+								}
+							],
+							tetherOptions: {
+								attachment: 'bottom right',
+								targetAttachment: 'top right'
+							},
+							when: {
+								show: function() {
+									if (rendering === false) {
+										rendering = true;
+
+										calculateTooltipOffset(this);
+
+										rendering = false;
+									}
+								}
+							}
+						}
+					]);
+
+					tour.start();
+
+					tour.on('cancel', async function() {
 						let response = await self.$apollo.mutate({
 							mutation: userTutorialComplete,
 							variables: {
@@ -294,6 +442,18 @@
 
 						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
 					});
+
+					tour.on('complete', async function() {
+						let response = await self.$apollo.mutate({
+							mutation: userTutorialComplete,
+							variables: {
+								tutorial: 'explorer'
+							}
+						});
+
+						self.$store.state.user.tutorials = response.data.userTutorialComplete.tutorials;
+					});
+				});
 			}
 		},
 
