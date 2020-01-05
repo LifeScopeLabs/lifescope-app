@@ -73,14 +73,14 @@ export const getters = {
     },
     LS_CONTACTS: (state, getters, rootState, rootGetters) => {
         rootState.objects.contacts.forEach(contact => {
-            console.log(contact);
+            // console.log(contact);
         });
 
         return rootState.objects.contacts;
     },
     LS_PEOPLE: (state, getters, rootState, rootGetters) => {
         rootState.objects.people.forEach(person => {
-            console.log(person);
+            // console.log(person);
         });
 
         return rootState.objects.people;

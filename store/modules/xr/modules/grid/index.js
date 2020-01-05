@@ -38,7 +38,6 @@ export const getters = {
 
 export const mutations = {
     PAGE_LEFT: function(state) {
-        // if (CONFIG.DEBUG) {console.log("PAGE_LEFT");}
         if (state.page >= 1) {
             state.page -= 1;
         }
@@ -48,6 +47,9 @@ export const mutations = {
     },
     PAGE_RIGHT: function(state) {
         state.page += 1;
+    },
+    RESET_PAGE: function(state) {
+        state.page = 0;
     },
 };
 

@@ -6,8 +6,8 @@
         <a-light type='point' color='#FFF' intensity='0.8' position="10 10 0" ></a-light>
         <a-light type='hemisphere' color='#FFF' groundColor='#00F' intensity='0.8' ></a-light>
     
-        
-        <a-entity class="grid-cylinder"
+        <a-entity 
+            class="grid-cylinder"
             :rotation="'0 ' + gridRotation + ' 0'"
             :position="'0 ' + gridOffsetY + ' 0'">
 
@@ -21,7 +21,7 @@
                     clickable="clickevent: cellclicked;"
                     :highlight="'type: border; hoverColor: ' + hoverColor +
                         '; activeColor: ' + activeColor + ';' +
-                        'borderbaseopacity: 0.7;'" 
+                        'borderbaseopacity: 0.7;'"
                     :id="'grid-cell-' + n"
                     :mediatype="item.content.type"
                     :mediaurl="item.content.embed_content"
@@ -92,7 +92,7 @@
                         clickable="clickevent: cellclicked;"
                         :highlight="'type: border; hoverColor: ' + hoverColor +
                             '; activeColor: ' + activeColor + ';' +
-                            'borderbaseopacity: 0.7;'" 
+                            'borderbaseopacity: 0.7;'"
                         :id="'grid-cell-' + n"
                         :mediatype="item.type"
                         :mediaurl="item.embed_content"
@@ -123,7 +123,7 @@
                         clickable="clickevent: cellclicked;"
                         :highlight="'type: border; hoverColor: ' + hoverColor +
                             '; activeColor: ' + activeColor + ';' +
-                            'borderbaseopacity: 0.7;'" 
+                            'borderbaseopacity: 0.7;'"
                         :id="'grid-cell-' + n"
                         :mediatype="item.type"
                         :mediaurl="item.embed_content"
@@ -311,12 +311,19 @@ export default {
             cylindricalGrid: null,
             SkyboxEnum: SkyboxEnum,
             paginatorOffsetZ: 1.4,
+            searchJustChanged: false,
         }
     },
 
     props: ['offsetz'],
 
     computed: {
+        searching() {
+            return (this.facet === 'contacts' && this.LS_CONTACTS.length === 0 ||
+                    this.facet === 'content' && this.LS_CONTENT.length === 0 ||
+                    this.facet === 'events' && this.LS_EVENTS.length === 0 ||
+                    this.facet === 'people' && this.LS_PEOPLE.length === 0);
+        },
         gridRotation() {
             return (180-(360/this.gridCellsPerRow)*2);
         },
@@ -356,6 +363,11 @@ export default {
             return +(this.focusedCell.match(/\d+$/)[0]);
         },
 
+        ...mapState(
+            [
+                'facet',
+            ]
+        ),
         ...mapState('xr',
             [
                 'inVR',
@@ -460,6 +472,16 @@ export default {
     },
 
     watch: {
+        facet: function (newVal, oldVal) {
+            this.facetJustChanged = true;
+            this.$store.commit('xr/grid/RESET_PAGE');
+        },
+
+        searching: function (newVal, oldVal) {
+            this.searchJustChanged = true;
+            this.$store.commit('xr/grid/RESET_PAGE');
+        },
+
         gridCellsPerRow: function (newVal, oldVal) {
             this.cylinder.cellsPerRow = newVal;
             this.cylindricalGrid.cellsPerRow = newVal;
@@ -473,6 +495,7 @@ export default {
             this.cylindricalGrid.radius = newVal;
         },
         items: function (newVal, oldVal) {
+            var self = this;
             var scene = AFRAME.scenes[0];
             var self = this;
             var behavior = {
@@ -487,8 +510,28 @@ export default {
                     }
                 }
             }
-            scene.addBehavior(behavior);
-        }
+            if( !this.searching ) {
+                if ( !this.searchJustChanged ){
+                    scene.addBehavior(behavior);
+                }
+                else if ( this.searchJustChanged ) {
+                    this.searchJustChanged = false;
+                }
+            }
+        },
+
+        LS_CONTENT: function (newVal, oldVal) {
+            this.$store.commit('xr/grid/RESET_PAGE');
+        },
+        LS_EVENTS: function (newVal, oldVal) {
+            this.$store.commit('xr/grid/RESET_PAGE');
+        },
+        LS_CONTACTS: function (newVal, oldVal) {
+            this.$store.commit('xr/grid/RESET_PAGE');
+        },
+        LS_PEOPLE: function (newVal, oldVal) {
+            this.$store.commit('xr/grid/RESET_PAGE');
+        },
     
     },
     
@@ -518,6 +561,7 @@ export default {
         this.$el.removeEventListener('pageright', self.handlePageRight);
         this.$el.removeEventListener('previouscell', self.previousCell);
         this.$el.removeEventListener('nextcell', self.nextCell);
+        this.$store.commit('xr/grid/RESET_PAGE');
     },
 
     methods: {
@@ -556,10 +600,13 @@ export default {
             var nextCellEl =  document.querySelector('#' + nextCellId);
             this.focusedCell = nextCellId;
 
+            this.unFocusCell(focusedCellEl);
             if (n == this.numberOfItemsToDisplay - 1 && this.canPageRight) {
                 this.pageRight();
+                this.focusedCell = '';
+                this.revealNonFocusedCells();
+                return;
             }
-            this.unFocusCell(focusedCellEl);
             focusedCellEl.components['fade'].animateHideCellPromise();
             this.focusCell(nextCellEl);
             nextCellEl.components['fade'].animateRevealCellPromise();
@@ -574,10 +621,14 @@ export default {
             var previousCellEl = document.querySelector('#' + previousCellId);
             this.focusedCell = previousCellId;
 
+            this.unFocusCell(focusedCellEl);
+
             if (n == 0 && this.canPageLeft) {
                 this.pageLeft();
+                this.focusedCell = '';
+                self.revealNonFocusedCells();
+                return;
             }
-            this.unFocusCell(focusedCellEl);
             focusedCellEl.components['fade'].animateHideCellPromise();
             if (!!previousCellEl) {
                 this.focusCell(previousCellEl);
@@ -751,7 +802,6 @@ export default {
             var animationPromises = [];
             for (var i=0; i<this.numberOfItemsToDisplay; i++) {
                 if (i==this.focusedCellIndex) continue;
-
                 var el = document.querySelector(`#grid-cell-${i}`);
                 var anim = el.components['fade'].animateHideCellPromise();
                 animationPromises.push(anim);

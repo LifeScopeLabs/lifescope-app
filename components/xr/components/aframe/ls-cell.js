@@ -90,11 +90,19 @@ AFRAME.registerComponent('ls-cell', {
         
     },
 
+    remove: function() {
+        var root = this.el.querySelector('.ls-cell-root');
+        if (root) this.el.removeChild(root);
+        if (this.el.object3DMap.hasOwnProperty('background')) this.el.removeObject3D('background');
+        if (this.el.object3DMap.hasOwnProperty('border')) this.el.removeObject3D('border');
+
+    },
+
     updateCell: function() {
         var root = this.el.querySelector('.ls-cell-root');
-        this.el.removeChild(root);
-        this.el.removeObject3D('background');
-        this.el.removeObject3D('border');
+        if (root) this.el.removeChild(root);
+        if (this.el.object3DMap.hasOwnProperty('background')) this.el.removeObject3D('background');
+        if (this.el.object3DMap.hasOwnProperty('border')) this.el.removeObject3D('border');
 
         this._createCell();
     },
@@ -169,8 +177,6 @@ AFRAME.registerComponent('ls-cell', {
             default:
                 break;
         }
-
-        
     },
 
     _createContentCell: function(opts={}) {
