@@ -6,6 +6,9 @@
         <a-light type='point' color='#FFF' intensity='0.8' position="10 10 0" ></a-light>
         <a-light type='hemisphere' color='#FFF' groundColor='#00F' intensity='0.8' ></a-light>
     
+        <a-searching v-if="searching"
+                    radius=0.5
+                    :position="focusedCellPosititon.x + ' ' +focusedCellPosititon.y + ' ' + (focusedCellPosititon.z - offsetz)"/>
         <a-entity 
             class="grid-cylinder"
             :rotation="'0 ' + gridRotation + ' 0'"
@@ -267,10 +270,11 @@
     <!-- Earth -->
         <a-sphere 
                 id="Earth" class="boundry"
-                :position="'0 0 0' " 
-                radius=".99" 
+                :position="'0 -0.5 0' "
+                :rotation="'0 0 0'"
+                radius="1" 
                 material="src:#earth; roughness: 1; transparent: true; opacity: 0.9;"
-                animation="property: rotation; easing: linear; to: 0 360; dur: 150000; loop: true;">
+                animation="property: rotation; easing: linear; to: 0 360; dur: 15000; loop: true;">
         </a-sphere>
 
         <!-- Logo  -->
@@ -297,10 +301,11 @@ import { SceneLayoutEnum } from '../../../../store/modules/xr';
 // '../../store/modules/xr';
 import { SkyboxEnum } from '../../../../store/modules/xr/modules/graphics';
 
+import globePoints from '../globe/globe.vue';
 export default {
 
     components: {
-        // RoomDisplay
+        globePoints,
     },
 
     data () {
