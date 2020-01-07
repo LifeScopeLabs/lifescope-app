@@ -301,11 +301,9 @@ import { SceneLayoutEnum } from '../../../../store/modules/xr';
 // '../../store/modules/xr';
 import { SkyboxEnum } from '../../../../store/modules/xr/modules/graphics';
 
-import globePoints from '../globe/globe.vue';
 export default {
 
     components: {
-        globePoints,
     },
 
     data () {
