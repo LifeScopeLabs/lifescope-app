@@ -1,0 +1,6 @@
+query dataRemovalConfirmationCheck($confirmation_code: String!) {
+    dataRemovalConfirmationCheck(confirmation_code: $confirmation_code) {
+        success,
+        noRecord
+    }
+}
