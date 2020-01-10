@@ -182,6 +182,12 @@
 	import MapView from '../views/map.vue';
 	import XRApp from '../xr/XRApp.vue';
 
+	import connectionMany from '../../apollo/queries/connection-many.gql';
+	import providerHydratedMany from '../../apollo/queries/provider-hydrated-many.gql';
+	import connectedOAuthProviderMany from '../../apollo/queries/connectedOauthProviderMany.gql';
+	import personMany from '../../apollo/queries/person-many.gql';
+	import sharedTagSelfPerson from '../../apollo/queries/shared-tag-self-person.gql';
+
 	export default {
 		components: {
 			MapView,
@@ -197,6 +203,19 @@
 				skipEventQuery: true,
 				qid: null
 			};
+		},
+
+		watch: {
+			'$route': async function (to, from) {
+				if( !this.$store.state.connectionsLoaded ||
+					!this.$store.state.oauthProvidersLoaded ||
+					!this.$store.state.providersLoaded ||
+					!this.$store.state.peopleLoaded) {
+					this.loadFacets();
+				}
+
+				this.updateSearch();
+			}
 		},
 
 		mounted: async function() {
@@ -217,53 +236,7 @@
 
 			this.$store.state.hide_advanced = this.$store.state.hide_filters = this.$store.state.hide_favorite_star = false;
 
-			let params = qs.parse(window.location.search, {
-				ignoreQueryPrefix: true
-			});
-
-			this.$store.state.view = params.view ? params.view : 'feed';
-			this.$store.state.facet = params.facet ? params.facet : 'events';
-			this.$store.state.currentSearch.id = params.qid ? params.qid : null;
-
-			switch (this.$store.state.facet) {
-				case 'events':
-					this.$store.state.sortField = 'datetime';
-					this.$store.state.sortOrder = 'desc';
-
-					break;
-
-				case 'content':
-					this.$store.state.sortField = 'type';
-					this.$store.state.sortOrder = 'asc';
-
-					break;
-
-				case 'contacts':
-					this.$store.state.sortField = 'connection';
-					this.$store.state.sortOrder = 'asc';
-
-					break;
-
-				case 'people':
-					this.$store.state.sortField = 'first_name';
-					this.$store.state.sortOrder = 'asc';
-			}
-
-			this.$store.state.offset = 0;
-			this.$store.state.searchEnded = false;
-			this.$store.state.pageSize = 100;
-
-			params.facet = this.$store.state.facet;
-			params.view = this.$store.state.view;
-
-			if (this.$store.state.mode === 'app') {
-				await this.loadSearch();
-
-				this.$root.$emit('check-and-search');
-			}
-			else if (this.$store.state.mode === 'shared') {
-				this.$root.$emit('perform-search', true);
-			}
+			this.updateSearch();
 
 			if (_.get(this.$store.state.user, 'tutorials.explorer') !== true) {
 				let rendering = false;
@@ -615,6 +588,126 @@
 						width: 1080,
 						maxWidth: 1080
 					})
+				}
+			},
+
+			updateSearch: async function() {
+				let params = qs.parse(window.location.search, {
+					ignoreQueryPrefix: true
+				});
+
+				this.$store.state.view = params.view ? params.view : 'feed';
+				this.$store.state.facet = params.facet ? params.facet : 'events';
+				this.$store.state.currentSearch.id = params.qid ? params.qid : null;
+
+				switch (this.$store.state.facet) {
+					case 'events':
+						this.$store.state.sortField = 'datetime';
+						this.$store.state.sortOrder = 'desc';
+
+						break;
+
+					case 'content':
+						this.$store.state.sortField = 'type';
+						this.$store.state.sortOrder = 'asc';
+
+						break;
+
+					case 'contacts':
+						this.$store.state.sortField = 'connection';
+						this.$store.state.sortOrder = 'asc';
+
+						break;
+
+					case 'people':
+						this.$store.state.sortField = 'first_name';
+						this.$store.state.sortOrder = 'asc';
+				}
+
+				this.$store.state.offset = 0;
+				this.$store.state.searchEnded = false;
+				this.$store.state.pageSize = 100;
+
+				if (this.$store.state.mode === 'app') {
+					await this.loadSearch();
+
+					this.$root.$emit('check-and-search');
+				}
+				else if (this.$store.state.mode === 'shared') {
+					this.$root.$emit('perform-search', true);
+				}
+			},
+
+			loadFacets: async function() {
+				let self = this;
+
+				if (process.client) {
+					this.$store.state.connectionsLoaded = this.$apollo.query({
+						query: connectionMany,
+						fetchPolicy: 'no-cache'
+					})
+						.then(function(result) {
+							self.$store.state.connectionMany = result.data.connectionMany;
+
+							return Promise.resolve();
+						});
+
+					this.$store.state.providersLoaded = this.$apollo.query({
+						query: providerHydratedMany,
+						fetchPolicy: 'no-cache'
+					})
+						.then(function(result) {
+							self.$store.state.providerHydratedMany = result.data.providerHydratedMany;
+
+							return Promise.resolve();
+						});
+
+					this.$store.state.oauthProvidersLoaded = this.$apollo.query({
+						query: connectedOAuthProviderMany,
+						fetchPolicy: 'no-cache'
+					})
+						.then(function(result) {
+							self.$store.state.connectedOAuthProviderMany = result.data.connectedOAuthProviderMany;
+
+							return Promise.resolve();
+						});
+
+					this.$store.state.peopleLoaded = this.$apollo.query({
+						query: personMany,
+						variables: {
+							filter: {
+								self: false
+							}
+						},
+						fetchPolicy: 'no-cache'
+					})
+						.then(function(result) {
+							self.$store.state.searchPersonMany = result.data.personMany;
+
+							return Promise.resolve();
+						});
+
+					if (this.$store.state.mode === 'shared') {
+						let params = qs.parse(history.location.search, {
+							ignoreQueryPrefix: true
+						});
+
+						let personResult = await this.$apollo.query({
+							query: sharedTagSelfPerson,
+							variables: {
+								id: params.id,
+								passcode: params.passcode
+							},
+							fetchPolicy: 'no-cache'
+						});
+
+						let person = personResult.data.sharedTagSelfPerson;
+
+						self.$store.state.person.avatar_url = person.avatar_url;
+						self.$store.state.person.first_name = person.first_name;
+						self.$store.state.person.middle_name = person.middle_name;
+						self.$store.state.person.last_name = person.last_name;
+					}
 				}
 			}
 		},

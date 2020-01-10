@@ -258,12 +258,10 @@
         :heightmap="worldMapHeightmap"
         :heightmapheight="worldMapHeight"></a-mapbox-terrain>
 
-    <!-- Room Selector -->
-    <!-- <room-display v-if="!inVR"
-        id="room-display"
-        :position="'0.1 0.03 ' + (-offsetz)"
+    <saved-searches
+        :position="'1 0.5 ' + (-offsetz)"
         rotation="0 -90 0"
-    /> -->
+    />
 
     <!-- Carousel Selector -->
 
@@ -295,15 +293,17 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 import { Cylinder, CylindricalGrid } from '../../util/GridUtils';
 
-// import RoomDisplay from '../hud/vr/vrRoomDisplay.vue';
-
 import { SceneLayoutEnum } from '../../../../store/modules/xr';
-// '../../store/modules/xr';
 import { SkyboxEnum } from '../../../../store/modules/xr/modules/graphics';
+
+import searchMany from '../../../../apollo/queries/search-many.gql';
+
+import SavedSearches from './SavedSearches.vue';
 
 export default {
 
     components: {
+        SavedSearches,
     },
 
     data () {
@@ -321,12 +321,6 @@ export default {
     props: ['offsetz'],
 
     computed: {
-        searching() {
-            return (this.facet === 'contacts' && this.LS_CONTACTS.length === 0 ||
-                    this.facet === 'content' && this.LS_CONTENT.length === 0 ||
-                    this.facet === 'events' && this.LS_EVENTS.length === 0 ||
-                    this.facet === 'people' && this.LS_PEOPLE.length === 0);
-        },
         gridRotation() {
             return (180-(360/this.gridCellsPerRow)*2);
         },
@@ -369,6 +363,7 @@ export default {
         ...mapState(
             [
                 'facet',
+                'searching'
             ]
         ),
         ...mapState('xr',
