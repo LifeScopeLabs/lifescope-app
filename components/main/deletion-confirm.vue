@@ -17,14 +17,18 @@
             <div v-else-if="$data.dataRemovalConfirmationCheck.success === true"
                  class="boxed-group"
             >
-                <div class="title">Data Deletion Confirmed</div>
+                <div class="title">{{ $data.dataRemovalConfirmationCheck.providerName }} Data Deletion Confirmed</div>
                 <div class="padded paragraphed">
-                    This data deletion request has been successfully fulfilled. Your Connection to that data source
-                    and all its associated data has been removed from LifeScope.
-                </div>
-                <div>
-                    Note that if you deleted the data from your only remaining Connection, and you did not have an email
-                    associated with that LifeScope account, your LifeScope account was deleted as well.
+                    <div>
+                        This request to delete {{ $data.dataRemovalConfirmationCheck.providerName }} data has been
+                        successfully fulfilled. Your Connection to {{ $data.dataRemovalConfirmationCheck.providerName }} and all its
+                        associated data has been removed from LifeScope.
+                    </div>
+                    <div>
+                        Note that if your Connection to  {{ $data.dataRemovalConfirmationCheck.providerName }} was your
+                        only remaining Connection, and you did not have an email associated with that LifeScope account,
+                        your LifeScope account was deleted as well.
+                    </div>
                 </div>
             </div>
             <div v-else-if="$data.dataRemovalConfirmationCheck.success != null && $data.dataRemovalConfirmationCheck.success !== true"
@@ -32,10 +36,11 @@
             >
                 <div class="title">Data Deletion Failed</div>
                 <div class="padded paragraphed">
-                    Something went wrong when trying to delete your data. This shouldn't have happened, as LifeScope is
-                    committed to removing your data as soon as you request it. To ensure this data is removed, go to
-                    the <a href="/settings/connections">Connection Settings page</a> and delete the Connection used to
-                    obtain this data.
+                    Something went wrong when trying to delete your {{ $data.dataRemovalConfirmationCheck.providerName }}
+                    data. This shouldn't have happened, as LifeScope is committed to removing your data as soon as you
+                    request it. To ensure this data is removed, go to the
+                    <a href="/settings/connections">Connection Settings page</a> and delete the
+                    {{ $data.dataRemovalConfirmationCheck.providerName }} Connection used to obtain this data.
                 </div>
             </div>
         </transition>
