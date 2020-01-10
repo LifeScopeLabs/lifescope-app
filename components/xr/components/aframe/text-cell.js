@@ -280,8 +280,10 @@ AFRAME.registerComponent('text-cell', {
                 self.textScale = self.data.width / self.textRenderWidth;
                 self.textHeight = self.lineHeight * self.textScale * self.data.fontsize;
                 
-                self.el.addEventListener('textlayoutchanged', self._textLayoutChangedHandler.bind(self));
-                self.el.addEventListener('font-awesome.drawn', self._fontAwesomeDrawnHandler.bind(self))
+                self.el.addEventListener('textlayoutchanged', self._textLayoutChangedHandler.bind(self),
+                    {once: true});
+                self.el.addEventListener('font-awesome.drawn', self._fontAwesomeDrawnHandler.bind(self),
+                    {once: true})
             
                 self._createText({ id: data.id, text: data.text, width: data.width, 
                     height: data.height, color: data.color });
@@ -296,6 +298,11 @@ AFRAME.registerComponent('text-cell', {
             this._updateClipping(this.data.id);
             this.worldPosition = position;
         }
+    },
+
+    remove() {
+        this.el.removeEventListener('textlayoutchanged', this._textLayoutChangedHandler.bind(this));
+        this.el.removeEventListener('font-awesome.drawn', this._fontAwesomeDrawnHandler.bind(this));
     },
 
     comparePositions(posA, posB) {

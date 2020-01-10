@@ -88,6 +88,9 @@ export const getters = {
 };
 
 export const mutations = {
+    SET_IN_VR: function(state, active=true) {
+        state.inVR = active;
+    },
     SET_LSOBJS: function(state, objs) {
             // if (CONFIG.DEBUG) {console.log('SET_LSOBJS');}
             state.LSObjs = objs;
