@@ -5,20 +5,66 @@
             clickable="clickevent: togglesavedsearch;"
             class="clickable"
             :geometry="'primitive: plane; width: 1; height: ' + lineSep + ';'"
-            :material="'color: ' + headerBackgroundColor + '; side: double;'" >
+            :material="'color: ' + headerBackgroundColor + '; side: double;'"
+            highlight="type: text; color: 0xFFFFFF;">
         </a-entity>
 
         <a-entity v-if="displaySearches">
-            <a-entity v-for="(search, index) in favorites" v-bind:key="'search-label-' + index"
-                :id="'search-' + search.id"
-                clickable="clickevent: changesearch;"
-                class="clickable"
-                :position="'0 ' + (-lineSep*(index+1)) + ' 0'"
-                :text-cell="'text: ' + search.name + '; width: 1; height: ' + lineSep + '; fontsize: 3; ' +
-                    'nobr: true;'"
-                :geometry="'primitive: plane; width: 1; height: ' + lineSep + ';'"
-                :material="'color: ' + backgroundColor + '; side: double;'">
-            </a-entity>
+            <a-flex-container
+                class="xr-search-favorites"
+                width=1
+                :height="lineSep*11"
+                flex-direction="column"
+                :position="'0 ' + (-lineSep*13/2) + '0'"
+                >
+                <a-entity v-for="(search, index) in currentFavorites" v-bind:key="'search-label-' + index"
+                    :id="'search-' + search.id"
+                    clickable="clickevent: changesearch;"
+                    class="clickable"
+                    :text-cell="'text: ' + search.name + '; width: 1; height: ' + lineSep + '; fontsize: 3; ' +
+                        'nobr: true;'"
+                    :geometry="'primitive: plane; width: 1; height: ' + lineSep + ';'"
+                    :material="'color: ' + backgroundColor + '; side: double;'"
+                    highlight="type: text; color: 0xFFFFFF;"
+                    flex-item="dimtype: attr; dimattr: text-cell;" >
+                </a-entity>
+                <a-flex-container
+                    width=1
+                    :height="lineSep"
+                    flex-direction="row"
+                    :position="'0 ' + (-lineSep*13/2) + '0'"
+                    >
+                    <a-entity
+                        class="clickable"
+                        clickable="clickevent: pageleft-favorites;"
+                        :text-cell="'text: <; width: 0.33; height: ' + lineSep +
+                            '; fontsize: 3; ' + 'nobr: true;'"
+                        :geometry="'primitive: plane; width: 0.33; height: ' + lineSep + ';'"
+                        :material="'color: ' + backgroundColor + '; side: double;'"
+                        flex-item="dimtype: attr; dimattr: text-cell;"
+                        :highlight="'type: text; color: 0xFFFFFF; disabled: ' + (page == 0)"
+                        >
+                    </a-entity>
+                    <a-entity
+                        :text-cell="'text: ' + paginatorText + '; width: 0.34; height: ' + lineSep +
+                            '; fontsize: 3; ' + 'nobr: true;'"
+                        :geometry="'primitive: plane; width: 0.34; height: ' + lineSep + ';'"
+                        :material="'color: ' + backgroundColor + '; side: double;'"
+                        flex-item="dimtype: attr; dimattr: text-cell;">
+                    </a-entity>
+                    <a-entity
+                        class="clickable"
+                        clickable="clickevent: pageright-favorites;"
+                        :text-cell="'text: >; width: 0.33; height: ' + lineSep +
+                            '; fontsize: 3; ' + 'nobr: true;'"
+                        :geometry="'primitive: plane; width: 0.33; height: ' + lineSep + ';'"
+                        :material="'color: ' + backgroundColor + '; side: double;'"
+                        flex-item="dimtype: attr; dimattr: text-cell;"
+                        :highlight="'type: text; color: 0xFFFFFF; disabled: ' + (!canPageRight)"
+                        >
+                    </a-entity>
+                </a-flex-container>
+            </a-flex-container>
         </a-entity>
     </a-entity>
 </template>
@@ -44,6 +90,8 @@ export default {
             backgroundColor: '#22252a',
             headerBackgroundColor: '#29434E',
             displaySearches: false,
+            page: 0,
+            itemsPerPage: 10,
         }
     },
 
@@ -53,9 +101,48 @@ export default {
                 'facet',
             ]
         ),
+
+        currentFavorites() {
+            return this.favorites.slice(this.page * this.itemsPerPage,
+                    (this.page+1) * this.itemsPerPage);
+        },
+
+        numberOfFavorites() {
+            return this.favorites.length;
+        },
+
+        paginatorText() {
+            var numberOfPages = Math.ceil(this.numberOfFavorites / this.itemsPerPage);
+            return (this.page+1) + '/' + numberOfPages;
+        },
+
+        canPageRight() {
+            if (this.itemsPerPage >= this.numberOfFavorites) {
+                return false;
+            }
+            var result = (this.page+1)*this.itemsPerPage <= this.numberOfFavorites;
+            return result;
+        },
     },
 
     watch: {
+        currentFavorites: function (newVal, oldVal) {
+            var flexContainer = document.querySelector('.xr-search-favorites');
+            if (!!flexContainer) {
+                var scene = AFRAME.scenes[0];
+                var behavior = {
+                    el: scene,
+                    get tick() {
+                        return function() {
+                            console.log('flex behavior')
+                            flexContainer.setAttribute('flex-container', {'needsupdate': true});
+                            scene.removeBehavior(this);
+                        }
+                    }
+                }
+                scene.addBehavior(behavior);
+            }
+        },
     },
 
     mounted() {
@@ -63,11 +150,15 @@ export default {
 
         this.$el.addEventListener('togglesavedsearch', this.toggleSavedSearch);
         this.$el.addEventListener('changesearch', this.changeSearch);
+        this.$el.addEventListener('pageleft-favorites', this.pageLeft);
+        this.$el.addEventListener('pageright-favorites', this.pageRight);
     },
 
     beforeDestroy() {
         this.$el.removeEventListener('togglesavedsearch', this.toggleSavedSearch);
         this.$el.removeEventListener('changesearch', this.changeSearch);
+        this.$el.removeEventListener('pageleft-favorites', this.pageLeft);
+        this.$el.removeEventListener('pageright-favorites', this.pageRight);
     },
 
     methods: {
@@ -98,6 +189,18 @@ export default {
 
         constructLink: function(search) {
             return '/explore?qid=' + search.id;
+        },
+
+        pageLeft() {
+            if (this.page > 0) {
+                this.page -= 1;
+            }
+        },
+
+        pageRight() {
+            if (this.canPageRight) {
+                this.page += 1;
+            }
         },
 
     }

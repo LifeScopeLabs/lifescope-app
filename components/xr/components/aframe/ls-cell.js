@@ -123,8 +123,8 @@ AFRAME.registerComponent('ls-cell', {
                 flexEl.classList.add('ls-cell-root');
                 var headerFlexEl = contentEls[1];
                 self.el.appendChild(flexEl);
-                headerFlexEl.setAttribute('needsUpdate', true);
-                flexEl.setAttribute('needsUpdate', true);
+                headerFlexEl.setAttribute('needsupdate', true);
+                flexEl.setAttribute('needsupdate', true);
                 break;
             case 'events':
                 var flexEl = document.createElement('a-entity');
@@ -151,28 +151,28 @@ AFRAME.registerComponent('ls-cell', {
                 flexEl.appendChild(contentFlexEl);
 
                 self.el.appendChild(flexEl);
-                typeFlexEl.setAttribute('needsUpdate', true);
-                providerFlexEl.setAttribute('needsUpdate', true);
+                typeFlexEl.setAttribute('needsupdate', true);
+                providerFlexEl.setAttribute('needsupdate', true);
                 if (!!data.datetime) {
-                    calFlexEl.setAttribute('needsUpdate', true);
-                    timeFlexEl.setAttribute('needsUpdate', true);
+                    calFlexEl.setAttribute('needsupdate', true);
+                    timeFlexEl.setAttribute('needsupdate', true);
                 }
-                headerFlexEl.setAttribute('needsUpdate', true);
-                contentFlexEl.setAttribute('needsUpdate', true);
-                eventsFlexEl.setAttribute('needsUpdate', true);
-                flexEl.setAttribute('needsUpdate', true);
+                headerFlexEl.setAttribute('needsupdate', true);
+                contentFlexEl.setAttribute('needsupdate', true);
+                eventsFlexEl.setAttribute('needsupdate', true);
+                flexEl.setAttribute('needsupdate', true);
                 break;
             case 'contacts':
                 var flexEl = this._createContactsCell();
                 flexEl.classList.add('ls-cell-root');
                 self.el.appendChild(flexEl);
-                flexEl.setAttribute('needsUpdate', true);
+                flexEl.setAttribute('needsupdate', true);
                 break;
             case 'people':
                 var flexEl = this._createPeopleCell();
                 flexEl.classList.add('ls-cell-root');
                 self.el.appendChild(flexEl);
-                flexEl.setAttribute('needsUpdate', true);
+                flexEl.setAttribute('needsupdate', true);
                 break;
             default:
                 break;

@@ -174,7 +174,7 @@ AFRAME.registerComponent('flex-container', {
         alignItems: { type: 'string', default: 'center',
             onOf: ['flexStart', 'flexStart', 'center']  }, // TODO : stretch
         dimtype: { type: 'string', default: 'el', },
-        needsUpdate: { type: 'boolean', default: true },
+        needsupdate: { type: 'boolean', default: true },
         /* TODO
             flex-wrap
             align-content
@@ -198,10 +198,10 @@ AFRAME.registerComponent('flex-container', {
     },
 
     update(oldData) {
-        if (this.data.needsUpdate) {
+        if (this.data['needsupdate']) {
             this.updateChildren();
             this.system.updateLayout(this.data, this.children);
-            this.data.needsUpdate = false;
+            this.el.setAttribute('flex-container', {'needsupdate': false});
         }
     },
 
@@ -217,8 +217,8 @@ AFRAME.registerComponent('flex-container', {
 
 AFRAME.registerPrimitive( 'a-flex-container', {
     defaultComponents: {
-        'flex-item': { dimtype: 'flex-container' },
-        'flex-container': { }
+        'flex-container': { },
+        'flex-item': { dimtype: 'flex-container' }
     },
     mappings: {
         'width': 'flex-item.width',

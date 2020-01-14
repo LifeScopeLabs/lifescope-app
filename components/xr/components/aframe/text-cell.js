@@ -186,6 +186,9 @@ function _updateClipping(id='') {
 
     var object3DName = id != '' ? `text__${id}` : 'text';
     var textObj = self.el.getObject3D(object3DName);
+    if (!textObj) {
+        return;
+    }
     var lineHeight = textObj.geometry.layout._lineHeight;
     var linesTotal = textObj.geometry.layout._linesTotal;
     var textScale = textObj.scale.x;
@@ -268,9 +271,19 @@ AFRAME.registerComponent('text-cell', {
 
         this.worldPosition = this.el.object3D.getWorldPosition();
 
+    },
+
+    update: function(oldData) {
+        var self = this;
+        var data = self.data;
+
+        var textName = data.id != '' ? `text__${data.id}` : 'text';
+
+        self.el.removeAttribute(textName);
+
         var font = self.data.font || DEFAULT_FONT;
 
-        var fontPromise = loadFont(FONTS[font]).then(
+        loadFont(FONTS[font]).then(
             (result) => {
                 self.lineHeight = result.common.lineHeight;
                 self.widthFactor = computeFontWidthFactor(result);

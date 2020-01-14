@@ -35,11 +35,11 @@ AFRAME.registerComponent('highlight', {
     hover: { type: 'boolean', default: false },
     active: { type: 'boolean', default: false },
     disabled: { type: 'boolean', default: false },
-    color: { default: 0x484848 },
+    color: { type: 'color', default: 0x484848 },
     hoverColor: { type: 'color', default: 0x04FF5F },
     activeColor: { type: 'color', default: 0xFFD704 },
     disabledColor: { default: 0xA9A9A9 },
-    type: { default: 'color', oneOf: ['color', 'border'] },
+    type: { default: 'color', oneOf: ['color', 'border', 'text'] },
     target: { default: '', type: 'string' },
 
     bordersize: { type: 'number', default: 0.05 },
@@ -76,6 +76,9 @@ AFRAME.registerComponent('highlight', {
     if (['hover', 'active', 'disabled'].some(prop => changedData.includes(prop))) {
         if (data.type == 'color') {
           self._updateColor();
+        }
+        else if (data.type == 'text') {
+          self._updateTextColor();
         }
         else if (data.type == 'border' && self.el.object3DMap.hasOwnProperty(this.data.bordername) ) {
           self._updateColor(this.data.bordername);
@@ -249,6 +252,17 @@ AFRAME.registerComponent('highlight', {
         mesh.material.color = new THREE.Color( newColor );
         mesh.material.opacity = opacity;
         mesh.material.transparent = transparent;
+    }
+  },
+
+  _updateTextColor() {
+    var self = this;
+    var data = self.data;
+
+    var newColor = data.disabled ? data.disabledColor : data.active ? data.activeColor : data.hover ? data.hoverColor : data.color;
+    var txtObj = this.el.getObject3D('text')
+    if(txtObj && txtObj.material) {
+      txtObj.material.uniforms.color.value = new THREE.Color(newColor);
     }
   },
 
