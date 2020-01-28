@@ -4,6 +4,7 @@ import 'aframe';
 import 'networked-aframe';
 import 'aframe-extras';
 import 'aframe-font-awesome';
+import 'aframe-geojson-component';
 import 'aframe-gui';
 import 'aframe-input-mapping-component';
 import 'aframe-super-keyboard';

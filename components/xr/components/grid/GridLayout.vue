@@ -258,6 +258,14 @@
         :heightmap="worldMapHeightmap"
         :heightmapheight="worldMapHeight"></a-mapbox-terrain>
 
+
+    <a-entity
+        :position="'0 -0.5 0'"
+        animation="property: rotation; easing: linear; to: 0 360; dur: 15000; loop: true;">
+        <globe>
+        </globe>
+    </a-entity>
+
     <saved-searches
         :position="'1 0.5 ' + (-offsetz)"
         rotation="0 -90 0"
@@ -265,15 +273,6 @@
 
     <!-- Carousel Selector -->
 
-    <!-- Earth -->
-        <a-sphere 
-                id="Earth" class="boundry"
-                :position="'0 -0.5 0' "
-                :rotation="'0 0 0'"
-                radius="1" 
-                material="src:#earth; roughness: 1; transparent: true; opacity: 0.9;"
-                animation="property: rotation; easing: linear; to: 0 360; dur: 15000; loop: true;">
-        </a-sphere>
 
         <!-- Logo  -->
         <a-entity 
@@ -300,10 +299,13 @@ import searchMany from '../../../../apollo/queries/search-many.gql';
 
 import SavedSearches from './SavedSearches.vue';
 
+import Globe from '../globe/globe.vue';
+
 export default {
 
     components: {
         SavedSearches,
+        Globe,
     },
 
     data () {
