@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import config from 'config';
 import cookieParser from 'cookie-parser';
 import webpack from 'webpack';
+import ConfigWebpackPlugin from "config-webpack";
 
 import csrf from './lib/middleware/csrf';
 import cookieAuthorization from "./lib/middleware/cookie-authorization";
@@ -385,8 +386,9 @@ export default {
 				easyrtc: './static/easyrtc/easyrtc.js',
 				introJs: 'intro.js',
 				// 'window.easyrtc': './node_modules/easyrtc/api/easyrtc.js',
-				mapboxgl: 'mapbox-gl'
+				mapboxgl: 'mapbox-gl',
 			}),
+			new ConfigWebpackPlugin(),
 		]
 	},
 

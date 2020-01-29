@@ -108,6 +108,7 @@
     "bowser": "^1.9.3",
     "bson": "^4.0.2",
     "config": "^3.0.1",
+    "config-webpack": "^1.0.4",
     "cookie-parser": "^1.4.3",
     "cookie-universal-nuxt": "^2.0.5",
     "cors": "^2.8.4",

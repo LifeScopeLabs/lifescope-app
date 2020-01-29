@@ -65,6 +65,8 @@ export const getters = {
             obj.datetime = event.datetime;
             obj.eventtype = event.type;
             obj.connection = event.connection;
+            obj.hydratedLocation = event.hydratedLocation;
+            obj.location = event.location;
             event.content.forEach(content => {
                 items.push({ ...obj, content: content });
             });

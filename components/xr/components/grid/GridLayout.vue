@@ -236,6 +236,17 @@
                 :hovercolor="hoverColor"
                 :activecolor="activeColor"
                 />
+            <a-mapbox-terrain v-if="focusedHasLocation"
+                position="0 -0.75 0"
+                rotation="45 0 0"
+                class="focused-cell-map"
+                :scale="floorScale + ' 1 ' + floorScale"
+                :latitude="focusedLatitude" :longitude="focusedLongitude"
+                :zoom-level="floorZoom" :rows="floorRows"
+                :highdpi="floorHighDPI"
+                :heightmap="floorMapHeightmap"
+                :heightmapheight="floorMapHeight"
+                :type="mapboxType"></a-mapbox-terrain>
         </a-entity>
 
     <!-- Demo Map -->
@@ -360,6 +371,29 @@ export default {
                 return -1;
             }
             return +(this.focusedCell.match(/\d+$/)[0]);
+        },
+
+        focusedHasLocation() {
+            var item = this.items[this.focusedCellIndex];
+            var result = (typeof item.hydratedLocation != 'undefined' || 
+                typeof item.location != 'undefined' & item.location != null);
+            return result;
+        },
+
+        focusedLatitude() {
+            var item = this.items[this.focusedCellIndex];
+            if (item.location != null && item.location.geolocation != null) {
+                return item.location.geolocation[1];
+            }
+            return 0;
+        },
+
+        focusedLongitude() {
+            var item = this.items[this.focusedCellIndex];
+            if (item.location != null && item.location.geolocation != null) {
+                return item.location.geolocation[0];
+            }
+            return 0;
         },
 
         ...mapState(
