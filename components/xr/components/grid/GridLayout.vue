@@ -153,29 +153,7 @@
                     />
             </a-entity>
 
-            <a-entity class="skybox-selector"
-                :position="gridCellPosition(-3)"
-                fade>
-                <a-entity  v-if="skybox==SkyboxEnum.STARS"
-                    id="sun-selector"
-                    class="clickable"
-                    clickable="clickevent: objectclicked;"
-                    geometry="primitive: sphere; radius: 0.05;"
-                    material="shader: sunSky"
-                    highlight="type: border; createborder: true;">
-                </a-entity>
-                <a-entity  v-else-if="skybox==SkyboxEnum.SUN"
-                    id="stars-selector"
-                    class="clickable"
-                    clickable="clickevent: objectclicked;"
-                    geometry="primitive: sphere; radius: 0.05;"
-                    material="shader: standard; src: #sky"
-                    highlight="type: border; createborder: true;"
-                    rotation="90 0 90">
-                </a-entity>
-            </a-entity>
-
-            <a-entity class="floor-map-selector"
+            <!-- <a-entity class="floor-map-selector"
                 :position="gridCellPosition(-4)"
                 fade>
                 <a-entity
@@ -186,7 +164,7 @@
                     material="shader: standard; src: #earth"
                     highlight="type: border; createborder: true;">
                 </a-entity>
-            </a-entity>
+            </a-entity> -->
 
         </a-entity>
 
@@ -312,6 +290,8 @@ import SavedSearches from './SavedSearches.vue';
 
 import Globe from '../globe/globe.vue';
 
+import TimeUtils from '../../util/TimeUtils.js';
+
 export default {
 
     components: {
@@ -417,6 +397,11 @@ export default {
                 'normal',
                 'quality',
                 'shading',
+            ]
+        ),
+
+        ...mapGetters('xr/graphics',
+            [
                 'skybox',
             ]
         ),
@@ -578,7 +563,7 @@ export default {
     mounted() {
         var self = this;
         this.$el.addEventListener('cellclicked', self.cellClickedHandler);
-        this.$el.addEventListener('objectclicked', self.objectClickedHandler);
+        // this.$el.addEventListener('objectclicked', self.objectClickedHandler);
         this.$el.addEventListener('media-mesh-set', self.mediaMeshLoadedHandler);
         this.$el.addEventListener('pageleft', self.handlePageLeft);
         this.$el.addEventListener('pageright', self.handlePageRight);
@@ -589,7 +574,7 @@ export default {
     beforeDestroy() {
         var self = this;
         this.$el.removeEventListener('cellclicked', self.cellClickedHandler);
-        this.$el.removeEventListener('objectclicked', self.objectClickedHandler);
+        // this.$el.removeEventListener('objectclicked', self.objectClickedHandler);
         this.$el.removeEventListener('media-mesh-set', self.mediaMeshLoadedHandler);
         this.$el.removeEventListener('pageleft', self.handlePageLeft);
         this.$el.removeEventListener('pageright', self.handlePageRight);
@@ -709,25 +694,19 @@ export default {
             }
         },
 
-        objectClickedHandler(evt) {
-            var self = this;
-            var el = evt.target;
-            var id = el.id;
+        // objectClickedHandler(evt) {
+        //     var self = this;
+        //     var el = evt.target;
+        //     var id = el.id;
 
-            switch (id) {
-                case 'stars-selector':
-                    this.$store.commit('xr/graphics/SET_SKYBOX', 'STARS');
-                    break;
-                case 'sun-selector':
-                    this.$store.commit('xr/graphics/SET_SKYBOX', 'SUN');
-                    break;
-                case 'floor-map-selector':
-                    this.$store.commit('xr/map/SET_FLOOR_MAP_ACTIVE', !this.floorMapActive);
-                    break;
-                default:
-                    break;
-            }
-        },
+        //     switch (id) {
+        //         case 'floor-map-selector':
+        //             this.$store.commit('xr/map/SET_FLOOR_MAP_ACTIVE', !this.floorMapActive);
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // },
 
         mediaMeshLoadedHandler(evt) {
             var self = this;
@@ -756,6 +735,7 @@ export default {
                 duration: self.dur*1000,
                 begin: function(anim) {
                     self.focusedCell = el.id;
+                    self.setSkyFromFocusedCell();
                 },
                 complete: function(anim) {
                     el.setAttribute('selected', true);
@@ -935,6 +915,18 @@ export default {
             // if (CONFIG.DEBUG) {console.log("toggleLayout");}
             var newVal = this.sceneLayout == SceneLayoutEnum.GRID ? 'GALLERY' : 'GRID';
             this.$store.commit('xr/SET_LAYOUT', newVal);
+        },
+
+        updateSkyTime(item) {
+            var newTime = TimeUtils.datetimeToHourDecimal(item.datetime);
+            this.$store.commit('xr/graphics/SET_SKYTIME', newTime);
+        },
+
+        setSkyFromFocusedCell() {
+            var item = this.items[this.focusedCellIndex];
+            if (typeof item.datetime != 'undefined' && item.datetime != null) {
+                this.updateSkyTime(item);
+            }
         },
     }
 }

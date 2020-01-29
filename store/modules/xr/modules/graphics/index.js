@@ -10,19 +10,22 @@ export const state = function () {
         worldMapActive: false,
         mapLatitude: 34.023552,
         mapLongitude: -118.286189,
-        skybox: SkyboxEnum.STARS,
-        skytime: 11, // 24 hours
+        skytime: 0, // 24 hours
         bump: false,
         normal: false
     }
 };
 
+export const getters = {
+    skybox: (state, getters, rootState, rootGetters) => {
+        return (state.skytime > 20) || (state.skytime < 6) ? SkyboxEnum.STARS : SkyboxEnum.SUN;
+    }
+}
+
 export const mutations = {
     SET_FLOOR_MAP_ACTIVE: function(state, active=true) {
         // if (CONFIG.DEBUG) {console.log("SET_FLOOR_MAP_ACTIVE")}
-        console.log('before_FLOOR');
         state.floorMapActive = active;
-        console.log('after_FLOOR');
     },
     SET_WORLD_MAP_ACTIVE: function(state, active=true) {
         // if (CONFIG.DEBUG) {console.log("SET_WORLD_MAP_ACTIVE")}
@@ -42,15 +45,15 @@ export const mutations = {
         if (num > 180) {num = 180;}
         state.mapLongitude = num;
     },
-    SET_SKYBOX: function(state, val) {
-        // if (CONFIG.DEBUG) {console.log("SET_SKYBOX");}
-        if (SkyboxEnum.hasOwnProperty(val)) {
-            state.skybox = SkyboxEnum[val];
-        }
-        else {
-            console.log(`cannot set skybox, ${val} is not a SkyboxEnum`);
-        }
-    },
+    // SET_SKYBOX: function(state, val) {
+    //     // if (CONFIG.DEBUG) {console.log("SET_SKYBOX");}
+    //     if (SkyboxEnum.hasOwnProperty(val)) {
+    //         state.skybox = SkyboxEnum[val];
+    //     }
+    //     else {
+    //         console.log(`cannot set skybox, ${val} is not a SkyboxEnum`);
+    //     }
+    // },
     SET_BUMP: function(state, active=true) {
         // if (CONFIG.DEBUG) {console.log(`SET_BUMP: ${active}`)}
         state.bump = active ? true : false;//new Boolean(active);
@@ -58,12 +61,16 @@ export const mutations = {
     SET_NORMAL: function(state, active=true) {
         // if (CONFIG.DEBUG) {console.log(`SET_NORMAL: ${active}`)}
         state.normal = active ? true : false;//new Boolean(active);
-    }
+    },
+    SET_SKYTIME: function(state, time=0) {
+        state.skytime = time;
+    },
 };
 
 const graphicsModule = {
     namespaced: true,
     state,
+    getters,
     mutations
 }
 

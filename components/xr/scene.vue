@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import axios from 'axios';
 
@@ -85,8 +85,13 @@ export default {
 
       ...mapState('xr/graphics',
         [
-          'skybox',
           'skytime'
+        ]
+      ),
+
+      ...mapGetters('xr/graphics',
+        [
+          'skybox',
         ]
       ),
 
