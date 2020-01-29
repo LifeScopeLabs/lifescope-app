@@ -356,7 +356,6 @@ export default {
 			'vue2-filters',
 			'vue-bootstrap-datetimepicker',
 			'vue-observe-visibility',
-			'~/vue.config.js',
 			'aframe',
 			'networked-aframe',
 			'aframe-input-mapping-component',
@@ -365,15 +364,6 @@ export default {
 			'aframe-gui',
 			'aframe-sun-sky',
 			'aframe-geojson-component',
-			'~/lib/aframe/play-gaze.js',
-			'~/lib/aframe/dynamic-autoplay.js',
-			'~/lib/aframe/avatar-rig',
-			'~/lib/aframe/virtual-gamepad-controls.js',
-			'~/lib/aframe/ionicon.js',
-			'~/lib/aframe/mapbox-terrain.js',
-			'~/lib/aframe/look-on-mobile.js',
-			'~/lib/aframe/character-controller.js',
-			'~/lib/aframe/pitch-yaw-rotator.js'
 		],
 
 		plugins: [
