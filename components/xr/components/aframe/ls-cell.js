@@ -99,17 +99,19 @@ AFRAME.registerComponent('ls-cell', {
     },
 
     updateCell: function() {
-        var root = this.el.querySelector('.ls-cell-root');
-        if (root) this.el.removeChild(root);
-        if (this.el.object3DMap.hasOwnProperty('background')) this.el.removeObject3D('background');
-        if (this.el.object3DMap.hasOwnProperty('border')) this.el.removeObject3D('border');
-
         this._createCell();
     },
 
     _createCell: function() {
         var self = this;
         var data = self.data;
+
+        var root = this.el.querySelector('.ls-cell-root');
+        if (root) {
+            this.el.removeChild(root);
+            if (this.el.object3DMap.hasOwnProperty('background')) this.el.removeObject3D('background');
+            if (this.el.object3DMap.hasOwnProperty('border')) this.el.removeObject3D('border');
+        }
 
         if (self.data.background) {
             this._createBackground();

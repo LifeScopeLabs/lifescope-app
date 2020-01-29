@@ -823,12 +823,10 @@ export default {
             animationPromises.push()
             var leftArrow = document.querySelector('.grid-arrow-left');
             var rightArrow = document.querySelector('.grid-arrow-right');
-            var skyboxSelector = document.querySelector('.skybox-selector');
-            var floorMapSelector = document.querySelector('.floor-map-selector');
+            // var floorMapSelector = document.querySelector('.floor-map-selector');
             leftArrow.setAttribute('visible', false);
             rightArrow.setAttribute('visible', false);
-            animationPromises.push(skyboxSelector.components['fade'].animateHideCellPromise());
-            animationPromises.push(floorMapSelector.components['fade'].animateHideCellPromise());
+            // animationPromises.push(floorMapSelector.components['fade'].animateHideCellPromise());
             Promise.all(animationPromises);
         },
         revealNonFocusedCells(skipCellIndex=-1) {
@@ -842,10 +840,8 @@ export default {
             }
             var leftArrow = document.querySelector('.grid-arrow-left');
             var rightArrow = document.querySelector('.grid-arrow-right');
-            var skyboxSelector = document.querySelector('.skybox-selector');
-            var floorMapSelector = document.querySelector('.floor-map-selector');
-            animationPromises.push(skyboxSelector.components['fade'].animateRevealCellPromise());
-            animationPromises.push(floorMapSelector.components['fade'].animateRevealCellPromise());
+            // var floorMapSelector = document.querySelector('.floor-map-selector');
+            // animationPromises.push(floorMapSelector.components['fade'].animateRevealCellPromise());
             leftArrow.setAttribute('visible', true);
             rightArrow.setAttribute('visible', true);
             Promise.all(animationPromises);
