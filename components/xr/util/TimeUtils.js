@@ -17,6 +17,7 @@ export default class TimeUtils {
         var timeStr = `${minutesStr}:${secondsStr}`;
         return timeStr;
     }
+    
     static getTimeHours(time) {
         return Math.floor(time);
     }
@@ -28,6 +29,12 @@ export default class TimeUtils {
     }
     static minutesToHourDecimal(minutes) {
         return minutes/60;
+    }
+    static secondsToHours(seconds) {
+        return seconds/(60*60);
+    }
+    static millisecondsToHours(milliseconds) {
+        return milliseconds / (1000 * 60 * 60);
     }
 
     // takes JavaScript Date object
