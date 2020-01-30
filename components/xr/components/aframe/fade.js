@@ -37,13 +37,22 @@ AFRAME.registerComponent('fade', {
         this.map = map;
     },
 
-    animateHideCellPromise() {
+    async animateHideCellPromise() {
         var self = this;
         var el = this.el;
+
+        if (this.hideCellPromise) {
+            await this.hideCellPromise;
+        }
+        if (this.revealCellPromise) {
+            await this.revealCellPromise;
+        }
+
         var result = self.gatherMeshes(el.object3D);
         self.meshes = result;
         self.createOpacityMap(self.meshes);
-        return new Promise((resolve, reject) => {
+
+        var promise = new Promise((resolve, reject) => {
             try {
                 result.forEach((mesh) => {
                     AFRAME.ANIME({
@@ -81,14 +90,26 @@ AFRAME.registerComponent('fade', {
                 reject(error);
             }
         });
+
+        this.hideCellPromise = promise;
+
+        return promise;
     },
 
-    animateRevealCellPromise() {
+    async animateRevealCellPromise() {
         var self = this;
         var el = self.el;
+
+        if (this.revealCellPromise) {
+            await this.revealCellPromise;
+        }
+        if (this.hideCellPromise) {
+            await this.hideCellPromise;
+        }
+
         var result = self.gatherMeshes(el.object3D);
         
-        return new Promise((resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             try {
                 result.forEach((mesh) => {
 
@@ -125,6 +146,10 @@ AFRAME.registerComponent('fade', {
                 reject(error);
             }
         });
+
+        this.revealCellPromise = promise;
+
+        return promise;
     },
 
 
