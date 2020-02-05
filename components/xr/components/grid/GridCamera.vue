@@ -153,8 +153,7 @@ export default {
                     // playerGridRig.setAttribute("character-controller", {'pivot': "#grid-camera"});
                     // playerGridRig.setAttribute("virtual-gamepad-controls", {});
                     camera.setAttribute('pitch-yaw-rotator', {});
-                    sceneEl.setAttribute("look-on-mobile", "camera", camera);
-                    // sceneEl.setAttribute("look-on-mobile", "verticalLookSpeedRatio", 3);
+                    playerGridRig.setAttribute("look-controls", 'reverseMouseDrag', true);
                 }
                 else {
                     console.log("failed to set controls on playerGridRig");
@@ -176,7 +175,7 @@ export default {
                     // playerGridRig.removeAttribute("character-controller");
                     // playerGridRig.removeAttribute("virtual-gamepad-controls");
                     camera.removeAttribute('pitch-yaw-rotator');
-                    sceneEl.removeAttribute("look-on-mobile");
+                    sceneEl.removeAttribute("look-controls");
                 }
                 else {
                     console.log("failed to teardown mobile controls on playerGridRig");
