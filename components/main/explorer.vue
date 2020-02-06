@@ -206,7 +206,7 @@
 		},
 
 		watch: {
-			'$route': async function (to, from) {
+			'$route': async function () {
 				if( !this.$store.state.connectionsLoaded ||
 					!this.$store.state.oauthProvidersLoaded ||
 					!this.$store.state.providersLoaded ||
@@ -627,6 +627,9 @@
 				this.$store.state.offset = 0;
 				this.$store.state.searchEnded = false;
 				this.$store.state.pageSize = 100;
+
+				params.facet = this.$store.state.facet;
+				params.view = this.$store.state.view;
 
 				if (this.$store.state.mode === 'app') {
 					await this.loadSearch();
