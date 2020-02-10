@@ -15,7 +15,7 @@ export const state = function () {
         focusArrowHeight: 0.2,
         focusArrowWidth: 0.35,
         focusArrowMargin: 0.15,
-        animateInSeconds: 1,//0.5,
+        animateInSeconds: 1,
         animateOutSeconds: 0.2,
      };
 };

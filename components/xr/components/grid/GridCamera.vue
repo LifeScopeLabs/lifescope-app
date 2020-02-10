@@ -175,7 +175,7 @@ export default {
                     // playerGridRig.removeAttribute("character-controller");
                     // playerGridRig.removeAttribute("virtual-gamepad-controls");
                     camera.removeAttribute('pitch-yaw-rotator');
-                    sceneEl.removeAttribute("look-controls");
+                    playerGridRig.removeAttribute("look-controls");
                 }
                 else {
                     console.log("failed to teardown mobile controls on playerGridRig");
