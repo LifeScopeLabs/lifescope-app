@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import xrModule from './modules/xr';
+import { xrModule } from 'lifescope-xr';
 
 require('whatwg-fetch');
 

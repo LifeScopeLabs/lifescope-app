@@ -1,5 +1,6 @@
 import Vue from 'vue';
 
+import * as THREE from 'three';
 import 'aframe';
 import 'networked-aframe';
 import 'aframe-extras';
@@ -13,18 +14,15 @@ import 'aframe-teleport-controls';
 
 import 'nipplejs';
 import 'particles.js';
+import WebFont from 'webfontloader';
 
-import '../components/xr/components/aframe';
-import '../components/xr/directives';
+window.WebFont = WebFont;
 
-import '../components/xr/util/setupFontAwesome.js';
+import { registerAframeComponents, setupFontAwesome, registerAframeInput } from 'lifescope-xr';
 
-import {mappings, inputActions} from '../components/xr/controls/input-mappings';
-
-AFRAME.registerInputActions(inputActions, 'default');
-AFRAME.registerInputMappings(mappings);
-
-
+registerAframeComponents();
+setupFontAwesome();
+registerAframeInput();
 
 
 // ignore elements for Firefox

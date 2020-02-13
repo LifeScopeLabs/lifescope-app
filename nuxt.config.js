@@ -347,24 +347,6 @@ export default {
 			babelrc: true
 		},
 
-		vendor: [
-			'jquery',
-			'mixitup',
-			'moment',
-			'vue-js-modal',
-			'vue-shepherd',
-			'vue2-filters',
-			'vue-bootstrap-datetimepicker',
-			'vue-observe-visibility',
-			'aframe',
-			'networked-aframe',
-			'aframe-input-mapping-component',
-			'aframe-teleport-controls',
-			'aframe-extras',
-			'aframe-gui',
-			'aframe-sun-sky',
-			'aframe-geojson-component',
-		],
 
 		plugins: [
 			new webpack.ProvidePlugin({
@@ -379,7 +361,9 @@ export default {
 				mapboxgl: 'mapbox-gl',
 			}),
 			new ConfigWebpackPlugin(),
-		]
+		],
+
+		transpile: ['lifescope-xr']
 	},
 
 	plugins: [
@@ -400,7 +384,7 @@ export default {
 		},
 		{
 			src: './plugins/vue-aframe',
-			ssr: false
+			mode: 'client'
 		},
 		{
 			src: './plugins/appear.js',
