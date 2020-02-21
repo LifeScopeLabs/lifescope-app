@@ -628,6 +628,7 @@
 	import { createBrowserHistory as History } from 'history';
 	import _ from 'lodash';
 	import qs from 'qs';
+	import Vue2Filters from 'vue2-filters';
 
 	import connectedOAuthProviderMany from '../apollo/queries/connectedOauthProviderMany.gql';
 	import contactSearch from '../apollo/mutations/contact-search.gql';
@@ -679,6 +680,10 @@
 	};
 
 	export default {
+		mixins: [
+			Vue2Filters.mixin
+		],
+
 		data: function() {
 			return {
 				activeFilter: {

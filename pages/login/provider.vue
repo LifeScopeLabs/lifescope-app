@@ -6,15 +6,15 @@
 	export default {
 		layout: 'providers',
 
+		asyncData({store}) {
+			store.state.mode = 'login-provider';
+			store.state.pageName = 'login providers';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'login-provider';
-			store.state.pageName = 'login providers';
 		},
 
 		middleware: function({store, redirect}) {

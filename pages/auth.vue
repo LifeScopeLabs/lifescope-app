@@ -30,12 +30,6 @@
 			return user != undefined ? 'auth' : 'providers';
 		},
 
-		data: function() {
-			return {
-				authenticated: this.$store.state.user != undefined
-			}
-		},
-
 		asyncData: async function({app, req, store, route, error}) {
 			store.state.mode = 'auth';
 			store.state.pageName = store.state.user ? 'auth' : 'providers';
@@ -83,6 +77,12 @@
 				app.$cookies.set('auth_parameters', querystring.encode(params), {
 					expires: moment().utc().add(5, 'minutes').toDate()
 				});
+			}
+		},
+
+		data: function() {
+			return {
+				authenticated: this.$store.state.user != undefined
 			}
 		},
 	}

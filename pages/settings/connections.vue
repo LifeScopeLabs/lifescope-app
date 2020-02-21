@@ -8,15 +8,15 @@
 			return 'settings/connections';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'connections';
+			store.state.pageName = 'settings connections';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'connections';
-			store.state.pageName = 'settings connections';
 		},
 
 		middleware: function({store, redirect}) {

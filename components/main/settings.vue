@@ -1395,6 +1395,7 @@
     /* global $ moment */
 
 	import _ from 'lodash';
+    import Vue2Filters from 'vue2-filters';
 
 	import icons from '../../lib/util/icons';
 
@@ -1460,6 +1461,10 @@
 				return value.length > 20 ? value.slice(0, 20) + '...' : value;
 			}
 		},
+
+		mixins: [
+			Vue2Filters.mixin
+		],
 
 		data: function() {
 			return {
@@ -1703,7 +1708,7 @@
 
 				_.each(connections, function(connection) {
 					self.$store.state.permissions[connection.id] = _.map(connection.provider.sources, function(source, name) {
-						return connection.permissions && connection.permissions.hasOwnProperty(name) && connection.permissions[name].enabled === true ? name : null;
+						return connection.permissions && Object.prototype.hasOwnProperty.call(connection.permissions, name) && connection.permissions[name].enabled === true ? name : null;
 					});
 				});
 

@@ -8,15 +8,15 @@
 			return 'settings/authorized-apps';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'authorized-apps';
+			store.state.pageName = 'settings authorized-apps';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'authorized-apps';
-			store.state.pageName = 'settings authorized-apps';
 		},
 
 		middleware: function({store, redirect}) {

@@ -8,15 +8,15 @@
 			return 'settings/locations';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'locations';
+			store.state.pageName = 'settings locations';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'locations';
-			store.state.pageName = 'settings locations';
 		},
 
 		middleware: function({store, redirect}) {

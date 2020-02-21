@@ -6,15 +6,15 @@
 	export default {
 		layout: 'login/index',
 
+		asyncData({store}) {
+			store.state.mode = 'login-choice';
+			store.state.pageName = 'login choice';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'login-choice';
-			store.state.pageName = 'login choice';
 		},
 
 		middleware: function({store, redirect}) {

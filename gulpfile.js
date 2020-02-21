@@ -130,9 +130,6 @@ gulp.task('devel', function(done) {
 });
 
 
-gulp.task('lint', ['lint:js', 'lint:json', 'lint:sass']);
-
-
 gulp.task('lint:js', function() {
 	const eslint = require('gulp-eslint');
 
@@ -188,6 +185,9 @@ gulp.task('lint:sass', function() {
 		.pipe(sassLint.format())
 		.pipe(sassLint.failOnError());
 });
+
+
+gulp.task('lint', gulp.series('lint:js', 'lint:json', 'lint:sass'));
 
 
 gulp.task('schema', function() {

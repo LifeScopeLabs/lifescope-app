@@ -6,15 +6,15 @@
 	export default {
 		layout: 'signup/index',
 
+		asyncData({store}) {
+			store.state.mode = 'signup-choice';
+			store.state.pageName = 'signup choice';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'signup-choice';
-			store.state.pageName = 'signup choice';
 		},
 
 		middleware: function({store, redirect}) {

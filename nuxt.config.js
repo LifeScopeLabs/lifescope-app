@@ -2,12 +2,12 @@ import bodyParser from 'body-parser';
 import config from 'config';
 import cookieParser from 'cookie-parser';
 import webpack from 'webpack';
-import ConfigWebpackPlugin from "config-webpack";
+import ConfigWebpackPlugin from 'config-webpack';
 
-import csrf from './lib/middleware/csrf';
-import cookieAuthorization from "./lib/middleware/cookie-authorization";
-import initialSearches from "./lib/middleware/initial-searches";
-import loadMapboxConfig from './lib/middleware/load-mapbox-config';
+import csrf from './lib/middleware/csrf.js';
+import cookieAuthorization from './lib/middleware/cookie-authorization.js';
+import initialSearches from './lib/middleware/initial-searches.js';
+import loadMapboxConfig from './lib/middleware/load-mapbox-config.js';
 import manifest from './manifest.json';
 
 export default {

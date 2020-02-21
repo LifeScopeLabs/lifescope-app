@@ -12,15 +12,15 @@
 			return user != undefined ? 'home' : 'base';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'home';
+			store.state.pageName = store.state.user ? 'home' : 'base';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'home';
-			store.state.pageName = store.state.user ? 'home' : 'base';
 		},
 	}
 </script>

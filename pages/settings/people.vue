@@ -8,15 +8,15 @@
 			return 'settings/people';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'people';
+			store.state.pageName = 'settings people';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'people';
-			store.state.pageName = 'settings people';
 		},
 
 		middleware: function({store, redirect}) {

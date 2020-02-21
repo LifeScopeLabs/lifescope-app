@@ -8,15 +8,15 @@
 			return 'settings/person/create';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'people-create';
+			store.state.pageName = 'settings people-create';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'people-create';
-			store.state.pageName = 'settings people-create';
 		},
 
 		middleware: function({store, redirect}) {

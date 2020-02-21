@@ -8,15 +8,15 @@
 			return 'settings/developer';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'developer';
+			store.state.pageName = 'settings developer';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'developer';
-			store.state.pageName = 'settings developer';
 		},
 
 		middleware: function({store, redirect}) {

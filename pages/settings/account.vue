@@ -8,15 +8,15 @@
 			return 'settings/account';
 		},
 
+		asyncData({store}) {
+			store.state.mode = 'account';
+			store.state.pageName = 'settings account';
+		},
+
 		data: function() {
 			return {
 				authenticated: this.$store.state.user != undefined
 			}
-		},
-
-		asyncData({store}) {
-			store.state.mode = 'account';
-			store.state.pageName = 'settings account';
 		},
 
 		middleware: function({store, redirect}) {
