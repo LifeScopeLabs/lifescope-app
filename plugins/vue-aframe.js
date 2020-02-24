@@ -23,6 +23,8 @@ import { registerAframeComponents, setupFontAwesome, registerAframeInput } from 
 registerAframeComponents();
 setupFontAwesome();
 registerAframeInput();
+const ICE_SERVERS = Object.keys(CONFIG.iceServers).map(x => CONFIG.iceServers[x]);
+NAF.adapters.setIceServers(ICE_SERVERS);
 
 
 // ignore elements for Firefox
