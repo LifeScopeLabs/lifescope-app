@@ -4,6 +4,7 @@
 
 
   "domain": "app.lifescope.io",
+  "apiDomain": "api.lifescope.io",
   "listenPort": 3002,
 
   "logging": {

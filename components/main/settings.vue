@@ -505,12 +505,10 @@
                                 </p>
                                 <p>
                                     Explore the LifeScope API using our
-                                    <a href="https://api.lifescope.io/gql-p">GraphQL Playground IDE</a>
-                                    or
-                                    <a href="https://api.lifescope.io/gql-i">GraphiQL</a>.
+                                    <a v-bind:href="'https://' + $store.state.apiDomain + '/gql-p'">GraphQL Playground IDE</a>
                                 </p>
                                 <p>
-                                    The LifeScope GraphQL API can be accessed at (https://api.lifescope.io/gql). Add the
+                                    The LifeScope GraphQL API can be accessed at (https://{{ $store.state.apiDomain }}/gql). Add the
                                     Authorization header with your API key. Key: 'Authorization' Value 'Bearer: &lt;your_api_key&gt;'.
                                 </p>
                                 <div class="flexbox">

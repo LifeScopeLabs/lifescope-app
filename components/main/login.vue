@@ -175,7 +175,7 @@
 				self.$data.errors.emailNotInUse = false;
 
 				$.ajax({
-					url: 'https://api.lifescope.io/login/send-email',
+					url: 'https://' + self.$store.state.apiDomain + '/login/send-email',
 					method: 'POST',
                     xhrFields: {
 						withCredentials: true

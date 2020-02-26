@@ -9,11 +9,14 @@ export const strict = false;
 export const modules = {
 };
 
+const apiDomain = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development' ? 'dev.api.lifescope.io' : 'api.lifescope.io';
+
 // export const state = function () {
 function initialState () {
     return {
         cookies: null,
         user: null,
+        apiDomain: apiDomain,
         menu: {
             open: false
         },

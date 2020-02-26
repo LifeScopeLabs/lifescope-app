@@ -14,16 +14,18 @@ export default (ctx) => {
 		agentOptions.rejectUnauthorized = false;
 	}
 
+	let apiDomain = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development' ? 'dev.api.lifescope.io' : 'api.lifescope.io';
+
 	const httpLink = new HttpLink({
 		fetchOptions: {
 			agent: new https.Agent(agentOptions)
 		},
-		uri: 'https://api.lifescope.io/gql',
+		uri: 'https://' + apiDomain + '/gql',
 		credentials: 'include'
 	});
 
 	const wsLink = process.client ? new WebSocketLink({
-		uri: 'wss://api.lifescope.io/subscriptions',
+		uri: 'wss://' + apiDomain + '/subscriptions',
 		options: {
 			reconnect: true
 		}
