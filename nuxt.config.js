@@ -360,8 +360,6 @@ export default {
 			}),
 			new ConfigWebpackPlugin(),
 		],
-
-		transpile: ['lifescope-xr']
 	},
 
 	plugins: [

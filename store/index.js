@@ -1,14 +1,12 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import { xrModule } from 'lifescope-xr';
 
 require('whatwg-fetch');
 
 export const strict = false;
 
 export const modules = {
-    xr: xrModule
 };
 
 // export const state = function () {

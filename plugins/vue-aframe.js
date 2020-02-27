@@ -18,19 +18,12 @@ import WebFont from 'webfontloader';
 
 window.WebFont = WebFont;
 
-import { registerAframeComponents, setupFontAwesome, registerAframeInput } from 'lifescope-xr';
+import { xrPlugin, xrPluginStore } from 'lifescope-xr';
 
-registerAframeComponents();
-setupFontAwesome();
-registerAframeInput();
+Vue.use(xrPlugin);
+
 const ICE_SERVERS = Object.keys(CONFIG.iceServers).map(x => CONFIG.iceServers[x]);
 NAF.adapters.setIceServers(ICE_SERVERS);
 
 
-// ignore elements for Firefox
-// core elements
-['a-scene', 'a-assets', 'a-entity'].forEach((val,index) => {Vue.config.ignoredElements.push(val)});
-// primitives
-Object.keys(AFRAME.primitives.primitives).forEach(function(key,index) {
-  Vue.config.ignoredElements.push(key);
-});
+export default xrPluginStore;

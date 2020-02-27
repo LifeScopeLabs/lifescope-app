@@ -3,7 +3,7 @@
                 name="page-load"
     >
         <main v-if="$store.state.view === 'xr'">
-            <XRApp apptype="app"/>
+            <xr-app apptype="app"/>
         </main>
         <main v-else-if="$store.state.view === 'map'">
             <MapView />
@@ -180,7 +180,6 @@
 	import UserPerson from '../objects/person.vue';
 
 	import MapView from '../views/map.vue';
-	import { XRApp } from 'lifescope-xr';
 
 	import connectionMany from '../../apollo/queries/connection-many.gql';
 	import providerHydratedMany from '../../apollo/queries/provider-hydrated-many.gql';
@@ -195,7 +194,6 @@
 			UserContent,
 			UserEvent,
 			UserPerson,
-			XRApp
 		},
 
 		data: function() {
