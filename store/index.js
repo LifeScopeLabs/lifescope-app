@@ -9,7 +9,7 @@ export const strict = false;
 export const modules = {
 };
 
-const apiDomain = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development' ? 'dev.api.lifescope.io' : 'api.lifescope.io';
+const apiDomain = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development' ? 'api.dev.lifescope.io' : 'api.lifescope.io';
 
 // export const state = function () {
 function initialState () {
