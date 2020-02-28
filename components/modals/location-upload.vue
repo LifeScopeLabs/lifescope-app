@@ -19,7 +19,7 @@
                 >
                     Google Takeout
                 </a>
-                and select 'Location History' with 'JSON format' and then click the 'Create Archive'.
+                and select 'Location History' with 'JSON format' and then click 'Create Archive'.
             </li>
             <li>Inside your archive navigate to Takeout -> Location History and extract these files.</li>
             <li>Click on 'Choose File' below, then navigate to one of the '.json' files you extracted.</li>
