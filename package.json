@@ -82,7 +82,7 @@
     "@nuxtjs/google-analytics": "^2.2.3",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/style-resources": "^1.0.0",
-    "acorn": "^6.1.1",
+    "acorn": "^6.4.1",
     "aframe": "^1.0.1",
     "aframe-extras": "^4.1.2",
     "aframe-font-awesome": "git+https://github.com/mohrtw/aframe-font-awesome#fontawesome5",
