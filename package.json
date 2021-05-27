@@ -145,13 +145,13 @@
     "node-fetch": "^2.6.0",
     "node-sass": "^4.13.1",
     "node-uuid": "^1.4.8",
-    "nuxt": "^2.11.0",
+    "nuxt": "^2.15.0",
     "particles.js": "^2.0.0",
     "qs": "^6.5.2",
     "sass-loader": "^8.0.2",
     "shepherd.js": "^6.0.2",
-    "socket.io": "^2.1.1",
-    "socket.io-client": "^2.1.1",
+    "socket.io": "^2.4.0",
+    "socket.io-client": "^2.4.0",
     "subscriptions-transport-ws": "^0.9.16",
     "three": "^0.113.2",
     "through2": "^3.0.1",
@@ -176,6 +176,6 @@
     "webfontloader": "^1.6.28",
     "webpack": "^4.41.6",
     "whatwg-fetch": "^2.0.4",
-    "ws": "^7.2.1"
+    "ws": "^7.4.6"
   }
 }
