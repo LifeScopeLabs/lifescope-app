@@ -143,7 +143,7 @@
     "networked-aframe": "git+https://github.com/mohrtw/networked-aframe",
     "nipplejs": "^0.7.1",
     "node-fetch": "^2.6.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "node-uuid": "^1.4.8",
     "nuxt": "^2.11.0",
     "particles.js": "^2.0.0",
