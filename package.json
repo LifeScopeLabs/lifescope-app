@@ -142,7 +142,7 @@
     "mongoose-uuid2": "^2.3.0",
     "networked-aframe": "git+https://github.com/mohrtw/networked-aframe",
     "nipplejs": "^0.7.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "node-sass": "^4.13.1",
     "node-uuid": "^1.4.8",
     "nuxt": "^2.11.0",
